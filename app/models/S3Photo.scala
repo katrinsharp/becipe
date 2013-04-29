@@ -5,7 +5,6 @@ import com.amazonaws.services.s3.model.ObjectMetadata
 import com.amazonaws.services.s3.model.PutObjectRequest
 import org.imgscalr.Scalr
 import play.Logger
-import utils.S3Blob
 import javax.imageio.ImageIO
 import java.awt.image.BufferedImage
 import java.io._
@@ -16,12 +15,13 @@ import play.api.libs.json._
 import play.api.libs.functional.syntax._
 import org.joda.time.DateTime
 import controllers.Application
+import plugins.S3Plugin
 
 case class photos(key: String, originKey: String, isRemoved: Boolean)
 
 
 class S3Photo(
-		val bucket: String = S3Blob.s3Bucket, 
+		val bucket: String = S3Plugin.s3Bucket, 
 		var key: String = UUID.randomUUID().toString() + ".jpg", 
 		var metadata: S3PhotoMetadata = S3PhotoMetadata.EMPTY) {
     
@@ -39,7 +39,7 @@ class S3Photo(
 	
 	private def getAbsolutePrefix() = {
 		Application.useLocalStorage match {
-			case false => "https://s3.amazonaws.com/" + S3Blob.s3Bucket
+			case false => "https://s3.amazonaws.com/" + S3Plugin.s3Bucket
 			case true => "/assets/img/tmp"	
 		}
 	}
@@ -70,11 +70,11 @@ class S3Photo(
 		        val putObjectRequest = new PutObjectRequest(bucket, key, imageToStream(image), objectMetadata)
 		        putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
 		        
-		        if (S3Blob.amazonS3 == null) {
+		        if (S3Plugin.amazonS3 == null) {
 		            Logger.error("Cloud not save Photo because amazonS3 was null")
 		        }
 		        else {
-		            S3Blob.amazonS3.putObject(putObjectRequest)
+		            S3Plugin.amazonS3.putObject(putObjectRequest)
 		        }
 		    }
     	}
