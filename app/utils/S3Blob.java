@@ -4,8 +4,9 @@ import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
-import play.Application;
 import play.Logger;
+import play.api.Application;
+import plugins.S3Plugin;
 
 public class S3Blob {
     
@@ -15,21 +16,9 @@ public class S3Blob {
     
     public static void initialize(Application application) {
         
-        if (!application.configuration().keys().contains("aws.access.key")) {
-            Logger.error("You must set the aws.access.key configuration parameter");
-        }
-
-        if (!application.configuration().keys().contains("aws.secret.key")) {
-            Logger.error("You must set the aws.secret.key configuration parameter");
-        }
-
-        if (!application.configuration().keys().contains("aws.s3.bucket")) {
-            Logger.error("You must set the aws.s3.bucket configuration parameter");
-        }
-
-        s3Bucket = application.configuration().getString("aws.s3.bucket");
-        String accessKey = application.configuration().getString("aws.access.key");
-        String secretKey = application.configuration().getString("aws.secret.key");
+        s3Bucket = S3Plugin.s3Bucket;
+        String accessKey = S3Plugin.accessKey;
+        String secretKey = S3Plugin.secretKey;
         
         if ((accessKey != null) && (secretKey != null)) {
             AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
