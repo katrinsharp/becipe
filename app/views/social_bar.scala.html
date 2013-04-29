@@ -1,0 +1,79 @@
+@()
+
+<!-- social bar -->
+<div id="social-bar-container">
+	<ul id="social-bar" class="cf sb">
+		<li>
+			<a href="#"  title="Like this page" class="facebook" id="fb-custom"></a>
+			<div class="fb-like" style="display: none" data-layout="button_count" data-href="http://www.becipe.com" data-send="true" data-width="450" data-show-faces="true"></div>
+		</li>
+		<li>
+			<a href="#" title="Tweet this page" class="twitter" id="tw-custom"></a>
+		</li>
+		<li>
+			<a href="http://pinterest.com" title="Pin it" class="pinterest" id="pinterest-custom"></a>
+		</li>
+		<li>
+			<a href="http://plus.google.com" title="Enter my circles" class="plus" id="goog-custom"></a>
+		</li>
+		<li>
+			<a href="http://linkedin.com" title="Share on LinkedIn" class="linkedin" id="linkedin-custom"></a>
+		</li>
+	</ul>
+</div>
+<!-- end of social bar -->
+
+<script>
+	//TODO: add hashtag to the twitter message
+	function bindtoFbClick(e) {
+		e.preventDefault();
+		url=location.href;
+		title=document.title;
+		var width  = 575,
+        height = 400,
+        left   = ($(window).width()  - width)  / 2,
+        top    = ($(window).height() - height) / 2;
+		window.open("http://www.facebook.com/plugins/like.php?href="+encodeURIComponent(url)+"&amp;t="+encodeURIComponent(title)+"&amp;send=false&amp;layout=standard&amp;width=400&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font=arial&amp;height=35",
+		"sharer","toolbar=0,status=0,width="+width+",height="+height+",left="+left+",top"+top);	
+		return false;
+	}
+	
+	function bindtoTwClick(e) {
+		e.preventDefault();
+		url=location.href;
+		title=document.title;
+		var width  = 575,
+        height = 400,
+        left   = ($(window).width()  - width)  / 2,
+        top    = ($(window).height() - height) / 2,
+        opts   = 'status=1' +
+                 ',width='  + width  +
+                 ',height=' + height +
+                 ',top='    + top    +
+                 ',left='   + left;
+    
+		window.open("http://twitter.com/share?text="+encodeURIComponent("Check it out: ")+encodeURIComponent(url), "twitter", opts);	
+		return false;
+	}
+	
+	//won't work as long as site is not accessable
+	function bindtoGoogClick(e) {
+		e.preventDefault();
+		url=location.href;
+		title=document.title;
+		var width  = 575,
+        height = 400,
+        left   = ($(window).width()  - width)  / 2,
+        top    = ($(window).height() - height) / 2;
+		window.open("https://plusone.google.com/share?url="+encodeURIComponent(url)+"&title="+encodeURIComponent(title),
+		"","scrollbars=no,width="+width+",height="+height+",left="+left+",top"+top);	
+		return false;
+	}
+	
+	$(function() {
+		$('#fb-custom').bind('click', bindtoFbClick);
+		$('#tw-custom').bind('click', bindtoTwClick);
+		$('#goog-custom').bind('click', bindtoGoogClick);
+	});
+</script>
+

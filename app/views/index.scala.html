@@ -1,0 +1,29 @@
+@(recipes: Seq[Recipe])(implicit request: RequestHeader)
+
+@main("home", recipes) {
+
+<body class="home">
+	
+	<!-- MAIN -->
+	<div id="main">
+		
+		<!-- Filter container -->
+		<div id="filter-container">
+			@for(i <- 0 to 5) {
+				@for(recipe <- recipes) {
+					<figure class="@recipe.level">
+						<a href="@routes.RecipeController.get(recipe.id)" class="thumb"><img src="@recipe.photos.find(_.metadata.typeOf == "preview").getOrElse(S3Photo.EMPTY).getFullUrl" alt="@recipe.shortDesc" /></a>
+						<div class="social-hover">@views.html.social_bar()</div>
+						<figcaption>
+							<a href="@routes.RecipeController.get(recipe.id)"><h3 class="heading">@recipe.name</h3></a>
+						</figcaption>
+						<div class="author">@recipe.by</div>
+						<div class="rating"><img title="rating" src="@routes.Assets.at("img/glitter32.png")" alt="rating for @recipe.name" /></div>
+					</figure>
+				}
+			}
+		</div><!-- ENDS Filter container -->
+	</div><!-- ENDS MAIN -->
+</body>
+}
+
