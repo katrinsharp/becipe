@@ -18,7 +18,6 @@ import views.html.defaultpages.badRequest
 import play.api.data.FormError
 import views.html.defaultpages.error
 import models.S3Photo
-import utils.S3Blob
 import java.io.File
 import javax.imageio.ImageIO
 import org.imgscalr.Scalr
