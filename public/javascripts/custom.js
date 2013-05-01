@@ -69,10 +69,12 @@ jQuery(document).ready(function($) {
 
 	//recipes	
 	var $container = $('#filter-container');	
-	$container.isotope({
-		itemSelector : 'figure',
-		filter: '*',
-		isFitWidth: true
+	$container.imagesLoaded( function(){
+		$container.isotope({
+			itemSelector : 'figure',
+			filter: '*',
+			isFitWidth: true
+		});
 	});
 });
 
