@@ -1,14 +1,31 @@
 @(currentMenu: String)
 
-<!-- HEADER -->
-<header>
-	<div class="wrapper cf">
-
-		<div id="logo">
-			<a href="@routes.Application.index()"><img  src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a>
-		</div>
-
-	</div>
-
-</header>
+<!-- HEADER -->	
+	<div class="navbar navbar-fixed-top">
+      <div class="menu-style navbar-inner">
+        <div class="container-fluid">
+          <button data-target=".nav-collapse" data-toggle="collapse" class="btn btn-navbar" type="button">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="@routes.Application.index()" style="color: black;text-shadow: none;">Becipe</a>
+          <!--a href="@routes.Application.index()"><img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a-->
+          <div class="nav-collapse collapse" style="padding: 10px">
+          	<ul class="nav pull-right">
+          		<li><img style=" margin: 0 5px;background-color: #CB5432" id="search" src="@routes.Assets.at("img/search32.png")" alt="search"></li>
+          		<li><img style=" margin: 0 5px;background-color: #CB5432" id="user" src="@routes.Assets.at("img/user32.png")" alt="user profile"></li>
+            </ul>
+            <span style="float: right;">
+            	<ul id="social-bar" class="cf sb min">
+            		@views.html.social_bar()
+            	</ul>
+            </span>
+            <p class="navbar-text pull-right" style="line-height: 32px;color: black">
+              FOLLOW US &nbsp;
+            </p>
+          </div><!--/.nav-collapse -->
+        </div>
+      </div>
+    </div>
 <!-- ENDS HEADER -->

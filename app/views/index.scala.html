@@ -13,7 +13,15 @@
 				@for(recipe <- recipes) {
 					<figure class="@recipe.level">
 						<a href="@routes.RecipeController.get(recipe.id)" class="thumb"><img src="@recipe.photos.find(_.metadata.typeOf == "preview").getOrElse(S3Photo.EMPTY).getFullUrl" alt="@recipe.shortDesc" /></a>
-						<div class="social-hover">@views.html.social_bar()</div>
+						<div class="social-hover">
+							<!-- social bar -->
+							<div id="social-bar-container">
+								<ul id="social-bar" class="cf sb">
+									@views.html.social_bar()
+								</ul>
+							</div>
+							<!-- end of social bar -->	
+							</div>
 						<figcaption>
 							<a href="@routes.RecipeController.get(recipe.id)"><h3 class="heading">@recipe.name</h3></a>
 						</figcaption>
