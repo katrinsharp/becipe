@@ -17,6 +17,10 @@
 
 /* GENERAL ------------------------------------------------------------*/
 
+.float-right {
+   float: right;
+}
+
 /* GENERAL END --------------------------------------------------------*/
 
 /* MAIN MENU ------------------------------------------------------------*/
@@ -219,6 +223,84 @@
 
 #logo {
   float: left;
+  color: black;
+  text-shadow: none;
+}
+
+.menu-style {
+  .menu-inner {
+    ul {
+      padding: 10px 0 0;
+      li {
+        margin-top: -8px;
+        padding: 8px 5px;
+        a.menu-image-item {
+          margin: 0 5px;
+          padding: 0px;
+          outline: none;
+          background: url("../img/search32.png") no-repeat;
+          width: 32px;
+          height: 32px;
+        }
+      }
+    }
+    .menu-text-item {
+       line-height: 32px;
+       color: black;
+    }
+  }
+}
+
+.menu-search-input {
+  padding: 0 5px;
+}
+
+
+.menu-dropdown-div {
+    border-left: none !important;
+    border-radius: 0 0 0 0 !important;
+    border-right: none !important;
+    border: none !important;
+     box-shadow: none !important;
+    margin: 0 !important;
+    padding: 30px 15px !important;
+    color: @dropdownTextColor;
+}
+.navbar .nav > li > .dropdown-menu:after {
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.navbar .nav > li > .dropdown-menu:before {
+    border-bottom: none !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+.nav-collapse .navbar-form, .nav-collapse .navbar-search {
+    border-bottom: none !important;
+    border-top: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.main-menu-chk {
+    margin-top: 20px;
+   .checkbox > input[type=checkbox] {
+      margin: 4px 10px 0 0;
+      padding: 1px;
+      position: relative;
+      top: -2px;
+      vertical-align: bottom;
+      width: 20px;
+      }
+}
+
+input[type=checkbox]:focus,
+input[type=checkbox]:active {
+    outline: none;        
 }
 
 /* HEADER END --------------------------------------------------------*/
