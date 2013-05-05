@@ -66,8 +66,11 @@
 		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 		  //ga('create', 'UA-40585181-1', {'cookieDomain': 'none'});
-		  ga('create', 'UA-40585181-1', 'becipe.com');
-		  ga('send', 'pageview');
+		  var url = document.URL;	
+		  if(url.indexOf("becipe.com") != -1 || url.indexOf("becipe.heroku.com") != -1) { 
+		  	ga('create', 'UA-40585181-1', 'becipe.com');
+		  	ga('send', 'pageview');
+		  }
 		</script>
 	</footer>
 </html>
