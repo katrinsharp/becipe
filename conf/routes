@@ -6,6 +6,7 @@
 GET     /                           						controllers.Application.index
 
 # Recipe
+POST	/recipe/search										controllers.RecipeController.search
 GET		/recipe/:id											controllers.RecipeController.get(id: String)
 
 # Signup

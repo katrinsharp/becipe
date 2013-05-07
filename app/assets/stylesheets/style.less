@@ -163,11 +163,12 @@
   {
       background: none repeat scroll 0 0 #DDDDDD;
       border: 0 none;
-      border-radius: 8px 8px 8px 8px;
+      /*border-radius: 8px 8px 8px 8px;*/
       box-shadow: 0 0 3px #222222;
       color: #000000;
       display: inline;
       font-size: 30px;
+      height: auto;
       letter-spacing: -1px;
       margin-top: 20px;
       padding: 5px 10px 8px;
@@ -288,13 +289,14 @@
 
 .main-menu-chk {
     margin-top: 20px;
-   .checkbox > input[type=checkbox] {
-      margin: 4px 10px 0 0;
-      padding: 1px;
+    .checkbox > input[type=checkbox] {
+      margin: 4px 10px 0 0 !important;
+      padding: 1px !important;
+      float: none !important;
       position: relative;
       top: -2px;
-      vertical-align: bottom;
-      width: 20px;
+      vertical-align: bottom !important;
+      display: inline !important;
       }
 }
 

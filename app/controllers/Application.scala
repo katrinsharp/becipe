@@ -72,7 +72,8 @@ object Application extends Controller with MongoController{
 		import routes.javascript._
     Ok(
       Routes.javascriptRouter("jsRoutes")(
-          routes.javascript.Application.signup
+          routes.javascript.Application.signup,
+          routes.javascript.RecipeController.search
       )
     ).as("text/javascript")
   }

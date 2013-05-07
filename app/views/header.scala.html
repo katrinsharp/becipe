@@ -9,8 +9,8 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a id="logo" class="brand" href="@routes.Application.index()">Becipe</a>
-          <!--a href="@routes.Application.index()"><img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a-->
+          <!--a id="logo" class="brand" href="@routes.Application.index()">Becipe</a-->
+          <a href="@routes.Application.index()"><img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a>
           <div class="nav-collapse collapse menu-inner">
           	<ul class="nav pull-right">
           		<li class="dropdown">
@@ -18,117 +18,117 @@
           			</a>
           			<ul class="dropdown-menu menu-dropdown-div">
           				<div class="inner-search menu-search-input">
-          					<form class="navbar-search form-inline" action="">
+          					<form class="navbar-search" action="@routes.RecipeController.search()" method="post">
 					        	<div class="input-append">
-									<input class="span6" type="text">
-									<button class="btn" type="button">Search</button>
+									<input class="span6" type="text" name="query">
+									<button class="btn" type="submit" id="searchBtn">Search</button>
 								</div>
-					        </form>
-					        <div class="">
-						        <div class="span2 main-menu-chk">
-						        	
-						        	<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Skincare
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Hair Care
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Body care &#038; Spa
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Soap
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Bath &#038; Showertime
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Makeup
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Perfume
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Aromatherapy
-									</label>			
-						        </div>	
-						        <div class="span2 main-menu-chk">
-						        	<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Pet's b(r)ecipes 
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Men's b(r)ecipes
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Kid's b(r)ecipes
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Anti-Acne
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Anti-Aging
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Anti-Dark Circles
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Anti-Wrinkle
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											The Rest...
-									</label>										
-						        </div>
-						        <div class="span2 main-menu-chk">
-						        	<label class="checkbox">
-  										<input type="checkbox" value="">
-  											NEW! 
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Articles
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Ingredients
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											What You Need For Cosmetics
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Resources
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Calculators
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Bases & Kits 
-									</label>
-									<label class="checkbox">
-  										<input type="checkbox" value="">
-  											Books &#038; Media 
-									</label>							
-						        </div>
-						   	</div>
+						        <div class="">
+							        <div class="span2 main-menu-chk">
+							        	
+							        	<label class="checkbox">
+	  										<input type="checkbox" name="categories[0]" value="skincare">
+	  											Skincare
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[1]" value="haircare">
+	  											Hair Care
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[2]" value="">
+	  											Body care &#038; Spa
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[3]" value="">
+	  											Soap
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[4]" value="">
+	  											Bath &#038; Showertime
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[5]" value="">
+	  											Makeup
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[6]" value="">
+	  											Perfume
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[7]" value="">
+	  											Aromatherapy
+										</label>			
+							        </div>	
+							        <div class="span2 main-menu-chk">
+							        	<label class="checkbox">
+	  										<input type="checkbox" name="categories[8]" value="">
+	  											Pet's b(r)ecipes 
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[9]" value="">
+	  											Men's b(r)ecipes
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[10]" value="">
+	  											Kid's b(r)ecipes
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[11]" value="">
+	  											Anti-Acne
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[12]" value="">
+	  											Anti-Aging
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[13]" value="">
+	  											Anti-Dark Circles
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[14]" value="">
+	  											Anti-Wrinkle
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[15]" value="">
+	  											The Rest...
+										</label>										
+							        </div>
+							        <div class="span2 main-menu-chk">
+							        	<label class="checkbox">
+	  										<input type="checkbox" name="categories[16]" value="">
+	  											NEW! 
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[17]" value="">
+	  											Articles
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[18]" value="">
+	  											Ingredients
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[19]" value="">
+	  											What You Need For Cosmetics
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[20]" value="">
+	  											Resources
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[21]" value="">
+	  											Calculators
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[22]" value="">
+	  											Bases & Kits 
+										</label>
+										<label class="checkbox">
+	  										<input type="checkbox" name="categories[23]" value="">
+	  											Books &#038; Media 
+										</label>							
+							        </div>
+							   	</div>
+							</form>
 						</div>
           			</ul>
           		</li>
@@ -167,6 +167,6 @@
 		$("input[type='checkbox']").click(function(e) { 
 			e.stopPropagation();
 			return true;
-		});		
+		});	
 	});
 </script>
