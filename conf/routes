@@ -4,6 +4,7 @@
 
 # Home page
 GET     /                           						controllers.Application.index
+GET     /aboutUs                           					controllers.Application.aboutUs
 
 # Recipe
 POST	/recipe/search										controllers.RecipeController.search

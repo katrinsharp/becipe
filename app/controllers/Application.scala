@@ -37,6 +37,10 @@ object Application extends Controller with MongoController{
 		}
 	}
 	
+	def aboutUs = Action { implicit request =>
+	  Ok(views.html.about_us())
+	}
+	
 	val signupForm: Form[SignupDetails] = Form(
 		mapping(
 			"fn" -> nonEmptyText,

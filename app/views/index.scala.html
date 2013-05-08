@@ -10,6 +10,15 @@
 		<!-- Filter container -->
 		<div id="filter-container">
 			
+			<figure class="corner-stamp" style="width: 300px;height: 200px;background-color: #cdcdcd">
+				<h4 style="text-align: center">Hand Made Beauty Recipes</h4>
+				<p>
+					Search Becipe.com for existing recipes, watch instructional videos or create your own unique recipes and share them 
+					with your friends. Becipe.com makes creating your own beautiful skin care products a snap.
+				</p>
+				<p>Read more <a href="@routes.Application.aboutUs()">About Us</a></p>
+			</figure>
+			
 				@for(recipe <- recipes) {
 					<figure class="@recipe.level">
 						<a href="@routes.RecipeController.get(recipe.id)" class="thumb"><img src="@recipe.photos.find(_.metadata.typeOf == "preview").getOrElse(S3Photo.EMPTY).getFullUrl" alt="@recipe.shortDesc" /></a>

@@ -72,6 +72,7 @@ jQuery(document).ready(function($) {
 	$container.imagesLoaded( function(){
 		$container.isotope({
 			itemSelector : 'figure',
+			cornerStampSelector: '.corner-stamp',
 			filter: '*',
 			isFitWidth: true
 		});
