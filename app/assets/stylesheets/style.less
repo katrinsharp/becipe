@@ -21,6 +21,42 @@
    float: right;
 }
 
+.margin-top-20 {
+  margin-top: 20px;
+}
+
+div.row-fluid [class*="span"].center-in-span { 
+   float: none; 
+   margin: 0 auto; 
+   /*text-align: center;*/ 
+   display: block; 
+   width:auto; 
+   height:auto;
+}
+
+#social-bar-container { 
+  }
+  
+  #social-bar-right{
+  display: block;
+  float: right;
+}
+
+#social-bar-right li{
+  display: block;
+  float: left;
+  margin-left: 6px;
+  
+  .transition();
+  
+  &:hover{
+    -webkit-transform: translate(0px, -5px);
+    -moz-transform: translate(0px, -5px);
+    -o-transform: translate(0px, -5px);
+    transform: translate(0px, -5px);
+  }
+}
+
 /* GENERAL END --------------------------------------------------------*/
 
 /* MAIN MENU ------------------------------------------------------------*/
@@ -43,7 +79,7 @@
 
 #filter-container{
 
-  margin: 70px auto;
+  margin: 30px auto 0;
   
   figure{
     width: 300px;
@@ -194,10 +230,6 @@
     text-align: center;
   }
   
-  #social-bar-container {
-    margin-top: 20px; 
-  }
-  
   #wait {
     background: url("../img/wait.gif") no-repeat scroll center center transparent;
     display: none;
@@ -305,7 +337,48 @@ input[type=checkbox]:active {
     outline: none;        
 }
 
+a.sb_menu.facebook,
+.sb_menu a.facebook {
+  background-image: url(../img/social_menu/facebook.png);
+}
+
+a.sb_menu.twitter,
+.sb_menu a.twitter {
+  background-image: url(../img/social_menu/twitter.png);
+}
+
+a.sb_menu.linkedin,
+.sb_menu a.linkedin {
+  background-image: url(../img/social_menu/linkedin.png);
+}
+
+a.sb_menu.pinterest,
+.sb_menu a.pinterest {
+  background-image: url(../img/social_menu/pinterest.png);
+}
+
+a.sb_menu.plus,
+.sb_menu a.plus {
+  background-image: url(../img/social_menu/add_this.png);
+}
 /* HEADER END --------------------------------------------------------*/
+
+/* CONTENT ------------------------------------------------------------*/
+
+#main {
+  margin: 70px 20px;
+}
+
+.main-content-width {
+  max-width: 940px;
+}
+
+.fixed {
+    position: fixed;
+    z-index: 1030;
+}
+
+/* CONTENT END --------------------------------------------------------*/
 
 /* TEMPLATE ------------------------------------------------------------*/
 

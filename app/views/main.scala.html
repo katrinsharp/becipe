@@ -29,6 +29,10 @@
 		<!-- Isotope -->
 		<script src="@routes.Assets.at("javascripts/jquery.isotope.min.js")"></script>
 		
+		<!-- flexslider -->
+		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/flexslider.css")"/>
+		<script src="@routes.Assets.at("javascripts/jquery.flexslider-min.js")"></script>
+		
 		<!-- Twitter bootstrap -->
 		<script src="@routes.WebJarAssets.at(WebJarAssets.locate("js/bootstrap.min.js"))"></script>
 		<link rel="stylesheet" media="all" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))"/>
@@ -45,6 +49,10 @@
 	</head>
 	<body>
 		<div id="fb-root"></div>
+		@views.html.header("home")
+		@content
+	</body>
+	<footer>
 		<script>
 			( function(d, s, id) {
 					var js, fjs = d.getElementsByTagName(s)[0];
@@ -56,10 +64,6 @@
 					fjs.parentNode.insertBefore(js, fjs);
 				}(document, 'script', 'facebook-jssdk'));
 		</script>
-		@views.html.header("home")
-		@content
-	</body>
-	<footer>
 		<script>
 		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

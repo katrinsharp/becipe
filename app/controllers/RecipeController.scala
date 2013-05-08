@@ -38,9 +38,33 @@ case class SearchRecipesSubmit(query: String, categories: List[String])
 
 object RecipeController extends Controller with MongoController {
   
-  def get(id: String) = Action { implicit request =>
-    Ok(views.html.signup())
-  }
+  private def getRecipe(id: String): Option[Recipe] = {
+		val qb = QueryBuilder().query(Json.obj("id" -> id))
+		val futureRecipe = Application.recipeCollection.find[JsValue](qb).toList.map(
+				_.headOption match {
+					case Some(h) => Some(h.as[Recipe])
+					case _ => None
+				})				
+		val duration10000 = Duration(100000, "millis")
+		val recipe = Await.result(futureRecipe, duration10000).asInstanceOf[Option[Recipe]]
+		recipe
+	}
+		
+
+	def get(id: String) = Action { implicit request =>
+		Async {
+			val oRecipe = getRecipe(id)	
+			oRecipe match {
+				case Some(recipe) => {
+					val qbAll = QueryBuilder().query(Json.obj())
+					Application.recipeCollection.find[JsValue](qbAll).toList(4).map  { relatedRecipes =>
+						Ok(views.html.recipes.recipe(recipe, relatedRecipes.map(r => r.as[Recipe])))
+					}
+				}
+				case _ => Future(BadRequest(s"Recipe $id was not found"))
+			}
+		}
+	}
   
   val searchRecipesForm: Form[SearchRecipesSubmit] = Form(
 		mapping(
@@ -61,14 +85,13 @@ object RecipeController extends Controller with MongoController {
 			  val tags = value.categories.map(x=>Json.obj("tags" -> x))++
 			  queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
 			  queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
-			  //queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> (new Regex("(?i).*("+x+").*")).toString())))++
 			  queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> ((new Regex("(?i)"+x+""))).toString())))++
 			  queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
 			  		  
 			  Logger.debug(tags.toString())
 			 
 			Async {
-				val qb = QueryBuilder().query( Json.obj("$or" -> tags))
+				val qb = QueryBuilder().query(Json.obj("$or" -> tags))
 				Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
 					Ok(views.html.index(recipes.map(r => r.as[Recipe])))
 				}
