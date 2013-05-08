@@ -82,11 +82,15 @@ object RecipeController extends Controller with MongoController {
 			  Logger.debug(value.toString)
 			  
 			  val queryValues = value.query.split(" ") 
-			  val tags = value.categories.map(x=>Json.obj("tags" -> x))++
-			  queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
-			  queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
-			  queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> ((new Regex("(?i)"+x+""))).toString())))++
-			  queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
+			  val tags =value.categories.map(x=>Json.obj("tags" -> x))++
+			  (if(queryValues(0).length()!=0){
+			    queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
+			    queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
+			    queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> ((new Regex("(?i)"+x+""))).toString())))++
+			    queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
+			  	} else List(Json.obj("tags" -> ("__dummy"))))
+			  	
+			  
 			  		  
 			  Logger.debug(tags.toString())
 			 
