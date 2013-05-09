@@ -29,7 +29,7 @@
 		
 		
 		<div class="row-fluid">
-			<div class="span12">
+			<div class="span12 navbar-fixed-top">
 				<!-- slider -->
 				<div class="center-in-span main-content-width">
 					<div class="flexslider">
@@ -37,7 +37,7 @@
 							@for(photo <- recipe.photos){
 								@if(photo.metadata.typeOf == "slider") {
 									<li>
-										<img src="@photo.getFullUrl" alt="alt text" />
+										<img class="slider-picture" src="@photo.getFullUrl" alt="alt text" />
 									</li>	
 								}
 							}
@@ -49,9 +49,9 @@
 		</div>
 		
 		
-		<div class="row-fluid">
+		<div class="row-fluid next-to-fixed">
 			<div class="span12">
-				<div class="center-in-span main-content-width">
+				<div class="center-in-span main-content-width" style="background-color: #cdcdcd">
 					@for(tag <- recipe.tags) {
 						<span>@tag&nbsp;</span>
 					}
@@ -61,22 +61,22 @@
 		
 		<div class="row-fluid">
 			<div class="span12">
-				<div class="center-in-span main-content-width">
+				<div class="center-in-span main-content-width" style="background-color: #cdcdcd">
 					<div class="row-fluid">
-						<div class="span6"><h2 class="heading ">@recipe.name</h2></div>
-						<div class="span6">
-							<img class="float-right" src="@routes.Assets.at("img/ratings.png")" alt="rating">
+						<div class="span6"><h2 class="heading">@recipe.name</h2></div>
+						<div class="span3">
+							<img style="margin-top: 10px" src="@routes.Assets.at("img/ratings.png")" alt="rating">
+						</div>
+						<div class="span3">
+							<img style="margin-top: 10px;margin-left: 10px" class="float-right" src="@routes.Assets.at("img/fav1.png.bck")" alt="user profile photo">
+							<p style="text-align: right;margin-top: 10px"><strong>Posted By </strong> @recipe.by</p>
+							<p style="text-align: right">@org.joda.time.format.DateTimeFormat.forPattern("dd-MMMM-YYYY").print(recipe.created)</p>
 						</div>
 					</div>
-					<div class="row-fluid">
-						<div class="span6">
-							<p>
-								<strong>Posted By </strong> @recipe.by <strong>On </strong> @org.joda.time.format.DateTimeFormat.forPattern("dd-MMMM-YYYY").print(recipe.created)
-							</p>
-						</div>
-						<div class="span6">
+					<div class="row-fluid">	
+						<div class="span12">
 							<!-- social bar -->
-							<div id="social-bar-container">
+							<div id="social-bar-container" class="float-right">
 								<ul id="social-bar-right" class="cf sb">
 									@views.html.social_bar()
 								</ul>
@@ -85,6 +85,7 @@
 						</div>
 					</div>
 				</div>
+			</div>
 		</div>
 		
 		<div class="row-fluid">
@@ -136,10 +137,34 @@
 </body>
 <script>
 
+	function setMargins() {
+		var secondFixedHeight = $(".slider-picture").first().height();
+		var height = $(".navbar-fixed-top:eq(0)").height();
+	  	var margin = height+20;
+	  	var secondFixed = $(".navbar-fixed-top:eq(1)");
+	  	
+	  	if($(".navbar-fixed-top:eq(0)").css('position')=='fixed') {
+			$(secondFixed).css("margin-top",""+margin+"px");
+	    	$(".next-to-fixed").css("margin-top",""+(margin+secondFixedHeight+40)+"px");
+		} else {
+			$(secondFixed).css("margin-top","10px");
+	    	$(".next-to-fixed").css("margin-top","10px");
+		}
+	}
+
 	$(function() {
 		 $('.flexslider').flexslider({
-    		animation: "slide"
+    		animation: "slide",
+    		start: function() {
+            	setMargins();
+        	}
   		});
+  		$(window).resize(function() {
+		 	setMargins();
+		});
+		//$('.slider-picture:eq(0)').load(function() {
+  		//	setMargins();	
+		//});
 	});
 </script>
 }

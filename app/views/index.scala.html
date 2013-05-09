@@ -4,39 +4,58 @@
 
 <body class="home">
 	
+	
 	<!-- MAIN -->
 	<div id="main">
+		
+		<ul id="filter-buttons">
+			<li>
+				<a href="#" data-filter="*" class="selected">show all</a>
+			</li>
+			<li>
+				<a href="#" data-filter=".beginner">beginner</a>
+			</li>
+			<li>
+				<a href="#" data-filter=".average">average</a>
+			</li>
+			<li>
+				<a href="#" data-filter=".master">master</a>
+			</li>
+		</ul>
 		
 		<!-- Filter container -->
 		<div id="filter-container">
 			
-			<figure class="corner-stamp" style="width: 300px;height: 200px;background-color: #cdcdcd">
-				<h4 style="text-align: center">Hand Made Beauty Recipes</h4>
-				<p>
-					Search Becipe.com for existing recipes, watch instructional videos or create your own unique recipes and share them 
-					with your friends. Becipe.com makes creating your own beautiful skin care products a snap.
-				</p>
-				<p>Read more <a href="@routes.Application.aboutUs()">About Us</a></p>
-			</figure>
-			
-				@for(recipe <- recipes) {
-					<figure class="@recipe.level">
-						<a href="@routes.RecipeController.get(recipe.id)" class="thumb"><img src="@recipe.photos.find(_.metadata.typeOf == "preview").getOrElse(S3Photo.EMPTY).getFullUrl" alt="@recipe.shortDesc" /></a>
-						<div class="social-hover">
-							<!-- social bar -->
-							<div id="social-bar-container">
-								<ul id="social-bar" class="cf sb">
-									@views.html.social_bar()
-								</ul>
-							</div>
-							<!-- end of social bar -->	
-							</div>
-						<figcaption>
-							<a href="@routes.RecipeController.get(recipe.id)"><h3 class="heading">@recipe.name</h3></a>
-						</figcaption>
-						<div class="author">Posted By: @recipe.by</div>
-						<div class="rating"><img title="rating" src="@routes.Assets.at("img/glitter32.png")" alt="rating for @recipe.name" /></div>
-					</figure>
+				@for(i <- 0 to recipes.length - 1) {
+					@defining(recipes(i)) { recipe =>
+						<figure class="@recipe.level">
+							<a href="@routes.RecipeController.get(recipe.id)" class="thumb"><img src="@recipe.photos.find(_.metadata.typeOf == "preview").getOrElse(S3Photo.EMPTY).getFullUrl" alt="@recipe.shortDesc" /></a>
+							<div class="social-hover">
+								<!-- social bar -->
+								<div id="social-bar-container">
+									<ul id="social-bar" class="cf sb">
+										@views.html.social_bar()
+									</ul>
+								</div>
+								<!-- end of social bar -->	
+								</div>
+							<figcaption>
+								<a href="@routes.RecipeController.get(recipe.id)"><h3 class="heading">@recipe.name</h3></a>
+							</figcaption>
+							<div class="author">Posted By: @recipe.by</div>
+							<div class="rating"><img title="rating" src="@routes.Assets.at("img/glitter32.png")" alt="rating for @recipe.name" /></div>
+						</figure>
+					}
+					@if(i==0) {
+						<figure class="corner-stamp beginner average master" style="width: 300px;height: auto;background: transparent !important;font-size: 18px;line-height: 25px">
+							<h4 style="text-align: center;font-size: 36px;line-height: 39px">Hand Made Beauty Recipes</h4>
+							<p style="line-height: inherit">
+								Search Becipe.com for existing recipes, watch instructional videos or create your own unique recipes and share them 
+								with your friends. Becipe.com makes creating your own beautiful skin care products a snap.
+							</p>
+							<p style="line-height: inherit">Read more <a href="@routes.Application.aboutUs()">About Us</a></p>
+						</figure>
+					}
 				}
 			
 		</div><!-- ENDS Filter container -->

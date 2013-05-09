@@ -77,6 +77,25 @@ div.row-fluid [class*="span"].center-in-span {
 
 /* FILTER CONTAINER ------------------------------------------------------------*/
 
+#filter-buttons{
+  
+  text-align: center;
+  
+  margin-top: 80px;
+  
+  li{
+    display: inline-block;
+    margin-bottom: 0px;
+    
+    a{
+      display: block;
+      text-decoration: none;
+      padding: 5px 10px;
+      margin-bottom: 0px;
+    }
+  }
+}
+
 #filter-container{
 
   margin: 30px auto 0;
@@ -303,6 +322,7 @@ div.row-fluid [class*="span"].center-in-span {
 .navbar .nav > li > a {
     padding: 10px 5px !important;  
 }
+
 .navbar .nav > li > .dropdown-menu:after {
     border-bottom: none !important;
     border-left: none !important;
@@ -370,7 +390,7 @@ a.sb_menu.plus,
 /* CONTENT ------------------------------------------------------------*/
 
 #main {
-  margin: 70px 20px;
+  margin: 0px 20px 140px;
 }
 
 .main-content-width {
@@ -378,8 +398,9 @@ a.sb_menu.plus,
 }
 
 .fixed {
+    left: 0;
     position: fixed;
-    z-index: 1030;
+    z-index: 999;
 }
 
 .directions > ol{

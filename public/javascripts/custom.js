@@ -6,6 +6,18 @@ jQuery(document).ready(function($) {
 	// Filter - Isotope 
 	//##########################################
 	
+	$('#filter-buttons a').click(function(){
+	
+		// select current
+		var $optionSet = $(this).parents('#filter-buttons');
+	    $optionSet.find('.selected').removeClass('selected');
+	    $(this).addClass('selected');
+    
+		var selector = $(this).attr('data-filter');
+		$container.isotope({ filter: selector });
+		return false;
+	});
+	
 	<!-- centered layout extension http://isotope.metafizzy.co/ --> 
 
 	$.Isotope.prototype._getCenteredMasonryColumns = function() {
