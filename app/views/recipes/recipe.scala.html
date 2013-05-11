@@ -137,14 +137,25 @@
 </body>
 <script>
 
+	var tries = 0;
+
 	function setMargins() {
 		var secondFixedHeight = $(".slider-picture").first().height();
 		var height = $(".navbar-fixed-top:eq(0)").height();
 	  	var margin = height+20;
 	  	var secondFixed = $(".navbar-fixed-top:eq(1)");
-	  	
+	  	console.log(secondFixedHeight);
 	  	if($(".navbar-fixed-top:eq(0)").css('position')=='fixed') {
 			$(secondFixed).css("margin-top",""+margin+"px");
+			
+			if((tries>3)&&(secondFixedHeight == 0)) {
+				secondFixedHeight = 364;
+			}
+		  	if(secondFixedHeight==0) {
+		  		tries = tries + 1;
+		  		setTimeout(setMargins, 1000);
+		  		return;
+		  	}
 	    	$(".next-to-fixed").css("margin-top",""+(margin+secondFixedHeight+40)+"px");
 		} else {
 			$(secondFixed).css("margin-top","10px");
