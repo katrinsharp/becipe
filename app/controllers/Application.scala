@@ -64,12 +64,16 @@ object Application extends Controller with MongoController{
 			  Application.signupsCollection.insert(modifier).map {
 				  e => Logger.error(e.toString)
 			  }
-			  Ok
+			  Ok(views.html.signup.thankyou(value.firstName))
 			})
 	}
 	
 	def signup = Action { implicit request =>
-	  Ok(views.html.signup())
+	  Ok(views.html.signup.form())
+	}
+	
+	def signupThankyou = Action { implicit request =>
+	  Ok(views.html.signup.thankyou("Ms. Debug"))
 	}
 	
 	def javascriptRoutes = Action {  implicit request =>

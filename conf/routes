@@ -13,6 +13,7 @@ GET		/recipe/:id											controllers.RecipeController.get(id: String)
 # Signup
 GET		/signup												controllers.Application.signup
 POST	/signup												controllers.Application.submitSignup
+GET		/signup_thankyou									controllers.Application.signupThankyou
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes

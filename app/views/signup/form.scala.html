@@ -7,32 +7,41 @@
 	<!-- MAIN -->
 	<div id="main">
 		
-		<!-- Signup form -->
-		<div class="signup-form">
-			<form action="" name="form">
-		        <div id="title">Be the first to join us when we will be out</div>
-		        <input data="First Name" type="text" value="First Name" name="fn" id="fn" class="empty">
-		        <input data="Last Name" type="text" value="Last Name" name="ln" id="ln" class="empty">
-		        <input data="Email" type="text" value="Email" name="em" id="em" class="empty">
-		        <div>
-		        	<button type="submit" id="signup" class="btn btn-primary">Signup</button>
-		        </div>
-		    </form>
-		    <div id="wait"></div>
-		    <div id="success_message"><span id="name"></span> Thank you for your interest in Becipe! We'll be happy to keep up up-to-date about Becipe.</div>
-		    <div id="footer">
-				You can also send us afeedback to
-				<a href="mailto:info@@becipe.com">info@@becipe.com</a>
-				or join us on 
-					<!-- social bar -->
-					<div id="social-bar-container" class="margin-top-20">
-						<ul id="social-bar" class="cf sb">
-							@views.html.social_bar()
-						</ul>
-					</div>
-					<!-- end of social bar -->	
+		<!-- signup form -->
+		<div class="row-fluid">
+			<div class="span12">
+				<div class="center-in-span signup-form-width signup-form signup-form-container">
+					<div class="row-fluid">
+						<form name="form" method="POST" action="@routes.Application.signup()">
+					        <div class="span12" id="title">We're busy mixing something beautiful here at <span style="color: #b22e00;font-weight: bold;font-size: 24px">Becipe</span> and can't wait to share it with you. Enter your name and email to request early access and get updates about all the gorgeous ways we're going to change the DIY homemade skin care industry.</div>
+					        <input class="span6" data="First Name" type="text" value="First Name" name="fn" id="fn" class="empty">
+					        <input class="span6" data="Last Name" type="text" value="Last Name" name="ln" id="ln" class="empty">
+					        <input class="span12" data="Email" type="text" value="Email" name="em" id="em" class="empty">
+					        <div class="center-in-span">
+					        	<button type="submit" id="signup" class="">Request</button>
+					        </div>
+			    		</form>	
+			    	</div>
+			    	<div class="row-fluid">
+			    		<div id="footer">
+							<div class="float-left text">
+							You can also send us feedback to
+							<a href="mailto:info@@becipe.com" style="color: #fff;font-weight: bold">info@@becipe.com</a>
+							or join us on
+							</div> 
+								<!-- social bar -->
+								<div id="social-bar-container" class="float-left margin-left-24">
+									<ul id="social-bar" class="cf sb">
+										@views.html.social_menu()
+									</ul>
+								</div>
+								<!-- end of social bar -->	
+						</div>
+			    	</div>
+				</div>	
 			</div>
-		</div><!-- ENDS Signup form -->
+		</div><!-- end signup form -->
+		
 	</div><!-- ENDS MAIN -->
 </body>
 }
@@ -100,7 +109,7 @@ $(function() {
     	 
 		var validated = true;
 		
-		$("input").each(function() {
+		$(this).closest('form').find('input').each(function() {
 		
 			if(!isValid(this, $(this).attr("data"))) {
 				validated = false;
@@ -114,18 +123,8 @@ $(function() {
 			return false;
 		}
 		
-		$('#form').hide();
-		$('#wait').show();
+		$(this).closest('form').submit();
 		
-		$.ajax({
-			url: "@routes.Application.signup()",
-		  	type: "POST",    
-		  	data: {'fn':$("#fn").val(),'ln':$("#ln").val(),'em':$("#em").val()}
-		}).done(function(data) {
-			$('#wait').hide();
-			$('#name').text($("#fn").val() + ",");
-			$('#success_message').fadeIn(1500);
-		});   
 		return false;  
 	});
 		

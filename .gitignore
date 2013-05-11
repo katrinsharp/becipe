@@ -32,3 +32,4 @@ server.pid
 .cache
 .bck*
 *secret*
+Thumbs.db

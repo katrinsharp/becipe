@@ -15,8 +15,8 @@ SOCIAL LINK a.sb
 *************************************************************************************/
 a.sb,
 .sb a {
-	width: 32px;
-	height: 32px;
+	width: 36px;
+	height: 37px;
 	background-repeat: no-repeat;
 	background-position: center center;
 	text-indent: -900em;
@@ -30,18 +30,18 @@ a.sb,
 	margin: 0 2px 5px 0;
 	
 	/* default button color */
-	background-color: #ececec;
-	border: solid 1px #b8b8b9;
+	/*background-color: #ececec;
+	border: solid 1px #b8b8b9;*/
 	
 	/* default box shadow */
-	-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
+	/*-webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
 	-moz-box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
-	box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.3), 0 1px 0 rgba(0,0,0,.1);*/
 
 	/* default border radius */
-	-webkit-border-radius: 5px;
+	/*-webkit-border-radius: 5px;
 	-moz-border-radius: 5px;
-	border-radius: 5px;
+	border-radius: 5px;*/
 	
 }
 /* for IE */
@@ -263,7 +263,7 @@ a.sb:hover,
 .sb a:hover,
 a.sb:hover:after,
 .sb a:hover:after {
-	background-color: #f3f3f3;
+	/*background-color: #f3f3f3;*/
 }
 
 
