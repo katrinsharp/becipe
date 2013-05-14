@@ -34,7 +34,7 @@ import models.photos
 import scala.util.matching.Regex
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
-case class SearchRecipesSubmit(query: String, categories: List[String])
+case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
 
 object RecipeController extends Controller with MongoController {
   
@@ -65,10 +65,16 @@ object RecipeController extends Controller with MongoController {
 			}
 		}
 	}
+	
+	/*def by(categories: List[String]) = Action { implicit request =>
+	  	Logger.debug(categories.toString)
+		Ok
+	}*/
   
   val searchRecipesForm: Form[SearchRecipesSubmit] = Form(
 		mapping(
-			"query" -> text,
+		    "level" -> optional(text),
+			"query" -> optional(text),
 			"categories" -> list(text)
 		)(SearchRecipesSubmit.apply)(SearchRecipesSubmit.unapply))
   
@@ -81,8 +87,9 @@ object RecipeController extends Controller with MongoController {
 			value => {
 			  Logger.debug(value.toString)
 			  
-			  val queryValues = value.query.split(" ") 
-			  val tags =value.categories.map(x=>Json.obj("tags" -> x))++
+			  val queryValues = value.query.getOrElse("").split(" ") 
+			  val tags = List(Json.obj("level" -> value.level.getOrElse("").toString()))++
+			    value.categories.map(x=>Json.obj("tags" -> x))++
 			  (if(queryValues(0).length()!=0){
 			    queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
 			    queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
@@ -97,7 +104,7 @@ object RecipeController extends Controller with MongoController {
 			Async {
 				val qb = QueryBuilder().query(Json.obj("$or" -> tags))
 				Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
-					Ok(views.html.index(recipes.map(r => r.as[Recipe])))
+					Ok(views.html.index(recipes.map(r => r.as[Recipe]), value.level.getOrElse("all")))
 				}
 		   }
 		})

@@ -1,4 +1,4 @@
-@(recipes: Seq[Recipe])(implicit request: RequestHeader)
+@(recipes: Seq[Recipe], selectedLevel: String = "all")(implicit request: RequestHeader)
 
 @main("home", recipes) {
 
@@ -10,16 +10,16 @@
 		
 		<ul id="filter-buttons">
 			<li>
-				<a href="#" data-filter="*" class="selected">show all</a>
+				<a href="#" data-filter="*" class="selected" data="all">show all</a>
 			</li>
 			<li>
-				<a href="#" data-filter=".beginner">beginner</a>
+				<a href="#" data-filter=".beginner" data="beginner">beginner</a>
 			</li>
 			<li>
-				<a href="#" data-filter=".average">average</a>
+				<a href="#" data-filter=".average" data="average">average</a>
 			</li>
 			<li>
-				<a href="#" data-filter=".master">master</a>
+				<a href="#" data-filter=".master" data="master">master</a>
 			</li>
 		</ul>
 		
@@ -59,5 +59,11 @@
 		</div><!-- ENDS Filter container -->
 	</div><!-- ENDS MAIN -->
 </body>
+<script>
+	
+	$(function() {
+		$('#filter-buttons a[data='+'@{selectedLevel}]').click();
+	});
+</script>>
 }
 

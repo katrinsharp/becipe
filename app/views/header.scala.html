@@ -13,7 +13,10 @@
           <a href="@routes.Application.index()"><img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a>
           <div class="nav-collapse collapse menu-inner">
           	<ul class="nav pull-right">
-          		<li class="dropdown">
+          		<!--li class="delim">
+          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
+          		</li-->
+          		<li class="dropdown search-dropdown">
           			<a data-toggle="dropdown" href="#">	
           				<img class="menu-image-item pull-right" id="search" src="@routes.Assets.at("img/social_menu/search.png")" alt="search">
           			</a>
@@ -28,103 +31,103 @@
 							        <div class="span2 main-menu-chk">
 							        	
 							        	<label class="checkbox">
-	  										<input type="checkbox" name="categories[0]" value="skincare">
+	  										<input type="checkbox" name="categories" value="skincare">
 	  											Skincare
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[1]" value="haircare">
+	  										<input type="checkbox" name="categories" value="haircare">
 	  											Hair Care
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[2]" value="body-care-spa">
+	  										<input type="checkbox" name="categories" value="body-care-spa">
 	  											Body care &#038; Spa
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[3]" value="soap">
+	  										<input type="checkbox" name="categories" value="soap">
 	  											Soap
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[4]" value="bath-showertime">
+	  										<input type="checkbox" name="categories" value="bath-showertime">
 	  											Bath &#038; Showertime
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[5]" value="makeup">
+	  										<input type="checkbox" name="categories" value="makeup">
 	  											Makeup
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[6]" value="perfume">
+	  										<input type="checkbox" name="categories" value="perfume">
 	  											Perfume
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[7]" value="aromatherapy">
+	  										<input type="checkbox" name="categories" value="aromatherapy">
 	  											Aromatherapy
 										</label>			
 							        </div>	
 							        <div class="span2 main-menu-chk">
 							        	<label class="checkbox">
-	  										<input type="checkbox" name="categories[8]" value="pets">
+	  										<input type="checkbox" name="categories" value="pets">
 	  											Pet's b(r)ecipes 
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[9]" value="men">
+	  										<input type="checkbox" name="categories" value="men">
 	  											Men's b(r)ecipes
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[10]" value="kids">
+	  										<input type="checkbox" name="categories" value="kids">
 	  											Kid's b(r)ecipes
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[11]" value="anti-acne">
+	  										<input type="checkbox" name="categories" value="anti-acne">
 	  											Anti-Acne
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[12]" value="anti-aging">
+	  										<input type="checkbox" name="categories" value="anti-aging">
 	  											Anti-Aging
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[13]" value="anti-dark-circles">
+	  										<input type="checkbox" name="categories" value="anti-dark-circles">
 	  											Anti-Dark Circles
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[14]" value="anti-wrinkle">
+	  										<input type="checkbox" name="categories" value="anti-wrinkle">
 	  											Anti-Wrinkle
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[15]" value="rest">
+	  										<input type="checkbox" name="categories" value="rest">
 	  											The Rest...
 										</label>										
 							        </div>
 							        <div class="span2 main-menu-chk">
 							        	<label class="checkbox">
-	  										<input type="checkbox" name="categories[16]" value="new">
+	  										<input type="checkbox" name="categories" value="new">
 	  											NEW! 
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[17]" value="articles">
+	  										<input type="checkbox" name="categories" value="articles">
 	  											Articles
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[18]" value="ingredients">
+	  										<input type="checkbox" name="categories" value="ingredients">
 	  											Ingredients
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[19]" value="what-you-need">
+	  										<input type="checkbox" name="categories" value="what-you-need">
 	  											What You Need For Cosmetics
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[20]" value="resources">
+	  										<input type="checkbox" name="categories" value="resources">
 	  											Resources
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[21]" value="calculators">
+	  										<input type="checkbox" name="categories" value="calculators">
 	  											Calculators
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[22]" value="bases-kits">
+	  										<input type="checkbox" name="categories" value="bases-kits">
 	  											Bases & Kits 
 										</label>
 										<label class="checkbox">
-	  										<input type="checkbox" name="categories[23]" value="books-media">
+	  										<input type="checkbox" name="categories" value="books-media">
 	  											Books &#038; Media 
 										</label>							
 							        </div>
@@ -133,11 +136,17 @@
 						</div>
           			</ul>
           		</li>
+          		<!--li class="delim">
+          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
+          		</li-->
           		<li class="">
           			<a href="@routes.Application.signup()">
           				<img class="menu-image-item pull-right" id="user" src="@routes.Assets.at("img/social_menu/user.png")" alt="user profile">
           			</a>
           		</li>
+          		<!--li class="delim">
+          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
+          		</li-->
             </ul>
             <ul>
             <span class="pull-right">
@@ -154,11 +163,39 @@
     </div>
 <!-- ENDS HEADER -->
 <script>
+
+	//function 
 	
 	$(function() { 
+		var i = 0;
+		$('#searchBtn').click(function(){
+			var query = '';
+			$('input[name=categories]:checked').each(function(){
+				query = query + 'categories['+ i++ +']='+$(this).val()+'&';	
+			});	
+			query = query + 'query='+$('input[name=query]').val();
+			console.log(query);
+			var form = $(this).closest('form');
+			$(form).attr('action', $(form).attr('action')+'?'+query);
+			$(form).submit();
+			return false;
+		});
 		
 		$(".menu-inner > ul > li > a").click(function() {
-			$(this).parent().toggleClass('dropdown-image-click');
+			var parent = $(this).parent();
+			$(parent).toggleClass('dropdown-image-click');
+			if($(parent).hasClass('search-dropdown')) {
+				$('.slider-container').toggleClass('fixed-vs-absolute');
+				var next = $('.next-to-fixed');
+				if($(next).css("margin-top")=='0px') {
+					var height = $(".navbar-fixed-top:eq(0)").height();
+	  				var margin = height+8;
+	  				var secondFixedHeight = $(".slider-picture").first().height();
+					$(next).css("margin-top",""+(margin+secondFixedHeight+15)+"px");	
+				} else {
+					$(next).css('margin-top', 0);
+				}
+			}
 			return true;
 		});	
 		

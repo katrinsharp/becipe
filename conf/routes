@@ -8,6 +8,8 @@ GET     /aboutUs                           					controllers.Application.aboutUs
 
 # Recipe
 POST	/recipe/search										controllers.RecipeController.search
+GET		/recipe/search										controllers.Application.redirectToIndex
+# POST	/recipe/by											controllers.RecipeController.by(categories: List[String])
 GET		/recipe/:id											controllers.RecipeController.get(id: String)
 
 # Signup

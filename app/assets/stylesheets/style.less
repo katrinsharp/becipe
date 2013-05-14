@@ -50,6 +50,13 @@ div.row-fluid [class*="span"].center-in-span {
    height:auto;
 }
 
+a img,
+a:focus,
+a:hover,
+a:active {
+  outline: none !important;
+}
+
 #social-bar-container { 
   }
   
@@ -329,6 +336,9 @@ button:active {
           padding-right: 0px;
           padding-left: 0px;
       }
+      li.delim {
+        padding: 5px 0px 8px;
+      }
       li {
         margin-top: -8px;
         padding: 5px 9px 8px 5px;
@@ -353,8 +363,12 @@ button:active {
   padding: 0 5px;
 }
 
+.fixed-vs-absolute {
+  position: static !important;
+}
 
 .menu-dropdown-div {
+    z-index: 1031 !important;
     border-left: none !important;
     border-radius: 0 0 0 0 !important;
     border-right: none !important;
@@ -461,6 +475,10 @@ a.sb_menu.plus,
 
 /* FLEX SLIDER ------------------------------------------------------------*/
 
+.flexslider {
+  margin: 0 !important;  
+}
+
 .flex-control-nav {
   bottom: 5px !important;
 }
@@ -523,6 +541,14 @@ a.sb_menu.plus,
     opacity: 1;
     cursor: hand; 
     cursor: pointer;
+  }
+}
+
+.rate-it-link-style {
+  &:hover,
+  &:focus,
+  &:active{
+    text-decoration: none;
   }
 }
 

@@ -26,6 +26,10 @@ object Application extends Controller with MongoController{
 	
 	//default is local
 	val useLocalStorage = Play.application.configuration.getString("save.to").getOrElse("local").equalsIgnoreCase("local")
+	
+	def redirectToIndex = Action { implicit request =>
+	  Redirect(routes.Application.index())
+	}
 
 	def index = Action { implicit request =>
 		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse(""))

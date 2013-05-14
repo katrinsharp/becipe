@@ -29,7 +29,7 @@
 		
 		
 		<div class="row-fluid">
-			<div class="span12 navbar-fixed-top">
+			<div class="span12 navbar-fixed-top slider-container">
 				<!-- slider -->
 				<div class="center-in-span main-content-width">
 					<div class="flexslider">
@@ -52,9 +52,12 @@
 		<div class="row-fluid next-to-fixed">
 			<div class="span12">
 				<div class="center-in-span main-content-width recipe-item-padding">
-					@for(tag <- recipe.tags) {
-						<span>@tag&nbsp;</span>
-					}
+					<form action="@routes.RecipeController.search()" method="post">
+						<a class="search" data="level" data-value="@recipe.level" href="#"><span>@recipe.level&nbsp;</span></a>
+						@for(tag <- recipe.tags) {
+							<a class="search" data="categories[0]" data-value="@tag" href="#"><span>@tag&nbsp;</span></a>
+						}
+					</form>
 				</div>	
 			</div>
 		</div>
@@ -86,7 +89,7 @@
 							@for(i <- 1 to 5) {
 								<!--@@if(i!=recipe.rating) {-->
 									<span class="rate-it-image" style="background-color: #ddd;padding: 10px 5px;margin: 0px -2px;display: none">
-										<a href="@routes.Application.signup()">
+										<a class="rate-it-link-style" href="@routes.Application.signup()">
 											<img class="rate-it-image-style" src="@routes.Assets.at("img/rating/"+i+".png")" alt="rating @i">
 										</a>
 									</span>
@@ -201,6 +204,9 @@
         	}
   		});
   		$(window).resize(function() {
+		 	if($(".menu-inner > ul > li.search-dropdown").hasClass('open')) {
+		 		$(".menu-inner > ul > li.search-dropdown > a").click();
+		 	}
 		 	setMargins();
 		});
 		$(".rate-trigger").hover(function(){
@@ -210,6 +216,14 @@
 				$('.rate-it-image').css('display', 'none');
 				$('.rated-image').removeClass('rated-image-on-hover');
 			});
+			
+		$('a.search').click(function() {
+			var form = $(this).closest('form');
+			var query = $(this).attr('data')+'='+$(this).attr('data-value');
+			$(form).attr('action', $(form).attr('action')+'?'+query);
+			$(form).submit();
+			return false;	
+		});
 	});
 </script>
 }
