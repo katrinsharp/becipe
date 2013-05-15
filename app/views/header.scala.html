@@ -9,17 +9,17 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <!--a id="logo" class="brand" href="@routes.Application.index()">Becipe</a-->
-          <a href="@routes.Application.index()"><img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"></a>
+		  <a href="@routes.Application.index()">
+		  	<img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo">
+		  </a>
           <div class="nav-collapse collapse menu-inner">
           	<ul class="nav pull-right">
-          		<!--li class="delim">
-          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
-          		</li-->
           		<li class="dropdown search-dropdown">
-          			<a data-toggle="dropdown" href="#">	
-          				<img class="menu-image-item pull-right" id="search" src="@routes.Assets.at("img/social_menu/search.png")" alt="search">
-          			</a>
+					<a data-toggle="dropdown" title="" href="#">
+						<span class="icon menu-image-item">
+							<i class="icomoon-search" aria-hidden="true"> </i>
+						</span>
+					</a>
           			<ul class="dropdown-menu menu-dropdown-div">
           				<div class="inner-search menu-search-input">
           					<form class="navbar-search" action="@routes.RecipeController.search()" method="post">
@@ -136,17 +136,13 @@
 						</div>
           			</ul>
           		</li>
-          		<!--li class="delim">
-          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
-          		</li-->
-          		<li class="">
-          			<a href="@routes.Application.signup()">
-          				<img class="menu-image-item pull-right" id="user" src="@routes.Assets.at("img/social_menu/user.png")" alt="user profile">
-          			</a>
-          		</li>
-          		<!--li class="delim">
-          			<img class="" id="" src="@@routes.Assets.at("img/header-delim.png")" alt="">
-          		</li-->
+       			 <li>
+					<a title="" href="@routes.Application.signup()">
+						<span class="icon menu-image-item">
+							<i class="icomoon-user-2" aria-hidden="true"> </i>
+						</span>
+					</a>
+				  </li>	
             </ul>
             <ul>
             <span class="pull-right">
