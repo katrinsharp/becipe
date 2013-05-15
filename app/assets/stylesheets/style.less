@@ -80,6 +80,69 @@ a:active {
   }
 }
 
+/******************** social bar **********************/
+
+/*#social-menu li:nth-child(1) i {
+    color: rgb(59, 89, 152);
+    background-color: #fff;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255,0.6);
+    opacity: 0.5;
+}*/
+
+#social-menu li {
+  display: inline;
+  float: left;
+}
+
+#social-menu li i {
+    color: @headerColor;
+    background-color: #fff;
+    box-shadow: 0 0 0 0 rgba(255, 255, 255,0.6);
+    opacity: 0.5;
+}
+
+#social-menu i
+{
+    position: relative;
+    display: inline-block;
+    margin: 5px auto;
+    padding: 8px;
+    border-radius: 50%;
+    font-size: 16px;
+    transition: box-shadow .4s ease-in-out;
+}
+
+#social-menu a:hover i, 
+#social-menu a:active i {
+    box-shadow: 0 0 0 18px transparent;
+    opacity: 1;
+}
+
+#social-menu .icon + span
+{
+    margin-top: 20px;
+    opacity: 0;
+    -webkit-transition: all 500ms cubic-bezier(1.000, 0.000, 1.000, 0.650);
+}
+
+#social-menu li span {
+    display: block;
+}
+
+#social-menu a:hover span, 
+#social-menu a:active span {
+    opacity: 1;
+}
+
+#social-menu a {
+    display: block;
+    color: #ffffff;
+    text-decoration: none;
+    transition: .3s;
+}
+
+/******************** social bar end *******************/
+
 /* GENERAL END --------------------------------------------------------*/
 
 /* MAIN MENU ------------------------------------------------------------*/
@@ -329,7 +392,7 @@ button:active {
   .menu-inner {
     ul {
       padding: 6px 0 0;
-      span {
+      span.first {
         margin-right: 38px;
       }
       li.sb_menu {

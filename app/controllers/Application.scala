@@ -68,7 +68,7 @@ object Application extends Controller with MongoController{
 			  Application.signupsCollection.insert(modifier).map {
 				  e => Logger.error(e.toString)
 			  }
-			  Ok(views.html.signup.thankyou(value.firstName))
+			  Redirect(routes.Application.signupThankyou(value.firstName))
 			})
 	}
 	
@@ -76,8 +76,8 @@ object Application extends Controller with MongoController{
 	  Ok(views.html.signup.form())
 	}
 	
-	def signupThankyou = Action { implicit request =>
-	  Ok(views.html.signup.thankyou("Ms. Debug"))
+	def signupThankyou(name: String) = Action { implicit request =>
+	  Ok(views.html.signup.thankyou(name))
 	}
 	
 	def javascriptRoutes = Action {  implicit request =>
