@@ -109,7 +109,7 @@ function bindtoPinterestShareClick(e) {
 function bindtoLinkedInShareClick(e) {
 	e.preventDefault();
 	u=location.href;
-	title="Share this page on Twitter";
+	title="Share this page on LinkedIn";
 	url = "http://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(u)+"&title="+encodeURIComponent(title)+"&summary="+$(this).attr('data')+"&source=Becipe";
 	console.log(url);
 	window.open(url, "linkedin", windowOpts());
