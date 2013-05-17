@@ -34,7 +34,7 @@
 								<!-- social bar -->
 								<div id="social-bar-container">
 									<ul id="social-bar" class="cf sb">
-										@views.html.social_bar()
+										@views.html.social_bar(recipe.shortDesc)
 									</ul>
 								</div>
 								<!-- end of social bar -->	
@@ -64,6 +64,6 @@
 	$(function() {
 		$('#filter-buttons a[data='+'@{selectedLevel}]').click();
 	});
-</script>>
+</script>
 }
 
