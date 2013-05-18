@@ -64,6 +64,7 @@ object Application extends Controller with MongoController{
 						"firstName" -> value.firstName,
 						"lastName" -> value.lastName,
 						"email" -> value.email,
+						"response" -> "0",
 						"created" -> DateTime.now())).makeQueryDocument
 			  Application.signupsCollection.insert(modifier).map {
 				  e => Logger.error(e.toString)

@@ -9,10 +9,11 @@ import org.joda.time.DateTime
 case class Signup(
 		firstName: String, 
 		lastName: String, 
-		email: String, 
+		email: String,
+		response: String,
 		created: DateTime)
 
-object Signup extends Function4[String, String, String, DateTime, Signup] {
+object Signup extends Function5[String, String, String, String, DateTime, Signup] {
 	implicit val writes = Json.writes[Signup]
 	implicit val reads = Json.reads[Signup]
 }
