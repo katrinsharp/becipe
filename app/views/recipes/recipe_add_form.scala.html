@@ -1,0 +1,286 @@
+@(recipeForm: Form[RecipeSubmit], photos: Seq[S3Photo] = Seq())(implicit request: RequestHeader, session: play.api.mvc.Session)
+
+@import views.html.helper._
+
+@input(fieldName: String, required: Boolean, label: String, hint: String, value: String, nId: String = "", dataType: String = "text") = {
+		
+		<div for="@recipeForm(fieldName).name">
+			<h4>@label @if(required){<span class="input_required">*</span>}</h4> 
+		</div>
+		<div class="hint">@hint</div>
+		<div>
+			<a id="@{recipeForm(fieldName).name+nId}" name="@{recipeForm(fieldName).name+nId}" type="text" class="form-poshytip2" data-placeholder="Enter your value" data-type="@dataType">@value</a>
+			@if(recipeForm(fieldName+nId).hasErrors){
+				<span class="error">@Messages(recipeForm(fieldName+nId).error.head.message)</span>
+			}
+			<input type="hidden" value="@value" name="@{recipeForm(fieldName).name+nId}"/>
+		</div>	
+		
+}
+
+@textarea(fieldName: String, required: Boolean, label: String, hint: String, value: String) = {
+	
+		<div for="@recipeForm(fieldName).name">
+			<h4>@label @if(required){<span class="input_required">*</span>}</h4> 
+			@if(recipeForm(fieldName).hasErrors){
+				<span class="error">@Messages(recipeForm(fieldName).error.head.message)</span>
+			}
+		</div>
+		<div class="hint">@hint</div>
+		</label>
+		<textarea  rows="5" cols="20" class="form-poshytip2" id="@{recipeForm(fieldName).name}" name="@{recipeForm(fieldName).name}" title="@hint">
+			@value
+		</textarea>
+}
+
+@selected(val1: String, val2: String) = {
+	@if(val1==val2) {
+		selected="selected"
+	} else {
+		""
+	}
+}
+
+@atOrEmpty(i: Int, photos: Seq[S3Photo]) = {
+	
+	@if(photos.length > i) {
+		@photos(i).getFullUrl
+	} else {
+		http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image
+	}	
+}
+
+@main("recipe-book") {
+
+<body>
+
+	<!-- MAIN -->
+	<div id="main">
+		
+		
+		<div class="row-fluid">
+			<div class="span12">			
+				<div class="center-in-span main-content-width">
+					
+					<div class="row-fluid">
+						<div class="span12">
+							<h3>@if(recipeForm("recipe.id").value.nonEmpty){EDIT}else{ADD} RECIPE</h3>
+						</div>
+						<div class="span12">
+							<h4>Use this form to @if(recipeForm("recipe.id").value.nonEmpty){edit your amazing}else{add a new exiting} recipe.</h4>
+						</div>
+					</div>
+					
+					<!-- form -->
+					@helper.form(action = routes.RecipeController.submitRecipe, 'enctype -> "multipart/form-data",  'id -> "recipeForm") {
+						
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.name", true, "Recipe Name", "Descriptive name that will make people to click on it", recipeForm("recipe.name").value.getOrElse(""))
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span12">
+								@textarea("recipe.shortDesc", true, "Short description", "Captative short description, that will show up in search results.", recipeForm("recipe.shortDesc").value.getOrElse(""))
+							</div>
+						</div>
+						<div class="row-fluid">
+							<div class="span12">
+							<h4><label for="phases">Phases <span class="input_required">*</span></label></h4>
+							</div>
+						</div>
+						<div class="row-fluid">	
+							@for(i <- 0 to 2) {
+								<div class="span4">
+									<div class="span12">
+										<h4><label for="phase">Phase @{i+1}</label></h4>
+										<div class="span12">
+			       							@input("recipe.phases["+i+"].description", true, "Description", "Water phase, Oil phase etc", recipeForm("recipe.phases["+i+"].description").value.getOrElse(""))
+			       							@input("recipe.phases["+i+"].ingredients", true, "Ingredients", "4 drops coconut oil, 20 gr shea butter, 3 drops tea tree etc.", 
+												repeat(recipeForm("recipe.phases["+i+"].ingredients")) { ing =>
+				                				Html(ing.value.getOrElse(""))
+				       						}.foldLeft("")((b,a)=>a+", "+b).dropRight(2),
+				       						"[0]")
+				       					</div>
+				       				</div>
+			       				</div>
+       						}	
+						</div>
+								
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.prepTime", true, "Prep Time", "How long does it take to prepare a recipe?", recipeForm("recipe.prepTime").value.getOrElse(""))
+							</div>
+						</div>
+						
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.readyIn", true, "Ready-In Time", "How long does it take for a recipe to be ready?", recipeForm("recipe.readyIn").value.getOrElse(""))
+							</div>
+						</div>
+							
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.recipeYield", true, "Recipe Yield", "The resulted quantity", recipeForm("recipe.recipeYield").value.getOrElse(""))
+							</div>
+						</div>
+							
+						<div class="row-fluid">
+							<div class="span12">
+								@textarea("recipe.directions", true, "Directions", "Enter the recipe itself.", recipeForm("recipe.directions").value.getOrElse(""))
+							</div>
+						</div>
+							
+						<div class="row-fluid">
+							<div class="span12">
+								<div for="level">Mastery level <span class="input_required">*</span></div>
+								<select name="recipe.level" class="selectpicker">
+								    <option @selected("beginner", recipeForm("recipe.level").value.getOrElse("")) value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
+								    <option data-divider="true"></option>
+								    <option @selected("intermediate", recipeForm("recipe.level").value.getOrElse("")) value="average" data-subtext="More complex tools and ingredients might be involved">Intermediate</option>
+								    <option data-divider="true"></option>
+								    <option @selected("advanced", recipeForm("recipe.level").value.getOrElse("")) value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Advanced</option>
+								</select>
+							</div>
+						</div>
+							
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.tags", true, "Tags", "Anti-aging, sunscreen etc.", 
+									repeat(recipeForm("recipe.tags"), min = 1) { ing =>
+	                					Html(ing.value.getOrElse(""))
+	       							}.foldLeft("")((b,a)=>a+", "+b).dropRight(2),
+	       							"[0]")
+							</div>
+						</div>
+							
+							<!-- file upload -->
+							<div class="row-fluid">
+								<label for="photos">Photos <span class="input_required">* (one minimum)</span>
+									
+									@if(recipeForm("recipe.photos").hasErrors){
+										<span class="error">@Messages(recipeForm("recipe.photos").error.head.message)</span>
+									}
+									
+								</label>	
+								@for(i <- 0 to 11) {
+									
+									@if(i < photos.length) {
+										<div class="fileupload fileupload-exists span3" data-provides="fileupload" id="@photos(i).key">
+											
+											<input type="hidden" value="@photos(i).key" name="@{"removed["+i+"].photoId"}" id="@{"removed["+i+"].photoId"}"/>
+											<input type="hidden" value="@photos(i).metadata.originKey" name="@{"removed["+i+"].originKey"}" id="@{"removed["+i+"].originKey"}"/>
+											<input type="hidden" value="false" name="@{"removed["+i+"].removedPhoto"}" id="@{"removed["+i+"].removedPhoto"}" class="removedPhoto"/>
+											
+											<div class="fileupload-new thumbnail" style="width: 200px; height: 80px;">
+												<img src="http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image" />
+											</div>	
+											<div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 80px;">
+												<img src="@photos(i).getFullUrl" />
+											</div>	
+											<div>
+												<span class="btn btn-file">
+													<span class="fileupload-new">Select image</span>
+													<span class="fileupload-exists">Change</span>
+													<input type="file" name="photo" multiple />
+												</span>
+												<a href="#" class="btn fileupload-exists removePhoto" data-dismiss="fileupload">Remove</a>
+											</div>
+										</div>	
+									} else {
+										<div class="fileupload fileupload-new span3" data-provides="fileupload">	
+											<div class="fileupload-new thumbnail" style="width: 200px; height: 80px;">
+												<img src="http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image" />
+											</div>	
+											<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; max-height: 80px; line-height: 20px;">
+											</div>	
+											<div>
+												<span class="btn btn-file">
+													<span class="fileupload-new">Select image</span>
+													<span class="fileupload-exists">Change</span>
+													<input type="file" name="photo" multiple />
+												</span>
+												<a href="#" class="btn fileupload-exists" data-dismiss="fileupload">Remove</a>
+											</div>
+										</div>
+									}	
+								}
+							</div>
+							<!-- end of file upload -->
+	
+							<!-- hidden -->
+							<input type="hidden" value="@recipeForm("recipe.id").value.getOrElse("-1")" name="recipe.id" id="recipe.id" />
+							<input type="hidden" value="@recipeForm("recipe.created").value.getOrElse(org.joda.time.format.ISODateTimeFormat.date().print(org.joda.time.DateTime.now()))" name="recipe.created" id="recipe.created" />
+							<input type="hidden" value="@recipeForm("recipe.by").value.getOrElse("Katrin")" name="recipe.by" id="recipe.by" />
+							<!-- ENDS hidden -->
+	
+							<p>
+								<div style="float: right;width: 100px;height: 20px;font-size: 18px" value="Submit" class="link-button" id="submit">Submit</div>
+								<!-- Meanwhile there is no general error -->
+								<span id="error" class="warning" style="visibility: hidden">Message</span>
+							</p>
+						
+	
+					}
+					<!-- Meanwhile this form is not ajax, so we it's not gettign back here if success -->
+					<p id="sent-form-msg" class="success" style="visibility: hidden">
+						Form data sent. Thanks for your comments.
+					</p>
+					<!-- ENDS form -->
+					
+				</div>				
+			</div>
+		</div>
+		
+
+	</div>
+	<!-- ENDS MAIN -->
+</body>
+<script>
+
+	function bindtoSubmit(e) {
+		e.preventDefault();
+		//var data = {};
+		//$('a.editable').each(function(){
+		//	var val = $(this).text();
+		//	if(val != 'Empty') {
+		//		data[$(this).attr('name')] = val;	
+		//	}
+		//});
+		$("#recipeForm").submit();
+		return false;
+	}
+	function bindtoPhotoRemove(e) {
+		e.preventDefault();
+		$(this).parent().siblings(".removedPhoto").val("true");
+		$(this).fileupload('clear');
+		return false;
+	}
+	
+	function displayXEditable(value) {
+		$(this).text(value);
+        $('input[name="'+$(this).attr('name')+'"]').val(value);
+    }
+	
+	$(function() {
+		$('#recipeForm #submit').bind('click', bindtoSubmit);
+		$('.removePhoto').bind('click', bindtoPhotoRemove);
+		//$('.selectpicker').selectpicker();
+		$.fn.editable.defaults.mode = 'inline';
+		var options = {display: displayXEditable};
+		$('#recipe\\.name').editable(options);
+		$('#recipe\\.phases\\[0\\]\\.description').editable(options);
+		$('#recipe\\.phases\\[0\\]\\.ingredients\\[0\\]').editable(options);
+		$('#recipe\\.phases\\[1\\]\\.description').editable(options);
+		$('#recipe\\.phases\\[1\\]\\.ingredients\\[0\\]').editable(options);
+		$('#recipe\\.phases\\[2\\]\\.description').editable(options);
+		$('#recipe\\.phases\\[2\\]\\.ingredients\\[0\\]').editable(options);
+		$('#recipe\\.prepTime').editable(options);
+		$('#recipe\\.readyIn').editable(options);
+		$('#recipe\\.recipeYield').editable(options);
+		$('#recipe\\.level').editable(options);
+		$('#recipe\\.tags\\[0\\]').editable(options);
+	});
+	
+</script>
+}
