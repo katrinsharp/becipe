@@ -147,7 +147,8 @@ object RecipeController extends Controller with MongoController {
 								"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.recipe.tags(0).split(",").map(_.trim()),
 								"rating" -> value.recipe.rating,
-								"photos" -> photos)).makeQueryDocument
+								"photos" -> photos
+								)).makeQueryDocument
 							newRecipe match {
 								case false => Application.recipeCollection.update(selector, modifier).map {
 									e => {

@@ -21,7 +21,7 @@ case class photos(key: String, originKey: String, isRemoved: Boolean)
 
 
 class S3Photo(
-		val bucket: String = S3Plugin.s3Bucket, 
+		val bucket: String = if(Application.useLocalStorage) "" else S3Plugin.s3Bucket, 
 		var key: String = UUID.randomUUID().toString() + ".jpg", 
 		var metadata: S3PhotoMetadata = S3PhotoMetadata.EMPTY) {
     
@@ -60,7 +60,7 @@ class S3Photo(
     					ImageIO.write(
     					image,
     					"jpg",
-    					new File("C:\\base\\source\\naturahub\\public\\img\\tmp\\" + key))
+    					new File("C:\\base\\source\\becipe\\public\\img\\tmp\\" + key))
     		}
     		case false => {
     			val objectMetadata = new ObjectMetadata()
