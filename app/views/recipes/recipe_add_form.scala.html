@@ -28,7 +28,7 @@
 		</div>
 		<div class="hint">@hint</div>
 		</label>
-		<textarea  rows="5" cols="20" class="form-poshytip2" id="@{recipeForm(fieldName).name}" name="@{recipeForm(fieldName).name}" title="@hint">
+		<textarea style="min-height: 200px" class="span12 form-poshytip2" id="@{recipeForm(fieldName).name}" name="@{recipeForm(fieldName).name}" title="@hint">
 			@value
 		</textarea>
 }
@@ -280,6 +280,7 @@
 		$('#recipe\\.recipeYield').editable(options);
 		$('#recipe\\.level').editable(options);
 		$('#recipe\\.tags\\[0\\]').editable(options);
+		$('textarea').wysihtml5();
 	});
 	
 </script>
