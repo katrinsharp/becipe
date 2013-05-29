@@ -12,6 +12,7 @@ GET		/recipe/search										controllers.Application.redirectToIndex
 # POST	/recipe/by											controllers.RecipeController.by(categories: List[String])
 GET		/recipe/add											controllers.RecipeController.add
 POST	/recipe/submitRecipe								controllers.RecipeController.submitRecipe
+GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 GET		/recipe/:id											controllers.RecipeController.get(id: String)
 
 # Signup

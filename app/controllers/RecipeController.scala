@@ -53,8 +53,9 @@ object RecipeController extends Controller with MongoController {
 					"ingredients" -> seq(text)
 					)(RecipePhase.apply)(RecipePhase.unapply)),			
 			"prepTime" -> nonEmptyText,	
-			"readyIn" -> nonEmptyText,
-			"recipeYield" -> nonEmptyText,			
+			"readyIn" -> optional(text),
+			"recipeYield" -> nonEmptyText,	
+			"supply" -> optional(text),
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> seq(nonEmptyText),
 			"rating" -> ignored(0),
@@ -142,8 +143,9 @@ object RecipeController extends Controller with MongoController {
 								"by" -> value.recipe.by,
 								"directions" -> value.recipe.directions.trim(),
 								"prepTime" -> value.recipe.prepTime,
-								"readyIn" -> value.recipe.readyIn,
+								"readyIn" -> value.recipe.readyIn.getOrElse[String](""),
 								"recipeYield" -> value.recipe.recipeYield,
+								"supply" -> value.recipe.supply.getOrElse[String](""),
 								"level" -> value.recipe.level,
 								"ingredients" -> (if(value.recipe.ingredients.isDefinedAt(0)) value.recipe.ingredients(0).split(",").map(_.trim()) else ""),
 								"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
@@ -180,6 +182,16 @@ object RecipeController extends Controller with MongoController {
 				} 
 			}
 		)
+	}
+  
+  	def edit(id: String) = Action { implicit request =>
+		Async {
+			val qb = QueryBuilder().query(Json.obj("id" -> id))
+			Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
+				val recipe = recipes.head.as[Recipe]
+				Ok(views.html.recipes.recipe_add_form(recipeForm.fill(RecipeSubmit(recipe)), recipe.photos.filter(_.metadata.typeOf == "slider")))
+			}
+		}
 	}
 	
   

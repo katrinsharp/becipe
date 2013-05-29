@@ -43,7 +43,7 @@
 								<a href="@routes.RecipeController.get(recipe.id)"><h3 class="heading">@recipe.name</h3></a>
 							</figcaption>
 							<div class="author">Posted By: @recipe.by</div>
-							<div class="rating"><img title="rating" src="@routes.Assets.at("img/rating/"+recipe.rating+".png")" alt="rating for @recipe.name" /></div>
+							<div class="rating" style="visibility: hidden"><img title="rating" src="@routes.Assets.at("img/rating/"+recipe.rating+".png")" alt="rating for @recipe.name" /></div>
 						</figure>
 					}
 					@if(i==0) {

@@ -128,13 +128,19 @@
 						
 						<div class="row-fluid">
 							<div class="span12">
-								@input("recipe.readyIn", true, "Ready-In Time", "How long does it take for a recipe to be ready?", recipeForm("recipe.readyIn").value.getOrElse(""))
+								@input("recipe.readyIn", false, "Ready-In Time", "How long does it take for a recipe to be ready?", recipeForm("recipe.readyIn").value.getOrElse(""))
 							</div>
 						</div>
 							
 						<div class="row-fluid">
 							<div class="span12">
 								@input("recipe.recipeYield", true, "Recipe Yield", "The resulted quantity", recipeForm("recipe.recipeYield").value.getOrElse(""))
+							</div>
+						</div>
+						
+						<div class="row-fluid">
+							<div class="span12">
+								@input("recipe.supply", false, "Supply", "For how long the recipe yield will be enough?", recipeForm("recipe.supply").value.getOrElse(""))
 							</div>
 						</div>
 							
@@ -297,6 +303,7 @@
 		$('#recipe\\.prepTime').editable(options);
 		$('#recipe\\.readyIn').editable(options);
 		$('#recipe\\.recipeYield').editable(options);
+		$('#recipe\\.supply').editable(options);
 		$('#recipe\\.level').editable(options);
 		$('#recipe\\.tags\\[0\\]').editable(options);
 		$('textarea').wysihtml5();
