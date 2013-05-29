@@ -45,11 +45,12 @@ object RecipeController extends Controller with MongoController {
 			"name" -> nonEmptyText,			
 			"shortDesc" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),			
 			"created" -> jodaDate("yyyy-MM-dd"),			
-			"by" -> nonEmptyText,			
-			"directions" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),			
+			"by" -> nonEmptyText,
+			"directions" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),
+			"ingredients" -> seq(text),
 			"phases" -> seq(mapping(
 					"description" -> text,
-					"ingredients" -> seq(nonEmptyText)
+					"ingredients" -> seq(text)
 					)(RecipePhase.apply)(RecipePhase.unapply)),			
 			"prepTime" -> nonEmptyText,	
 			"readyIn" -> nonEmptyText,
@@ -144,6 +145,7 @@ object RecipeController extends Controller with MongoController {
 								"readyIn" -> value.recipe.readyIn,
 								"recipeYield" -> value.recipe.recipeYield,
 								"level" -> value.recipe.level,
+								"ingredients" -> (if(value.recipe.ingredients.isDefinedAt(0)) value.recipe.ingredients(0).split(",").map(_.trim()) else ""),
 								"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.recipe.tags(0).split(",").map(_.trim()),
 								"rating" -> value.recipe.rating,

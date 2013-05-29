@@ -135,13 +135,21 @@
 						<!-- Ingredients -->
 						<h3>Ingredients</h3>
 						<div class="row-fluid">
-							@for(i <- 0 to recipe.phases.length - 1) {
-								<div class="span4">
-									<h4>Phase @{i+1}: @recipe.phases(i).description</h4>
-									@for(ing <- recipe.phases(i).ingredients) {
+							@if(recipe.ingredients.length != 0) {
+								<div class="span12">
+									@for(ing <- recipe.ingredients) {
 										<div>@ing</div>
 									}
 								</div>
+							} else {
+								@for(i <- 0 to recipe.phases.length - 1) {
+									<div class="span4">
+										<h4>Phase @{i+1}: @recipe.phases(i).description</h4>
+										@for(ing <- recipe.phases(i).ingredients) {
+											<div>@ing</div>
+										}
+									</div>
+								}
 							}
 						</div>
 						<!-- End of Ingredients -->

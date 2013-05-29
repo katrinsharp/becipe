@@ -28,7 +28,7 @@
 		</div>
 		<div class="hint">@hint</div>
 		</label>
-		<textarea style="min-height: 200px" class="span12 form-poshytip2" id="@{recipeForm(fieldName).name}" name="@{recipeForm(fieldName).name}" title="@hint">
+		<textarea style="height: 200px" class="span12 form-poshytip2" id="@{recipeForm(fieldName).name}" name="@{recipeForm(fieldName).name}" title="@hint">
 			@value
 		</textarea>
 }
@@ -84,27 +84,40 @@
 								@textarea("recipe.shortDesc", true, "Short description", "Captative short description, that will show up in search results.", recipeForm("recipe.shortDesc").value.getOrElse(""))
 							</div>
 						</div>
-						<div class="row-fluid">
+						
+						<div class="row-fluid" id="ingredients">
 							<div class="span12">
-							<h4><label for="phases">Phases <span class="input_required">*</span></label></h4>
-							</div>
+	       						@input("recipe.ingredients", false, "Ingredients", "4 drops coconut oil, 20 gr shea butter, 3 drops tea tree etc.", 
+									repeat(recipeForm("recipe.ingredients")) { ing =>
+		                				Html(ing.value.getOrElse(""))
+		       						}.foldLeft("")((b,a)=>a+", "+b).dropRight(2),
+		       						"[0]")
+		       				</div>	
 						</div>
-						<div class="row-fluid">	
-							@for(i <- 0 to 2) {
-								<div class="span4">
-									<div class="span12">
-										<h4><label for="phase">Phase @{i+1}</label></h4>
+						
+						<div id="phases" style="display: none">
+							<div class="row-fluid">
+								<div class="span12">
+								<h4>Phases</h4>
+								</div>
+							</div>
+							<div class="row-fluid">	
+								@for(i <- 0 to 2) {
+									<div class="span4">
 										<div class="span12">
-			       							@input("recipe.phases["+i+"].description", true, "Description", "Water phase, Oil phase etc", recipeForm("recipe.phases["+i+"].description").value.getOrElse(""))
-			       							@input("recipe.phases["+i+"].ingredients", true, "Ingredients", "4 drops coconut oil, 20 gr shea butter, 3 drops tea tree etc.", 
-												repeat(recipeForm("recipe.phases["+i+"].ingredients")) { ing =>
-				                				Html(ing.value.getOrElse(""))
-				       						}.foldLeft("")((b,a)=>a+", "+b).dropRight(2),
-				       						"[0]")
-				       					</div>
+											<h4>Phase @{i+1}</h4>
+											<div class="span12">
+				       							@input("recipe.phases["+i+"].description", true, "Description", "Water phase, Oil phase etc", recipeForm("recipe.phases["+i+"].description").value.getOrElse(""))
+				       							@input("recipe.phases["+i+"].ingredients", true, "Ingredients", "4 drops coconut oil, 20 gr shea butter, 3 drops tea tree etc.", 
+													repeat(recipeForm("recipe.phases["+i+"].ingredients")) { ing =>
+					                				Html(ing.value.getOrElse(""))
+					       						}.foldLeft("")((b,a)=>a+", "+b).dropRight(2),
+					       						"[0]")
+					       					</div>
+					       				</div>
 				       				</div>
-			       				</div>
-       						}	
+	       						}	
+							</div>
 						</div>
 								
 						<div class="row-fluid">
@@ -247,6 +260,11 @@
 		//		data[$(this).attr('name')] = val;	
 		//	}
 		//});
+		if($('#ingredients').css('display')=='none') {
+			$('#ingredients').find('input').remove();
+		} else {
+			$('#phases').find('input').remove();
+		}
 		$("#recipeForm").submit();
 		return false;
 	}
@@ -270,6 +288,7 @@
 		var options = {display: displayXEditable};
 		$('#recipe\\.name').editable(options);
 		$('#recipe\\.phases\\[0\\]\\.description').editable(options);
+		$('#recipe\\.ingredients\\[0\\]').editable(options);
 		$('#recipe\\.phases\\[0\\]\\.ingredients\\[0\\]').editable(options);
 		$('#recipe\\.phases\\[1\\]\\.description').editable(options);
 		$('#recipe\\.phases\\[1\\]\\.ingredients\\[0\\]').editable(options);

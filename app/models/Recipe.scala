@@ -17,6 +17,7 @@ case class Recipe(
 		created: DateTime, 
 		by: String, 
 		directions: String, 
+		ingredients: Seq[String],
 		phases: Seq[RecipePhase],
 		prepTime: String,
 		readyIn: String,
@@ -26,7 +27,7 @@ case class Recipe(
 		rating: Int,
 		photos: Seq[S3Photo])
 
-object Recipe extends Function14[String, String, String, DateTime, String, String, Seq[RecipePhase], String, String, String, String, Seq[String], Int, Seq[S3Photo], Recipe] {
+object Recipe extends Function15[String, String, String, DateTime, String, String, Seq[String], Seq[RecipePhase], String, String, String, String, Seq[String], Int, Seq[S3Photo], Recipe] {
 	implicit val recipeWrites = Json.writes[Recipe]
 	implicit val recipeReads = Json.reads[Recipe]
 }
