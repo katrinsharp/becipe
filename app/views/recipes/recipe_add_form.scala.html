@@ -233,15 +233,17 @@
 							<input type="hidden" value="@recipeForm("recipe.by").value.getOrElse("Katrin")" name="recipe.by" id="recipe.by" />
 							<!-- ENDS hidden -->
 	
-							<p>
-								<div style="float: right;width: 100px;height: 20px;font-size: 18px" value="Submit" class="link-button" id="submit">Submit</div>
-								<!-- Meanwhile there is no general error -->
-								<span id="error" class="warning" style="visibility: hidden">Message</span>
-							</p>
+							<div class="row-fluid margin-top-20">
+								<div class="span2 offset9">
+									<div value="Submit" class="link-button green text-center call-to-action" id="submit">Submit</div>
+									<!-- Meanwhile there is no general error -->
+									<span id="error" class="warning" style="visibility: hidden">Message</span>
+								</div>
+							</div>
 						
 	
 					}
-					<!-- Meanwhile this form is not ajax, so we it's not gettign back here if success -->
+					<!-- Meanwhile this form is not ajax, so we it's not getting back here if success -->
 					<p id="sent-form-msg" class="success" style="visibility: hidden">
 						Form data sent. Thanks for your comments.
 					</p>
