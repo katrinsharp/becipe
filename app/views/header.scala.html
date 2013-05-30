@@ -10,7 +10,7 @@
             <span class="icon-bar"></span>
           </button>
 		  <a href="@routes.Application.index()">
-		  	<img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo" style="margin-bottom: -55px">
+		  	<img id="logo" src="@routes.Assets.at("img/logo.png")" alt="Becipe logo"> <!-- style="margin-bottom: -55px" -->
 		  </a>
           <div class="nav-collapse collapse menu-inner">
           	<ul class="nav pull-right">
@@ -144,7 +144,7 @@
 					</a>
 				  </li>	
             </ul>
-            <ul>
+            <ul>	
             <span class="pull-right">
             	<ul id="social-menu" class="cf">
             		@views.html.social_menu()
@@ -154,6 +154,7 @@
               FOLLOW US &nbsp;
             </p-->
           </div><!--/.nav-collapse -->
+          <a href="@routes.Application.signup()"><span class="navbar-text pull-right call-to-action link-button green">Request Invite</span></a>
         </div>
       </div>
     </div>
