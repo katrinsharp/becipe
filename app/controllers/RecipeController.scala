@@ -59,6 +59,7 @@ object RecipeController extends Controller with MongoController {
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> seq(nonEmptyText),
 			"rating" -> ignored(0),
+			"draft" -> optional(boolean),
 			"photos" -> ignored(Seq[S3Photo]())
 			)(Recipe.apply)(Recipe.unapply),
 			"removed" -> seq(mapping(
@@ -151,6 +152,7 @@ object RecipeController extends Controller with MongoController {
 								"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.recipe.tags(0).split(",").map(_.trim()),
 								"rating" -> value.recipe.rating,
+								//"draft" -> value.recipe.draft,
 								"photos" -> photos
 								)).makeQueryDocument
 							newRecipe match {
@@ -248,8 +250,10 @@ object RecipeController extends Controller with MongoController {
 			value => {
 			  Logger.debug(value.toString)
 			  
-			  val queryValues = value.query.getOrElse("").split(" ") 
-			  val tags = List(Json.obj("level" -> value.level.getOrElse("").toString()))++
+			  val queryValues = value.query.getOrElse("").split(" ")
+			  
+			  val tags = List(Json.obj("draft" -> Json.obj("$ne" -> true)))++ 
+			    List(Json.obj("level" -> value.level.getOrElse("").toString()))++
 			    value.categories.map(x=>Json.obj("tags" -> x))++
 			  (if(queryValues(0).length()!=0){
 			    queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++

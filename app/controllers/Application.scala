@@ -34,7 +34,7 @@ object Application extends Controller with MongoController{
 	def index = Action { implicit request =>
 		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse(""))
 		Async {
-			val qb = QueryBuilder().query(Json.obj())
+			val qb = QueryBuilder().query(Json.obj("draft" -> Json.obj("$ne" -> true)))
 			Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
 				Ok(views.html.index(recipes.map(r => r.as[Recipe])))
 			}
