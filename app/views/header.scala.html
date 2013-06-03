@@ -178,6 +178,12 @@
 	//function 
 	
 	$(function() { 
+		
+		if($.cookie('becipe-first-iteration-visit') == undefined) {
+			$.cookie('becipe-first-iteration-visit', '1', {expires: 720, path: '/'});
+			ga('set', 'metric2', firstVisit);
+		}
+		
 		var i = 0;
 		$('#searchBtn').click(function(){
 			var query = '';
