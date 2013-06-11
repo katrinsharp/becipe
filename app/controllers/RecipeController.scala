@@ -252,8 +252,7 @@ object RecipeController extends Controller with MongoController {
 			  
 			  val queryValues = value.query.getOrElse("").split(" ")
 			  
-			  val tags = List(Json.obj("draft" -> Json.obj("$ne" -> true)))++ 
-			    List(Json.obj("level" -> value.level.getOrElse("").toString()))++
+			  val tags = List(Json.obj("level" -> value.level.getOrElse("").toString()))++
 			    value.categories.map(x=>Json.obj("tags" -> x))++
 			  (if(queryValues(0).length()!=0){
 			    queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
@@ -262,12 +261,12 @@ object RecipeController extends Controller with MongoController {
 			    queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
 			  	} else List(Json.obj("tags" -> ("__dummy"))))
 			  	
-			  
+			  val searchQuery = Json.obj("$and" -> (List(Json.obj("draft" -> Json.obj("$ne" -> true)))++List(Json.obj("$or" -> tags))))
 			  		  
 			  Logger.debug(tags.toString())
 			 
 			Async {
-				val qb = QueryBuilder().query(Json.obj("$or" -> tags))
+				val qb = QueryBuilder().query(searchQuery)
 				Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
 					Ok(views.html.index(recipes.map(r => r.as[Recipe]), value.level.getOrElse("all")))
 				}
