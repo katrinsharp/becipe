@@ -29,7 +29,7 @@
 		
 		
 		<div class="row-fluid">
-			<div class="span12 navbar-fixed-top slider-container">
+			<div class="span12 slider-container">
 				<!-- slider -->
 				<div class="center-in-span main-content-width">
 					<div class="flexslider">
@@ -213,17 +213,17 @@
 
 	$(function() {
 		 $('.flexslider').flexslider({
-    		animation: "slide",
-    		start: function() {
-            	setMargins();
-        	}
+    		animation: "slide"//,
+    		//start: function() {
+            //	setMargins();
+        	//}
   		});
-  		$(window).resize(function() {
-		 	if($(".menu-inner > ul > li.search-dropdown").hasClass('open')) {
-		 		$(".menu-inner > ul > li.search-dropdown > a").click();
-		 	}
-		 	setMargins();
-		});
+  		//$(window).resize(function() {
+		//	if($(".menu-inner > ul > li.search-dropdown").hasClass('open')) {
+		// 		$(".menu-inner > ul > li.search-dropdown > a").click();
+		// 	}
+		// 	setMargins();
+		//});
 		$(".rate-trigger").hover(function(){
 				$('.rate-it-image').css('display', '');
 				$('.rated-image').addClass('rated-image-on-hover');
