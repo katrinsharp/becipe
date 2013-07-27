@@ -1,0 +1,15 @@
+<!--figure style="height: auto;background: #fff !important;font-size: 18px;line-height: 25px;"-->
+	<div class="recipe">
+		<div class="image">
+			<img src="https://s3.amazonaws.com/<%= _.find(recipe.photos, function(photo){ return photo.metadata.typeOf == 'preview'; }).bucket%>/<%=_.find(recipe.photos, function(photo){ return photo.metadata.typeOf == 'preview'; }).key%>"/>
+		</div>
+		<div class="details">
+			<div>
+				<div>
+					<a href="#recipes/<%= recipe.id %>">
+					<%= recipe.name %>
+				</div>
+			</div>
+		</div>
+	</div>
+<!--/figure-->
