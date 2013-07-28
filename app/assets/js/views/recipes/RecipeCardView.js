@@ -9,13 +9,13 @@ define([
     
     initialize: function(options) {
 		this.model = options.model;
-		this.setElement(options.el).render();
+		this.setElement(options.el);//.render();
     },
 
     render: function() {
 		var compiledTemplate = _.template(recipeCardTemplate);
 		this.$el.html(compiledTemplate({recipe: this.model.attributes}));
-		return this;
+		//return this;
 	}
 
   });

@@ -4,11 +4,9 @@ define([
 
 	var RecipeModel = Backbone.Model.extend({
 	
-		initialize: function() {
-  		},
-		url : function() {
-			return 'data/recipe.json';//add id to query
-	    }
+		initialize: function(options) {
+			this.value = options.value;
+  		}
     });
 
   	return RecipeModel;

@@ -8,7 +8,7 @@ define([
   'collections/recipes/RecipeCollection',
   'text!templates/home/homeTemplate.html',
   'views/recipes/RecipeCardView'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, RecipeCollection, headerTemplate, RecipeCardView){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, RecipeCollection, homeTemplate, RecipeCardView){
 
   var HomeView = Backbone.View.extend({
     
@@ -16,13 +16,13 @@ define([
 
     initialize: function() {
 	
-		this.collection = new RecipeCollection();
+		this.recipeCollection = new RecipeCollection();
 		this.render();
     },
 
     render: function(){
 
-		var compiledTemplate = _.template(headerTemplate);
+		var compiledTemplate = _.template(homeTemplate);
 		this.$el.html(compiledTemplate);
 		var $container = $('#filter-container');	
 		
@@ -88,10 +88,10 @@ define([
   		});
 		
 		var that = this, p;
-        p = this.collection.fetch();
+        p = this.recipeCollection.fetch();
         p.done(function () {
 			var placeholders = $container.find(RecipeCardView.selector);
-            _.each(that.collection.models, function (item, i) {
+            _.each(that.recipeCollection.models, function (item, i) {
 				new RecipeCardView({model: item, el: placeholders[i]}).render();
 				//$(placeholders[i]).parent().replace(placeholders[i], new RecipeCardView(item).render().$el);
 				//$container.append(new RecipeCardView(item).render().el);

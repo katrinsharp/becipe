@@ -5,7 +5,7 @@ body {
 	background: @bodyColor url(../../img/bg_texture.png);
 	background-color: @bodyColor;
 	font: 16px/18px Arial, Verdana, Georgia, 'Lato', Geneva, Arial, Helvetica, sans-serif;
-	word-break: break-all;
+	/*word-break: break-all;*/
 }
 
 a img,
@@ -31,6 +31,10 @@ a:hover {
 	margin-top: 10px;
 }
 
+.padding-top-8 {
+  padding-top: 8px;
+}
+
 .float-right {
 	float: right; 
 }
@@ -52,6 +56,64 @@ div.row-fluid [class*="span"].center-in-span {
    display: block; 
    width:auto; 
    height:auto;
+}
+
+/*
+ * CHECKBOX
+ */
+.checkboxlist {
+    float: left;
+    list-style: none;
+    label {
+      cursor: pointer;
+    }
+    li {
+      display: block;
+      float: left;
+    }
+}
+
+.checkbox {
+    padding-left: 0;
+    margin-left: 0;
+}
+
+.checkbox label {
+    cursor: pointer;
+    display: inline-block;
+    font-size: 13px;
+    margin-right: 15px;
+    padding-left: 25px;
+    position: relative;
+    margin-bottom: 0;
+    font-family: Georgia;
+    font-style: italic;
+    color: black;
+}
+
+.checkbox input[type=checkbox] {
+  display: none;
+}
+
+.checkbox input[type="checkbox"] + label:before {
+   background-color: @bodyColor;
+   border: 1px solid #ddd;
+   content: "";
+   height: 16px;
+   width: 16px;
+   left: 0;
+   position: absolute;
+}
+
+.checkbox input[type="checkbox"]:checked + label:before {
+    background-color: @deepOrangeColor;
+    border: 1px solid @deepOrangeColor;
+    color: @bodyColor;
+    content: "\2713";
+    font-size: 11px;
+    font-weight: bold;
+    line-height: 15px;
+    text-align: center;
 }
 
 /*
@@ -237,7 +299,7 @@ div.row-fluid [class*="span"].center-in-span {
 	background-color: @bodyColor;
 	z-index: 1029;
 	.header-search-inner {
-		padding: 31px 0 24px;
+		padding: 31px 0 16px;
 		input {
 			font-family: Georgia;
 			font-style: italic;

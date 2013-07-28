@@ -4,8 +4,9 @@ define([
   'backbone',
   'bootstrap',
   'views/social/SocialSiteView',
-  'text!templates/header/headerTemplate.html'
-], function($, _, Backbone, Bootstrap, SocialSiteView, headerTemplate){
+  'text!templates/header/headerTemplate.html',
+  'views/filters/RecipesFiltersView'
+], function($, _, Backbone, Bootstrap, SocialSiteView, headerTemplate, RecipesFiltersView){
 
   var HeaderView = Backbone.View.extend({
     
@@ -20,6 +21,9 @@ define([
       this.$el.html(compiledTemplate);
 	  this.socialSiteView = new SocialSiteView();
 	  this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
+	  this.recipesFiltersView = new RecipesFiltersView();
+	  this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
+	  
     }
 
   });
