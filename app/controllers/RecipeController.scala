@@ -273,5 +273,24 @@ object RecipeController extends Controller with MongoController {
 		   }
 		})
   }
+  
+  def homepagerecipes()= Action { implicit request =>
+  	Async {
+    	val qbAll = QueryBuilder().query(Json.obj("draft" -> Json.obj("$ne" -> true)))
+    	Application.recipeCollection.find[JsValue](qbAll).toList(9).map  { relatedRecipes =>
+			Ok(Json.toJson(relatedRecipes))
+		}
+     }
+  }
+  
+  def getAsJson(id: String) = Action { implicit request =>
+    
+    Async {
+			val qb = QueryBuilder().query(Json.obj("id" -> id))
+			Application.recipeCollection.find[JsValue](qb).toList.map  { l =>
+				Ok(Json.toJson(l.head))
+			}
+		}
+  }
 
 }

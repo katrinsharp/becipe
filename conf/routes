@@ -20,6 +20,11 @@ GET		/signup												controllers.Application.signup
 POST	/signup												controllers.Application.submitSignup
 GET		/signup/thank-you/:name								controllers.Application.signupThankyou(name: String)
 
+# API
+# get play 2.2 for supporting dynamic part in the middle
+GET		/api/0.1/homepagerecipes							controllers.RecipeController.homepagerecipes()
+GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
+
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes
 
