@@ -5,7 +5,7 @@ define([
 	var RecipeCollection = Backbone.Collection.extend({
 		model: RecipeModel,
 		url : function() {
-			return 'data/homepagerecipes.json';
+			return 'api/0.1/homepagerecipes.json';
 	    },
 		parse : function(res) {
 			return res;
