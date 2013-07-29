@@ -5,21 +5,22 @@ define([
   'backbone',
   'views/home/HomeView',
   'views/signup/SignupView',
+  'views/signup/SignupThankyouView',
   'views/recipes/RecipePageView',
   'views/header/HeaderView',
   'views/footer/FooterView'
-], function($, _, Backbone, HomeView, SignupView, RecipePageView, HeaderView, FooterView) {
+], function($, _, Backbone, HomeView, SignupView, SignupThankyouView, RecipePageView, HeaderView, FooterView) {
   
   var AppRouter = Backbone.Router.extend({
     routes: {
 	  '': 'showHome',
-	  'create-recipe': 'signup',
-	  'login': 'signup',
+	  //'create-recipe': 'signup',
+	  //'login': 'signup',
 	  'signup': 'signup',
-	  'login': 'signup',
-	  'recipes/:id': "recipeDetails"
+	  'signup-thankyou/:name': 'signupThankyou',
+	  'recipe/:id': "recipeDetails",
       // Default
-      //'*actions': 'defaultAction'
+      '*actions': 'defaultAction'
     }
   });
   
@@ -36,15 +37,22 @@ define([
 		signupView.render();
     });
 	
+	app_router.on('route:signupThankyou', function(name){
+        var signupThankyouView = new SignupThankyouView({name: name});
+		signupThankyouView.render();
+    });
+	
 	app_router.on('route:recipeDetails', function(id){
         var recipePageView = new RecipePageView({id: id});
 		recipePageView.render();
     });
-
+	
     app_router.on('route:defaultAction', function (actions) {
      
-       // We have no matching route, lets display the home page 
-        var homeView = new HomeView();
+		// We have no matching route, lets display the home page 
+		// var homeView = new HomeView();
+		var signupView = new SignupView();
+		signupView.render();
     });
 
     // Unlike the above, we don't call render on this view as it will handle

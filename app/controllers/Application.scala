@@ -73,6 +73,28 @@ object Application extends Controller with MongoController{
 			})
 	}
 	
+	def newSignup = Action {  implicit request =>
+	  signupForm.bindFromRequest.fold(
+			formWithErrors => {
+			  Logger.debug(formWithErrors.toString)
+			  BadRequest 
+			},
+			value => {
+			  Logger.debug(value.toString)
+			  val modifier = QueryBuilder().query(Json.obj(
+						"firstName" -> value.firstName,
+						"lastName" -> value.lastName,
+						"email" -> value.email,
+						"response" -> "0",
+						"created" -> DateTime.now())).makeQueryDocument 
+			  Async { 
+			  	Application.signupsCollection.insert(modifier).map {
+				  e => if(e.ok) Ok("") else BadRequest(e.toString)  
+			  	}
+			  }
+			})
+	}
+	
 	def signup = Action { implicit request =>
 	  Ok(views.html.signup.form())
 	}

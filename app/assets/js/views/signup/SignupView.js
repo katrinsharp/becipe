@@ -16,6 +16,9 @@ define([
 				em: "Email"
 			};
 		},
+		url: function() {
+			return '/api/0.1/signup/add';
+		},
 		validateEmail: function(email) {
 			var splitted = email.match("^(.+)@(.+)$");
 			if (splitted == null) return false;
@@ -110,7 +113,14 @@ define([
 	},
 	
 	signup: function(e) {
-		this.model.save();
+		this.model.save({id: undefined}, {
+			success: function (model, response) {
+				window.location.hash = 'signup-thankyou/'+ model.get('fn');
+			},
+			error: function (model, response) {
+				alert("Something went wrong -:(. Please try again.");
+			}
+		});
 		return false;  
 	}
 

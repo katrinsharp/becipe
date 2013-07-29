@@ -8,7 +8,7 @@ define([
 		initialize: function() {
   		},
 		url : function() {
-			return 'data/recipe.json';//add id to query
+			return 'dummy';
 	    }
     });
 

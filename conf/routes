@@ -24,6 +24,7 @@ GET		/signup/thank-you/:name								controllers.Application.signupThankyou(name:
 # get play 2.2 for supporting dynamic part in the middle
 GET		/api/0.1/homepagerecipes							controllers.RecipeController.homepagerecipes()
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
+POST	/api/0.1/signup/add									controllers.Application.newSignup
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes
