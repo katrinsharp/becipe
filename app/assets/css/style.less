@@ -88,8 +88,8 @@ div.row-fluid [class*="span"].center-in-span {
     margin-bottom: 0;
     font-family: Georgia;
     font-style: italic;
-    color: @headerCheckboxLabelColor;
-	text-shadow: 0 1px 1px #fff;
+    color: @darkGreyColor;
+	text-shadow: @textShadow;
 }
 
 .checkboxlist {
@@ -496,7 +496,7 @@ input:active, input:focus {
 				position:relative;
 				float:left;
 				width: 417.5px;/*427.5, 570px;*/
-				height: 262.5px;/*350px;*/
+				height: 313.5px;/*350px;*/
 				color: #fff;
 				div.wait {
 				  width: 32px;
@@ -514,11 +514,19 @@ input:active, input:focus {
 				div {
 					padding: 7.5px;/*10px;*/
 					div {
-						color: #999;
-						font-weight: bold;
+						a {
+							color: @darkGreyColor;
+							&:hover {
+								color: @deepOrangeColor;
+							}
+						}
 						font-size: 21px;
-						text-transform: uppercase;
-						line-height: 21px;
+						line-height: 23px;
+						text-transform: lowercase;
+						&:first-letter {
+							text-transform: capitalize;
+						}
+						font-style: italic;
 					}
 				}
 			}
