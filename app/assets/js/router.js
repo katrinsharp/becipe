@@ -23,7 +23,8 @@ define([
 		  //ga('create', 'UA-40585181-1', {'cookieDomain': 'none'});
 		  var url = document.URL;	
 		  if(true || url.indexOf("becipe.com") != -1 || url.indexOf("becipe-staging.herokuapp.com") != -1) { 
-		  	ga('create', 'UA-40585181-1', 'becipe.com');
+		  	//ga('create', 'UA-40585181-1', 'becipe.com');
+			ga('create', 'UA-40585181-1');
 			//DEBUG: ga('create', 'UA-40585181-1', 'none');
 		  	var signupIter = $.cookie('becipe-signup-iteration');
 		  	if(signupIter != undefined) {
