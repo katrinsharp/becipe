@@ -83,8 +83,10 @@ define([
 		
 		$('.flexslider').flexslider({
     		animation: "slide",
-    		slideshow: false,
-    		directionNav: false	
+    		directionNav: true,
+			slideshow: true,	
+			controlNav: false,
+			slideshowSpeed: 4000
   		});
 		
 		var that = this, p;
