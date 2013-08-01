@@ -1,9 +1,10 @@
 define([
   'backbone',
   'moment',
+  'views/BaseView',
   'models/recipes/RecipeModel',
   'text!templates/recipes/recipePageTemplate.html'
-], function(Backbone, Moment, RecipeModel, recipePageTemplate){
+], function(Backbone, Moment, BaseView, RecipeModel, recipePageTemplate){
 
 	var viewHelpers = {
 		date: function(time){
@@ -12,12 +13,13 @@ define([
 		}
 	}
 
-  var RecipePageView = Backbone.View.extend({
+  var RecipePageView = BaseView.extend({
   
 	el: $("#body-container"),
     
     initialize: function(options) {
 		this.model = new RecipeModel(options);
+		BaseView.prototype.initialize.apply();
     },
 
     render: function() {

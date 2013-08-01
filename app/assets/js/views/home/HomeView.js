@@ -5,19 +5,20 @@ define([
   'bootstrap',
   'flexslider',
   'isotope',
+  'views/BaseView',
   'collections/recipes/RecipeCollection',
   'text!templates/home/homeTemplate.html',
   'views/recipes/RecipeCardView'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, RecipeCollection, homeTemplate, RecipeCardView){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, BaseView, RecipeCollection, homeTemplate, RecipeCardView){
 
-  var HomeView = Backbone.View.extend({
+  var HomeView = BaseView.extend({
     
 	el: $("#body-container"),
 
     initialize: function() {
-	
 		this.recipeCollection = new RecipeCollection();
 		this.render();
+		BaseView.prototype.initialize.apply();
     },
 
     render: function(){

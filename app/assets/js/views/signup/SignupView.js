@@ -3,9 +3,10 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'views/BaseView',
   'views/social/SocialSiteView',
   'text!templates/signup/signupTemplate.html'
-], function($, _, Backbone, Bootstrap, SocialSiteView, signupTemplate){
+], function($, _, Backbone, Bootstrap, BaseView, SocialSiteView, signupTemplate){
 
    var SignupDetails = Backbone.Model.extend({
 
@@ -62,7 +63,7 @@ define([
 		}
 	});		
 
-  var SignupView = Backbone.View.extend({
+  var SignupView = BaseView.extend({
     el: $("#body-container"),
 	
 	model: new SignupDetails(),
@@ -75,6 +76,7 @@ define([
 	},
 	
     initialize: function() {
+		BaseView.prototype.initialize.apply();
     },
 	
 	change: function() {
