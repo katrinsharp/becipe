@@ -8,9 +8,10 @@ define([
   'views/signup/SignupView',
   'views/signup/SignupThankyouView',
   'views/recipes/RecipePageView',
+  'views/about/AboutUsView',
   'views/header/HeaderView',
   'views/footer/FooterView'
-], function($, _, Backbone, Cookie, HomeView, SignupView, SignupThankyouView, RecipePageView, HeaderView, FooterView) {
+], function($, _, Backbone, Cookie, HomeView, SignupView, SignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
 
 	var initAnalytics = function() {
 	
@@ -53,7 +54,8 @@ define([
 		  //'login': 'signup',
 		  'signup': 'signup',
 		  'signup-thankyou/:name': 'signupThankyou',
-		  'recipe/:id': "recipeDetails",
+		  'recipe/:id': 'recipeDetails',
+		  'about-us': 'aboutUs',
 		  // Default
 		  '*actions': 'defaultAction'
 		}
@@ -80,6 +82,11 @@ define([
 	app_router.on('route:recipeDetails', function(id){
         var recipePageView = new RecipePageView({id: id});
 		recipePageView.render();
+    });
+	
+	app_router.on('route:aboutUs', function(id){
+        var aboutUsView = new AboutUsView();
+		aboutUsView.render();
     });
 	
     app_router.on('route:defaultAction', function (actions) {
