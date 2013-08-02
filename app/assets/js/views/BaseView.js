@@ -9,6 +9,16 @@ define([
 	
     initialize: function() {
 		if(typeof ga == 'function') {
+			var signupIter = $.cookie('becipe-signup-iteration');
+		  	if(signupIter != undefined) {
+		  		console.log('signupIter: ' + signupIter);
+		  		ga('set', 'metric1', signupIter);
+		  	}
+		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
+			if(firstVisit != undefined) {
+				console.log('firstVisit: ' + firstVisit);
+				ga('set', 'metric2', firstVisit);
+			}
 			var pathWithHash = (location.pathname + location.hash).replace('#', '');
 			console.log(pathWithHash);
 		  	ga('send', 'pageview', pathWithHash);

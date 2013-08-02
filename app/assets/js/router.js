@@ -23,21 +23,13 @@ define([
 		  //ga('create', 'UA-40585181-1', {'cookieDomain': 'none'});
 		  var url = document.URL;	
 		  if(true || url.indexOf("becipe.com") != -1 || url.indexOf("becipe-staging.herokuapp.com") != -1) { 
-		  	//ga('create', 'UA-40585181-1', 'becipe.com');
 			ga('create', 'UA-40585181-1');
 			//DEBUG: ga('create', 'UA-40585181-1', 'none');
-		  	var signupIter = $.cookie('becipe-signup-iteration');
-		  	if(signupIter != undefined) {
-		  		console.log(signupIter);
-		  		ga('set', 'metric1', signupIter);
-		  	}
 		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
 			if(firstVisit == undefined) {
 				firstVisit = 2;
 				$.cookie('becipe-first-iteration-visit', firstVisit, {expires: 720, path: '/'});
 			}
-			console.log(firstVisit);
-			ga('set', 'metric2', firstVisit);
 		  	//crazy egg
 			setTimeout(function(){var a=document.createElement("script");
 			var b=document.getElementsByTagName("script")[0];
