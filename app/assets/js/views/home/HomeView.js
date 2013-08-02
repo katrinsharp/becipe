@@ -15,7 +15,8 @@ define([
     
 	el: $("#body-container"),
 
-    initialize: function() {
+    initialize: function(options) {
+		this.pageType = options.pageType;//homepage or search
 		this.recipeCollection = new RecipeCollection();
 		this.render();
 		BaseView.prototype.initialize.apply();
@@ -90,15 +91,28 @@ define([
 			slideshowSpeed: 4000
   		});
 		
-		var that = this, p;
-        p = this.recipeCollection.fetch();
+		var that = this, p, query;
+		if(this.pageType=='homepage') {
+			query = this.pageType;
+		} else {
+			$container.empty();
+			query = $('input[name=query]').val();
+		}
+		p = this.recipeCollection.fetch({data: $.param({query: query})});
         p.done(function () {
-			var placeholders = $container.find(RecipeCardView.selector);
-            _.each(that.recipeCollection.models, function (item, i) {
-				new RecipeCardView({model: item, el: placeholders[i]}).render();
-				//$(placeholders[i]).parent().replace(placeholders[i], new RecipeCardView(item).render().$el);
-				//$container.append(new RecipeCardView(item).render().el);
-            });
+			if(that.pageType=='homepage') {
+				var placeholders = $container.find(RecipeCardView.selector);
+				_.each(that.recipeCollection.models, function (item, i) {
+					new RecipeCardView({model: item, el: placeholders[i]}).render();
+					//$(placeholders[i]).parent().replace(placeholders[i], new RecipeCardView(item).render().$el);
+					//$container.append(new RecipeCardView(item).render().el);
+				});
+			} else {
+				_.each(that.recipeCollection.models, function (item, i) {
+					$container.append('<figure class="placeholder"></figure>');
+					new RecipeCardView({model: item, el: $container.find('figure.placeholder').last()}).render();
+				});
+			}
 			$container.isotope();
         });
 		

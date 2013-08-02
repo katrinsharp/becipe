@@ -274,14 +274,46 @@ object RecipeController extends Controller with MongoController {
 		})
   }
   
-  def homepagerecipes()= Action { implicit request =>
+  private def homepagerecipes = {
   	Async {
     	val qbAll = QueryBuilder().query(Json.obj("draft" -> Json.obj("$ne" -> true)))
-    	Application.recipeCollection.find[JsValue](qbAll).toList(9).map  { relatedRecipes =>
-			Ok(Json.toJson(relatedRecipes))
+    	Application.recipeCollection.find[JsValue](qbAll).toList(9).map  { homepageRecipes =>
+			Ok(Json.toJson(homepageRecipes))
 		}
      }
   }
+  
+  private def searchRecipes(query: String, level: Option[String] = None) = {
+	  
+	  val queryValues = query.split(" ")
+			  
+	  val tags = List(Json.obj("level" -> level.getOrElse("").toString()))++
+					  (if(queryValues(0).length()!=0){
+					    queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
+					    queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
+					    queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> ((new Regex("(?i)"+x+""))).toString())))++
+					    queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
+					  	} else List(Json.obj("tags" -> ("__dummy"))))
+	  	
+	  val searchQuery = Json.obj("$and" -> (List(Json.obj("draft" -> Json.obj("$ne" -> true)))++List(Json.obj("$or" -> tags))))
+	  		  
+	  Logger.debug(tags.toString())
+	 
+	  Async {
+		val qb = QueryBuilder().query(searchQuery)
+		Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
+			Ok(Json.toJson(recipes))
+		}
+	  }
+  }
+  
+  def recipes(query: String) = Action { implicit request =>
+      query match {
+        case "homepage" => homepagerecipes
+        case q => searchRecipes(q)
+      }
+  }
+  
   
   def getAsJson(id: String) = Action { implicit request =>
     

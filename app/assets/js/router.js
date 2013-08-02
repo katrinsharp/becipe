@@ -43,6 +43,7 @@ define([
 	var AppRouter = Backbone.Router.extend({
 		routes: {
 		  '': 'showHome',
+		  'search-recipes': 'searchRecipes',
 		  //'create-recipe': 'signup',
 		  //'login': 'signup',
 		  'signup': 'signup',
@@ -59,7 +60,12 @@ define([
     var app_router = new AppRouter;
 	
 	app_router.on('route:showHome', function(){
-        var homeView = new HomeView();
+        var homeView = new HomeView({pageType: 'homepage'});
+    });
+	
+	app_router.on('route:searchRecipes', function(){
+        var homeView = new HomeView({pageType: 'search'});
+		app_router.navigate('/');
     });
 	
 	app_router.on('route:signup', function(){
@@ -91,12 +97,8 @@ define([
     });
 	
 	initAnalytics();
-
-    // Unlike the above, we don't call render on this view as it will handle
-    // the render call internally after it loads data. Further more we load it
-    // outside of an on-route function to have it loaded no matter which page is
-    // loaded initially.
 	var headerView = new HeaderView();
+	headerView.render();
     //var footerView = new FooterView();
 
     Backbone.history.start();
