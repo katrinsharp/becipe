@@ -71,7 +71,7 @@ define([
 			filter = '';
 		}
         var homeView = new HomeView({pageType: 'search', query: query, filter: filter});
-		app_router.navigate('/');
+		//app_router.navigate('/');
     });
 	
 	app_router.on('route:signup', function(){
