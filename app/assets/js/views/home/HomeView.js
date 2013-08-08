@@ -17,6 +17,11 @@ define([
 
     initialize: function(options) {
 		this.pageType = options.pageType;//homepage or search
+		this.filter = options.filter;
+		this.query = options.query;
+		if(this.pageType=='homepage') {
+			this.query = this.pageType;
+		}
 		this.recipeCollection = new RecipeCollection();
 		this.render();
 		BaseView.prototype.initialize.apply();
@@ -90,15 +95,13 @@ define([
 			controlNav: false,
 			slideshowSpeed: 4000
   		});
-		
-		var that = this, p, query;
-		if(this.pageType=='homepage') {
-			query = this.pageType;
-		} else {
+	
+		if(this.pageType!='homepage') {
 			$container.empty();
-			query = $('input[name=query]').val();
 		}
-		p = this.recipeCollection.fetch({data: $.param({query: query})});
+		
+		var that = this, p;
+		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter})});
         p.done(function () {
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
@@ -117,7 +120,7 @@ define([
         });
 		
     }
-
+	
   });
 
   return HomeView;

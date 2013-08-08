@@ -15,10 +15,12 @@ define([
 	el: $("#header"),
 	
 	events: {
-		'click #search-btn': 'clickSearch'
+		'click #search-btn': 'clickSearch',
+		'change label input': 'clickFilter'
 	},
 	
 	collection: new RecipeCollection(),
+	searchTerm: '',
 	
     initialize: function() {
     },
@@ -32,8 +34,20 @@ define([
 	  this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
     },
 	
+	search: function() {
+		var url ="#search-recipes/" + this.searchTerm;
+		var filter = _.map($('label input:checked'), function(item){return $(item).val()}).join('&');
+		url = url + '/' + filter;
+		window.location = url;
+	},
+	
 	clickSearch: function() {
-		window.location="#search-recipes";
+		this.searchTerm = $('input[name=query]').val();
+		this.search();
+	},
+	
+	clickFilter: function() {
+		this.search();
 	}
 
   });

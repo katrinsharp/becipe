@@ -10,7 +10,7 @@ define([
   var RecipesFilterView = Backbone.View.extend({
     
 	events: {
-		"click label.checkbox": "clickChkbox"
+		//"click label.checkbox": "clickChkbox"
 	},
 
     initialize: function(options) {

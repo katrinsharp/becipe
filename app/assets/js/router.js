@@ -43,7 +43,7 @@ define([
 	var AppRouter = Backbone.Router.extend({
 		routes: {
 		  '': 'showHome',
-		  'search-recipes': 'searchRecipes',
+		  'search-recipes/(:query)/(:filter)': 'searchRecipes',
 		  //'create-recipe': 'signup',
 		  //'login': 'signup',
 		  'signup': 'signup',
@@ -60,11 +60,17 @@ define([
     var app_router = new AppRouter;
 	
 	app_router.on('route:showHome', function(){
-        var homeView = new HomeView({pageType: 'homepage'});
+        var homeView = new HomeView({pageType: 'homepage', query: ''});
     });
 	
-	app_router.on('route:searchRecipes', function(){
-        var homeView = new HomeView({pageType: 'search'});
+	app_router.on('route:searchRecipes', function(query, filter){
+		if(query==undefined) {
+			query = '';
+		}
+		if(filter==undefined) {
+			filter = '';
+		}
+        var homeView = new HomeView({pageType: 'search', query: query, filter: filter});
 		app_router.navigate('/');
     });
 	
