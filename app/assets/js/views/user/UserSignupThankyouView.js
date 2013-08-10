@@ -3,16 +3,16 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
-  'views/BaseView',
-  'text!templates/user/userSignupThankyouTemplate.html'
-], function($, _, Backbone, Bootstrap, BaseView, userSignupThankyouTemplate){
+  'views/BaseView'
+], function($, _, Backbone, Bootstrap, BaseView){
 
   var UserSignupThankyouView = BaseView.extend({
     el: $("#body-container"),
 	
     initialize: function(options) {
 		this.name = options.name;
-		if($.cookie('becipe-signup-iteration') == undefined) {
+		this.template = options.template;
+		if(options.toSetCoookie && ($.cookie('becipe-signup-iteration') == undefined)) {
 			//var date=new Date();
 			//var dateStr = date.getDate().toString()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
 			$.cookie('becipe-signup-iteration', 3, {expires: 720, path: '/'});
@@ -21,7 +21,7 @@ define([
     },
 
     render: function(){
-		var compiledTemplate = _.template(userSignupThankyouTemplate);
+		var compiledTemplate = _.template(this.template);
 		this.$el.html(compiledTemplate({name: this.name}));
     }
 

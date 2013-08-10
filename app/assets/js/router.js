@@ -5,14 +5,30 @@ define([
   'backbone',
   'cookie',
   'views/home/HomeView',
+  'views/signup/SignupThankyouView',
   'views/user/UserLoginView',
   'views/user/UserSignupView',
   'views/user/UserSignupThankyouView',
+  'views/user/UserConfirmView',
   'views/recipes/RecipePageView',
   'views/about/AboutUsView',
   'views/header/HeaderView',
-  'views/footer/FooterView'
-], function($, _, Backbone, Cookie, HomeView, UserLoginView, UserSignupView, UserSignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
+  'views/footer/FooterView',
+  'text!templates/user/userSignupThankyouTemplate.html',
+  'text!templates/user/userSignupCompleteTemplate.html'
+], function($, _, Backbone, Cookie, 
+	HomeView, 
+	SignupThankyouView, 
+	UserLoginView, 
+	UserSignupView, 
+	UserSignupThankyouView, 
+	UserConfirmView, 
+	RecipePageView, 
+	AboutUsView, 
+	HeaderView, 
+	FooterView,
+	userSignupThankyouTemplate,
+	userSignupCompleteTemplate) {
 
 	var initAnalytics = function() {
 	
@@ -47,9 +63,10 @@ define([
 		  '': 'showHome',
 		  'search-recipes/(:query)/(:filter)': 'searchRecipes',
 		  //'create-recipe': 'userSignup',
-		  'user/:action': 'userLoginSignup',
+		  'user/:action(/:token)': 'userAction',
 		  'signup-thankyou/:name': 'signupThankyou',
 		  'user-signup-thankyou/:name': 'userSignupThankyou',
+		  'user-signup-complete/:name': 'userSignupComplete',
 		  'recipe/:id': 'recipeDetails',
 		  'about-us': 'aboutUs',
 		  // Default
@@ -76,25 +93,33 @@ define([
 		//app_router.navigate('/');
     });
 	
-	app_router.on('route:userLoginSignup', function(action){
+	app_router.on('route:userAction', function(action, token){
 		if(action=='login') {
 			var userLoginView = new UserLoginView();
 			userLoginView.render();
 		} else if(action=='signup') {
 			var userSignupView = new UserSignupView();
 			userSignupView.render();
-		} else {
+		} else if(action=='confirm') {
+			var userConfirmView = new UserConfirmView({token: token});
+			userConfirmView.render();
+		} else{
 			alert('error');
 		}
     });
 	
 	app_router.on('route:signupThankyou', function(name){
-        var userSignupThankyouView = new UserSignupThankyouView({name: name});
-		userSignupThankyouView.render();
+        var signupThankyouView = new SignupThankyouView({name: name});
+		signupThankyouView.render();
     });
 	
 	app_router.on('route:userSignupThankyou', function(name){
-        var userSignupThankyou = new UserSignupThankyouView({name: name});
+        var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: false});
+		userSignupThankyou.render();
+    });
+	
+	app_router.on('route:userSignupComplete', function(name){
+        var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: true});
 		userSignupThankyou.render();
     });
 	

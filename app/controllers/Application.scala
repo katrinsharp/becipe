@@ -19,8 +19,10 @@ import services.EmailService
 import services.SmtpConfig
 import java.util.UUID
 import services.EmailMessage
+import scala.concurrent.Future
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
+case class Password(password: String)
 
 object Application extends Controller with MongoController{
 
@@ -58,7 +60,6 @@ object Application extends Controller with MongoController{
 			  BadRequest 
 			},
 			value => {
-			  Logger.debug(value.toString)
 			  val token = UUID.randomUUID().toString()
 			  val modifier = QueryBuilder().query(Json.obj(
 						"firstName" -> value.firstName,
@@ -71,12 +72,13 @@ object Application extends Controller with MongoController{
 			  	Application.signupsCollection.insert(modifier).map {
 				  e => if(e.ok) {
 					  		val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
+					  		val firstName = value.firstName
 					  		Application.emailService.send(new EmailMessage(
 			  										subject = "User Registration Confirmation",
 			  										recipient = value.email,
 			  										from = "info@becipe.com",
 			  										smtpConfig = Application.defaultSmtpConfig,
-			  										html = Some(s"""Hi, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
+			  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
 					  		))
 					  		Ok("")
 				    	} else BadRequest(e.toString)  
@@ -85,13 +87,58 @@ object Application extends Controller with MongoController{
 			})
 	}
 	
-	def signupConfirm(token: String) = Action { request =>
-	  
-	  Async {
+	private def getSignupByToken(token: String): Future[JsValue] = {
 			val qb = QueryBuilder().query(Json.obj("token" -> token))
 			Application.signupsCollection.find[JsValue](qb).toList.map  { l =>
-				Ok(Json.toJson(l.head))
+				Json.toJson(l.head)
 			}
+	}
+	private def updateSignupByToken(token: String, password: String): Future[JsValue] = {
+	 	  
+	  val selector = QueryBuilder().query(Json.obj("token" -> token)).makeQueryDocument
+	  
+	  val q = Json.obj("$set" -> Json.obj("pass" -> password, "token" -> "0"))
+	  
+	  Logger.debug(Json.toJson(q).toString)
+	  val modifier = QueryBuilder().query(q).makeQueryDocument
+	  Application.signupsCollection.update(selector, modifier).map {
+	    e => if(e.ok) {
+	      Json.obj("pass" -> "****")
+	    } else throw new Exception(e.toString)
+	  }
+	}
+	
+	val savePasswordForm: Form[Password] = Form(
+		mapping(
+			"ps" -> nonEmptyText
+		)(Password.apply)(Password.unapply))
+	
+	def updateSignup(token: String) = Action {  implicit request =>
+	  
+	  savePasswordForm.bindFromRequest.fold(
+			formWithErrors => {
+			  BadRequest(formWithErrors.errorsAsJson) 
+			},
+			value => {
+			  Async {
+				try {
+					updateSignupByToken(token, value.password).map(f => Ok(f))
+				} catch {
+					case e: Throwable => Future(BadRequest( Json.obj("error" -> e.toString())))
+				} 
+			  }
+			  
+			})
+	}
+	
+	def redirectToSignupConfirm(token: String) = Action { request =>
+		Redirect("/#user/confirm/"+token)
+	}
+	
+	def getSignupAsJson(token: String) = Action { request =>
+	  
+	  Async {
+		  getSignupByToken(token).map(f => Ok(f))
 		}
 	}
 	

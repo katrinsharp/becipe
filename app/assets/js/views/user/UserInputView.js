@@ -24,9 +24,9 @@ define([
 		this.model.enforceValid();
 	},
 
-    render: function(){
+    render: function(options){
 		var compiledTemplate = _.template(this.template);
-		this.$el.html(compiledTemplate);
+		this.$el.html(compiledTemplate(options));
 		this.listenTo(this.model, 'change', this.change);
     },
 	
