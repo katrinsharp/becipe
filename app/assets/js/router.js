@@ -7,12 +7,12 @@ define([
   'views/home/HomeView',
   'views/user/UserLoginView',
   'views/user/UserSignupView',
-  'views/signup/SignupThankyouView',
+  'views/user/UserSignupThankyouView',
   'views/recipes/RecipePageView',
   'views/about/AboutUsView',
   'views/header/HeaderView',
   'views/footer/FooterView'
-], function($, _, Backbone, Cookie, HomeView, UserLoginView, UserSignupView, SignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
+], function($, _, Backbone, Cookie, HomeView, UserLoginView, UserSignupView, UserSignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
 
 	var initAnalytics = function() {
 	
@@ -49,6 +49,7 @@ define([
 		  //'create-recipe': 'userSignup',
 		  'user/:action': 'userLoginSignup',
 		  'signup-thankyou/:name': 'signupThankyou',
+		  'user-signup-thankyou/:name': 'userSignupThankyou',
 		  'recipe/:id': 'recipeDetails',
 		  'about-us': 'aboutUs',
 		  // Default
@@ -88,8 +89,13 @@ define([
     });
 	
 	app_router.on('route:signupThankyou', function(name){
-        var signupThankyouView = new SignupThankyouView({name: name});
-		signupThankyouView.render();
+        var userSignupThankyouView = new UserSignupThankyouView({name: name});
+		userSignupThankyouView.render();
+    });
+	
+	app_router.on('route:userSignupThankyou', function(name){
+        var userSignupThankyou = new UserSignupThankyouView({name: name});
+		userSignupThankyou.render();
     });
 	
 	app_router.on('route:recipeDetails', function(id){
