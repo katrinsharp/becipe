@@ -17,6 +17,7 @@ object ApplicationBuild extends Build {
     "org.webjars" % "webjars-play" % "2.1.0",
     "org.reactivemongo" %% "play2-reactivemongo" % "0.8",
     "com.typesafe" %% "play-plugins-mailer" % "2.1.0",
+    "org.apache.commons" % "commons-email" % "1.3.1",
      "org.webjars" % "bootstrap" % "2.3.1"
   )
 

@@ -5,13 +5,14 @@ define([
   'backbone',
   'cookie',
   'views/home/HomeView',
-  'views/signup/SignupView',
+  'views/user/UserLoginView',
+  'views/user/UserSignupView',
   'views/signup/SignupThankyouView',
   'views/recipes/RecipePageView',
   'views/about/AboutUsView',
   'views/header/HeaderView',
   'views/footer/FooterView'
-], function($, _, Backbone, Cookie, HomeView, SignupView, SignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
+], function($, _, Backbone, Cookie, HomeView, UserLoginView, UserSignupView, SignupThankyouView, RecipePageView, AboutUsView, HeaderView, FooterView) {
 
 	var initAnalytics = function() {
 	
@@ -22,7 +23,8 @@ define([
 		  //localhost testing
 		  //ga('create', 'UA-40585181-1', {'cookieDomain': 'none'});
 		  var url = document.URL;	
-		  if(true || url.indexOf("becipe.com") != -1 || url.indexOf("becipe-staging.herokuapp.com") != -1) { 
+		  //if(url.indexOf("becipe.com") != -1 || url.indexOf("becipe-staging.herokuapp.com") != -1) { 
+		  if(url.indexOf("becipe.com") != -1) { 
 			ga('create', 'UA-40585181-1');
 			//DEBUG: ga('create', 'UA-40585181-1', 'none');
 		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
@@ -44,9 +46,8 @@ define([
 		routes: {
 		  '': 'showHome',
 		  'search-recipes/(:query)/(:filter)': 'searchRecipes',
-		  //'create-recipe': 'signup',
-		  //'login': 'signup',
-		  'signup': 'signup',
+		  //'create-recipe': 'userSignup',
+		  'user/:action': 'userLoginSignup',
 		  'signup-thankyou/:name': 'signupThankyou',
 		  'recipe/:id': 'recipeDetails',
 		  'about-us': 'aboutUs',
@@ -74,9 +75,16 @@ define([
 		//app_router.navigate('/');
     });
 	
-	app_router.on('route:signup', function(){
-        var signupView = new SignupView();
-		signupView.render();
+	app_router.on('route:userLoginSignup', function(action){
+		if(action=='login') {
+			var userLoginView = new UserLoginView();
+			userLoginView.render();
+		} else if(action=='signup') {
+			var userSignupView = new UserSignupView();
+			userSignupView.render();
+		} else {
+			alert('error');
+		}
     });
 	
 	app_router.on('route:signupThankyou', function(name){
@@ -98,8 +106,8 @@ define([
      
 		// We have no matching route, lets display the home page 
 		// var homeView = new HomeView();
-		var signupView = new SignupView();
-		signupView.render();
+		var userLoginView = new UserLoginView();
+		userLoginView.render();
     });
 	
 	initAnalytics();

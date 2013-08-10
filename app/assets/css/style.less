@@ -39,6 +39,15 @@ a:hover {
 	float: right; 
 }
 
+.text-align-center {
+	text-align: center;
+}
+
+.grey-link {
+	color: @mediumGreyColor !important;
+	text-shadow: @textShadow;
+}
+
 /*
 ** RESPONSIVE MISC
 */
@@ -338,12 +347,7 @@ div.row-fluid [class*="span"].center-in-span {
 			-ms-border-radius: 40px;
 			-o-border-radius: 40px;
 			border-radius: 40px;
-			
-			-webkit-box-shadow: 0 1px 2px #fff;
-			-moz-box-shadow: 0 1px 2px #fff;
-			box-shadow: 0 1px 2px #fff;
-			border: 1px solid rgba(0,0,0,0.15);
-			
+			.input-container-shadow ();
 		}
 		
 		padding: 31px 0 16px;
@@ -353,28 +357,13 @@ div.row-fluid [class*="span"].center-in-span {
 			position: relative;
 			float: left;
 			border: 0;
-			/*border: 1px solid @brightOrangeColorOpac;*/
 			-webkit-border-radius: 40px 0 0 40px;
 			-moz-border-radius: 40px 0 0 40px;
 			-ms-border-radius: 40px 0 0 40px;
 			-o-border-radius: 40px 0 0 40px;
 			border-radius: 40px 0 0 40px;
-			-webkit-box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
-			-moz-box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
-			box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
 			
-			/*-webkit-box-shadow: inset 0 0 0 transparent;
-			-moz-box-shadow: inset 0 0 0 transparent;
-			box-shadow: inset 0 0 0 transparent;
-			-webkit-border-radius: 0;
-			-moz-border-radius: 0;
-			background-color: #fff !important;
-			border-top: 0.5px solid @bodyColor; 
-			border-left: 0.5px solid @bodyColor; 
-			border-bottom: 0.5px solid @bodyColor; 
-			-webkit-border-radius: 40px 0 0 40px;
-			-moz-border-radius: 40px 0 0 40px;
-			border-radius: 40px 0 0 40px;*/
+			.input-inner-shadow();
 			
 			color: @headerSearchColor;
 			width: 275px;
@@ -484,6 +473,7 @@ input:active, input:focus {
 #filter-container{
 	margin: 200px auto 0;
 	figure {
+		.white-border-with-shadow();
 		width: 425px;/*435, 580px;*/
 		float: left;
 		margin-left: 17.5px;
@@ -538,12 +528,10 @@ input:active, input:focus {
 	figure.slider {
 	}
 	figure.signup-message {
-		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		border: 1px solid #fff;
+		.white-border-with-shadow();
 		width: 421px;
-		background-color: @greenColor;
+		background: @bodyColor url(../../img/bg_dots.png) repeat;
+		background-color: @bodyColor;
 		height: auto;
 		font-size: 18px;
 		line-height: 25px;
@@ -553,11 +541,11 @@ input:active, input:focus {
 			margin: 60px auto 0;
 			.action {
 				padding: 10px;
-				-moz-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.2);
-				-webkit-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.2);
-				box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.2);
-				border: solid 1px rgba(76, 104, 73, 0.5);
-				background-color: @greenColor;
+				-moz-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
+				-webkit-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
+				box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
+				border: solid 1px rgba(76, 104, 73, 0.3);
+				
 				-webkit-border-radius: 5px;
 				-moz-border-radius: 5px;
 				border-radius: 5px;
@@ -599,10 +587,7 @@ input:active, input:focus {
 		}	
 	}
 	figure.about-us {
-		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		border: 1px solid #fff;
+		.white-border-with-shadow();
 		width: 421px;
 		background-color: @brightOrangeColor;
 		&:hover {
@@ -624,11 +609,7 @@ input:active, input:focus {
 		}
 	}
 	figure.create-recipe {
-	
-		-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		box-shadow: 0 1px 2px rgba(0,0,0,0.5);
-		border: 1px solid #fff;
+		.white-border-with-shadow();
 		width: 421px;
 		background-color: @deepOrangeColor;
 		&:hover {
@@ -657,6 +638,97 @@ input:active, input:focus {
 .main-content-width {
 	max-width: 940px;
 }
+
+/*
+** USER SIGNUP
+*/
+.user-signup-form-width {
+	width: 320px !important;
+}
+
+.user-signup-form {
+	padding-bottom: 10px;
+	#title {
+		font-family: Georgia;
+		color: @greenColor;
+		font-size: 32px;
+		line-height: 32px;
+		padding: 20px 10px;
+		margin-top: 20px;
+		margin-bottom: 10px;
+		font-style: italic;
+		text-shadow: @textShadow;
+  }
+  
+  input[type="text"],
+  input[type="password"]
+  {
+	width: 320px;	
+	border: 0 none;
+	/*border-radius: 8px 8px 8px 8px;*/
+	.input-full-shadow ();
+	color: @headerSearchColor;
+	display: inline;
+	font-size: 18px;
+	line-height: 21px;
+	height: 47px;
+	vertical-align: middle;
+	margin-top: 20px;
+	padding: 8px 10px 8px;
+	font-family: Georgia;
+	font-style: italic;
+	border-radius: 7px 7px 7px 7px !important;
+	transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
+  }
+  
+  input[type="text"].empty,
+  input[type="password"].empty
+	{
+		color: @lightGreyColor;
+	}
+  
+  button 
+  {
+      background: none repeat scroll 0 0 @greenColor;
+	  text-shadow: 1px 1px 1px @greenColorHover;
+      .white-border-with-shadow();
+      color: #fff;
+      border-radius: 10px 10px 10px 10px !important;
+      display: inline;
+      font-size: 28px;
+	  line-height: 57px;
+      height: 57px;
+      width: 314px;
+      margin-top: 40px;
+      transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
+	  text-transform: uppercase;
+	  font-weight: bold;
+  }
+  
+button:hover,
+button:focus,
+button:active {
+  background-color: @greenColorHover !important;  
+ }
+  
+  input.error[type="text"] {
+    /*background-color: #FF3333;
+    box-shadow: 0 0 5px #FF0000;
+    text-shadow: 0 0 0 #330000;*/
+	color: red;
+	border: 1px solid red;
+  }
+  
+  form > div {
+    text-align: center;
+  }
+  
+  div.action {
+	text-align: center;
+	font-size: 16px;
+	font-weight: bold;
+  }
+ }
 
 /*
 ** SIGNUP

@@ -18,6 +18,8 @@
 @deepOrangeColorHover: #cc3300; /*#b22e00;*/
 
 @darkGreyColor: #555;
+@mediumGreyColor: #505050;
+@lightGreyColor: #ccc;
 
 @headerSearchBackgroundColor: #ddd;
 @headerSearchColor: #999;
@@ -31,3 +33,30 @@
 @callToActionsButtons: #fff;
 
 @textShadow: 0 1px 1px #fff;
+
+.input-inner-shadow () { 
+	-webkit-box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
+	-moz-box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
+	box-shadow: inset 0 0 6px 0 rgba(102,102,102,0.25);
+}
+
+.input-container-shadow () {
+	-webkit-box-shadow: 0 1px 2px #fff;
+	-moz-box-shadow: 0 1px 2px #fff;
+	box-shadow: 0 1px 2px #fff;
+	border: 1px solid rgba(0,0,0,0.15);
+}
+
+.input-full-shadow () {
+	-webkit-box-shadow: 0 1px 2px #fff, inset 0 0 6px 0 rgba(102,102,102,0.25);
+	-moz-box-shadow: 0 1px 2px #fff, inset 0 0 6px 0 rgba(102,102,102,0.25);
+	box-shadow: 0 1px 2px #fff, inset 0 0 6px 0 rgba(102,102,102,0.25);
+	border: 1px solid rgba(0,0,0,0.20);
+}
+
+.white-border-with-shadow() {
+	-webkit-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	-moz-box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	box-shadow: 0 1px 2px rgba(0,0,0,0.5);
+	border: 1px solid #fff;
+}

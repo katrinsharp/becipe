@@ -32,6 +32,7 @@ import org.joda.time.DateTime
 import utils.UniqueCode
 import models.photos
 import scala.util.matching.Regex
+import services.EmailMessage
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
 case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
@@ -171,11 +172,16 @@ object RecipeController extends Controller with MongoController {
 										//file.delete()
 										
 										
-										Redirect(routes.RecipeController.get(id))
+										//Redirect(routes.RecipeController.get(id))
+										Ok
 									}
 								}
 								case true => Application.recipeCollection.insert(modifier).map {
-									e => Logger.debug(e.toString);Redirect(routes.RecipeController.get(id))
+									e => {
+									  Logger.debug(e.toString);
+									  //Redirect(routes.RecipeController.get(id))
+									  Ok
+									}
 								}
 							}
 						}	
@@ -208,22 +214,6 @@ object RecipeController extends Controller with MongoController {
 		val recipe = Await.result(futureRecipe, duration10000).asInstanceOf[Option[Recipe]]
 		recipe
 	}
-		
-
-	def get(id: String) = Action { implicit request =>
-		Async {
-			val oRecipe = getRecipe(id)	
-			oRecipe match {
-				case Some(recipe) => {
-					val qbAll = QueryBuilder().query(Json.obj())
-					Application.recipeCollection.find[JsValue](qbAll).toList(4).map  { relatedRecipes =>
-						Ok(views.html.recipes.recipe(recipe, relatedRecipes.map(r => r.as[Recipe])))
-					}
-				}
-				case _ => Future(BadRequest(s"Recipe $id was not found"))
-			}
-		}
-	}
 	
 	/*def by(categories: List[String]) = Action { implicit request =>
 	  	Logger.debug(categories.toString)
@@ -241,7 +231,7 @@ object RecipeController extends Controller with MongoController {
 			"categories" -> list(text)
 		)(SearchRecipesSubmit.apply)(SearchRecipesSubmit.unapply))
   
-  def search()= Action { implicit request =>
+  /*def search()= Action { implicit request =>
     searchRecipesForm.bindFromRequest.fold(
 			formWithErrors => {
 			  Logger.debug(formWithErrors.toString)
@@ -272,7 +262,7 @@ object RecipeController extends Controller with MongoController {
 				}
 		   }
 		})
-  }
+  }*/
   
   private def homepagerecipes = {
   	Async {
