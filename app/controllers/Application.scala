@@ -20,6 +20,7 @@ import services.SmtpConfig
 import java.util.UUID
 import services.EmailMessage
 import scala.concurrent.Future
+import org.mindrot.jbcrypt.BCrypt
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Password(password: String)
@@ -97,7 +98,7 @@ object Application extends Controller with MongoController{
 	 	  
 	  val selector = QueryBuilder().query(Json.obj("token" -> token)).makeQueryDocument
 	  
-	  val q = Json.obj("$set" -> Json.obj("pass" -> password, "token" -> "0"))
+	  val q = Json.obj("$set" -> Json.obj("pass" -> BCrypt.hashpw(password, BCrypt.gensalt()), "token" -> "0"))
 	  
 	  Logger.debug(Json.toJson(q).toString)
 	  val modifier = QueryBuilder().query(q).makeQueryDocument

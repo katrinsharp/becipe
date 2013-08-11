@@ -29,7 +29,15 @@ define([
 		},
 		parse : function(response){
 			var that = this;
-			return _.object(_.keys(that.defaults()), _.map(that.serverDefaults(), function(prop){if(response.hasOwnProperty(prop)) {return response[prop]} else{return ''}}));  
+			return _.object(
+						_.keys(that.defaults()), 
+						_.map(that.serverDefaults(), function(prop){
+															if(response.hasOwnProperty(prop)) {
+																return response[prop]
+															} 
+															else{
+																return that.attributes[_.invert(that.serverDefaults())[prop]];
+															}}));  
 		}    
 	});
 		
