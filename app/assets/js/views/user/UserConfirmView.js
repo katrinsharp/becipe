@@ -13,7 +13,7 @@ define([
    template: userConfirmTemplate,
 	
 	events: {
-		"click #submit": "confirm"
+		"click #confirm": "confirm"
 	},
 	
     initialize: function(options) {

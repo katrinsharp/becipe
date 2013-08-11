@@ -21,9 +21,6 @@ define([
 				ps: "password"
 			};
 		},
-		methodUrl: {
-			'save': '/api/0.1/signup/update'
-		},
 		initialize: function(options) {
 			this.token = options.token;
 		},
