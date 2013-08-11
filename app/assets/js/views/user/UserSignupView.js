@@ -28,7 +28,7 @@ define([
 				window.location.hash = 'user-signup-thankyou/'+ model.get('fn');
 			},
 			error: function (model, response) {
-				alert("Something went wrong -:(. Please try again.");
+				//alert("Something went wrong -:(. Please try again.");
 			}
 		});
 		return false;  

@@ -12,7 +12,7 @@ define([
     initialize: function(options) {
 		this.name = options.name;
 		this.template = options.template;
-		if(options.toSetCoookie && ($.cookie('becipe-signup-iteration') == undefined)) {
+		if(options.toSetCookie && ($.cookie('becipe-signup-iteration') == undefined)) {
 			//var date=new Date();
 			//var dateStr = date.getDate().toString()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
 			$.cookie('becipe-signup-iteration', 3, {expires: 720, path: '/'});

@@ -58,11 +58,21 @@ define([
 		var ajaxMsg = $('button[type="submit"]');
 		ajaxMsg.bind({
 			ajaxStart: function() {
-				console.log('AJAX START');
 				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
 			},
+			ajaxError: function(jqXHR, textStatus, errorThrown) {
+			  var error = JSON.parse(textStatus.responseText);
+			  if(_.keys(error).length!=0) {
+				var key = _.keys(error)[0];
+				if(key=='error') {
+					
+				} else { //specific field error
+					$('input#'+key).addClass('error');
+				}
+			  }
+			  ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			},
 			ajaxDone: function() {
-			  console.log('AJAX DONE');
 			  ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
 			}
 		});
