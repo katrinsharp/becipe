@@ -4,8 +4,9 @@
 body {
 	background: @bodyColor url(../../img/bg_texture.png);
 	background-color: @bodyColor;
-	font: 16px/18px Arial, Verdana, Georgia, 'Lato', Geneva, Arial, Helvetica, sans-serif;
+	font: 16px/24px Helvetica, Arial, Verdana, Georgia, 'Lato', Geneva, sans-serif;
 	/*word-break: break-all;*/
+	text-shadow: @textShadow;
 }
 
 a img,
@@ -326,6 +327,10 @@ div.row-fluid [class*="span"].center-in-span {
 	box-shadow: none !important;	
 }
 
+li {
+	line-height: inherit !important;
+}
+
 /*
 ** SEARCH
 */
@@ -441,10 +446,10 @@ input:active, input:focus {
 }
 
 .flex-control-nav {
-  bottom: 5px !important;
+  bottom: -35px !important;
 }
 
-.flex-control-nav li {
+.flex-control-nav2 li {
     background: none repeat scroll 0 0 rgba(255, 255, 255, 0.5) !important;
     margin: 0 3px !important;
     padding: 7px;
@@ -553,7 +558,7 @@ input:active, input:focus {
 					display: block;
 					text-align: center;
 					padding: 15px;
-					color: @headerTextColor;
+					color: white;
 					text-decoration: none;
 				}
 				a.orange {
@@ -581,6 +586,25 @@ input:active, input:focus {
 						margin: 0 0 5px 0;
 						font-weight: bold;
 						text-shadow: 1px 1px 1px #f47a20;
+					}
+				}
+				a.green {
+					background: @greenColor;
+					/*background: -webkit-gradient(linear, left top, left bottom, from(@greenColor), to(@greenColorHover));
+					background: -moz-linear-gradient(top,  @greenColor,  @greenColorHover);
+					filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@greenColor', endColorstr='@greenColorHover');*/
+					&:hover {
+						background: @greenColorHover;
+					}
+					&:active {
+						background: @greenColorHover;
+					}
+					b {
+						display: block;
+						font-size: 32px;
+						margin: 0 0 5px 0;
+						font-weight: bold;
+						text-shadow: 1px 1px 1px @greenColorHover;
 					}
 				}
 			}
@@ -637,6 +661,30 @@ input:active, input:focus {
 
 .main-content-width {
 	max-width: 940px;
+}
+
+a.search span{
+	font-family: Georgia;
+	font-style: italic;
+}
+
+.heading  {
+	color: @greenColor;
+	letter-spacing: 1px;
+	font-size: 28px;
+	margin: 10px 0;
+	text-transform: uppercase;
+	line-height: 40px;
+}
+
+.recipe-time-measures span.title{
+	color: @darkGreyColor;
+	font-style: italic;
+	font-family: Georgia;
+}
+
+.by {
+		
 }
 
 /*
@@ -855,5 +903,28 @@ button:active {
 		font-size: 20px;
 		line-height: 24px;
 		letter-spacing: -1px; 
+	}
+}
+
+
+
+
+/*
+** MISC
+*/
+
+button[disabled], button:disabled {
+    background: @lightGreyColor !important;
+	background-color: @lightGreyColor !important;
+	text-transform: none !important;
+	text-shadow: none !important;
+	cursor: progress !important;
+	&:hover {
+		 background: @lightGreyColor !important;
+		 background-color: @lightGreyColor !important;
+	}
+	&:active {
+		 background: @lightGreyColor !important;
+		 background-color: @lightGreyColor !important;
 	}
 }

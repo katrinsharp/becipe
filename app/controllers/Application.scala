@@ -57,7 +57,7 @@ object Application extends Controller with MongoController{
 	  signupForm.bindFromRequest.fold(
 			formWithErrors => {
 			  Logger.debug(formWithErrors.toString)
-			  BadRequest 
+			  BadRequest(formWithErrors.errorsAsJson) 
 			},
 			value => {
 			  val token = UUID.randomUUID().toString()
@@ -68,7 +68,7 @@ object Application extends Controller with MongoController{
 						"response" -> "0",
 						"token" -> token,
 						"created" -> DateTime.now())).makeQueryDocument 
-			  Async { 
+			  Async {
 			  	Application.signupsCollection.insert(modifier).map {
 				  e => if(e.ok) {
 					  		val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
@@ -81,7 +81,7 @@ object Application extends Controller with MongoController{
 			  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
 					  		))
 					  		Ok("")
-				    	} else BadRequest(e.toString)  
+				    	} else BadRequest(Json.obj("error" -> e.toString()))  
 			  	}
 			  }
 			})
@@ -124,7 +124,7 @@ object Application extends Controller with MongoController{
 				try {
 					updateSignupByToken(token, value.password).map(f => Ok(f))
 				} catch {
-					case e: Throwable => Future(BadRequest( Json.obj("error" -> e.toString())))
+					case e: Throwable => Future(BadRequest(Json.obj("error" -> e.toString())))
 				} 
 			  }
 			  

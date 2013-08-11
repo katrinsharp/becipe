@@ -27,6 +27,7 @@ define([
     render: function(options){
 		var compiledTemplate = _.template(this.template);
 		this.$el.html(compiledTemplate(options));
+		this.bindAjaxSubmit();
 		this.listenTo(this.model, 'change', this.change);
     },
 	
@@ -50,7 +51,23 @@ define([
 		var val = $(target).val();  
 		var waterMark = $(target).attr("data");
 		if (val == "") { $(target).val(waterMark); $(target).addClass("empty"); }
+	},
+	
+	bindAjaxSubmit: function() {
+		// jQuery Global Setup
+		var ajaxMsg = $('button[type="submit"]');
+		ajaxMsg.bind({
+			ajaxStart: function() {
+				console.log('AJAX START');
+				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
+			},
+			ajaxDone: function() {
+			  console.log('AJAX DONE');
+			  ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			}
+		});
 	}
+	
 
   });
 

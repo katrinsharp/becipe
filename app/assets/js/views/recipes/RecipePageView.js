@@ -33,7 +33,7 @@ define([
 			$('.flexslider').flexslider({
     		animation: "slide",
     		slideshow: false,
-    		directionNav: false	
+    		directionNav: true
   		});
         }});
 	}

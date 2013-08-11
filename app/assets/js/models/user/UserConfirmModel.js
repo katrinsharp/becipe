@@ -14,7 +14,12 @@ define([
 			};
 		},
 		serverDefaults: function() {
-			return ['firstName', 'lastName', 'email', 'password'];
+			return {
+				fn: "firstName",
+				ln: "lastName",
+				em: "email",
+				ps: "password"
+			};
 		},
 		methodUrl: {
 			'save': '/api/0.1/signup/update'

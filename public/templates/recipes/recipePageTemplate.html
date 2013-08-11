@@ -10,7 +10,7 @@
 					
 						<%_.each(_.filter(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"}), function(photo){ %>
 							<li>
-								<img class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
+								<img style="height: 570px" class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
 							</li>
 						<% }); %>
 					</ul>
@@ -21,7 +21,7 @@
 	</div>
 	<div class="row-fluid">
 	<div class="span12">
-		<div class="center-in-span main-content-width recipe-item-padding">
+		<div class="center-in-span main-content-width recipe-item-padding" style="margin-top: 30px">
 			<form action="#recipes/search" method="post">
 				<a class="search" data="level" data-value="<%= recipe.level%>" href="#"><span><%= recipe.level%>&nbsp;</span></a>
 					<% _.each(recipe.tags, function(tag) { %> 
@@ -37,12 +37,12 @@
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
 				<div class="row-fluid">
 					<div class="span6">
-						<h3 class="heading" style="margin-top: 0"><%= recipe.name%></h3>
+						<div class="heading"><%= recipe.name%></div>
 					</div>
 					<div class="span6 margin-top-10">
 						<div class="row-fluid">
 							<div class="span10">
-								<p style="text-align: right;"><strong>Posted By </strong> <%= recipe.by%></p>
+								<p style="text-align: right;">Posted By <a href= "#author" class="by"><%= recipe.by%></a></p>
 								<p style="text-align: right"><%= recipe.date(recipe.created)%></p>
 							</div>
 							<div class="span2">
@@ -84,21 +84,21 @@
 	<div class="row-fluid margin-top-10">
 		<div class="span12">
 			<div class="center-in-span main-content-width recipe-item-padding">
-				<div class="row-fluid">
+				<div class="row-fluid recipe-time-measures">
 					<div class="span3">
-						<p><strong><i>Preparation Time </i></strong> <%= recipe.prepTime%> </p> 	
+						<p><span class="title">Preparation Time</span>  <%= recipe.prepTime%> </p> 	
 					</div>
 					<% if (recipe.readyIn!="") { %>
 						<div class="span3">
-							<p><strong><i>Ready In </i></strong> <%= recipe.readyIn%> </p> 	
+							<p><span class="title">Ready In</span> <%= recipe.readyIn%> </p> 	
 						</div>
 					<%}%>
 					<div class="span3">
-						<p><strong><i>Recipe yield</i></strong> <%= recipe.recipeYield%> </p>
+						<p><span class="title">Recipe yield</span> <%= recipe.recipeYield%> </p>
 					</div>
 					<% if (recipe.supply!="") { %>
 						<div class="span3">
-							<p><strong><i>Supply</i></strong> <%= recipe.supply%>	</p>
+							<p><span class="title">Supply</span> <%= recipe.supply%>	</p>
 						</div>
 					<%}%>
 				</div>
