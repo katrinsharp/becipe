@@ -30,11 +30,18 @@ define([
 			}
 			return false;
 		},
+		validateReenterPassword: function(val) {
+			var pass = $('input#ps').val();
+			return (pass==val);
+		},
 		isValid: function(val, waterMark) {
 			var valParts = /^(?!\s*$).+/.exec(val);
 			var isValid = (valParts!=null && val!=waterMark);
 			if(isValid && waterMark=="Email Address") {
 				isValid = this.validateEmail(val);
+			}
+			if(isValid && waterMark=="Re-enter Password") {
+				isValid = this.validateReenterPassword(val);
 			}
 			return isValid;	
 		},

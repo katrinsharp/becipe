@@ -100,7 +100,6 @@ object Application extends Controller with MongoController{
 	  
 	  val q = Json.obj("$set" -> Json.obj("pass" -> BCrypt.hashpw(password, BCrypt.gensalt()), "token" -> "0"))
 	  
-	  Logger.debug(Json.toJson(q).toString)
 	  val modifier = QueryBuilder().query(q).makeQueryDocument
 	  Application.signupsCollection.update(selector, modifier).map {
 	    e => if(e.ok) {

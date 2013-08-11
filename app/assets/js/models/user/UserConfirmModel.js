@@ -10,7 +10,8 @@ define([
 				fn: "First Name",
 				ln: "Last Name",
 				em: "Email Address",
-				ps: "Password"
+				ps: "Password",
+				reps: "Re-enter Password"
 			};
 		},
 		serverDefaults: function() {
@@ -18,7 +19,8 @@ define([
 				fn: "firstName",
 				ln: "lastName",
 				em: "email",
-				ps: "password"
+				ps: "password",
+				reps: "repassword"
 			};
 		},
 		initialize: function(options) {
