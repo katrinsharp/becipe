@@ -67,7 +67,9 @@ define([
 				if(key=='error') {
 					
 				} else { //specific field error
-					$('input#'+key).addClass('error');
+					var inField = $('input#'+key);
+					$(inField).addClass('error');
+					$(inField).after('<span class="error">'+error[key]+'</span>');
 				}
 			  }
 			  ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
