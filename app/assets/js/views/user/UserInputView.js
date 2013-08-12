@@ -59,6 +59,7 @@ define([
 		ajaxMsg.bind({
 			ajaxStart: function() {
 				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
+				$('span.error').remove();
 			},
 			ajaxError: function(jqXHR, textStatus, errorThrown) {
 			  var error = JSON.parse(textStatus.responseText);
