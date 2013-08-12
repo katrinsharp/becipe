@@ -3,10 +3,11 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'views/user/UserLoginView',
   'views/user/UserInputView',
   'models/user/UserConfirmModel',
   'text!templates/user/userConfirmTemplate.html'
-], function($, _, Backbone, Bootstrap, UserInputView, UserConfirmModel, userConfirmTemplate){
+], function($, _, Backbone, Bootstrap, UserLoginView, UserInputView, UserConfirmModel, userConfirmTemplate){
 
    var UserConfirmView = UserInputView.extend({
    
@@ -39,6 +40,7 @@ define([
 	confirm: function(e) {
 		this.model.save({ps: this.model.get('ps')}, {
 			success: function (model, response) {
+				UserLoginView.model.set({token: response['token'], fn: response['fn']});
 				window.location.hash = 'user-signup-complete/'+ model.get('fn');
 			},
 			error: function (model, response) {
