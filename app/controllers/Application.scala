@@ -77,7 +77,7 @@ object Application extends Controller with MongoController{
 				  getSignupByEmail(value.email).map(f => {
 					  val pass = (f.\("pass").asOpt[String])
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get))
-					    Ok(Json.obj("token" -> "kuku")).withSession(("token" -> "kuku"))
+					    Ok(Json.obj("token" -> "kuku", "fn" -> f.\("firstName").as[String])).withSession(("token" -> "kuku"))
 					  else 
 					    Unauthorized(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{

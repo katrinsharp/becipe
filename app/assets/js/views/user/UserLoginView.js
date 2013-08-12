@@ -25,7 +25,7 @@ define([
 	login: function() {
 		this.model.save({id: undefined}, {
 			success: function (model, response) {
-				model.set({token: response['token']});
+				model.set({token: response['token'], fn: response['fn']});
 				window.location.hash = '#';
 			},
 			error: function (model, response) {
@@ -41,6 +41,7 @@ define([
 			type: "POST",
 			success: function() {
 				that.model.clear();
+				window.location.hash = '#';
 			},
 			error: function() {
 				alert("Something really spooky happened");

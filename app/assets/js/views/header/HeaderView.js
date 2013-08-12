@@ -38,12 +38,17 @@ define([
 	
 	loginTokenChanged: function() {
 		var token = UserLoginView.model.get('token');
+		var fn = UserLoginView.model.get('fn');
 		if((token != undefined) && (token.length!=0)) {
 			$('[data="login"]').css('display', 'none');
 			$('[data="logout"]').css('display', '');
+			$('[data="signup"]').css('display', 'none');
+			$('[data="user-settings"]').css('display', '').children('a').text("Hi, "+fn);
 		} else {
 			$('[data="login"]').css('display', '');
 			$('[data="logout"]').css('display', 'none');
+			$('[data="signup"]').css('display', '');
+			$('[data="user-settings"]').css('display', 'none');
 		}		
 	},
 	
