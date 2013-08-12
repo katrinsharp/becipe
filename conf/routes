@@ -18,6 +18,7 @@ GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: Stri
 POST	/api/0.1/signup/add									controllers.Application.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.Application.getSignupAsJson(token: String)
 POST	/api/0.1/signup/token/:token						controllers.Application.updateSignup(token: String)
+POST	/api/0.1/login										controllers.Application.login
 
 GET		/signup/confirm/:token								controllers.Application.redirectToSignupConfirm(token: String)
 

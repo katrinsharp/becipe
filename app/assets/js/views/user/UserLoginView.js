@@ -23,15 +23,14 @@ define([
     },
 	
 	login: function(e) {
-		alert('login');
-		//this.model.save({id: undefined}, {
-		//	success: function (model, response) {
-		//		window.location.hash = 'signup-thankyou/'+ model.get('fn');
-		//	},
-		//	error: function (model, response) {
-		//		//alert("Something went wrong -:(. Please try again.");
-		//	}
-		//});
+		this.model.save({id: undefined}, {
+			success: function (model, response) {
+				window.location.hash = '#';
+			},
+			error: function (model, response) {
+				//alert("Something went wrong -:(. Please try again.");
+			}
+		});
 		return false;  
 	}
 

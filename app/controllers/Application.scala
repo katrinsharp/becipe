@@ -24,6 +24,7 @@ import org.mindrot.jbcrypt.BCrypt
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Password(password: String)
+case class Login(email: String, password: String)
 
 object Application extends Controller with MongoController{
 
@@ -47,6 +48,45 @@ object Application extends Controller with MongoController{
 		Ok(views.html.index())
 	}
 	
+	private def getSignupByEmail(email: String) = {
+			val qb = QueryBuilder().query(Json.obj("email" -> email))
+			Application.signupsCollection.find[JsValue](qb).toList.map  { l =>
+			  	//l.headOption match {
+			  	 // case Some(v) => Json.toJson(v)
+			  	 // case _ => throw new Exception("Error authentication")
+			  	//}
+				//Json.toJson(l.head)
+			  l.head
+			  
+			}
+	}
+	
+	val loginForm: Form[Login] = Form(
+		mapping(
+			"em" -> nonEmptyText,
+			"ps" -> nonEmptyText
+		)(Login.apply)(Login.unapply))
+	
+	def login = Action { implicit request =>
+	     loginForm.bindFromRequest.fold(
+			formWithErrors => {
+			  BadRequest(formWithErrors.errorsAsJson) 
+			},
+			value => {
+			  Async {
+				  getSignupByEmail(value.email).map(f => {
+					  val pass = (f.\("pass").asOpt[String])
+					  if(pass != None && BCrypt.checkpw(value.password, pass.get))
+					    Ok.withSession(("token" -> "kuku"))
+					  else 
+					    Unauthorized(Json.obj("em" -> "Invalid email or password"))
+				  }).recover{
+				  		case e => Unauthorized(Json.obj("em" -> "Invalid email or password"))
+				  }
+			  }
+			})
+	}
+	
 	val signupForm: Form[SignupDetails] = Form(
 		mapping(
 			"fn" -> nonEmptyText,
@@ -57,7 +97,6 @@ object Application extends Controller with MongoController{
 	def newSignup = Action {  implicit request =>
 	  signupForm.bindFromRequest.fold(
 			formWithErrors => {
-			  Logger.debug(formWithErrors.toString)
 			  BadRequest(formWithErrors.errorsAsJson) 
 			},
 			value => {
@@ -94,13 +133,13 @@ object Application extends Controller with MongoController{
 			})
 	}
 	
-	private def getSignupByToken(token: String): Future[JsValue] = {
+	private def getSignupByToken(token: String) = {
 			val qb = QueryBuilder().query(Json.obj("token" -> token))
 			Application.signupsCollection.find[JsValue](qb).toList.map  { l =>
-				Json.toJson(l.head)
+				l.head
 			}
 	}
-	private def updateSignupByToken(token: String, password: String): Future[JsValue] = {
+	private def updateSignupByToken(token: String, password: String) = {
 	 	  
 	  val selector = QueryBuilder().query(Json.obj("token" -> token)).makeQueryDocument
 	  
@@ -108,9 +147,7 @@ object Application extends Controller with MongoController{
 	  
 	  val modifier = QueryBuilder().query(q).makeQueryDocument
 	  Application.signupsCollection.update(selector, modifier).map {
-	    e => if(e.ok) {
-	      Json.obj("pass" -> "****")
-	    } else throw new Exception(e.toString)
+	    e => "****"
 	  }
 	}
 	
@@ -127,11 +164,7 @@ object Application extends Controller with MongoController{
 			},
 			value => {
 			  Async {
-				try {
-					updateSignupByToken(token, value.password).map(f => Ok(f))
-				} catch {
-					case e: Throwable => Future(BadRequest(Json.obj("error" -> e.toString())))
-				} 
+				updateSignupByToken(token, value.password).map(f => Ok(Json.obj("ps" -> f)))
 			  }
 			  
 			})
