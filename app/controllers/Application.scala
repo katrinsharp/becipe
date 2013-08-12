@@ -71,18 +71,24 @@ object Application extends Controller with MongoController{
 						"created" -> DateTime.now())).makeQueryDocument 
 			  Async {
 			  	Application.signupsCollection.insert(modifier).map {
-				  e => if(e.ok) {
-					  		val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
-					  		val firstName = value.firstName
-					  		Application.emailService.send(new EmailMessage(
-			  										subject = "User Registration Confirmation",
-			  										recipient = value.email,
-			  										from = "info@becipe.com",
-			  										smtpConfig = Application.defaultSmtpConfig,
-			  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
-					  		))
-					  		Ok("")
-				    	} else BadRequest(Json.obj("error" -> e.toString()))  
+				  e =>
+				  		val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
+				  		val firstName = value.firstName
+				  		Application.emailService.send(new EmailMessage(
+		  										subject = "User Registration Confirmation",
+		  										recipient = value.email,
+		  										from = "info@becipe.com",
+		  										smtpConfig = Application.defaultSmtpConfig,
+		  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
+				  		))
+				  		Ok("")
+			  	}.recover {
+			  	  case e =>
+			  	    val isDuplicate = e.getMessage().indexOf("E11000 duplicate key error") != -1
+			  	    if(isDuplicate) 
+			  	      BadRequest(Json.obj("em" -> "Already exists"))
+			  	    else 
+			  	      BadRequest(Json.obj("error" -> e.getMessage()))
 			  	}
 			  }
 			})

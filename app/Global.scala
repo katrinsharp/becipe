@@ -3,12 +3,18 @@ import play.api.Play.current
 import play.api.Logger
 import play.api.mvc._
 import play.api.http.HeaderNames._
+import play.api.libs.json._
+import play.api.mvc.Results._
 
 object Global extends GlobalSettings {
   
   override def onStart(app: Application) = {
   	Logger.info("Starting application...")
   }
+  
+  override def onError(request: RequestHeader, ex: Throwable) = {
+	  BadRequest(Json.obj("error" -> ex.getMessage()))
+  }  
   
   /*override def doFilter(action: EssentialAction): EssentialAction = EssentialAction { request =>
     action.apply(request).map(_.withHeaders(
