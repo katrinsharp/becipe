@@ -45,7 +45,7 @@ define([
 			//DEBUG: ga('create', 'UA-40585181-1', 'none');
 		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
 			if(firstVisit == undefined) {
-				firstVisit = 2;
+				firstVisit = 3;
 				$.cookie('becipe-first-iteration-visit', firstVisit, {expires: 720, path: '/'});
 			}
 		  	//crazy egg
@@ -95,8 +95,9 @@ define([
 	
 	app_router.on('route:userAction', function(action, token){
 		if(action=='login') {
-			var userLoginView = new UserLoginView();
-			userLoginView.render();
+			UserLoginView.render();
+		} else if(action=='logout') {
+			UserLoginView.logout();
 		} else if(action=='signup') {
 			var userSignupView = new UserSignupView();
 			userSignupView.render();
@@ -137,8 +138,7 @@ define([
      
 		// We have no matching route, lets display the home page 
 		// var homeView = new HomeView();
-		var userLoginView = new UserLoginView();
-		userLoginView.render();
+		UserLoginView.render();
     });
 	
 	initAnalytics();

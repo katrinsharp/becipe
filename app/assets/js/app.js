@@ -8,12 +8,12 @@ define([
 	define(['module'], function (module) {
 		var recipes = new Backbone.Collection( module.config().recipes );
 	});
+	
+	var initialize = function(){
+		Router.initialize();
+	};
 
-  var initialize = function(){
-    Router.initialize();
-  };
-
-  return { 
-    initialize: initialize
-  };
+	return { 
+		initialize: initialize
+	};
 });

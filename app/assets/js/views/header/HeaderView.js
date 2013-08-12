@@ -7,8 +7,9 @@ define([
   'views/social/SocialSiteView',
   'text!templates/header/headerTemplate.html',
   'views/filters/RecipesFiltersView',
+  'views/user/UserLoginView',
   'router'
-], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, RecipesFiltersView, AppRouter){
+], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, RecipesFiltersView, UserLoginView, AppRouter){
 
   var HeaderView = Backbone.View.extend({
     
@@ -23,6 +24,7 @@ define([
 	searchTerm: '',
 	
     initialize: function() {
+		this.listenTo(UserLoginView.model, 'change:token', this.loginTokenChanged);
     },
 
     render: function(){
@@ -33,6 +35,17 @@ define([
 	  this.recipesFiltersView = new RecipesFiltersView();
 	  this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
     },
+	
+	loginTokenChanged: function() {
+		var token = UserLoginView.model.get('token');
+		if((token != undefined) && (token.length!=0)) {
+			$('[data="login"]').css('display', 'none');
+			$('[data="logout"]').css('display', '');
+		} else {
+			$('[data="login"]').css('display', '');
+			$('[data="logout"]').css('display', 'none');
+		}		
+	},
 	
 	search: function() {
 		var url ="#search-recipes/" + this.searchTerm;

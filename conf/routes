@@ -19,6 +19,7 @@ POST	/api/0.1/signup/add									controllers.Application.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.Application.getSignupAsJson(token: String)
 POST	/api/0.1/signup/token/:token						controllers.Application.updateSignup(token: String)
 POST	/api/0.1/login										controllers.Application.login
+POST	/api/0.1/logout										controllers.Application.logout
 
 GET		/signup/confirm/:token								controllers.Application.redirectToSignupConfirm(token: String)
 

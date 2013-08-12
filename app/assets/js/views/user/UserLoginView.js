@@ -22,9 +22,10 @@ define([
 		this.events = _.extend({}, UserInputView.prototype.events, this.events);
     },
 	
-	login: function(e) {
+	login: function() {
 		this.model.save({id: undefined}, {
 			success: function (model, response) {
+				model.set({token: response['token']});
 				window.location.hash = '#';
 			},
 			error: function (model, response) {
@@ -32,10 +33,23 @@ define([
 			}
 		});
 		return false;  
+	},
+	
+	logout: function() {
+		var that = this;
+		$.ajax("/api/0.1/logout", {
+			type: "POST",
+			success: function() {
+				that.model.clear();
+			},
+			error: function() {
+				alert("Something really spooky happened");
+		   }
+		});
 	}
-
+	
   });
-
-  return UserLoginView;
+  
+  return new UserLoginView();
   
 });
