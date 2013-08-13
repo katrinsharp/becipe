@@ -105,7 +105,7 @@ define([
 			var userConfirmView = new UserConfirmView({token: token});
 			userConfirmView.render();
 		} else{
-			alert('error');
+			console.log('not implemented yet');
 		}
     });
 	

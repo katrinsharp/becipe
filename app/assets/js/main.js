@@ -8,6 +8,7 @@ require.config({
 	isotope: '../js/external/isotope/jquery-isotope-min', //1.5.12
 	moment: '../js/external/moment/moment-min', //date time conversion
 	cookie: '../js/external/jquery-cookie/jquery-cookie', //browser cookie helper
+	placeholder: '../js/external/jquery-placeholder/jquery-placeholder', //2.0.7
     templates: '../templates' //text.js - 2.0.7
   },
   shim: {
@@ -38,6 +39,10 @@ require.config({
 		cookie: {
 			deps: ['jquery'],
             exports: 'Cookie'
+		},
+		placeholder: {
+			deps: ['jquery'],
+            exports: 'Placeholder'
 		}
     }
 });

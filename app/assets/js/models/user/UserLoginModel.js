@@ -7,8 +7,8 @@ define([
 
 		defaults: function() {
 			return {
-				em: "Email Address",
-				ps: "Password"
+				em: "",
+				ps: ""
 			};
 		},
 		url: function() {

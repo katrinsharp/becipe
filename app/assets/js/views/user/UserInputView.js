@@ -3,8 +3,9 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'placeholder',
   'views/BaseView'
-], function($, _, Backbone, Bootstrap, BaseView){		
+], function($, _, Backbone, Bootstrap, Placeholder, BaseView){		
 
   var UserInputView = BaseView.extend({
     el: $("#body-container"),
@@ -17,6 +18,7 @@ define([
 	
     initialize: function() {
 		BaseView.prototype.initialize.apply();
+		$('input').placeholder();
     },
 	
 	change: function() {
@@ -39,18 +41,10 @@ define([
 	onFocus: function(e) {
 		var target = e.currentTarget;
 		$(target).removeClass("error"); 
-		$(target).removeClass("empty");
-		var val = $(target).val();  
-		var waterMark = $(target).attr("data");
-		if (val == waterMark || val == "") { $(target).val(''); } 	
+		$(target).next('span.error').remove();
 	},
 	
 	onBlur: function(e) {
-		var target = e.currentTarget;
-		$(target).removeClass("error");
-		var val = $(target).val();  
-		var waterMark = $(target).attr("data");
-		if (val == "") { $(target).val(waterMark); $(target).addClass("empty"); }
 	},
 	
 	bindAjaxSubmit: function() {
@@ -68,9 +62,14 @@ define([
 				if(key=='error') {
 					
 				} else { //specific field error
-					var inField = $('input#'+key);
+					var inField = $('input[name='+key+']');
+					var errors = $(inField).next('span.error');
+					if(errors.length!=0) {
+						$(errors).text(error[key]);
+					} else {
+						$(inField).after('<span class="error">'+error[key]+'</span>');
+					}
 					$(inField).addClass('error');
-					$(inField).after('<span class="error">'+error[key]+'</span>');
 				}
 			  }
 			  ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');

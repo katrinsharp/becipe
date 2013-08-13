@@ -7,11 +7,11 @@ define([
 
 		defaults: function() {
 			return {
-				fn: "First Name",
-				ln: "Last Name",
-				em: "Email Address",
-				ps: "Password",
-				reps: "Re-enter Password"
+				fn: "",
+				ln: "",
+				em: "",
+				ps: "",
+				reps: ""
 			};
 		},
 		serverDefaults: function() {

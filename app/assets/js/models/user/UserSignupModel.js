@@ -7,9 +7,9 @@ define([
 
 		defaults: function() {
 			return {
-				fn: "First Name",
-				ln: "Last Name",
-				em: "Email Address"
+				fn: "",
+				ln: "",
+				em: ""
 			};
 		},
 		url: function() {
