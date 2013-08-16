@@ -23,6 +23,8 @@ import scala.concurrent.Future
 import org.mindrot.jbcrypt.BCrypt
 import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
+import play.api.libs.ws.WS
+import utils.Mandrill
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Email(email: String)
@@ -42,6 +44,8 @@ object Application extends Controller with MongoController{
 	    										password = Play.application.configuration.getString("smtp.password").getOrElse("")
 		)
 	lazy val emailService = EmailService
+	
+	lazy val mandrillApiKey = Play.application.configuration.getString("mandrill.apikey").getOrElse("")
 	
 	//default is local
 	val useLocalStorage = Play.application.configuration.getString("save.to").getOrElse("local").equalsIgnoreCase("local")
@@ -164,7 +168,7 @@ object Application extends Controller with MongoController{
 			  Async {
 			  	Application.signupsCollection.insert(modifier).map {
 				  e =>
-				  		val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
+				  		/*val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
 				  		val firstName = value.firstName
 				  		Application.emailService.send(new EmailMessage(
 		  										subject = "User Registration Confirmation",
@@ -172,7 +176,9 @@ object Application extends Controller with MongoController{
 		  										from = "info@becipe.com",
 		  										smtpConfig = Application.defaultSmtpConfig,
 		  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
-				  		))
+				  		))*/
+				    	WS.url("https://mandrillapp.com/api/1.0//messages/send-template.json").post(
+				    	    Mandrill.createRegistrationConfirmRequest(value.email, "http://"+request.host, token)).map(f => Logger.debug(f.json.toString))
 				  		Ok("")
 			  	}.recover {
 			  	  case e =>
