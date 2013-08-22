@@ -14,10 +14,13 @@ GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 # API
 # get play 2.2 for supporting dynamic part in the middle
 GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String, filter: String)
+POST	/api/0.1/recipe/add									controllers.RecipeController.addRecipe
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
+
 POST	/api/0.1/signup/add									controllers.Application.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.Application.getSignupAsJson(token: String)
 POST	/api/0.1/signup/token/:token						controllers.Application.updateSignup(token: String)
+
 POST	/api/0.1/login										controllers.Application.login
 POST	/api/0.1/logout										controllers.Application.logout
 POST	/api/0.1/forgotPassword								controllers.Application.forgotPassword

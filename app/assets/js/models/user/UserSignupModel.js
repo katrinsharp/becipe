@@ -1,6 +1,6 @@
 define([
   'backbone',
-  'models/user/UserInputBaseModel'
+  'models/UserInputBaseModel'
 ], function(Backbone, UserInputBaseModel) {
 
 	var UserSignupModel = UserInputBaseModel.extend({

@@ -11,6 +11,7 @@ define([
   'views/user/UserSignupThankyouView',
   'views/user/UserConfirmView',
   'views/recipes/RecipePageView',
+  'views/recipes/CreateRecipeView',
   'views/about/AboutUsView',
   'views/header/HeaderView',
   'views/footer/FooterView',
@@ -23,7 +24,8 @@ define([
 	UserSignupView, 
 	UserSignupThankyouView, 
 	UserConfirmView, 
-	RecipePageView, 
+	RecipePageView,
+	CreateRecipeView,
 	AboutUsView, 
 	HeaderView, 
 	FooterView,
@@ -62,7 +64,7 @@ define([
 		routes: {
 		  '': 'showHome',
 		  'search-recipes/(:query)/(:filter)': 'searchRecipes',
-		  //'create-recipe': 'userSignup',
+		  'create-recipe': 'createRecipe',
 		  'user/:action(/:token)': 'userAction',
 		  'signup-thankyou/:name': 'signupThankyou',
 		  'user-signup-thankyou/:name': 'userSignupThankyou',
@@ -122,6 +124,11 @@ define([
 	app_router.on('route:userSignupComplete', function(name){
         var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: true});
 		userSignupThankyou.render();
+    });
+	
+	app_router.on('route:createRecipe', function(){
+        var createRecipeView = new CreateRecipeView();
+		createRecipeView.render();
     });
 	
 	app_router.on('route:recipeDetails', function(id){

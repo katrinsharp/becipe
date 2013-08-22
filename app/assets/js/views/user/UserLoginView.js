@@ -3,7 +3,7 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
-  'views/user/UserInputView',
+  'views/UserInputView',
   'models/user/UserLoginModel',
   'text!templates/user/userLoginTemplate.html'
 ], function($, _, Backbone, Bootstrap, UserInputView, UserLoginModel, userLoginTemplate){

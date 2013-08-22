@@ -1,0 +1,33 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="main-content-width user-signup-form next-to-header center-in-span">
+			<div class="row-fluid">
+				<form name="form" method="POST">
+					<div class="span12" id="title">Edit Recipe</div>
+					<input data-tp="editable2" class="span12" data="Recipe Name" type="text" placeholder="Recipe Name" name="recipe_name" id="recipe_name" title="Descriptive name that will make people to click on it">
+					<textarea data-tp="editable2" class="span12" data="Short description" type="text" placeholder="Short description" name="recipe_shortDesc" id="recipe_shortDesc" title="Captative short description, that will show up in search results."></textarea>
+					<input data-tp="select22" data-type="select2" class="span12" data="Ingredients" type="text" placeholder="Ingredients" name="recipe_ingredients" id="recipe_ingredients" title="Separated by comma, for example: 40 ml coconut oil, 20 gr shea butter, 3 drops tea tree etc.">
+					<input data-tp="editable2" class="span12" data="Prep Time" type="text" placeholder="Prep Time" name="recipe_prepTime" id="recipe_prepTime" title="How long does it take to prepare a recipe? For example: 45 min">
+					<input data-tp="editable2" class="span12" data="Ready-In Time" type="text" placeholder="Ready-In Time" name="recipe_readyIn" id="recipe_readyIn" title="How long does it take for a recipe to be ready? For example: 24 hours or leave empty for instant">
+					<input data-tp="editable2" class="span12" data="Recipe Yield" type="text" placeholder="Recipe Yield" name="recipe_recipeYield" id="recipe_recipeYield" title="The resulted quantity, for example: 150 gr">
+					<input data-tp="editable2" class="span12" data="Supply" type="text" placeholder="Supply" name="recipe_supply" id="recipe_supply" title="How many applications does the recipe yield? For example 10 applications">
+					<textarea class="span12" data="Directions" type="text" placeholder="Directions" name="recipe_directions" id="recipe_directions" title="Enter the recipe"></textarea>
+					
+					<select data="Mastery Level" name="recipe_level" id="recipe_level" class="span12 selectpicker">
+						<option value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
+						<option data-divider="true"></option>
+						<option value="average" data-subtext="More complex tools and ingredients might be involved">Intermediate</option>
+						<option data-divider="true"></option>
+						<option value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Advanced</option>
+					</select>
+					
+					<input data-tp="select22" class="span12" data="Tags" type="text" placeholder="Tags" name="recipe_tags" id="recipe_tags" title="Enter the tags the recipe can be related. For example: Anti-aging, sunscreen etc.">
+					
+					<div class="center-in-span">
+						<button type="submit" id="save" class="">Save</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -177,8 +177,9 @@ object Application extends Controller with MongoController{
 		  										smtpConfig = Application.defaultSmtpConfig,
 		  										html = Some(s"""Hi $firstName, please click following link to confirm your registration: <a href="$confirmationLink">confirm</a>""")
 				  		))*/
-				    	WS.url("https://mandrillapp.com/api/1.0//messages/send-template.json").post(
-				    	    Mandrill.createRegistrationConfirmRequest(value.email, "http://"+request.host, token)).map(f => Logger.debug(f.json.toString))
+				    	WS.url("https://mandrillapp.com/api/1.0/messages/send-template.json").post(
+				    	    Mandrill.createRegistrationConfirmRequest(value.email, "http://"+request.host, token)).map(f => Logger.debug(f.json.toString)
+				    	)
 				  		Ok("")
 			  	}.recover {
 			  	  case e =>
@@ -186,7 +187,7 @@ object Application extends Controller with MongoController{
 			  	    if(isDuplicate) 
 			  	      BadRequest(Json.obj("em" -> "Already exists"))
 			  	    else 
-			  	      BadRequest(Json.obj("error" -> e.getMessage()))
+			  	      BadRequest(Json.obj("em" -> e.getMessage()))
 			  	}
 			  }
 			})

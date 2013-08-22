@@ -12,7 +12,9 @@ body {
 a img,
 a:focus,
 a:hover,
-a:active {
+a:active,
+select:focus,
+select:active {
 	outline: none !important;
 	text-decoration: none !important;
 }
@@ -717,10 +719,14 @@ a.search span{
 		text-shadow: @textShadow;
   }
   
+  
   input[type="text"],
-  input[type="password"]
+  input[type="password"],
+  textarea,
+  select,
+  button.dropdown-toggle
   {
-	width: 320px;	
+	/*width: 320px;*/
 	border: 0 none;
 	/*border-radius: 8px 8px 8px 8px;*/
 	.input-full-shadow ();
@@ -738,6 +744,10 @@ a.search span{
 	transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
   }
   
+  textarea {
+	height: 150px;
+  }
+  
   input[type="text"].empty,
   input[type="password"].empty
 	{
@@ -746,7 +756,7 @@ a.search span{
 	
 	.placeholder { color: @lightGreyColor; }
   
-  button 
+  button[type="submit"] 
   {
       background: none repeat scroll 0 0 @greenColor;
 	  text-shadow: 1px 1px 1px @greenColorHover;
@@ -764,13 +774,13 @@ a.search span{
 	  font-weight: bold;
   }
   
-button:hover,
-button:focus,
-button:active {
+button[type="submit"]:hover,
+button[type="submit"]:focus,
+button[type="submit"]:active {
   background-color: @greenColorHover !important;  
  }
   
-  input.error[type="text"],input.error[type="password"] {
+  input.error[type="text"],input.error[type="password"],textarea.error {
     /*background-color: #FF3333;
     box-shadow: 0 0 5px #FF0000;
     text-shadow: 0 0 0 #330000;*/

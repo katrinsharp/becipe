@@ -4,6 +4,10 @@ require.config({
     underscore: '../js/external/underscore/underscore-min', //1.5.0
     backbone: '../js/external/backbone/backbone-min', //1.0.0
 	bootstrap: '../js/external/bootstrap/js/bootstrap-min', //2.3.1
+	bootstrapeditable: '../js/external/bootstrap-editable/bootstrap-editable/js/bootstrap-editable-min', //1.4.6
+	select2: '../js/external/select2/select2-min', //3.4.2
+	poshytip: '../js/external/poshytip/jquery-poshytip-min', //1.2
+	bootstrapSelect: '../js/external/bootstrap-select/bootstrap-select-min', //1.1.2
 	flexslider: '../js/external/flexslider/jquery-flexslider-min', //2.1
 	isotope: '../js/external/isotope/jquery-isotope-min', //1.5.12
 	moment: '../js/external/moment/moment-min', //date time conversion
@@ -23,6 +27,18 @@ require.config({
 		bootstrap: {
             deps: ['jquery'],
             exports: 'Bootstrap'
+        },
+		bootstrapeditable: {
+			deps: ['jquery'],
+            exports: 'BootstrapEditable'
+		},
+		poshytip: {
+			deps: ['jquery'],
+            exports: 'Poshytip'
+		},
+		bootstrapSelect: {
+            deps: ['jquery'],
+            exports: 'bootstrapSelect'
         },
 		flexslider: {
             deps: ['jquery'],

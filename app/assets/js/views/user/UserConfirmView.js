@@ -4,7 +4,7 @@ define([
   'backbone',
   'bootstrap',
   'views/user/UserLoginView',
-  'views/user/UserInputView',
+  'views/UserInputView',
   'models/user/UserConfirmModel',
   'text!templates/user/userConfirmTemplate.html'
 ], function($, _, Backbone, Bootstrap, UserLoginView, UserInputView, UserConfirmModel, userConfirmTemplate){

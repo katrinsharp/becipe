@@ -38,31 +38,32 @@ define([
 			var valParts = /^(?!\s*$).+/.exec(val);
 			var isValid = (valParts!=null && val!="");
 			if(!isValid) {
-				return "this is required";
+				return "This is required";
 			}
-			if(isValid && name=="em") {
+			if(name=="em") {
 				isValid = this.validateEmail(val);
+				if(!isValid) {
+					return "email is not valid";
+				}
 			}
-			if(!isValid) {
-				return "email is not valid";
-			}
-			if(isValid && name=="reps") {
+			if(name=="reps") {
 				isValid = this.validateReenterPassword(val);
+				if(!isValid) {
+					return "passwords do not match";
+				}
 			}
-			if(!isValid) {
-				return "passwords do not match";
-			}
+			
 			return "";	
 		},
 		insertHiddenError: function(name, errorDesc) {
-			var error = $('input[name='+name+']').next('span.error');
+			var error = $('[name='+name+']').next('span.error');
 			if(error.length!=0) {
 				$(error).text(errorDesc);
 			} else {
-				$('input[name='+name+']').after('<span class="error" style="display:none">'+errorDesc+'</span>');
+				$('[name='+name+']').after('<span class="error" style="display:none">'+errorDesc+'</span>');
 			}
 		},
-		//called on change: if there is an error, changes to default, which is empty string and isnert hidden error
+		//called on change: if there is an error, changes to default, which is empty string and insert hidden error
 		enforceValid: function() {
 			var model = this;
 			var name = _.keys(this.changed);
@@ -75,7 +76,7 @@ define([
 		//called on save: all the default values mean invalid user entries
 		validate: function(attrs, options) {
 			var that = this;
-			_.each(_.keys(attrs), function(name){if((attrs[name]!=undefined)&&(attrs[name]=="")){$('input[name='+name+']').addClass('error');that.insertHiddenError(name, "required");}});
+			_.each(_.keys(attrs), function(name){if((attrs[name]!=undefined)&&(attrs[name]=="")){$('[name='+name+']').addClass('error');that.insertHiddenError(name, "This is required");}});
 			$('span.error').css('display', '');
 			$('span.error').prev().addClass('error');
 			if($('span.error').length!=0) {
