@@ -3,11 +3,14 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'bootstrapFileupload',
+  'jqueryForm',
   'views/user/UserLoginView',
   'views/UserInputView',
   'models/recipes/RecipeFormModel',
-  'text!templates/recipes/createRecipePageTemplate.html'
-], function($, _, Backbone, Bootstrap, UserLoginView, UserInputView, RecipeFormModel, createRecipePageTemplate){
+  'text!templates/recipes/createRecipePageTemplate.html',
+  'text!templates/misc/fileUploadTemplate.html'
+], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginView, UserInputView, RecipeFormModel, createRecipePageTemplate, fileUploadTemplate){
 
    var CreateRecipeView = UserInputView.extend({
    
@@ -25,6 +28,9 @@ define([
 	
 	render: function() {
 		CreateRecipeView.__super__.render.call(this, {});
+		//upload files thumbnails
+		var compiledTemplate = _.template(fileUploadTemplate);
+		this.$(".fileupload-holder").html(compiledTemplate());
 	},
 	
 	save: function() {
@@ -37,11 +43,24 @@ define([
 		var ingredients = params['recipe.ingredients'].split(",");
 		var ingredientsParam = _.object(_.map(ingredients, function(item, i){return "recipe.ingredients["+i+"]"}), _.map(ingredients, function(item, i){return item}));
 		params = _.extend(_.omit(params, 'recipe.ingredients'), ingredientsParam);
+		//$.post('/api/0.1/recipe/add', params,function(response) {
+		//	alert("success");
+		//}).fail(function(response) { 
+		//	alert("fail");
+		//});
+		
+		
 		var tempModel = this.model.clone();
 		tempModel.attributes = {};
 		tempModel.save(params, {
 			success: function (model, response) {
-				//model.set({token: response['token'], fn: response['fn']});
+				if(_.contains(_.keys(response), 'error')) {
+					console.log(response.error);
+					return;
+				}
+				var recipeId = response.id;
+				var form = this.$('#fileuploadform');
+				$(form).ajaxSubmit({url: '/api/0.1/recipe/'+recipeId+'/photos'});
 				window.location.hash = '#';
 			},
 			error: function (model, response) {

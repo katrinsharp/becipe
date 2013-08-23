@@ -8,6 +8,8 @@ require.config({
 	select2: '../js/external/select2/select2-min', //3.4.2
 	poshytip: '../js/external/poshytip/jquery-poshytip-min', //1.2
 	bootstrapSelect: '../js/external/bootstrap-select/bootstrap-select-min', //1.1.2
+	bootstrapFileupload: '../js/external/bootstrap-fileupload/bootstrap-fileupload-min',
+	jqueryForm: '../js/external/jquery-form/jquery-form',//3.4
 	flexslider: '../js/external/flexslider/jquery-flexslider-min', //2.1
 	isotope: '../js/external/isotope/jquery-isotope-min', //1.5.12
 	moment: '../js/external/moment/moment-min', //date time conversion
@@ -39,6 +41,14 @@ require.config({
 		bootstrapSelect: {
             deps: ['jquery'],
             exports: 'bootstrapSelect'
+        },
+		bootstrapFileupload: {
+            deps: ['jquery'],
+            exports: 'bootstrapFileupload'
+        },
+		jqueryForm: {
+            deps: ['jquery'],
+            exports: 'jqueryForm'
         },
 		flexslider: {
             deps: ['jquery'],
