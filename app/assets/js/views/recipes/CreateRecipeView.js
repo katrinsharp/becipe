@@ -34,6 +34,7 @@ define([
 	},
 	
 	save: function() {
+		var view = this;
 		var fn = UserLoginView.model.get('fn');
 		if(fn!=undefined) this.model.set({recipe_by: fn});
 		var params = _.object(_.map(this.model.attributes, function(attr, i){return i.replace('_', '.')}), _.map(this.model.attributes, function(attr, i){return attr}));
@@ -43,24 +44,14 @@ define([
 		var ingredients = params['recipe.ingredients'].split(",");
 		var ingredientsParam = _.object(_.map(ingredients, function(item, i){return "recipe.ingredients["+i+"]"}), _.map(ingredients, function(item, i){return item}));
 		params = _.extend(_.omit(params, 'recipe.ingredients'), ingredientsParam);
-		//$.post('/api/0.1/recipe/add', params,function(response) {
-		//	alert("success");
-		//}).fail(function(response) { 
-		//	alert("fail");
-		//});
-		
 		
 		var tempModel = this.model.clone();
 		tempModel.attributes = {};
 		tempModel.save(params, {
 			success: function (model, response) {
-				if(_.contains(_.keys(response), 'error')) {
-					console.log(response.error);
-					return;
-				}
-				var recipeId = response.id;
+				view.model.set({recipe_id: response.id});
 				var form = this.$('#fileuploadform');
-				$(form).ajaxSubmit({url: '/api/0.1/recipe/'+recipeId+'/photos'});
+				$(form).ajaxSubmit({url: '/api/0.1/recipe/'+view.model.get('recipe_id')+'/photos'});
 				window.location.hash = '#';
 			},
 			error: function (model, response) {

@@ -15,7 +15,7 @@ GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 # get play 2.2 for supporting dynamic part in the middle
 GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String, filter: String)
 POST	/api/0.1/recipe/add									controllers.RecipeController.addRecipe
-POST	/api/0.1/recipe/:id/photos								controllers.RecipeController.uploadRecipePhotos(id: String)
+POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
 
 POST	/api/0.1/signup/add									controllers.Application.newSignup

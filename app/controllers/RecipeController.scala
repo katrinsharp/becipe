@@ -35,6 +35,7 @@ import scala.util.matching.Regex
 import services.EmailMessage
 import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
+import play.api.libs.concurrent.Akka
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
 case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
@@ -81,7 +82,7 @@ object RecipeController extends Controller with MongoController {
 							case "-1" => UniqueCode.getRandomCode
 							case v => v
 						}
-				AsyncResult {
+				Async {
 					
 					val newRecipe = (id != value.recipe.id)
 					
@@ -340,7 +341,7 @@ object RecipeController extends Controller with MongoController {
 							case "-1" => UniqueCode.getRandomCode
 							case v => v
 						}
-				AsyncResult {
+				Async {
 					
 					val newRecipe = (id != value.recipe.id)
 					
@@ -359,9 +360,10 @@ object RecipeController extends Controller with MongoController {
 								"recipeYield" -> value.recipe.recipeYield,
 								"supply" -> value.recipe.supply.getOrElse[String](""),
 								"level" -> value.recipe.level,
-								"ingredients" -> (if(value.recipe.ingredients.isDefinedAt(0)) value.recipe.ingredients(0).split(",").map(_.trim()) else ""),
-								"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
-								"tags" -> value.recipe.tags(0).split(",").map(_.trim()),
+								"ingredients" -> value.recipe.ingredients,
+								"phases" -> List[RecipePhase](),
+								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
+								"tags" -> value.recipe.tags,
 								"rating" -> value.recipe.rating,
 								//"draft" -> value.recipe.draft,
 								"photos" -> List[S3Photo]()
@@ -378,17 +380,45 @@ object RecipeController extends Controller with MongoController {
 	}
   
   def uploadRecipePhotos(id: String) = Action {  implicit request =>
-    val files = request.body.asMultipartFormData.toList
-	Logger.debug("recipe id: "+id)
-    Logger.debug("photos: "+files.length)
-	for(i <- 0 to files.length - 1) {
-		files(i).files.map { file =>
-			if(file.ref.file.length() != 0) {
-				Logger.debug("next file, length: "+file.ref.file.length())
-			}
-		}
-	}
-    Ok
+    
+    Async {
+      
+    	for {
+      
+	    	 S3Photos <- Akka.future {
+	    		 val files = request.body.asMultipartFormData.get.files
+	    		 Logger.debug("recipe id: "+id)
+	    		 Logger.debug("photos: "+files.length)//always 1
+				
+	    		 for(i <- 0 to files.length - 1) {
+	    			 files.map { file =>
+	    			 	if(file.ref.file.length() != 0) {
+	    			 		Logger.debug("next file, length: "+file.ref.file.length())
+	    			 	}
+	    			 }
+				}
+			    
+			    val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
+			    val results = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
+			    	val original = S3Photo.save(Image.asIs(file.ref.file), "original", "")
+					val slider = S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key)
+					val preview = if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null
+					Seq(original, slider, preview)
+			    }}.flatten.filter(_!=null)
+			    
+			    Logger.debug(results.toString)
+			    results
+	    	 }
+	    	 updatedDoc <- {
+	    		val selector = QueryBuilder().query(Json.obj("id" -> id)).makeQueryDocument
+	    		val modifier = QueryBuilder().query(Json.obj("$set" -> Json.obj("photos" -> S3Photos))).makeQueryDocument
+	    		Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true)))
+	    	 }
+    	} yield {
+    		Logger.debug(updatedDoc.get.get("name").get.toString())
+    		Ok
+	    }
+	    
+	  }
   }
-
 }
