@@ -36,6 +36,7 @@ import services.EmailMessage
 import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
 import play.api.libs.concurrent.Akka
+import auth.Authenticated
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
 case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
@@ -333,7 +334,7 @@ object RecipeController extends Controller with MongoController {
 		}
   }
   
-  def addRecipe = Action {  implicit request =>
+  def addRecipe = Authenticated {  Action {implicit request =>
 		recipeForm.bindFromRequest.fold(
 			formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 			value => {
@@ -377,6 +378,7 @@ object RecipeController extends Controller with MongoController {
 					}
 				} 
 			})
+  		}
 	}
   
   def uploadRecipePhotos(id: String) = Action {  implicit request =>

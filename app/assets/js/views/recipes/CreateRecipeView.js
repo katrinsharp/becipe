@@ -32,11 +32,13 @@ define([
 		var compiledTemplate = _.template(fileUploadTemplate);
 		this.$(".fileupload-holder").html(compiledTemplate());
 	},
-	
+	//not much proud for this one..
 	save: function() {
 		var view = this;
 		var fn = UserLoginView.model.get('fn');
-		if(fn!=undefined) this.model.set({recipe_by: fn});
+		if(fn!="") {
+			this.model.set('recipe_by', fn);
+		}
 		var params = _.object(_.map(this.model.attributes, function(attr, i){return i.replace('_', '.')}), _.map(this.model.attributes, function(attr, i){return attr}));
 		var tags = params['recipe.tags'].split(",");
 		var tagsParam = _.object(_.map(tags, function(item, i){return "recipe.tags["+i+"]"}), _.map(tags, function(item, i){return item}));
@@ -51,11 +53,19 @@ define([
 			success: function (model, response) {
 				view.model.set({recipe_id: response.id});
 				var form = this.$('#fileuploadform');
-				$(form).ajaxSubmit({url: '/api/0.1/recipe/'+view.model.get('recipe_id')+'/photos'});
-				window.location.hash = '#';
+				$(form).ajaxSubmit({
+					url: '/api/0.1/recipe/'+view.model.get('recipe_id')+'/photos',
+					success: function() {
+						window.location.hash = 'recipe/'+response.id;
+					},
+					error: function(jqXHR, textStatus, errorThrown) {
+						alert("Error uploading pictures: " + textStatus.responseText);
+					}
+				});
+				window.location.hash = 'recipe/'+response.id;
 			},
 			error: function (model, response) {
-				//alert("Something went wrong -:(. Please try again.");
+				console.log('error submitting recipe..');
 			}
 		});
 		return false;  

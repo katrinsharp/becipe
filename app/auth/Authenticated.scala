@@ -1,3 +1,5 @@
+package auth
+
 import play.api.mvc._
 import play.api.Logger
 import play.api.mvc.Results._
@@ -14,6 +16,7 @@ case class Authenticated[A](action: Action[A]) extends Action[A] {
       if(clientToken == serverToken) action(request) else Unauthorized
     }) 
     if(result.isSuccess) result.get(0) else Unauthorized
+    //if(request.session.get("token").getOrElse("")!="") action(request) else Unauthorized
   }
   
   lazy val parser = action.parser

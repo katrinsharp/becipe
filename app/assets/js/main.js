@@ -74,6 +74,10 @@ require.config({
 		domReady: {
 			deps: ['jquery'],
             exports: 'domReady'
+		},
+		router: {
+			deps: ['auth'],
+            exports: 'router'
 		}
     }
 });

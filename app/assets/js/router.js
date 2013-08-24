@@ -60,15 +60,6 @@ define([
 		  }
 		  
 	}
-	
-	var interceptAjax = function() {
-		$(document).ajaxSend(function(event, xhr, options) {
-			var authToken = UserLoginView.model.get('token');
-            if (authToken) {
-                xhr.setRequestHeader("Authorization-Token", authToken);
-            }
-		});
-	}
   
 	var AppRouter = Backbone.Router.extend({
 		routes: {
@@ -90,11 +81,6 @@ define([
 
     var app_router = new AppRouter;
 	
-	var authToken = $.cookie('token');
-	if(authToken!=undefined) {
-		
-	}
-	
 	app_router.on('route:showHome', function(){
         var homeView = new HomeView({pageType: 'homepage', query: ''});
     });
@@ -112,7 +98,7 @@ define([
 	
 	app_router.on('route:userAction', function(action, token){
 		if(action=='login') {
-			UserLoginView.render();
+			UserLoginView.render({backUrl: token});
 		} else if(action=='logout') {
 			UserLoginView.logout();
 		} else if(action=='signup') {
@@ -164,7 +150,6 @@ define([
     });
 	
 	initAnalytics();
-	interceptAjax();
 	var headerView = new HeaderView();
 	headerView.render();
     //var footerView = new FooterView();

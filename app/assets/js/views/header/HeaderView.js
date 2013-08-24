@@ -53,10 +53,10 @@ define([
 	},
 	
 	search: function() {
-		var url ="#search-recipes/" + this.searchTerm;
+		var url ="search-recipes/" + this.searchTerm;
 		var filter = _.map($('label input:checked'), function(item){return $(item).val()}).join('&');
 		url = url + '/' + filter;
-		window.location = url;
+		window.location.hash = url;
 	},
 	
 	clickSearch: function() {
