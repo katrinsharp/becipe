@@ -4,6 +4,7 @@ define([
   'underscore',
   'backbone',
   'cookie',
+  'globals',
   'views/home/HomeView',
   'views/signup/SignupThankyouView',
   'views/user/UserLoginView',
@@ -17,7 +18,7 @@ define([
   'views/footer/FooterView',
   'text!templates/user/userSignupThankyouTemplate.html',
   'text!templates/user/userSignupCompleteTemplate.html'
-], function($, _, Backbone, Cookie, 
+], function($, _, Backbone, Cookie, globals,
 	HomeView, 
 	SignupThankyouView, 
 	UserLoginView, 
@@ -47,7 +48,7 @@ define([
 			//DEBUG: ga('create', 'UA-40585181-1', 'none');
 		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
 			if(firstVisit == undefined) {
-				firstVisit = 3;
+				firstVisit = globals.currentIteration;
 				$.cookie('becipe-first-iteration-visit', firstVisit, {expires: 720, path: '/'});
 			}
 		  	//crazy egg
@@ -58,6 +59,15 @@ define([
 			//end crazy egg
 		  }
 		  
+	}
+	
+	var interceptAjax = function() {
+		$(document).ajaxSend(function(event, xhr, options) {
+			var authToken = UserLoginView.model.get('token');
+            if (authToken) {
+                xhr.setRequestHeader("Authorization-Token", authToken);
+            }
+		});
 	}
   
 	var AppRouter = Backbone.Router.extend({
@@ -79,6 +89,11 @@ define([
   var initialize = function(){
 
     var app_router = new AppRouter;
+	
+	var authToken = $.cookie('token');
+	if(authToken!=undefined) {
+		
+	}
 	
 	app_router.on('route:showHome', function(){
         var homeView = new HomeView({pageType: 'homepage', query: ''});
@@ -149,6 +164,7 @@ define([
     });
 	
 	initAnalytics();
+	interceptAjax();
 	var headerView = new HeaderView();
 	headerView.render();
     //var footerView = new FooterView();

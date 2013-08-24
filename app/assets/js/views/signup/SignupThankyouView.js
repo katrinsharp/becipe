@@ -3,9 +3,10 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'globals',
   'views/BaseView',
   'text!templates/signup/signupThankyouTemplate.html'
-], function($, _, Backbone, Bootstrap, BaseView, signupThankyouTemplate){
+], function($, _, Backbone, Bootstrap, globals, BaseView, signupThankyouTemplate){
 
   var SignupThankyouView = BaseView.extend({
     el: $("#body-container"),
@@ -15,7 +16,7 @@ define([
 		if($.cookie('becipe-signup-iteration') == undefined) {
 			//var date=new Date();
 			//var dateStr = date.getDate().toString()+"-"+(date.getMonth()+1)+"-"+date.getFullYear();
-			$.cookie('becipe-signup-iteration', 2, {expires: 720, path: '/'});
+			$.cookie('becipe-signup-iteration', globals.currentIteration, {expires: 720, path: '/'});
 		}
 		BaseView.prototype.initialize.apply();
     },

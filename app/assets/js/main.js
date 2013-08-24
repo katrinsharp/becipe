@@ -14,7 +14,8 @@ require.config({
 	isotope: '../js/external/isotope/jquery-isotope-min', //1.5.12
 	moment: '../js/external/moment/moment-min', //date time conversion
 	cookie: '../js/external/jquery-cookie/jquery-cookie', //browser cookie helper
-	placeholder: '../js/external/jquery-placeholder/jquery-placeholder', //2.0.7
+	placeholder: '../js/external/jquery-placeholder/jquery-placeholder', //2.0.7,
+	domReady: '../js/external/domReady/domReady',//2.0.1
     templates: '../templates' //text.js - 2.0.7
   },
   shim: {
@@ -69,12 +70,19 @@ require.config({
 		placeholder: {
 			deps: ['jquery'],
             exports: 'Placeholder'
+		},
+		domReady: {
+			deps: ['jquery'],
+            exports: 'domReady'
 		}
     }
 });
 
 require([	
-  'app'
-], function(App){
-  App.initialize();
+  'app',
+  'domReady'
+], function(App, domReady){
+	domReady(function () {
+		App.initialize();
+	});
 });

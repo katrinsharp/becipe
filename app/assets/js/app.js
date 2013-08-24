@@ -2,15 +2,16 @@ define([
   'jquery', 
   'underscore', 
   'backbone',
-  'router'
-], function($, _, Backbone, Router){
+  'router',
+  'module',
+  'globals',
+  'views/user/UserLoginView'
+], function($, _, Backbone, router, module, globals, UserLoginView){
 
-	define(['module'], function (module) {
-		var recipes = new Backbone.Collection( module.config().recipes );
-	});
-	
 	var initialize = function(){
-		Router.initialize();
+		globals.initialize();
+		router.initialize();
+		UserLoginView.model.set({token: module.config().token, fn: module.config().fn});
 	};
 
 	return { 

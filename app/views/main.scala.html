@@ -1,4 +1,4 @@
-@(currentMenu: String = "")(content: Html)(implicit request: RequestHeader)
+@(currentMenu: String = "")(content: Html)(implicit request: RequestHeader, session: Session)
 <!DOCTYPE html>
 
 <head>
@@ -30,7 +30,11 @@
 		var require = {
 			config: {
 				'app': {
-					recipes: '[1,2,3]'
+					token: '@session.get("token").getOrElse("")',
+					fn: '@session.get("fn").getOrElse("")'
+				},
+				'globals': {
+					currentIteration: '3'
 				}
 			}
 		};
