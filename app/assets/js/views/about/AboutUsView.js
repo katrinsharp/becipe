@@ -8,7 +8,7 @@ define([
 ], function($, _, Backbone, Bootstrap, BaseView, aboutUsTemplate){
 
   var AboutUsView = BaseView.extend({
-    el: $("#body-container"),
+    //el: $("#body-container"),
 	
     initialize: function() {
 		BaseView.prototype.initialize.apply();
@@ -17,6 +17,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(aboutUsTemplate);
 		this.$el.html(compiledTemplate);
+		$('#body-container').append(this.el);
 		return this;
     }
 

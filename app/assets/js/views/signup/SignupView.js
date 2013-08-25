@@ -64,7 +64,7 @@ define([
 	});		
 
   var SignupView = BaseView.extend({
-    el: $("#body-container"),
+    //el: $("#body-container"),
 	
 	model: new SignupDetails(),
 	
@@ -83,10 +83,16 @@ define([
 		var view = this;
 		this.model.enforceValid();
 	},
+	
+	close: function() {
+		this.socialSiteView.close();
+		this.remove();
+	},
 
     render: function(){
 		var compiledTemplate = _.template(signupTemplate);
 		this.$el.html(compiledTemplate);
+		$('#body-container').append(this.el);
 		this.socialSiteView = new SocialSiteView();
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.listenTo(this.model, 'change', this.change);

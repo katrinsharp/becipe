@@ -13,7 +13,7 @@ define([
 
   var HomeView = BaseView.extend({
     
-	el: $("#body-container"),
+	//el: "#body-container",
 
     initialize: function(options) {
 		this.pageType = options.pageType;//homepage or search
@@ -30,6 +30,7 @@ define([
 
 		var compiledTemplate = _.template(homeTemplate);
 		this.$el.html(compiledTemplate);
+		$('#body-container').append(this.el);
 		var $container = $('#filter-container');	
 		
 		$container.imagesLoaded( function(){

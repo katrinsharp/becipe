@@ -15,7 +15,7 @@ define([
 
   var RecipePageView = BaseView.extend({
   
-	el: $("#body-container"),
+	//el: $("#body-container"),
     
     initialize: function(options) {
 		this.model = new RecipeModel(options);
@@ -30,6 +30,7 @@ define([
 		_.extend(recipe, viewHelpers);
         this.model.fetch({success: function(){
 			view.$el.html(compiledTemplate({recipe: recipe}));
+			$('#body-container').append(view.el);
 			$('.flexslider').flexslider({
 				animation: "slide",
 				slideshow: false,

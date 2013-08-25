@@ -192,7 +192,7 @@ define([
 				//this.trigger.apply(this, ['beforeroute:' + name].concat(_.toArray(arguments)));
 				console.log("Route is about to get hit ...");
 				if(this.currentView) {
-					this.currentView.remove();
+					this.currentView.close();
 				}
 				this.currentView = callback.apply(this, arguments);
 			});

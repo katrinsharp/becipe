@@ -8,7 +8,7 @@ define([
 ], function($, _, Backbone, Bootstrap, globals, BaseView){
 
   var UserSignupThankyouView = BaseView.extend({
-    el: $("#body-container"),
+    //el: $("#body-container"),
 	
     initialize: function(options) {
 		this.name = options.name;
@@ -24,6 +24,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(this.template);
 		this.$el.html(compiledTemplate({name: this.name}));
+		$('#body-container').append(this.el);
 		return this;
     }
 

@@ -23,7 +23,10 @@ define([
 			console.log(pathWithHash);
 		  	ga('send', 'pageview', pathWithHash);
 		}
-    }
+    },
+	close: function() {
+		this.remove();
+	}
   });
 
   return BaseView;
