@@ -63,49 +63,6 @@ define([
 		  }
 		  
 	}
-	
-	var bindAjaxSubmitButton = function() {
-		// jQuery Global Setup
-		var ajaxMsg = $('button[type="submit"]');
-		$(document).bind({
-			ajaxStart: function() {
-				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
-				$('span.error').remove();
-			},
-			ajaxError: function(jqXHR, textStatus, errorThrown) {
-				var error = {};
-				try{
-					error = JSON.parse(textStatus.responseText);
-				}catch(e){
-					error = {error: textStatus.responseText};
-				}
-				
-				if(_.keys(error).length!=0) {
-					var key = _.keys(error)[0];
-					if(key=='error') {
-						var msg = textStatus.statusText;
-						if(msg=='Unauthorized') {
-							msg = 'Please login first';
-						}
-						$('button[type=submit]').before('<div><span class="error">'+msg+'. '+error[key]+'</span></div>');
-					} else { //specific field error
-						var inField = $('[name='+key+']');
-						var errors = $(inField).next('span.error');
-						if(errors.length!=0) {
-							$(errors).text(error[key]);
-						} else {
-							$(inField).after('<span class="error">'+error[key]+'</span>');
-						}
-						$(inField).addClass('error');
-					}
-				}
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
-			},
-			ajaxDone: function() {
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
-			}
-		});
-	}
   
 	var AppRouter = Backbone.Router.extend({
 		//routes: {
@@ -228,7 +185,7 @@ define([
 	app_router.route('about-us', 'showHome', app_router.aboutUs);  
 		
 	initAnalytics();
-	bindAjaxSubmitButton();
+	
 	var headerView = new HeaderView();
 	headerView.render();
     //var footerView = new FooterView();

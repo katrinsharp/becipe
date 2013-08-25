@@ -15,8 +15,8 @@ define([
     //el: $("#body-container"),
 	
 	events: {
-		"focus input": "onFocus",
-		"blur input": "onBlur",
+		"focus [name]": "onFocus",
+		"blur [name]": "onBlur",
 		"change [name]": "onChange"
 	},
 	
@@ -59,10 +59,12 @@ define([
 		});
 		$('.selectpicker').selectpicker();
 		this.listenTo(this.model, 'change', this.change);
+		this.bindAjaxSubmitButton();
 		return this;
     },
 	
 	close: function() {
+		this.unbindAjaxSubmitButton();
 		$('.tip-darkgray').remove();
 		this.remove();
 	},
@@ -79,6 +81,56 @@ define([
 	},
 	
 	onBlur: function(e) {
+	},
+	
+	unbindAjaxSubmitButton: function() {
+		var ajaxMsg = $('button[type="submit"]');
+		ajaxMsg.unbind("ajaxStart");
+		ajaxMsg.unbind("ajaxError");
+		ajaxMsg.unbind("ajaxDone");
+	},
+	
+	bindAjaxSubmitButton: function() {
+		// jQuery Global Setup
+		var ajaxMsg = $('button[type="submit"]');
+		ajaxMsg.bind({
+			ajaxStart: function() {
+				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
+				$('span.error').remove();
+			},
+			ajaxError: function(jqXHR, textStatus, errorThrown) {
+				var error = {};
+				try{
+					error = JSON.parse(textStatus.responseText);
+				}catch(e){
+					error = {error: textStatus.responseText};
+				}
+				
+				if(_.keys(error).length!=0) {
+					var key = _.keys(error)[0];
+					if(key=='error') {
+						var msg = textStatus.statusText;
+						if(msg=='Unauthorized') {
+							msg = 'Please login first';
+						}
+						$('button[type=submit]').before('<div><span class="error">'+msg+'. '+error[key]+'</span></div>');
+					} else { //specific field error
+						var inField = $('[name='+key+']');
+						var errors = $(inField).next('span.error');
+						if(errors.length!=0) {
+							$(errors).text(error[key]);
+						} else {
+							$(inField).after('<span class="error">'+error[key]+'</span>');
+						}
+						$(inField).addClass('error');
+					}
+				}
+				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			},
+			ajaxDone: function() {
+				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			}
+		});
 	}
 
   });
