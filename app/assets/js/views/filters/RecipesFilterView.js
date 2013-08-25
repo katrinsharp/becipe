@@ -19,10 +19,9 @@ define([
     },
 
     render: function(){
-	
 		var compiledTemplate = _.template(checkboxTemplate);
 		this.$el.html(compiledTemplate({id: this.model.get('id'), desc: this.model.get('desc'), state: this.model.get('state')}));
-	  
+		return this;
     },
 	
 	clickChkbox: function() {

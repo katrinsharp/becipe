@@ -21,10 +21,11 @@ define([
 		}
 	});
 
-	$doc.ajaxError(function (event, xhr) {
-		if (xhr.status == 401) {
-			console.log("ajaxError");
-			redirectToLogin();
-		}
-	});
+	//adds redirect login multiple times in redirectToLogin() - should investigate
+	//$doc.ajaxError(function (event, xhr) {
+	//	if (xhr.status == 401) {
+	//		console.log("ajaxError");
+	//		redirectToLogin();
+	//	}
+	//});
 });

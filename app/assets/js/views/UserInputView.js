@@ -57,9 +57,8 @@ define([
 			showTimeout: 100
 		});
 		$('.selectpicker').selectpicker();
-		
-		this.bindAjaxSubmit();
 		this.listenTo(this.model, 'change', this.change);
+		return this;
     },
 	
 	onChange: function(e) {
@@ -74,42 +73,7 @@ define([
 	},
 	
 	onBlur: function(e) {
-	},
-	
-	bindAjaxSubmit: function() {
-		// jQuery Global Setup
-		var ajaxMsg = $('button[type="submit"]');
-		ajaxMsg.bind({
-			ajaxStart: function() {
-				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
-				$('span.error').remove();
-			},
-			ajaxError: function(jqXHR, textStatus, errorThrown) {
-				
-				var error = JSON.parse(textStatus.responseText);
-				if(_.keys(error).length!=0) {
-					var key = _.keys(error)[0];
-					if(key=='error') {
-					
-					} else { //specific field error
-						var inField = $('[name='+key.replace('.', '_')+']');
-						var errors = $(inField).next('span.error');
-						if(errors.length!=0) {
-							$(errors).text(error[key]);
-						} else {
-							$(inField).after('<span class="error">'+error[key]+'</span>');
-						}
-						$(inField).addClass('error');
-					}
-				}
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
-			},
-			ajaxDone: function() {
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
-			}
-		});
 	}
-	
 
   });
 

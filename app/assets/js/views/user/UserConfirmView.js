@@ -24,7 +24,6 @@ define([
     },
 	
 	render: function() {
-		
 		var that = this, p;
 		p = this.model.fetch();
 		p.error(function () {
@@ -34,7 +33,7 @@ define([
 			var m = that.model;
 			UserConfirmView.__super__.render.call(that, m.attributes);
         });
-		
+		return this;
 	},
 	
 	confirm: function(e) {

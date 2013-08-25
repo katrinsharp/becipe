@@ -28,6 +28,7 @@ define([
 			this.backUrl = options.backUrl;
 		}
 		UserLoginView.__super__.render.call(this, {});
+		return this;
 	},
 
 	loginTokenChanged: function() {

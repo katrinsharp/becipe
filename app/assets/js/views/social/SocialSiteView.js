@@ -24,9 +24,9 @@ define([
     },
 
     render: function(){
-
-      var compiledTemplate = _.template(socialSiteTemplate);
-      this.$el.html(compiledTemplate);
+		var compiledTemplate = _.template(socialSiteTemplate);
+		this.$el.html(compiledTemplate);
+		return this;
     },
 	
 	gplusClick: function() {

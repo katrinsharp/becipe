@@ -24,6 +24,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(signupThankyouTemplate);
 		this.$el.html(compiledTemplate({name: this.name}));
+		return this;
     }
 
   });

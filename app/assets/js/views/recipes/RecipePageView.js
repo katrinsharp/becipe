@@ -31,11 +31,12 @@ define([
         this.model.fetch({success: function(){
 			view.$el.html(compiledTemplate({recipe: recipe}));
 			$('.flexslider').flexslider({
-    		animation: "slide",
-    		slideshow: false,
-    		directionNav: true
-  		});
+				animation: "slide",
+				slideshow: false,
+				directionNav: true
+			});
         }});
+		return this;
 	}
 
   });

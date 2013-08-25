@@ -90,6 +90,7 @@ define([
 		this.socialSiteView = new SocialSiteView();
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.listenTo(this.model, 'change', this.change);
+		return this;
     },
 	
 	onChange: function(e) {

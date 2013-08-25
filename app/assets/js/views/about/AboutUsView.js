@@ -17,6 +17,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(aboutUsTemplate);
 		this.$el.html(compiledTemplate);
+		return this;
     }
 
   });

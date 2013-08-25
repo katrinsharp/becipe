@@ -23,7 +23,6 @@ define([
 			this.query = this.pageType;
 		}
 		this.recipeCollection = new RecipeCollection();
-		this.render();
 		BaseView.prototype.initialize.apply();
     },
 
@@ -118,7 +117,7 @@ define([
 			}
 			$container.isotope();
         });
-		
+		return this;
     }
 	
   });

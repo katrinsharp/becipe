@@ -60,96 +60,162 @@ define([
 		  }
 		  
 	}
+	
+	var bindAjaxSubmitButton = function() {
+		// jQuery Global Setup
+		var ajaxMsg = $('button[type="submit"]');
+		$(document).bind({
+			ajaxStart: function() {
+				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
+				$('span.error').remove();
+			},
+			ajaxError: function(jqXHR, textStatus, errorThrown) {
+				var error = {};
+				try{
+					error = JSON.parse(textStatus.responseText);
+				}catch(e){
+					error = {error: textStatus.responseText};
+				}
+				
+				if(_.keys(error).length!=0) {
+					var key = _.keys(error)[0];
+					if(key=='error') {
+						var msg = textStatus.statusText;
+						if(msg=='Unauthorized') {
+							msg = 'Please login first';
+						}
+						$('button[type=submit]').before('<div><span class="error">'+msg+'. '+error[key]+'</span></div>');
+					} else { //specific field error
+						var inField = $('[name='+key+']');
+						var errors = $(inField).next('span.error');
+						if(errors.length!=0) {
+							$(errors).text(error[key]);
+						} else {
+							$(inField).after('<span class="error">'+error[key]+'</span>');
+						}
+						$(inField).addClass('error');
+					}
+				}
+				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			},
+			ajaxDone: function() {
+				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			}
+		});
+	}
   
 	var AppRouter = Backbone.Router.extend({
-		routes: {
-		  '': 'showHome',
-		  'search-recipes/(:query)/(:filter)': 'searchRecipes',
-		  'create-recipe': 'createRecipe',
-		  'user/:action(/:token)': 'userAction',
-		  'signup-thankyou/:name': 'signupThankyou',
-		  'user-signup-thankyou/:name': 'userSignupThankyou',
-		  'user-signup-complete/:name': 'userSignupComplete',
-		  'recipe/:id': 'recipeDetails',
-		  'about-us': 'aboutUs',
+		//routes: {
+		  //'': 'showHome',
+		  //'search-recipes/(:query)/(:filter)': 'searchRecipes',
+		  //'create-recipe': 'createRecipe',
+		  //'user/:action(/:token)': 'userAction',
+		  //'signup-thankyou/:name': 'signupThankyou',
+		  //'user-signup-thankyou/:name': 'userSignupThankyou',
+		  //'user-signup-complete/:name': 'userSignupComplete',
+		  //'recipe/:id': 'recipeDetails',
+		  //'about-us': 'aboutUs',
 		  // Default
-		  '*actions': 'defaultAction'
-		}
+		  //'*actions': 'defaultAction'
+		//},
+		showHome: function() {
+			var homeView = new HomeView({pageType: 'homepage', query: ''});
+			homeView.render();
+			return homeView;
+		},
+		searchRecipes: function(query, filter) {
+			if(query==undefined) {
+			query = '';
+			}
+			if(filter==undefined) {
+				filter = '';
+			}
+			var homeView = new HomeView({pageType: 'search', query: query, filter: filter});
+			homeView.render();
+			return homeView;
+		},
+		createRecipe: function(){
+			var createRecipeView = new CreateRecipeView();
+			createRecipeView.render();
+			return createRecipeView;
+		},
+		userAction: function(action, token){
+			if(action=='login') {
+				UserLoginView.render({backUrl: token});
+			} else if(action=='logout') {
+				UserLoginView.logout();
+			} else if(action=='signup') {
+				var userSignupView = new UserSignupView();
+				userSignupView.render();
+			} else if(action=='confirm') {
+				var userConfirmView = new UserConfirmView({token: token});
+				userConfirmView.render();
+			} else{
+				console.log('not implemented yet');
+			}
+		},
+		signupThankyou: function(name){
+			var signupThankyouView = new SignupThankyouView({name: name});
+			signupThankyouView.render();
+			return signupThankyouView;
+		},
+		userSignupThankyou: function(name){
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: false});
+			userSignupThankyou.render();
+			return userSignupThankyou;
+		},
+		userSignupComplete: function(name){
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: true});
+			userSignupThankyou.render();
+			return userSignupThankyou;
+		},
+		recipeDetails: function(id){
+			var recipePageView = new RecipePageView({id: id});
+			recipePageView.render();
+			return recipePageView;
+		},
+		aboutUs: function(){
+			var aboutUsView = new AboutUsView();
+			aboutUsView.render();
+			return aboutUsView;
+		},
+		defaultAction: function (action) {
+			// We have no matching route, lets display the home page 
+			UserLoginView.render();
+		},
+		route: function(route, name, callback) {
+			return Backbone.Router.prototype.route.call(this, route, name, function() {
+				//can be used to prefilter any route with given name for example showHome
+				//app_router.on("beforeroute:showHome", function() {
+				//console.log("Route is about to get hit ...");
+				//});
+				//this.trigger.apply(this, ['beforeroute:' + name].concat(_.toArray(arguments)));
+				console.log("Route is about to get hit ...");
+				if(this.currentView) {
+					this.currentView.remove();
+				}
+				this.currentView = callback.apply(this, arguments);
+			});
+		} 
 	});
   
   var initialize = function(){
 
     var app_router = new AppRouter;
 	
-	app_router.on('route:showHome', function(){
-        var homeView = new HomeView({pageType: 'homepage', query: ''});
-    });
-	
-	app_router.on('route:searchRecipes', function(query, filter){
-		if(query==undefined) {
-			query = '';
-		}
-		if(filter==undefined) {
-			filter = '';
-		}
-        var homeView = new HomeView({pageType: 'search', query: query, filter: filter});
-		//app_router.navigate('/');
-    });
-	
-	app_router.on('route:userAction', function(action, token){
-		if(action=='login') {
-			UserLoginView.render({backUrl: token});
-		} else if(action=='logout') {
-			UserLoginView.logout();
-		} else if(action=='signup') {
-			var userSignupView = new UserSignupView();
-			userSignupView.render();
-		} else if(action=='confirm') {
-			var userConfirmView = new UserConfirmView({token: token});
-			userConfirmView.render();
-		} else{
-			console.log('not implemented yet');
-		}
-    });
-	
-	app_router.on('route:signupThankyou', function(name){
-        var signupThankyouView = new SignupThankyouView({name: name});
-		signupThankyouView.render();
-    });
-	
-	app_router.on('route:userSignupThankyou', function(name){
-        var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: false});
-		userSignupThankyou.render();
-    });
-	
-	app_router.on('route:userSignupComplete', function(name){
-        var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: true});
-		userSignupThankyou.render();
-    });
-	
-	app_router.on('route:createRecipe', function(){
-        var createRecipeView = new CreateRecipeView();
-		createRecipeView.render();
-    });
-	
-	app_router.on('route:recipeDetails', function(id){
-        var recipePageView = new RecipePageView({id: id});
-		recipePageView.render();
-    });
-	
-	app_router.on('route:aboutUs', function(id){
-        var aboutUsView = new AboutUsView();
-		aboutUsView.render();
-    });
-	
-    app_router.on('route:defaultAction', function (actions) {
-     
-		// We have no matching route, lets display the home page 
-		// var homeView = new HomeView();
-		UserLoginView.render();
-    });
-	
+	app_router.route('*action', 'defaultAction', app_router.defaultAction);  
+	app_router.route('', 'showHome', app_router.showHome);
+	app_router.route('search-recipes/(:query)/(:filter)', 'searchRecipes', app_router.searchRecipes);
+	app_router.route('create-recipe', 'createRecipe', app_router.createRecipe);
+	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
+	app_router.route('signup-thankyou/:name', 'signupThankyou', app_router.signupThankyou);
+	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
+	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
+	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
+	app_router.route('about-us', 'showHome', app_router.aboutUs);  
+		
 	initAnalytics();
+	bindAjaxSubmitButton();
 	var headerView = new HeaderView();
 	headerView.render();
     //var footerView = new FooterView();

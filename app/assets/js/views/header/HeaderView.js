@@ -28,12 +28,13 @@ define([
     },
 
     render: function(){
-      var compiledTemplate = _.template(headerTemplate);
-      this.$el.html(compiledTemplate);
-	  this.socialSiteView = new SocialSiteView();
-	  this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
-	  this.recipesFiltersView = new RecipesFiltersView();
-	  this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
+		var compiledTemplate = _.template(headerTemplate);
+		this.$el.html(compiledTemplate);
+		this.socialSiteView = new SocialSiteView();
+		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
+		this.recipesFiltersView = new RecipesFiltersView();
+		this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
+		return this;
     },
 	
 	loginTokenChanged: function() {

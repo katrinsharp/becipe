@@ -334,38 +334,77 @@ object RecipeController extends Controller with MongoController {
 		}
   }
   
+  val recipeAddForm: Form[Recipe] = Form(
+		mapping(
+			"id" -> default(text, "-1"),			
+			"name" -> nonEmptyText,			
+			"shortDesc" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),			
+			"created" -> jodaDate("yyyy-MM-dd'T'HH:mm:ssZZ"),			
+			"by" -> nonEmptyText,
+			"directions" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),
+			"ingredients" -> text.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
+			"phases" -> seq(mapping(
+					"description" -> text,
+					"ingredients" -> seq(text)
+					)(RecipePhase.apply)(RecipePhase.unapply)),			
+			"prepTime" -> nonEmptyText,	
+			"readyIn" -> optional(text),
+			"recipeYield" -> nonEmptyText,	
+			"supply" -> optional(text),
+			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
+			"tags" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
+			"rating" -> ignored(0),
+			"draft" -> optional(boolean),
+			"photos" -> ignored(Seq[S3Photo]())
+			)(Recipe.apply)(Recipe.unapply))
+  
   def addRecipe = Authenticated {  Action {implicit request =>
-		recipeForm.bindFromRequest.fold(
+		recipeAddForm.bindFromRequest.fold(
 			formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 			value => {
-				val id = value.recipe.id match {
+					addOrUpdate(value)
+				})
+  		}
+	}
+  
+  def updateRecipe = Authenticated {  Action {implicit request =>
+		recipeAddForm.bindFromRequest.fold(
+			formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
+			value => {
+					addOrUpdate(value)
+				})
+  		}
+	}
+
+	private def addOrUpdate(value: Recipe) = {
+	  val id = value.id match {
 							case "-1" => UniqueCode.getRandomCode
 							case v => v
 						}
 				Async {
 					
-					val newRecipe = (id != value.recipe.id)
+					val newRecipe = (id != value.id)
 					
 					Logger.debug(value.toString)
 					
-					val selector = QueryBuilder().query(Json.obj("id" -> value.recipe.id)).makeQueryDocument
+					val selector = QueryBuilder().query(Json.obj("id" -> value.id)).makeQueryDocument
 					val modifier = QueryBuilder().query(Json.obj("$set" -> Json.obj(
 								"id" -> id,
-								"name" -> value.recipe.name,
-								"shortDesc" -> value.recipe.shortDesc.trim(),
-								"created" -> value.recipe.created,
-								"by" -> value.recipe.by,
-								"directions" -> value.recipe.directions.trim(),
-								"prepTime" -> value.recipe.prepTime,
-								"readyIn" -> value.recipe.readyIn.getOrElse[String](""),
-								"recipeYield" -> value.recipe.recipeYield,
-								"supply" -> value.recipe.supply.getOrElse[String](""),
-								"level" -> value.recipe.level,
-								"ingredients" -> value.recipe.ingredients,
+								"name" -> value.name,
+								"shortDesc" -> value.shortDesc.trim(),
+								"created" -> value.created,
+								"by" -> value.by,
+								"directions" -> value.directions.trim(),
+								"prepTime" -> value.prepTime,
+								"readyIn" -> value.readyIn.getOrElse[String](""),
+								"recipeYield" -> value.recipeYield,
+								"supply" -> value.supply.getOrElse[String](""),
+								"level" -> value.level,
+								"ingredients" -> value.ingredients,
 								"phases" -> List[RecipePhase](),
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
-								"tags" -> value.recipe.tags,
-								"rating" -> value.recipe.rating,
+								"tags" -> value.tags,
+								"rating" -> value.rating,
 								//"draft" -> value.recipe.draft,
 								"photos" -> List[S3Photo]()
 								))).makeQueryDocument
@@ -376,10 +415,8 @@ object RecipeController extends Controller with MongoController {
 					  		case None => BadRequest(Json.obj("error" -> "Unknown Error"))
 					  	}
 					}
-				} 
-			})
-  		}
-	}
+				}
+	} 
   
   def uploadRecipePhotos(id: String) = Action {  implicit request =>
     
