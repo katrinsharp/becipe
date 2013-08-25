@@ -16,6 +16,6 @@ define([
 		}
 	});
 		
-	return UserLoginModel;
+	return new UserLoginModel();
 
 });	

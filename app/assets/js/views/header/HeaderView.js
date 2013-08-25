@@ -7,9 +7,9 @@ define([
   'views/social/SocialSiteView',
   'text!templates/header/headerTemplate.html',
   'views/filters/RecipesFiltersView',
-  'views/user/UserLoginView',
+  'models/user/UserLoginModel',
   'router'
-], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, RecipesFiltersView, UserLoginView, AppRouter){
+], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, RecipesFiltersView, UserLoginModel, AppRouter){
 
   var HeaderView = Backbone.View.extend({
     
@@ -24,7 +24,7 @@ define([
 	searchTerm: '',
 	
     initialize: function() {
-		this.listenTo(UserLoginView.model, 'change:token', this.loginTokenChanged);
+		this.listenTo(UserLoginModel, 'change:token', this.loginTokenChanged);
     },
 
     render: function(){
@@ -38,8 +38,8 @@ define([
     },
 	
 	loginTokenChanged: function() {
-		var token = UserLoginView.model.get('token');
-		var fn = UserLoginView.model.get('fn');
+		var token = UserLoginModel.get('token');
+		var fn = UserLoginModel.get('fn');
 		if((token != undefined) && (token.length!=0)) {
 			$('[data="login"]').css('display', 'none');
 			$('[data="logout"]').css('display', '');

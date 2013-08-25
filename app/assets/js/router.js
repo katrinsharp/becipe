@@ -141,9 +141,11 @@ define([
 		},
 		userAction: function(action, token){
 			if(action=='login') {
-				UserLoginView.render({backUrl: token});
+				return (new UserLoginView()).render({backUrl: token});
 			} else if(action=='logout') {
-				UserLoginView.logout();
+				var userLoginView = new UserLoginView();
+				userLoginView.logout();
+				return userLoginView;
 			} else if(action=='signup') {
 				var userSignupView = new UserSignupView();
 				userSignupView.render();
@@ -183,7 +185,7 @@ define([
 		},
 		defaultAction: function (action) {
 			// We have no matching route, lets display the home page 
-			UserLoginView.render();
+			return (new UserLoginView()).render();
 		},
 		route: function(route, name, callback) {
 			return Backbone.Router.prototype.route.call(this, route, name, function() {

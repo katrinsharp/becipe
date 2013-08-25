@@ -5,12 +5,12 @@ define([
   'bootstrap',
   'bootstrapFileupload',
   'jqueryForm',
-  'views/user/UserLoginView',
+  'models/user/UserLoginModel',
   'views/UserInputView',
   'models/recipes/RecipeFormModel',
   'text!templates/recipes/createRecipePageTemplate.html',
   'text!templates/misc/fileUploadTemplate.html'
-], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginView, UserInputView, RecipeFormModel, createRecipePageTemplate, fileUploadTemplate){
+], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginModel, UserInputView, RecipeFormModel, createRecipePageTemplate, fileUploadTemplate){
 
    var CreateRecipeView = UserInputView.extend({
    
@@ -36,7 +36,7 @@ define([
 	//not much proud for this one..
 	save: function() {
 		var view = this;
-		var fn = UserLoginView.model.get('fn');
+		var fn = UserLoginModel.get('fn');
 		this.model.set('by', fn);
 		//var params = _.object(_.map(this.model.attributes, function(attr, i){return i.replace('_', '.')}), _.map(this.model.attributes, function(attr, i){return attr}));
 		//var tags = params['recipe.tags'].split(",");

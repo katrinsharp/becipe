@@ -6,14 +6,14 @@ define([
   'module',
   'globals',
   'auth',
-  'views/user/UserLoginView'
-], function($, _, Backbone, router, module, globals, auth, UserLoginView){
+  'models/user/UserLoginModel'
+], function($, _, Backbone, router, module, globals, auth, UserLoginModel){
 
 	var initialize = function(){
 		globals.initialize();
 		router.initialize();
 		if(module.config().token!="") {	
-			UserLoginView.model.set({token: module.config().token, fn: module.config().fn});
+			UserLoginModel.set({token: module.config().token, fn: module.config().fn});
 		}
 	};
 

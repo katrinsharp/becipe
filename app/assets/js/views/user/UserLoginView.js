@@ -10,7 +10,7 @@ define([
 
    var UserLoginView = UserInputView.extend({
    
-   model: new UserLoginModel(),
+   model: UserLoginModel,
    template: userLoginTemplate,
 	
 	events: {
@@ -67,6 +67,6 @@ define([
 	
   });
   
-  return new UserLoginView();
+  return UserLoginView;
   
 });
