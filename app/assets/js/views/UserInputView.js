@@ -22,7 +22,6 @@ define([
 	
     initialize: function() {
 		BaseView.prototype.initialize.apply();
-		$('input').placeholder();
     },
 	
 	change: function() {
@@ -40,6 +39,7 @@ define([
 		this.$el.html(compiledTemplate(options));
 		$('#body-container').append(this.el);
 		
+		$('input').placeholder();
 		//x-editable if any
 		$.fn.editable.defaults.mode = 'inline';
 		var options = {display: this.displayXEditable};

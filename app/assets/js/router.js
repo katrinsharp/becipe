@@ -147,9 +147,11 @@ define([
 			} else if(action=='signup') {
 				var userSignupView = new UserSignupView();
 				userSignupView.render();
+				return userSignupView;
 			} else if(action=='confirm') {
 				var userConfirmView = new UserConfirmView({token: token});
 				userConfirmView.render();
+				return userConfirmView;
 			} else{
 				console.log('not implemented yet');
 			}
