@@ -13,6 +13,9 @@ define([
 		},
 		url: function() {
 			return '/api/0.1/login';
+		},
+		isAuthenticated: function() {
+			return ((this.get('token')!=undefined)&&(this.get('token')!=""));
 		}
 	});
 		

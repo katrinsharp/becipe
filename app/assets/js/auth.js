@@ -27,4 +27,8 @@ define([
 			redirectToLogin();
 		}
 	});
+	
+	return { 
+		redirectToLogin: redirectToLogin
+	};
 });

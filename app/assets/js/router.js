@@ -5,6 +5,8 @@ define([
   'backbone',
   'cookie',
   'globals',
+  'auth',
+  'models/user/UserLoginModel',
   'views/home/HomeView',
   'views/signup/SignupThankyouView',
   'views/user/UserLoginView',
@@ -18,7 +20,8 @@ define([
   'views/footer/FooterView',
   'text!templates/user/userSignupThankyouTemplate.html',
   'text!templates/user/userSignupCompleteTemplate.html'
-], function($, _, Backbone, Cookie, globals,
+], function($, _, Backbone, Cookie, globals, auth,
+	UserLoginModel,
 	HomeView, 
 	SignupThankyouView, 
 	UserLoginView, 
@@ -187,6 +190,10 @@ define([
 			// We have no matching route, lets display the home page 
 			return (new UserLoginView()).render();
 		},
+		authRoutes: {
+			'createRecipe': true
+			
+		},
 		route: function(route, name, callback) {
 			return Backbone.Router.prototype.route.call(this, route, name, function() {
 				//can be used to prefilter any route with given name for example showHome
@@ -194,7 +201,9 @@ define([
 				//console.log("Route is about to get hit ...");
 				//});
 				//this.trigger.apply(this, ['beforeroute:' + name].concat(_.toArray(arguments)));
-				console.log("Route is about to get hit ...");
+				if(this.authRoutes[name]&&!UserLoginModel.isAuthenticated()) {
+					auth.redirectToLogin();
+				}
 				if(this.currentView) {
 					this.currentView.close();
 				}
