@@ -11,10 +11,10 @@ define([
 
 	var initialize = function(){
 		globals.initialize();
-		router.initialize();
 		if(module.config().token!="") {	
 			UserLoginModel.set({token: module.config().token, fn: module.config().fn});
 		}
+		router.initialize();
 	};
 
 	return { 

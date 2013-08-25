@@ -11,16 +11,16 @@ define([
 				id: undefined,
 				by: "",
 				created: moment().format(),
-				name: "xxx",
-				shortDesc: "xxxx",
-				ingredients: "xxx",
-				prepTime: "xxx",
+				name: "",
+				shortDesc: "",
+				ingredients: "",
+				prepTime: "",
 				readyIn: undefined,
-				recipeYield: "xxx",
+				recipeYield: "",
 				supply: undefined,
-				directions: "xxxx",
+				directions: "",
 				level: "beginner",
-				tags: "aaa,yyy,zzz"
+				tags: ""
 			};
 		},
 		url: function() {

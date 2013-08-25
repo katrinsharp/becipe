@@ -26,6 +26,8 @@ define([
     initialize: function() {
 		this.listenTo(UserLoginModel, 'change:token', this.loginTokenChanged);
     },
+	
+	//can wait with close since initiated only once
 
     render: function(){
 		var compiledTemplate = _.template(headerTemplate);
@@ -34,6 +36,7 @@ define([
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.recipesFiltersView = new RecipesFiltersView();
 		this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
+		this.loginTokenChanged();
 		return this;
     },
 	
