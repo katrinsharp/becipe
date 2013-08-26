@@ -20,15 +20,15 @@ PUT		/api/0.1/recipe										controllers.RecipeController.updateRecipe
 POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
 
-POST	/api/0.1/signup/add									controllers.Application.newSignup
-GET 	/api/0.1/signup/token/:token						controllers.Application.getSignupAsJson(token: String)
-POST	/api/0.1/signup/token/:token						controllers.Application.updateSignup(token: String)
+POST	/api/0.1/signup/add									controllers.UserController.newSignup
+GET 	/api/0.1/signup/token/:token						controllers.UserController.getSignupAsJson(token: String)
+POST	/api/0.1/signup/token/:token						controllers.UserController.updateSignup(token: String)
 
-POST	/api/0.1/login										controllers.Application.login
-POST	/api/0.1/logout										controllers.Application.logout
-POST	/api/0.1/forgotPassword								controllers.Application.forgotPassword
+POST	/api/0.1/login										controllers.UserController.login
+POST	/api/0.1/logout										controllers.UserController.logout
+POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword
 
-GET		/signup/confirm/:token								controllers.Application.redirectToSignupConfirm(token: String)
+GET		/signup/confirm/:token								controllers.UserController.redirectToSignupConfirm(token: String)
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes
