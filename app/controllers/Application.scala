@@ -87,9 +87,9 @@ object Application extends Controller with MongoController{
 					    val fn = f.\("firstName").as[String]
 					    Ok(Json.obj("token" -> "kuku", "fn" -> fn)).withSession("token" -> "kuku", "fn" -> fn)
 					  }else 
-					    Unauthorized(Json.obj("em" -> "Invalid email or password"))
+					    BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{
-				  		case e => Unauthorized(Json.obj("em" -> "Invalid email or password"))
+				  		case e => BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }
 			  }
 			})
