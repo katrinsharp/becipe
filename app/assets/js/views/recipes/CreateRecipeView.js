@@ -21,16 +21,34 @@ define([
 		"click #save": "save"
 	},
 	
-    initialize: function() {
+    initialize: function(options) {
+		if(options != undefined) {
+			this.model.set({id: options.id});
+		}
 		UserInputView.prototype.initialize.apply();
 		this.events = _.extend({}, UserInputView.prototype.events, {"click #save": "save"});
     },
 	
 	render: function() {
-		CreateRecipeView.__super__.render.call(this, {});
-		//upload files thumbnails
-		var compiledTemplate = _.template(fileUploadTemplate);
-		this.$(".fileupload-holder").html(compiledTemplate());
+		if(this.model.get('id')) {
+			var that = this, p;
+			p = this.model.fetch();
+			p.error(function () {
+				that.displayError("no such recipe");
+			});
+			p.success(function () {
+				var m = that.model;
+				CreateRecipeView.__super__.render.call(that, m.attributes);
+				//upload files thumbnails
+				var compiledTemplate = _.template(fileUploadTemplate);
+				that.$(".fileupload-holder").html(compiledTemplate());
+			});
+		} else {
+			CreateRecipeView.__super__.render.call(this, this.model.attributes);
+			//upload files thumbnails
+			var compiledTemplate = _.template(fileUploadTemplate);
+			this.$(".fileupload-holder").html(compiledTemplate());
+		}
 		return this;
 	},
 	//not much proud for this one..

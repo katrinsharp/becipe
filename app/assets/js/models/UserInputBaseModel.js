@@ -7,9 +7,6 @@ define([
 		defaults: function() {
 			//overrride this in models that inherit from it
 		},
-		url: function() {
-			//overrride this in models that inherit from it
-		},
 		validateEmail: function(email) {
 			var splitted = email.match("^(.+)@(.+)$");
 			if (splitted == null) return false;

@@ -2,8 +2,9 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'cookie'
-], function($, _, Backbone, Cookie){
+  'cookie',
+  'text!templates/errorTemplate.html'
+], function($, _, Backbone, Cookie, errorTemplate){
 
   var BaseView = Backbone.View.extend({
 	
@@ -24,6 +25,10 @@ define([
 		  	ga('send', 'pageview', pathWithHash);
 		}
     },
+	displayError: function(errorMsg) {
+		var compiledTemplate = _.template(errorTemplate);
+		$('#body-container').append(compiledTemplate({errorMsg: errorMsg}));
+	},
 	close: function() {
 		this.remove();
 	}

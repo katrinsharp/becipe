@@ -94,8 +94,8 @@ define([
 			homeView.render();
 			return homeView;
 		},
-		createRecipe: function(){
-			var createRecipeView = new CreateRecipeView();
+		createRecipe: function(id){
+			var createRecipeView = new CreateRecipeView({id: id});
 			createRecipeView.render();
 			return createRecipeView;
 		},
@@ -176,7 +176,7 @@ define([
 	app_router.route('*action', 'defaultAction', app_router.defaultAction);  
 	app_router.route('', 'showHome', app_router.showHome);
 	app_router.route('search-recipes/(:query)/(:filter)', 'searchRecipes', app_router.searchRecipes);
-	app_router.route('create-recipe', 'createRecipe', app_router.createRecipe);
+	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
 	app_router.route('signup-thankyou/:name', 'signupThankyou', app_router.signupThankyou);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	

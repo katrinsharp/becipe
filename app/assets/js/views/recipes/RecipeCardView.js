@@ -14,7 +14,7 @@ define([
 
     render: function() {
 		var compiledTemplate = _.template(recipeCardTemplate);
-		this.$el.html(compiledTemplate({recipe: this.model.attributes}));
+		this.$el.html(compiledTemplate(this.model.attributes));
 		return this;
 	}
 

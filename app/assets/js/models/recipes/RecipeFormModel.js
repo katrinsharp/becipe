@@ -23,8 +23,15 @@ define([
 				tags: ""
 			};
 		},
-		url: function() {
+		urlRoot: function() {
 			return '/api/0.1/recipe';
+		},
+		//model.save() 
+		parse: function(response) {
+			if(response.created!=undefined) response.created = moment(response.created).format();
+			if(response.ingredients!=undefined) response.ingredients = response.ingredients.join(",");
+			if(response.tags!=undefined) response.tags = response.tags.join(",");
+			return response;
 		}
 	});
 		

@@ -27,9 +27,9 @@ define([
 		var that = this, p;
 		p = this.model.fetch();
 		p.error(function () {
-			UserConfirmView.__super__.el.html("Token is invalid");
+			that.displayError("token is invalid");
         });
-        p.done(function () {
+        p.success(function () {
 			var m = that.model;
 			UserConfirmView.__super__.render.call(that, m.attributes);
         });

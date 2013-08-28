@@ -16,7 +16,7 @@ GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String, filter: String)
 POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
 # might become partial update in the future
-PUT		/api/0.1/recipe										controllers.RecipeController.updateRecipe
+PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String)
 POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
 

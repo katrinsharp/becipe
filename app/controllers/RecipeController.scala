@@ -367,7 +367,7 @@ object RecipeController extends Controller with MongoController {
   		}
 	}
   
-  def updateRecipe = Authenticated {  Action {implicit request =>
+  def updateRecipe(id: String) = Authenticated {  Action {implicit request =>
 		recipeAddForm.bindFromRequest.fold(
 			formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 			value => {
