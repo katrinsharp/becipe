@@ -23,6 +23,7 @@ define([
 			this.query = this.pageType;
 		}
 		this.recipeCollection = new RecipeCollection();
+		this.recipeViews = [];
 		BaseView.prototype.initialize.apply();
     },
 
@@ -106,20 +107,29 @@ define([
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
 				_.each(that.recipeCollection.models, function (item, i) {
-					new RecipeCardView({model: item, el: placeholders[i]}).render();
+					var recipeCard = new RecipeCardView({model: item, el: placeholders[i]});
+					recipeCard.render();
+					that.recipeViews.push(recipeCard);
 					//$(placeholders[i]).parent().replace(placeholders[i], new RecipeCardView(item).render().$el);
 					//$container.append(new RecipeCardView(item).render().el);
 				});
 			} else {
 				_.each(that.recipeCollection.models, function (item, i) {
 					$container.append('<figure class="placeholder"></figure>');
-					new RecipeCardView({model: item, el: $container.find('figure.placeholder').last()}).render();
+					var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.placeholder').last()});
+					recipeCard.render();
+					that.recipeViews.push(recipeCard);
 				});
 			}
 			$container.isotope();
         });
 		return this;
-    }
+    },
+	
+	close: function() {
+		_.each(this.recipeViews, function(rv){rv.remove()});
+		this.remove();
+	}
 	
   });
 

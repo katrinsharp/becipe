@@ -6,6 +6,10 @@ define([
   var RecipeCardView = Backbone.View.extend({
   
 	selector: "figure.placeholder",
+	
+	events: {
+		'click a[href="#like"]': 'likeIt'
+	},
     
     initialize: function(options) {
 		this.model = options.model;
@@ -16,6 +20,12 @@ define([
 		var compiledTemplate = _.template(recipeCardTemplate);
 		this.$el.html(compiledTemplate(this.model.attributes));
 		return this;
+	},
+	
+	likeIt: function(e) {
+		e.preventDefault();
+		console.log('like it');
+		return false;
 	}
 
   });
