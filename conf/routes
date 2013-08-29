@@ -22,7 +22,7 @@ GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: Stri
 
 POST	/api/0.1/signup/add									controllers.UserController.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.UserController.getSignupAsJson(token: String)
-POST	/api/0.1/signup/token/:token						controllers.UserController.updateSignup(token: String)
+POST	/api/0.1/signup/token/:token						controllers.UserController.createUser(token: String)
 
 POST	/api/0.1/login										controllers.UserController.login
 POST	/api/0.1/logout										controllers.UserController.logout

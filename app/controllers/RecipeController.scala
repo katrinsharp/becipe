@@ -1,12 +1,13 @@
 package controllers
 
+import utils.{Image, UniqueCode}
 import play.api._
 import play.api.mvc._
 import reactivemongo.api._
 import reactivemongo.bson._
-import reactivemongo.bson.handlers.DefaultBSONHandlers._
+//import reactivemongo.bson.handlers.DefaultBSONHandlers._
 import play.modules.reactivemongo._
-import play.modules.reactivemongo.PlayBsonImplicits._
+//import play.modules.reactivemongo.PlayBsonImplicits._
 import play.api.libs.json._
 import play.api.Play.current
 import models.Recipe
@@ -21,7 +22,6 @@ import models.S3Photo
 import java.io.File
 import javax.imageio.ImageIO
 import org.imgscalr.Scalr
-import utils.Image
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.concurrent.Future
@@ -29,7 +29,6 @@ import play.api.data.FormError
 import models.S3PhotoMetadata
 import models.RecipePhase
 import org.joda.time.DateTime
-import utils.UniqueCode
 import models.photos
 import scala.util.matching.Regex
 import services.EmailMessage
@@ -140,8 +139,8 @@ object RecipeController extends Controller with MongoController {
 								originalPhotos.filter(_.metadata.typeOf == "slider")
 								)))
 						case _ => {
-							val selector = QueryBuilder().query(Json.obj("id" -> value.recipe.id)).makeQueryDocument
-							val modifier = QueryBuilder().query(Json.obj(
+							val selector = Json.obj("id" -> value.recipe.id)
+							val modifier = Json.obj(
 								"id" -> id,
 								"name" -> value.recipe.name,
 								"shortDesc" -> value.recipe.shortDesc.trim(),
@@ -159,7 +158,7 @@ object RecipeController extends Controller with MongoController {
 								"rating" -> value.recipe.rating,
 								//"draft" -> value.recipe.draft,
 								"photos" -> photos
-								)).makeQueryDocument
+								)
 							newRecipe match {
 								case false => Application.recipeCollection.update(selector, modifier).map {
 									e => {
@@ -198,8 +197,8 @@ object RecipeController extends Controller with MongoController {
   
   	def edit(id: String) = Action { implicit request =>
 		Async {
-			val qb = QueryBuilder().query(Json.obj("id" -> id))
-			Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
+			val qb = Json.obj("id" -> id)
+			Application.recipeCollection.find(qb).cursor[JsObject].toList.map { recipes =>
 				val recipe = recipes.head.as[Recipe]
 				Ok(views.html.recipes.recipe_add_form(recipeForm.fill(RecipeSubmit(recipe)), recipe.photos.filter(_.metadata.typeOf == "slider")))
 			}
@@ -208,8 +207,8 @@ object RecipeController extends Controller with MongoController {
 	
   
 	private def getRecipe(id: String): Option[Recipe] = {
-		val qb = QueryBuilder().query(Json.obj("id" -> id))
-		val futureRecipe = Application.recipeCollection.find[JsValue](qb).toList.map(
+		val qb = Json.obj("id" -> id)
+		val futureRecipe = Application.recipeCollection.find(qb).cursor[JsObject].toList.map(
 				_.headOption match {
 					case Some(h) => Some(h.as[Recipe])
 					case _ => None
@@ -270,8 +269,8 @@ object RecipeController extends Controller with MongoController {
   
   private def homepagerecipes = {
   	Async {
-    	val qbAll = QueryBuilder().query(Json.obj("draft" -> Json.obj("$ne" -> true)))
-    	Application.recipeCollection.find[JsValue](qbAll).toList(9).map  { homepageRecipes =>
+    	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> true))
+    	Application.recipeCollection.find(qbAll).cursor[JsObject].toList(9).map  { homepageRecipes =>
 			Ok(Json.toJson(homepageRecipes))
 		}
      }
@@ -309,8 +308,7 @@ object RecipeController extends Controller with MongoController {
 	  Logger.debug(searchQuery.toString())
 	 
 	  Async {
-		val qb = QueryBuilder().query(searchQuery)
-		Application.recipeCollection.find[JsValue](qb).toList.map { recipes =>
+		Application.recipeCollection.find(searchQuery).cursor[JsObject].toList.map { recipes =>
 			Ok(Json.toJson(recipes))
 		}
 	  }
@@ -327,8 +325,8 @@ object RecipeController extends Controller with MongoController {
   def getAsJson(id: String) = Action { implicit request =>
     
     Async {
-			val qb = QueryBuilder().query(Json.obj("id" -> id))
-			Application.recipeCollection.find[JsValue](qb).toList.map  { l =>
+			val qb = Json.obj("id" -> id)
+			Application.recipeCollection.find(qb).cursor[JsObject].toList.map  { l =>
 				Ok(Json.toJson(l.head))
 			}
 		}
@@ -387,8 +385,8 @@ object RecipeController extends Controller with MongoController {
 					
 					Logger.debug(value.toString)
 					
-					val selector = QueryBuilder().query(Json.obj("id" -> value.id)).makeQueryDocument
-					val modifier = QueryBuilder().query(Json.obj("$set" -> Json.obj(
+					val selector = Json.obj("id" -> value.id)
+					val modifier = Json.obj("$set" -> Json.obj(
 								"id" -> id,
 								"name" -> value.name,
 								"shortDesc" -> value.shortDesc.trim(),
@@ -407,14 +405,21 @@ object RecipeController extends Controller with MongoController {
 								"rating" -> value.rating,
 								//"draft" -> value.recipe.draft,
 								"photos" -> List[S3Photo]()
-								))).makeQueryDocument
-					Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true), true)).map{
+								))
+					
+					Application.recipeCollection.update(selector = selector, update = modifier, upsert = true).map {
+									e => {
+									  Ok(Json.obj("id" -> id))
+									}
+								}			
+								
+					/*Application.db.command[JsObject](FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true), true)).map{
 					  f => 
 					  	f match {
 					  		case Some(_) => Ok(Json.obj("id" -> id))
 					  		case None => BadRequest(Json.obj("error" -> "Unknown Error"))
 					  	}
-					}
+					}*/
 				}
 	} 
   
@@ -448,13 +453,19 @@ object RecipeController extends Controller with MongoController {
 			    Logger.debug(results.toString)
 			    results
 	    	 }
-	    	 updatedDoc <- {
-	    		val selector = QueryBuilder().query(Json.obj("id" -> id)).makeQueryDocument
-	    		val modifier = QueryBuilder().query(Json.obj("$set" -> Json.obj("photos" -> S3Photos))).makeQueryDocument
-	    		Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true)))
+	    	 lastError <- {
+	    		val selector = Json.obj("id" -> id)
+	    		val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos))
+	    		
+	    		Application.recipeCollection.update(selector = selector, update = modifier, upsert = true).map {
+					e => {
+					  e
+					}
+				}	
+	    		
+	    		//Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true)))
 	    	 }
     	} yield {
-    		Logger.debug(updatedDoc.get.get("name").get.toString())
     		Ok
 	    }
 	    

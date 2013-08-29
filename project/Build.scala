@@ -16,7 +16,7 @@ object ApplicationBuild extends Build {
     "org.imgscalr" % "imgscalr-lib" % "4.2",
     "com.amazonaws" % "aws-java-sdk" % "1.3.11",
     "org.webjars" % "webjars-play" % "2.1.0",
-    "org.reactivemongo" %% "play2-reactivemongo" % "0.8",
+    "org.reactivemongo" %% "play2-reactivemongo" % "0.9",
     "com.typesafe" %% "play-plugins-mailer" % "2.1.0",
     "org.apache.commons" % "commons-email" % "1.3.1",
     "org.mindrot" % "jbcrypt" % "0.3m",

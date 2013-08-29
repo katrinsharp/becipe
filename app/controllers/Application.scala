@@ -4,15 +4,18 @@ import play.api._
 import play.api.mvc._
 import reactivemongo.api._
 import play.api.Play.current
-import play.modules.reactivemongo.ReactiveMongoPlugin
+import play.modules.reactivemongo._
 import services.SmtpConfig
 import services.EmailService
+import play.modules.reactivemongo.json.collection.JSONCollection
 
 object Application extends Controller{
 
 	val db = ReactiveMongoPlugin.db
-	lazy val recipeCollection = db("recipes")
-	lazy val signupsCollection = db("signups")
+	//lazy val recipeCollection = db("recipes")
+	lazy val recipeCollection: JSONCollection = db.collection[JSONCollection]("recipes")
+	lazy val signupsCollection: JSONCollection =  db.collection[JSONCollection]("signups")
+	lazy val usersCollection: JSONCollection =  db.collection[JSONCollection]("users")
 	
 	//email service
 	lazy val defaultSmtpConfig = new SmtpConfig(host = Play.application.configuration.getString("smtp.host").getOrElse(""),

@@ -1,16 +1,15 @@
 package controllers
 
+import utils.Mandrill
 import play.api._
 import play.api.mvc._
 import reactivemongo.api._
 import reactivemongo.bson._
-import reactivemongo.bson.handlers.DefaultBSONHandlers._
 import play.modules.reactivemongo._
-import play.modules.reactivemongo.PlayBsonImplicits._
 import play.api.libs.json._
 import play.api.Play.current
 import models.Recipe
-import models.Signup
+import models.User
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
@@ -24,7 +23,6 @@ import org.mindrot.jbcrypt.BCrypt
 import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
 import play.api.libs.ws.WS
-import utils.Mandrill
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Email(email: String)
@@ -33,16 +31,10 @@ case class Login(email: String, password: String)
 
 object UserController extends Controller with MongoController{
 	
-	private def getSignupByEmail(email: String) = {
-			val qb = QueryBuilder().query(Json.obj("email" -> email))
-			Application.signupsCollection.find[JsValue](qb).toList.map  { l =>
-			  	//l.headOption match {
-			  	 // case Some(v) => Json.toJson(v)
-			  	 // case _ => throw new Exception("Error authentication")
-			  	//}
-				//Json.toJson(l.head)
+	private def getUserByEmail(email: String) = {
+			val qb = Json.obj("email" -> email)
+			Application.usersCollection.find(qb).cursor[JsObject].toList.map  { l =>
 			  l.head
-			  
 			}
 	}
 	
@@ -59,7 +51,7 @@ object UserController extends Controller with MongoController{
 			},
 			value => {
 			  Async {
-				  getSignupByEmail(value.email).map(f => {
+				  getUserByEmail(value.email).map(f => {
 					  val pass = (f.\("pass").asOpt[String])
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get)) {
 					    val fn = f.\("firstName").as[String]
@@ -77,14 +69,18 @@ object UserController extends Controller with MongoController{
 	  Ok.withNewSession
 	}
 	
-	private def  setNewTokenForSignupByEmail(email: String, token: String) = {
+	private def  setNewTokenForUserByEmail(email: String, token: String) = {
 		
-		val selector = QueryBuilder().query(Json.obj("email" -> email)).makeQueryDocument
-		val q = Json.obj("$set" -> Json.obj("token" -> token))
-	  
-		val modifier = QueryBuilder().query(q).makeQueryDocument	
+		val selector = BSONDocument("email" -> email)
+		val modifier = BSONDocument("$set" -> BSONDocument("token" -> token))
 		
-		Application.db.command(FindAndModify(Application.signupsCollection.name, selector, Update(modifier, true)))
+		/*Application.usersCollection.update(selector = selector, update = modifier, upsert = true).map {
+					e => {
+					  true
+					}
+				}	
+	  */
+		Application.db.command(FindAndModify(Application.usersCollection.name, selector, Update(modifier, true)))
 	}
 	
 	val forgotPasswordForm: Form[Email] = Form(
@@ -101,7 +97,7 @@ object UserController extends Controller with MongoController{
 			value => {
 			  Async {
 				  val token = UUID.randomUUID().toString()	
-				  setNewTokenForSignupByEmail(value.email, token).map(
+				  setNewTokenForUserByEmail(value.email, token).map(
 				      f => {
 				    	  f match {
 				    	    case Some(signup) => {
@@ -137,13 +133,13 @@ object UserController extends Controller with MongoController{
 			},
 			value => {
 			  val token = UUID.randomUUID().toString()
-			  val modifier = QueryBuilder().query(Json.obj(
+			  val modifier = Json.obj(
 						"firstName" -> value.firstName,
 						"lastName" -> value.lastName,
 						"email" -> value.email,
 						"response" -> "0",
 						"token" -> token,
-						"created" -> DateTime.now())).makeQueryDocument 
+						"created" -> DateTime.now())
 			  Async {
 			  	Application.signupsCollection.insert(modifier).map {
 				  e =>
@@ -173,20 +169,38 @@ object UserController extends Controller with MongoController{
 	}
 	
 	private def getSignupByToken(token: String) = {
-			val qb = QueryBuilder().query(Json.obj("token" -> token))
-			Application.signupsCollection.find[JsValue](qb).toList.map  { l =>
+			val qb = Json.obj("token" -> token)
+			Application.signupsCollection.find(qb).cursor[JsObject].toList.map  { l =>
 				l.head
 			}
 	}
-	private def updateSignupByToken(token: String, password: String) = {
+	private def createUserByToken(token: String, password: String) = {
 	 	  
-	  val selector = QueryBuilder().query(Json.obj("token" -> token)).makeQueryDocument
-	  
-	  val q = Json.obj("$set" -> Json.obj("pass" -> BCrypt.hashpw(password, BCrypt.gensalt()), "token" -> "0"))
-	  
-	  val modifier = QueryBuilder().query(q).makeQueryDocument
-	  
-	  Application.db.command(FindAndModify(Application.signupsCollection.name, selector, Update(modifier, true)))
+	  for {
+		  signupOpt <- {
+			  val qb = BSONDocument("token" -> token)
+			  val modifier = BSONDocument("$set" -> BSONDocument("reg" -> true, "token" -> "0"))
+			  Application.db.command(FindAndModify(Application.signupsCollection.name, qb, Update(modifier, true)))
+		  }
+		  user <- {
+		    signupOpt match {
+		      case Some(signup) => {
+		    	  println(signup.toString)
+		    	  val userId = UUID.randomUUID().toString()
+		    	  val modifier = Json.obj(
+						"firstName" -> signup.getAs[BSONString]("firstName").get.value,//\("firstName").as[String],
+						"lastName" -> signup.getAs[BSONString]("lastName").get.value,
+						"email" -> signup.getAs[BSONString]("email").get.value,
+						"pass" ->  BCrypt.hashpw(password, BCrypt.gensalt()),
+						"created" -> DateTime.now())
+		    	  Application.usersCollection.insert(modifier).map {
+		    	    e => modifier
+		    	  }
+		      }
+		      case _ => throw new Exception("Token: " + token + " is invalid")
+		    }
+		  }
+	  } yield user
 	  
 	}
 	
@@ -195,7 +209,7 @@ object UserController extends Controller with MongoController{
 			"ps" -> nonEmptyText
 		)(Password.apply)(Password.unapply))
 	
-	def updateSignup(token: String) = Action {  implicit request =>
+	def createUser(token: String) = Action {  implicit request =>
 	  
 	  savePasswordForm.bindFromRequest.fold(
 			formWithErrors => {
@@ -203,13 +217,8 @@ object UserController extends Controller with MongoController{
 			},
 			value => {
 			  Async {
-				updateSignupByToken(token, value.password).map{
-				  f => 
-				    f match {
-				      case Some(signup) => 
-				      		Ok(Json.obj("token" -> "kuku", "fn" -> signup.get("firstName").get.asInstanceOf[BSONString].value)).withSession("token" -> "kuku")
-				      case None => BadRequest(Json.obj("ps" -> "Unknown Error"))
-				    }
+				createUserByToken(token, value.password).map{
+				  signup => Ok(Json.obj("token" -> "kuku", "fn" -> signup.\("firstName"))).withSession("token" -> "kuku")
 				 }
 			  }
 			  
