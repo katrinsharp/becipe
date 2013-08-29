@@ -407,7 +407,7 @@ object RecipeController extends Controller with MongoController {
 								"photos" -> List[S3Photo]()
 								))
 					
-					Application.recipeCollection.update(selector = selector, update = modifier, upsert = true).map {
+					Application.recipeCollection.update(selector = selector, update = modifier, upsert = true, multi = false).map {
 									e => {
 									  Ok(Json.obj("id" -> id))
 									}

@@ -7,6 +7,7 @@ define([
 
 	var initialize = function(){
 		this.currentIteration = module.config().currentIteration;
+		this.photoBaseUrl = module.config().photoBaseUrl;
 	};
 
 	return { 
