@@ -457,7 +457,7 @@ object RecipeController extends Controller with MongoController {
 	    		val selector = Json.obj("id" -> id)
 	    		val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos))
 	    		
-	    		Application.recipeCollection.update(selector = selector, update = modifier, upsert = true).map {
+	    		Application.recipeCollection.update(selector = selector, update = modifier).map {
 					e => {
 					  e
 					}

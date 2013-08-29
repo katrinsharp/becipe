@@ -9,8 +9,7 @@ define([
 ], function($, _, Backbone, Bootstrap, UserInputView, UserSignupModel, userSignupTemplate){
 
    var UserSignupView = UserInputView.extend({
-   
-   model: new UserSignupModel(),
+	
    template: userSignupTemplate,
 	
 	events: {
@@ -18,6 +17,7 @@ define([
 	},
 	
     initialize: function() {
+		this.model = new UserSignupModel();
 		UserInputView.prototype.initialize.apply();
 		this.events = _.extend({}, UserInputView.prototype.events, this.events);
     },

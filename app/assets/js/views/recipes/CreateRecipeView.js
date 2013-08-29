@@ -14,7 +14,6 @@ define([
 
    var CreateRecipeView = UserInputView.extend({
    
-    model: new RecipeFormModel(),
 	template: createRecipePageTemplate,
    
 	events: {
@@ -22,6 +21,7 @@ define([
 	},
 	
     initialize: function(options) {
+		this.model = new RecipeFormModel();
 		if(options != undefined) {
 			this.model.set({id: options.id});
 		}

@@ -66,8 +66,6 @@ define([
   var SignupView = BaseView.extend({
     //el: $("#body-container"),
 	
-	model: new SignupDetails(),
-	
 	events: {
 		"focus input": "onFocus",
 		"blur input": "onBlur",
@@ -76,6 +74,7 @@ define([
 	},
 	
     initialize: function() {
+		this.model = new SignupDetails();
 		BaseView.prototype.initialize.apply();
     },
 	
