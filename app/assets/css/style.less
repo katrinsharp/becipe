@@ -2,8 +2,10 @@
 @import "palette.less";
 
 body {
-	background: @bodyColor url(../../img/bg_texture.png);
-	background-color: @bodyColor;
+	/*background: @bodyColor url(../../img/bg_texture.png);*/
+	/*background-color: @bodyColor;*/
+	/*background: url(../../img/farmer.png);*/
+	background: #e5e3d8 url(../../img/ricepaper2.png);
 	font: 16px/24px Helvetica, Arial, Verdana, Georgia, 'Lato', Geneva, sans-serif;
 	/*word-break: break-all;*/
 	text-shadow: @textShadow;
@@ -20,10 +22,10 @@ select:active {
 }
 
 a {
-	color: @deepOrangeColorHover;	
+	color: @deepOrangeColor;	
 }
 a:hover {
-	color: @deepOrangeColor;
+	color: @deepOrangeColorHover;
 }
 
 /*
@@ -42,13 +44,17 @@ a:hover {
 	float: right; 
 }
 
-.text-align-center {
-	text-align: center;
+.float-left {
+	position: relative;
+	float: left; 
 }
 
-.grey-link {
-	color: @mediumGreyColor !important;
-	text-shadow: @textShadow;
+.clear-both {
+	clear: both;
+}
+
+.text-align-center {
+	text-align: center;
 }
 
 span.error {
@@ -167,18 +173,22 @@ div.row-fluid [class*="span"].center-in-span {
 /*
 ** SOCIAL
 */
-.glyph {
+.social {
+	position:relative;
 	float: left;
-	text-align: center;
-	/*padding: 4px;*/
-	/*border-radius: 50%;*/
-	/*background-color: #fff;*/
-	margin-right: 10px;
-	font-size: 15px;
-	.sp {
-		/*color: #fff;*/
-		/*color: @headerBackgroundColor;*/
-		font-size: 2em;
+	.glyph {
+		float: left;
+		text-align: center;
+		/*padding: 4px;*/
+		/*border-radius: 50%;*/
+		/*background-color: #fff;*/
+		margin-right: 10px;
+		font-size: 15px;
+		.sp {
+			/*color: #fff;*/
+			/*color: @headerBackgroundColor;*/
+			font-size: 2em;
+		}
 	}
 }
 /*
@@ -250,7 +260,7 @@ div.row-fluid [class*="span"].center-in-span {
 	}
 }
 .brand {
-	margin-left: 20px !important;
+	margin-left: 5px !important;
 	padding: 0 !important;
 	z-index: 1031;
 	position: fixed;
@@ -350,8 +360,9 @@ li {
 	top: 40px;
 	/*background-color: @headerSearchBackgroundColor;
 	padding: 10px;*/
-	background: @bodyColor url(../../img/bg_dots.png) repeat;
-	background-color: @bodyColor;
+	/*background: @bodyColor url(../../img/bg_dots.png) repeat;
+	background-color: @bodyColor;*/
+	background: #e5e3d8 url(../../img/ricepaper.png) repeat;
 	z-index: 1029;
 	.header-search-inner {
 	
@@ -366,7 +377,7 @@ li {
 			.input-container-shadow ();
 		}
 		
-		padding: 31px 0 16px;
+		padding: 40px 0 16px;
 		input {
 			font-family: Georgia;
 			font-style: italic;
@@ -517,25 +528,103 @@ input:active, input:focus {
 				}
 			}
 			div.details {
+				padding: 10px;
 				font-family: Georgia;
 				position:relative;
 				float:left;
-				div {
-					padding: 7.5px;/*10px;*/
-					div {
-						a {
-							color: @darkGreyColor;
-							&:hover {
-								color: @deepOrangeColor;
-							}
+				width: 100%;
+				.inner {
+					a.text {
+						color: @mediumGreyColor;
+						&:hover {
+							color: @deepOrangeColor;
 						}
+					}
+					.name-label {	
+						position: relative;
+						float: left;
+						font-style: italic;
 						font-size: 21px;
-						line-height: 23px;
+						line-height: 36px;
 						text-transform: lowercase;
 						&:first-letter {
 							text-transform: capitalize;
 						}
-						font-style: italic;
+					}
+					.share {
+						text-align: right;
+						position: relative;
+						float: right;
+						font-size: 22px;
+						line-height: 22px;
+					}
+					.by {
+						font-family: Helvetica;
+						font-size: 14px;
+						padding-bottom: 15px;
+						text-transform: lowercase;
+						&:first-letter {
+							text-transform: capitalize;
+						}
+					}
+					.bar > div {
+						position: relative;
+						float: left;
+					}
+					.bar > div:nth-child(odd) {
+						margin-right: 5px;
+					}
+					.bar > div:nth-child(even) {
+						margin-right: 20px;
+					}
+					/*.like {
+						width: 20px;
+						padding: 6px;
+						border-radius: 50%;
+						border: 1px @lightGreyColor solid;
+						.ico-btn {
+							font-size: 16px;
+							line-height: 16px;
+							text-align: center;
+							color: @lightGreyColor;
+							text-shadow: none;
+						}
+					}*/
+					.like {
+						.ico-btn {
+							font-size: 22px;
+							line-height: 22px;
+							text-align: center;
+							color: @lightGreyColor;
+							text-shadow: none;
+						}
+					}
+					.like:hover {
+						/*border: 1px @mediumGreyColor solid;*/
+						.ico-btn {
+							color: @mediumGreyColor;
+						}
+					}
+					.visited {
+						border: 1px @lightGreyColor solid;
+						.ico-btn {
+							color: @deepOrangeColor;
+						}
+					}
+					.views {
+						.ico-btn {
+							font-size: 24px;
+							line-height: 24px;
+							text-align: center;
+							color: @lightGreyColor;
+							text-shadow: none;
+						}
+					}
+					.stats {
+						font-size: 12px;
+						line-height: 28px;
+						font-family: Helvetica;
+						color: @mediumGreyColor;
 					}
 				}
 			}
@@ -545,9 +634,10 @@ input:active, input:focus {
 	}
 	figure.signup-message {
 		.white-border-with-shadow();
-		width: 421px;
-		background: @bodyColor url(../../img/bg_dots.png) repeat;
-		background-color: @bodyColor;
+		width: 425px;
+		/*background: @bodyColor url(../../img/bg_dots.png) repeat;
+		background-color: @bodyColor;*/
+		background: url(../../img/linedpaper.png) repeat;
 		height: auto;
 		font-size: 18px;
 		line-height: 25px;
@@ -623,7 +713,7 @@ input:active, input:focus {
 	}
 	figure.about-us {
 		.white-border-with-shadow();
-		width: 421px;
+		width: 425px;
 		background-color: @brightOrangeColor;
 		&:hover {
 			background-color: @brightOrangeColorHover;
@@ -645,7 +735,7 @@ input:active, input:focus {
 	}
 	figure.create-recipe {
 		.white-border-with-shadow();
-		width: 421px;
+		width: 425px;
 		background-color: @deepOrangeColor;
 		&:hover {
 			background-color: @deepOrangeColorHover;
@@ -770,14 +860,15 @@ a.search span{
       width: 314px;
       margin-top: 40px;
       transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
-	  text-transform: uppercase;
+	  /*text-transform: uppercase;*/
 	  font-weight: bold;
   }
   
 button[type="submit"]:hover,
 button[type="submit"]:focus,
 button[type="submit"]:active {
-  background-color: @greenColorHover !important;  
+	background-color: @greenColorHover !important;  
+	/*color: #ccc;*/
  }
   
   input.error[type="text"],input.error[type="password"],textarea.error {
@@ -795,10 +886,13 @@ button[type="submit"]:active {
   div.action {
 	text-align: center;
 	font-size: 16px;
-	font-weight: bold;
+	text-shadow: @textShadow;
 	.question {
-		color: @lightGreyColor;
+		font-size: 14px;
 		padding-right: 5px;
+	}
+	a {
+		font-weight: bold;
 	}
   }
  }
