@@ -423,7 +423,7 @@ object RecipeController extends Controller with MongoController {
 				}
 	} 
   
-  def uploadRecipePhotos(id: String) = Action {  implicit request =>
+  def uploadRecipePhotos(id: String) = Authenticated { Action {  implicit request =>
     
     Async {
       
@@ -470,5 +470,6 @@ object RecipeController extends Controller with MongoController {
 	    }
 	    
 	  }
+  }
   }
 }
