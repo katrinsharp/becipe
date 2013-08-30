@@ -336,10 +336,10 @@ object RecipeController extends Controller with MongoController {
 		mapping(
 			"id" -> default(text, "-1"),			
 			"name" -> nonEmptyText,			
-			"shortDesc" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),			
+			"shortDesc" -> nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),			
 			"created" -> jodaDate("yyyy-MM-dd'T'HH:mm:ssZZ"),			
 			"by" -> nonEmptyText,
-			"directions" -> nonEmptyText.verifying("This field is required", (_.trim().length() > 3)),
+			"directions" -> nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),
 			"ingredients" -> text.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"phases" -> seq(mapping(
 					"description" -> text,

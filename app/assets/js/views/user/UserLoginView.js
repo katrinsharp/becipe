@@ -20,7 +20,6 @@ define([
     initialize: function() {
 		UserInputView.prototype.initialize.apply();
 		this.events = _.extend({}, UserInputView.prototype.events, this.events);
-		this.listenTo(this.model, 'change:token', this.loginTokenChanged);
     },
 	
 	render: function(options) {
@@ -29,11 +28,6 @@ define([
 		}
 		UserLoginView.__super__.render.call(this, {});
 		return this;
-	},
-
-	loginTokenChanged: function() {
-		var token = this.model.get('token');
-		$.cookie('token', token);
 	},
 		
 	login: function() {

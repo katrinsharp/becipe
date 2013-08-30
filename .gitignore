@@ -21,6 +21,7 @@ tmp
 dist
 .idea
 *.bck
+bck
 out
 .idea_modules
 .project
