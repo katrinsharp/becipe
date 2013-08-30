@@ -43,8 +43,10 @@
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\javassist\javassist\jars\javassist-3.12.1.GA.jar" kind="lib"></classpathentry>
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\dom4j\dom4j\jars\dom4j-1.6.1.jar" kind="lib"></classpathentry>
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\xml-apis\xml-apis\jars\xml-apis-1.0.b2.jar" kind="lib"></classpathentry>
-  <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\play2-reactivemongo_2.10\jars\play2-reactivemongo_2.10-0.8.jar" kind="lib"></classpathentry>
-  <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\reactivemongo_2.10\jars\reactivemongo_2.10-0.8.jar" kind="lib"></classpathentry>
+   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\play2-reactivemongo_2.10\jars\play2-reactivemongo_2.10-0.9.jar" kind="lib"></classpathentry>
+  <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\reactivemongo_2.10\jars\reactivemongo_2.10-0.9.jar" kind="lib"></classpathentry>
+  <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\reactivemongo-bson_2.10\jars\reactivemongo-bson_2.10-0.9.jar" kind="lib"></classpathentry>
+  <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\org.reactivemongo\reactivemongo-bson-macros_2.10\jars\reactivemongo-bson-macros_2.10-0.9" kind="lib"></classpathentry>
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\ch.qos.logback\logback-core\jars\logback-core-1.0.9.jar" kind="lib"></classpathentry>
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\ch.qos.logback\logback-classic\jars\logback-classic-1.0.9.jar" kind="lib"></classpathentry>
   <classpathentry path="c:\base\play-2.1.0\framework\.\..\repository\cache\com.typesafe\play-plugins-mailer_2.10\jars\play-plugins-mailer_2.10-2.1.0.jar" kind="lib"></classpathentry>
