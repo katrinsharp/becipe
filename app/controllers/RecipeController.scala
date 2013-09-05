@@ -206,17 +206,17 @@ object RecipeController extends Controller with MongoController {
 //	}
 	
   
-	private def getRecipe(id: String): Option[Recipe] = {
-		val qb = Json.obj("id" -> id)
-		val futureRecipe = Application.recipeCollection.find(qb).cursor[JsObject].toList.map(
-				_.headOption match {
-					case Some(h) => Some(h.as[Recipe])
-					case _ => None
-				})				
-		val duration10000 = Duration(100000, "millis")
-		val recipe = Await.result(futureRecipe, duration10000).asInstanceOf[Option[Recipe]]
-		recipe
-	}
+//	private def getRecipe(id: String): Option[Recipe] = {
+//		val qb = Json.obj("id" -> id)
+//		val futureRecipe = Application.recipeCollection.find(qb).cursor[JsObject].toList.map(
+//				_.headOption match {
+//					case Some(h) => Some(h.as[Recipe])
+//					case _ => None
+//				})				
+//		val duration10000 = Duration(100000, "millis")
+//		val recipe = Await.result(futureRecipe, duration10000).asInstanceOf[Option[Recipe]]
+//		recipe
+//	}
 	
 	/*def by(categories: List[String]) = Action { implicit request =>
 	  	Logger.debug(categories.toString)
@@ -322,14 +322,28 @@ object RecipeController extends Controller with MongoController {
   }
   
   
-  def getAsJson(id: String) = Action { implicit request =>
+  def getRecipes(attrName: String, attrValue: String) = {
+    
+		val qb = Json.obj(attrName -> attrValue)
+		Application.recipeCollection.find(qb).cursor[JsObject].toList.map  { l =>
+			l
+		}
+  }
+  
+  def getRecipeById(id: String) = Action { implicit request =>
     
     Async {
-			val qb = Json.obj("id" -> id)
-			Application.recipeCollection.find(qb).cursor[JsObject].toList.map  { l =>
-				Ok(Json.toJson(l.head))
-			}
-		}
+    	val recipeF = getRecipes("id", id)
+    	recipeF.map {recipe => Ok(Json.toJson(recipe))}
+    }
+  }
+  
+  def getRecipeByUserId(id: String) = Action { implicit request =>
+    
+     Async {
+    	val recipeF = getRecipes("userid", id)
+    	recipeF.map {recipe => Ok(Json.toJson(recipe))}
+    }
   }
   
   val recipeAddForm: Form[Recipe] = Form(

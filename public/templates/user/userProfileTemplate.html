@@ -1,0 +1,20 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="center-in-span main-content-width about-us-container">
+		
+			<div class="info">
+				<div>First Name: <%= info.firstName%></div>
+				<div>Last Name: <%= info.lastName%></div>
+				<div>Email: <%= info.email%></div>
+				<div></div>
+			</div>	
+			<div class="recipes">
+				<% _.each(recipes, function(recipe) { %> 
+				<div>
+					<a href="#recipe/<%= recipe.id%>"><%= recipe.name%></a>
+				</div>
+				<% }); %>
+			</div>
+		</div>
+	</div>
+</div>

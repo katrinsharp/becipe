@@ -13,6 +13,7 @@ define([
   'views/user/UserSignupView',
   'views/user/UserSignupThankyouView',
   'views/user/UserConfirmView',
+  'views/user/UserProfileView',
   'views/recipes/RecipePageView',
   'views/recipes/CreateRecipeView',
   'views/about/AboutUsView',
@@ -28,6 +29,7 @@ define([
 	UserSignupView, 
 	UserSignupThankyouView, 
 	UserConfirmView, 
+	UserProfileView,
 	RecipePageView,
 	CreateRecipeView,
 	AboutUsView, 
@@ -138,6 +140,11 @@ define([
 			recipePageView.render();
 			return recipePageView;
 		},
+		userProfile: function(id){
+			var userProfileView = new UserProfileView({id: id});
+			userProfileView.render();
+			return userProfileView;
+		},
 		aboutUs: function(){
 			var aboutUsView = new AboutUsView();
 			aboutUsView.render();
@@ -148,8 +155,8 @@ define([
 			return (new UserLoginView()).render();
 		},
 		authRoutes: {
-			'createRecipe': true
-			
+			'createRecipe': true,
+			'userProfile': true
 		},
 		route: function(route, name, callback) {
 			return Backbone.Router.prototype.route.call(this, route, name, function() {
@@ -182,6 +189,7 @@ define([
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
+	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);  
 		
 	initAnalytics();

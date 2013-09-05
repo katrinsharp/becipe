@@ -18,17 +18,19 @@ POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
 # might become partial update in the future
 PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String)
 POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
-GET		/api/0.1/recipe/:id									controllers.RecipeController.getAsJson(id: String)
+GET		/api/0.1/recipe/:id									controllers.RecipeController.getRecipeById(id: String)
 
 POST	/api/0.1/signup/add									controllers.UserController.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.UserController.getSignupAsJson(token: String)
 POST	/api/0.1/signup/token/:token						controllers.UserController.createUser(token: String)
+GET		/signup/confirm/:token								controllers.UserController.redirectToSignupConfirm(token: String)
 
 POST	/api/0.1/login										controllers.UserController.login
 POST	/api/0.1/logout										controllers.UserController.logout
 POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword
 
-GET		/signup/confirm/:token								controllers.UserController.redirectToSignupConfirm(token: String)
+GET		/api/0.1/user/:id									controllers.UserController.user(id: String)
+
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes

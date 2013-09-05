@@ -23,6 +23,7 @@ import org.mindrot.jbcrypt.BCrypt
 import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
 import play.api.libs.ws.WS
+import auth.Authenticated
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Email(email: String)
@@ -243,6 +244,19 @@ object UserController extends Controller with MongoController{
 	  
 	  Async {
 		  getSignupByToken(token).map(f => Ok(f))
+		}
+	}
+	
+	def user(id: String) = Authenticated.auth { implicit request =>
+		Async {
+		  
+		  val profile = for {
+						   user <- getUserById(id)
+						   recipes <- RecipeController.getRecipes("userid", id)
+					  } yield {
+					    Ok(Json.obj("info" -> user, "recipes" -> recipes))
+					  }
+		   profile
 		}
 	}
 }
