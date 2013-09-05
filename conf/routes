@@ -7,9 +7,9 @@ GET     /                           						controllers.Application.index
 
 # Recipe
 # POST	/recipe/by											controllers.RecipeController.by(categories: List[String])
-GET		/recipe/add											controllers.RecipeController.add
-POST	/recipe/submitRecipe								controllers.RecipeController.submitRecipe
-GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
+# GET		/recipe/add											controllers.RecipeController.add
+# POST	/recipe/submitRecipe								controllers.RecipeController.submitRecipe
+# GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 
 # API
 # get play 2.2 for supporting dynamic part in the middle

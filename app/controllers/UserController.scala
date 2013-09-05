@@ -1,6 +1,6 @@
 package controllers
 
-import utils.Mandrill
+import utils.{Mandrill, UniqueCode}
 import play.api._
 import play.api.mvc._
 import reactivemongo.api._
@@ -30,6 +30,13 @@ case class Password(password: String)
 case class Login(email: String, password: String)
 
 object UserController extends Controller with MongoController{
+  
+	def getUserById(userid: String) = {
+			val qb = Json.obj("id" -> userid)
+			Application.usersCollection.find(qb).cursor[User].toList.map  { l =>
+			  l.head
+			}
+	}
 	
 	private def getUserByEmail(email: String) = {
 			val qb = Json.obj("email" -> email)
@@ -55,7 +62,8 @@ object UserController extends Controller with MongoController{
 					  val pass = (f.\("pass").asOpt[String])
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get)) {
 					    val fn = f.\("firstName").as[String]
-					    Ok(Json.obj("token" -> "kuku", "fn" -> fn)).withSession("token" -> "kuku", "fn" -> fn)
+					    val userid = f.\("id").as[String]
+					    Ok(Json.obj("token" -> "kuku", "fn" -> fn)).withSession("token" -> "kuku", "fn" -> fn, "userid" -> userid)
 					  }else 
 					    BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{
@@ -186,8 +194,9 @@ object UserController extends Controller with MongoController{
 		    signupOpt match {
 		      case Some(signup) => {
 		    	  println(signup.toString)
-		    	  val userId = UUID.randomUUID().toString()
+		    	  val userId = UniqueCode.getRandomCode
 		    	  val modifier = Json.obj(
+		    			"id" -> userId,  
 						"firstName" -> signup.getAs[BSONString]("firstName").get.value,//\("firstName").as[String],
 						"lastName" -> signup.getAs[BSONString]("lastName").get.value,
 						"email" -> signup.getAs[BSONString]("email").get.value,
@@ -218,7 +227,8 @@ object UserController extends Controller with MongoController{
 			value => {
 			  Async {
 				createUserByToken(token, value.password).map{
-				  signup => Ok(Json.obj("token" -> "kuku", "fn" -> signup.\("firstName"))).withSession("token" -> "kuku", "fn" -> signup.\("firstName").as[String])
+				  user => Ok(Json.obj("token" -> "kuku", "fn" -> user.\("firstName")))
+				  .withSession("token" -> "kuku", "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
 				 }
 			  }
 			  
