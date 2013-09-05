@@ -88,7 +88,7 @@
 					<div class="span3">
 						<p><span class="title">Preparation Time</span>  <%= recipe.prepTime%> </p> 	
 					</div>
-					<% if (recipe.readyIn!="") { %>
+					<% if (recipe.readyIn!=undefined) { %>
 						<div class="span3">
 							<p><span class="title">Ready In</span> <%= recipe.readyIn%> </p> 	
 						</div>
@@ -96,7 +96,7 @@
 					<div class="span3">
 						<p><span class="title">Recipe yield</span> <%= recipe.recipeYield%> </p>
 					</div>
-					<% if (recipe.supply!="") { %>
+					<% if (recipe.supply!=undefined) { %>
 						<div class="span3">
 							<p><span class="title">Supply</span> <%= recipe.supply%>	</p>
 						</div>

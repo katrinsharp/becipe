@@ -17,7 +17,7 @@ define([
 	events: {
 		"focus [name]": "onFocus",
 		"blur [name]": "onBlur",
-		"change [name]": "onChange"
+		"keyup [name]": "onChange"
 	},
 	
     initialize: function() {
@@ -58,7 +58,7 @@ define([
 			showTimeout: 100
 		});
 		$('.selectpicker').selectpicker();
-		this.listenTo(this.model, 'change', this.change);
+		//this.listenTo(this.model, 'change', this.change);
 		this.bindAjaxSubmitButton();
 		return this;
     },
@@ -71,7 +71,12 @@ define([
 	
 	onChange: function(e) {
 		var target = e.currentTarget;
-		this.model.set(target.id, target.value);
+		console.log(e.type +": "+target.value);
+		//optional values
+		if((this.model.get(target.id) != undefined) || (target.value != '')) {
+			this.model.set(target.id, target.value);	
+		}
+		return true;
 	},
 	
 	onFocus: function(e) {
@@ -113,7 +118,7 @@ define([
 						if(msg=='Unauthorized') {
 							msg = 'Please login first';
 						}
-						$('button[type=submit]').before('<div><span class="error">'+msg+'. '+error[key]+'</span></div>');
+						$('button[type=submit]').before('<div><span class="error general-error">'+error[key]+'</span></div>');
 					} else { //specific field error
 						var inField = $('[name='+key+']');
 						var errors = $(inField).next('span.error');

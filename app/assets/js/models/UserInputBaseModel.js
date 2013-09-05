@@ -76,7 +76,7 @@ define([
 			_.each(_.keys(attrs), function(name){if((attrs[name]!=undefined)&&(attrs[name]=="")){$('[name='+name+']').addClass('error');that.insertHiddenError(name, "This is required");}});
 			$('span.error').css('display', '');
 			$('span.error').prev().addClass('error');
-			if($('span.error').length!=0) {
+			if($('span.error').not('span.general-error').length!=0) {
 				return 'error';
 			}
 		}

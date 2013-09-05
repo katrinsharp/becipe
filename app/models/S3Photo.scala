@@ -72,6 +72,7 @@ class S3Photo(
 		        
 		        if (S3Plugin.amazonS3 == null) {
 		            Logger.error("Cloud not save Photo because amazonS3 was null")
+		            throw new Throwable("Cloud not save Photo because amazonS3 was null")
 		        }
 		        else {
 		            S3Plugin.amazonS3.putObject(putObjectRequest)

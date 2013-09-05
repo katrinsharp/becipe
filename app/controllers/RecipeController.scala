@@ -394,16 +394,16 @@ object RecipeController extends Controller with MongoController {
 								"by" -> value.by,
 								"directions" -> value.directions.trim(),
 								"prepTime" -> value.prepTime,
-								"readyIn" -> value.readyIn.getOrElse[String](""),
+								"readyIn" -> value.readyIn,
 								"recipeYield" -> value.recipeYield,
-								"supply" -> value.supply.getOrElse[String](""),
+								"supply" -> value.supply,
 								"level" -> value.level,
 								"ingredients" -> value.ingredients,
 								"phases" -> List[RecipePhase](),
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
 								"rating" -> value.rating,
-								//"draft" -> value.recipe.draft,
+								"draft" -> newRecipe,
 								"photos" -> List[S3Photo]()
 								))
 					
@@ -429,47 +429,52 @@ object RecipeController extends Controller with MongoController {
       
     	for {
       
-	    	 S3Photos <- Akka.future {
-	    		 val files = request.body.asMultipartFormData.get.files
-	    		 Logger.debug("recipe id: "+id)
-	    		 Logger.debug("photos: "+files.length)//always 1
-				
-	    		 for(i <- 0 to files.length - 1) {
-	    			 files.map { file =>
-	    			 	if(file.ref.file.length() != 0) {
-	    			 		Logger.debug("next file, length: "+file.ref.file.length())
-	    			 	}
-	    			 }
-				}
-			    
-			    val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
-			    val results = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
-			    	val original = S3Photo.save(Image.asIs(file.ref.file), "original", "")
-					val slider = S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key)
-					val preview = if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null
-					Seq(original, slider, preview)
-			    }}.flatten.filter(_!=null)
-			    
-			    Logger.debug(results.toString)
-			    results
-	    	 }
-	    	 lastError <- {
-	    		val selector = Json.obj("id" -> id)
-	    		val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos))
-	    		
-	    		Application.recipeCollection.update(selector = selector, update = modifier).map {
-					e => {
-					  e
+	    	 S3Photos <- {
+	    	   Akka.future {
+		    		 val files = request.body.asMultipartFormData.get.files
+		    		 Logger.debug("recipe id: "+id)
+		    		 Logger.debug("photos: "+files.length)//always 1
+					
+		    		 for(i <- 0 to files.length - 1) {
+		    			 files.map { file =>
+		    			 	if(file.ref.file.length() != 0) {
+		    			 		Logger.debug("next file, length: "+file.ref.file.length())
+		    			 	}
+		    			 }
 					}
-				}	
-	    		
-	    		//Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true)))
+				    
+				    val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
+				    val results = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
+				    	val original = S3Photo.save(Image.asIs(file.ref.file), "original", "")
+						val slider = S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key)
+						val preview = if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null
+						Seq(original, slider, preview)
+				    }}.flatten.filter(_!=null)
+				    
+				    Logger.debug(results.toString)
+				    results
+	    	   }.recover {
+	    		    case m: Throwable => throw new Throwable("Internal error uploading pictures. Please try again later.")
+	    	   }
 	    	 }
-    	} yield {
-    		Ok
-	    }
-	    
+	    	 result <- {   
+	    	   val result = if(S3Photos.size > 0) {
+	    		  //Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true))) 
+	    		   val selector = Json.obj("id" -> id)
+	    		   val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos), "$unset" -> Json.obj("draft" -> ""))
+	    		   Application.recipeCollection.update(selector = selector, update = modifier).map {
+	    			   e => Future(Ok)
+	    		   }	
+	    	   } else Future(BadRequest("""
+	    	       <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
+	    	       <p>You can submit photos now or later by accessing 'my recipes' in menu link.</p>
+	    	       """))
+	    	   result	   
+	    	 }
+    	} yield {	
+    		result.asInstanceOf[Result]
+    	}
 	  }
-  }
+  	}
   }
 }
