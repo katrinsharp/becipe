@@ -17,7 +17,8 @@ define([
 	events: {
 		"focus [name]": "onFocus",
 		"blur [name]": "onBlur",
-		"keyup [name]": "onChange"
+		"keyup [name]": "onChange",
+		"change [name]": "onChange"
 	},
 	
     initialize: function() {
@@ -58,7 +59,8 @@ define([
 			showTimeout: 100
 		});
 		$('.selectpicker').selectpicker();
-		//this.listenTo(this.model, 'change', this.change);
+		//needed for emails and such. upon validate we don't know which fields need specific validation
+		this.listenTo(this.model, 'change', this.change);
 		this.bindAjaxSubmitButton();
 		return this;
     },
@@ -73,8 +75,9 @@ define([
 		var target = e.currentTarget;
 		console.log(e.type +": "+target.value);
 		//optional values
-		if((this.model.get(target.id) != undefined) || (target.value != '')) {
-			this.model.set(target.id, target.value);	
+		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined)) {
+			console.log("set : "+target.id);
+			this.model.set(target.id, target.value, {silent: true});	
 		}
 		return true;
 	},
