@@ -334,7 +334,7 @@ object RecipeController extends Controller with MongoController {
     
     Async {
     	val recipeF = getRecipes("id", id)
-    	recipeF.map {recipe => Ok(Json.toJson(recipe))}
+    	recipeF.map {recipe => Ok(Json.toJson(recipe.head))}
     }
   }
   
