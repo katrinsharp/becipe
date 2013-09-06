@@ -1,1 +1,1 @@
-web: target/start -Dhttp.port=$PORT -DapplyEvolutions.default=false -Dsave.to=aws -Dmongodb.uri=$MONGOHQ_URL -Daws.s3.bucket=naturahub-prod
+web: target/start -Dhttp.port=$PORT -DapplyEvolutions.default=false -Dsave.to=aws -Dmongodb.uri=$MONGOHQ_URL

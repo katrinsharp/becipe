@@ -12,8 +12,8 @@ import java.io.InputStream
 
 object Image {
 	
-	val RECIPE_SLIDER_SIZE = (940, 367)
-	val RECIPE_PREVIEW_WIDTH = 300
+	val RECIPE_SLIDER_SIZE = (932, 570)
+	val RECIPE_PREVIEW_WIDTH = 417
 	val BLOG_ENTRY_PREVIEW_SET = 54
 	
 	def asSlider(inputFile: File): BufferedImage = {

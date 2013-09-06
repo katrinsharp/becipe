@@ -448,18 +448,11 @@ object RecipeController extends Controller with MongoController {
 	    	   Akka.future {
 		    		 val files = request.body.asMultipartFormData.get.files
 		    		 Logger.debug("recipe id: "+id)
-		    		 Logger.debug("photos: "+files.length)//always 1
-					
-		    		 for(i <- 0 to files.length - 1) {
-		    			 files.map { file =>
-		    			 	if(file.ref.file.length() != 0) {
-		    			 		Logger.debug("next file, length: "+file.ref.file.length())
-		    			 	}
-		    			 }
-					}
+		    		 Logger.debug("photos: "+files.length)
 				    
 				    val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
 				    val results = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
+				    	Logger.debug("next file, length: "+file.ref.file.length())
 				    	val original = S3Photo.save(Image.asIs(file.ref.file), "original", "")
 						val slider = S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key)
 						val preview = if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null
@@ -469,7 +462,7 @@ object RecipeController extends Controller with MongoController {
 				    Logger.debug(results.toString)
 				    results
 	    	   }.recover {
-	    		    case m: Throwable => throw new Throwable("Internal error uploading pictures. Please try again later.")
+	    		    case m: Throwable => Logger.error(m.getMessage());throw new Throwable("Internal error uploading pictures. Please try again later.")
 	    	   }
 	    	 }
 	    	 result <- {   
@@ -478,7 +471,7 @@ object RecipeController extends Controller with MongoController {
 	    		   val selector = Json.obj("id" -> id)
 	    		   val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos), "$unset" -> Json.obj("draft" -> ""))
 	    		   Application.recipeCollection.update(selector = selector, update = modifier).map {
-	    			   e => Future(Ok)
+	    			   e => Ok
 	    		   }	
 	    	   } else Future(BadRequest("""
 	    	       <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
@@ -487,7 +480,7 @@ object RecipeController extends Controller with MongoController {
 	    	   result	   
 	    	 }
     	} yield {	
-    		result.asInstanceOf[Result]
+    		result
     	}
 	  }
   }
