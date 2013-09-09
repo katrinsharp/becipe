@@ -19,6 +19,8 @@ define([
 		this.pageType = options.pageType;//homepage or search
 		this.filter = options.filter;
 		this.query = options.query;
+		this.userid = options.userid;
+		this.level = options.level;
 		if(this.pageType=='homepage') {
 			this.query = this.pageType;
 		}
@@ -102,7 +104,7 @@ define([
 		}
 		
 		var that = this, p;
-		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter})});
+		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter, userid: this.userid, level: this.level})});
         p.done(function () {
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);

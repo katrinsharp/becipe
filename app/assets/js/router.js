@@ -85,14 +85,20 @@ define([
 			homeView.render();
 			return homeView;
 		},
-		searchRecipes: function(query, filter) {
+		searchRecipes: function(query, filter, userid, level) {
 			if(query==undefined) {
-			query = '';
+				query = '';
 			}
 			if(filter==undefined) {
 				filter = '';
 			}
-			var homeView = new HomeView({pageType: 'search', query: query, filter: filter});
+			if(userid==undefined) {
+				userid = '';
+			}
+			if(level==undefined) {
+				level = '';
+			}
+			var homeView = new HomeView({pageType: 'search', query: query, filter: filter, userid: userid, level: level});
 			homeView.render();
 			return homeView;
 		},
@@ -100,6 +106,12 @@ define([
 			var createRecipeView = new CreateRecipeView({id: id});
 			createRecipeView.render();
 			return createRecipeView;
+		},
+		userPublicProfile: function(id){
+			console.log("userPublicProfile: " + id);
+			var homeView = new HomeView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
+			homeView.render();
+			return homeView;
 		},
 		userAction: function(action, token){
 			if(action=='login') {
@@ -182,9 +194,10 @@ define([
 	
 	app_router.route('*action', 'defaultAction', app_router.defaultAction);  
 	app_router.route('', 'showHome', app_router.showHome);
-	app_router.route('search-recipes/(:query)/(:filter)', 'searchRecipes', app_router.searchRecipes);
+	app_router.route('search-recipes/(:query)/(:filter)/(:userid)/(:level)', 'searchRecipes', app_router.searchRecipes);
 	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
+	app_router.route('user/:id/publicProfile', 'userPublicProfile', app_router.userPublicProfile);
 	app_router.route('signup-thankyou/:name', 'signupThankyou', app_router.signupThankyou);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);

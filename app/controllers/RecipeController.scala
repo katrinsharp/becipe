@@ -276,7 +276,7 @@ object RecipeController extends Controller with MongoController {
      }
   }
   
-  private def searchRecipes(query: String, filter: String, level: Option[String] = None) = {
+  private def searchRecipes(query: String, filter: String, userid: String, level: String) = {
 	  
 	  val queryValues = query.split(" ")
 	  val filterValues = filter.split("&")
@@ -298,11 +298,21 @@ object RecipeController extends Controller with MongoController {
 	  val tags = if(filterValues(0).length()!=0){
 		  				List(Json.obj("tags" -> Json.obj("$in" -> filterValues)))
 	  			} else Nil
+	  
+	  val userQ = if(userid.length()!=0){
+		  				List(Json.obj("userid" -> userid))
+	  			} else Nil
+	  
+	 val levelQ = if(level.length()!=0){
+		  				List(Json.obj("level" -> level))
+	  			} else Nil
 	  	
 	  val searchQuery = Json.obj("$and" -> (List
 	      (Json.obj("draft" -> Json.obj("$ne" -> true)))++
 	      searchTerms++
-	      tags
+	      tags++
+	      userQ++
+	      levelQ
 	  ))
 	  		  
 	  Logger.debug(searchQuery.toString())
@@ -314,10 +324,10 @@ object RecipeController extends Controller with MongoController {
 	  }
   }
   
-  def recipes(query: String, filter: String) = Action { implicit request =>
+  def recipes(query: String, filter: String, userid: String, level: String) = Action { implicit request =>
       query match {
         case "homepage" => homepagerecipes
-        case q => searchRecipes(q, filter)
+        case q => searchRecipes(q, filter, userid, level)
       }
   }
   

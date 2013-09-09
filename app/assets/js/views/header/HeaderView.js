@@ -59,7 +59,7 @@ define([
 	search: function() {
 		var url ="search-recipes/" + this.searchTerm;
 		var filter = _.map($('label input:checked'), function(item){return $(item).val()}).join('&');
-		url = url + '/' + filter;
+		url = url + '/' + filter + '//';
 		window.location.hash = url;
 	},
 	
