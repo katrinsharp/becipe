@@ -27,7 +27,7 @@ define([
     },
 	displayError: function(errorMsg) {
 		var compiledTemplate = _.template(errorTemplate);
-		$('#body-container').append(compiledTemplate({errorMsg: errorMsg}));
+		$('#body-container').html(compiledTemplate({errorMsg: errorMsg}));
 	},
 	close: function() {
 		this.remove();

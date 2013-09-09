@@ -33,7 +33,7 @@ define([
 
 		var compiledTemplate = _.template(homeTemplate);
 		this.$el.html(compiledTemplate);
-		$('#body-container').append(this.el);
+		$('#body-container').html(this.el);
 		var $container = $('#filter-container');	
 		
 		$container.imagesLoaded( function(){

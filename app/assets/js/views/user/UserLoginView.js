@@ -34,7 +34,7 @@ define([
 		var view = this;
 		this.model.save({id: undefined}, {
 			success: function (model, response) {
-				model.set({token: response['token'], fn: response['fn']});
+				model.set({token: response['token'], fn: response['fn'], userid: response['userid']});
 				window.location.hash = view.backUrl==null?'':view.backUrl;
 			},
 			error: function (model, response) {

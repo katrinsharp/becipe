@@ -43,11 +43,12 @@ define([
 	loginTokenChanged: function() {
 		var token = UserLoginModel.get('token');
 		var fn = UserLoginModel.get('fn');
+		var userid = UserLoginModel.get('userid');
 		if((token != undefined) && (token.length!=0)) {
 			$('[data="login"]').css('display', 'none');
 			$('[data="logout"]').css('display', '');
 			$('[data="signup"]').css('display', 'none');
-			$('[data="user-settings"]').css('display', '').children('a').text("Hi, "+fn);
+			$('[data="user-settings"]').css('display', '').children('a').attr('href', '#user/'+userid+'/profile').text("Hi, "+fn);
 		} else {
 			$('[data="login"]').css('display', '');
 			$('[data="logout"]').css('display', 'none');

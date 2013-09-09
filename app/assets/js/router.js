@@ -164,7 +164,7 @@ define([
 		},
 		defaultAction: function (action) {
 			// We have no matching route, lets display the home page 
-			return (new UserLoginView()).render();
+			window.location.hash = '';
 		},
 		authRoutes: {
 			'createRecipe': true,

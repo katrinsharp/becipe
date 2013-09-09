@@ -3,10 +3,11 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'footable2',
   'models/user/UserProfileModel',
   'views/BaseView',
   'text!templates/user/userProfileTemplate.html'
-], function($, _, Backbone, Bootstrap, UserProfileModel, BaseView, userProfileTemplate){
+], function($, _, Backbone, Bootstrap, footable2, UserProfileModel, BaseView, userProfileTemplate){
 
    var UserProfileView = BaseView.extend({
 	
@@ -24,7 +25,8 @@ define([
 			var m = that.model;
 			var compiledTemplate = _.template(userProfileTemplate);
 			that.$el.html(compiledTemplate(m.attributes));
-			$('#body-container').append(that.el);
+			$('#body-container').html(that.el);
+			$('.footable').footable();
         });
 		return this;
 	}

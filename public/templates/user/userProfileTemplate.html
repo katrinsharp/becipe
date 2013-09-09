@@ -1,20 +1,32 @@
 <div class="row-fluid">
 	<div class="span12">
 		<div class="center-in-span main-content-width about-us-container">
-		
-			<div class="info">
-				<div>First Name: <%= info.firstName%></div>
-				<div>Last Name: <%= info.lastName%></div>
-				<div>Email: <%= info.email%></div>
-				<div></div>
-			</div>	
-			<div class="recipes">
-				<% _.each(recipes, function(recipe) { %> 
+			<div class="user-info">
+				<div><span class="detail">First Name:</span> <%= info.firstName%></div>
+				<div><span class="detail">Last Name:</span> <%= info.lastName%></div>
+				<div><span class="detail">Email:</span> <%= info.email%></div>
 				<div>
-					<a href="#recipe/<%= recipe.id%>"><%= recipe.name%></a>
+					<span class="detail">Recipes:</span>
+					<table class="footable table">
+						<thead>
+							<tr class="detail">
+								<th>Name</th>
+								<th data-hide="phone">Visibility</th>
+								<th data-hide="phone"></th>
+							</tr>
+						</thead>
+						<tbody>
+						<% _.each(recipes, function(recipe) { %> 	
+							<tr>
+								<td><a href="#recipe/<%= recipe.id%>"><%= recipe.name%></a></td>
+								<td><%if((recipe.draft==undefined)||!recipe.draft){%>Public<%}else{%>Draft<%}%></td>
+								<td><a href="#create-recipe/<%= recipe.id%>">Edit</a></td>
+							</tr>
+						<% }); %>
+						</tbody>
+					</table>
 				</div>
-				<% }); %>
-			</div>
+			</div>	
 		</div>
 	</div>
 </div>

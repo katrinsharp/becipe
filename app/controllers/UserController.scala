@@ -64,7 +64,7 @@ object UserController extends Controller with MongoController{
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get)) {
 					    val fn = f.\("firstName").as[String]
 					    val userid = f.\("id").as[String]
-					    Ok(Json.obj("token" -> "kuku", "fn" -> fn)).withSession("token" -> "kuku", "fn" -> fn, "userid" -> userid)
+					    Ok(Json.obj("token" -> "kuku", "fn" -> fn, "userid" -> userid)).withSession("token" -> "kuku", "fn" -> fn, "userid" -> userid)
 					  }else 
 					    BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{

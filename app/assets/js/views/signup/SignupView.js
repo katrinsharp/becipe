@@ -91,7 +91,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(signupTemplate);
 		this.$el.html(compiledTemplate);
-		$('#body-container').append(this.el);
+		$('#body-container').html(this.el);
 		this.socialSiteView = new SocialSiteView();
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.listenTo(this.model, 'change', this.change);

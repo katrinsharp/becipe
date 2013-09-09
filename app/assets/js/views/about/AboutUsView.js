@@ -17,7 +17,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(aboutUsTemplate);
 		this.$el.html(compiledTemplate);
-		$('#body-container').append(this.el);
+		$('#body-container').html(this.el);
 		return this;
     }
 

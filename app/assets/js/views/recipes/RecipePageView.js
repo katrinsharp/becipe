@@ -30,7 +30,7 @@ define([
 		_.extend(recipe, viewHelpers);
         this.model.fetch({success: function(){
 			view.$el.html(compiledTemplate({recipe: recipe}));
-			$('#body-container').append(view.el);
+			$('#body-container').html(view.el);
 			$('.flexslider').flexslider({
 				animation: "slide",
 				slideshow: false,

@@ -16,6 +16,7 @@ require.config({
 	cookie: '../js/external/jquery-cookie/jquery-cookie', //browser cookie helper
 	placeholder: '../js/external/jquery-placeholder/jquery-placeholder', //2.0.7,
 	domReady: '../js/external/domReady/domReady',//2.0.1
+	footable2: '../js/external/footable2/js/footable', //2.0.1.1
     templates: '../templates' //text.js - 2.0.7
   },
   shim: {
@@ -74,6 +75,10 @@ require.config({
 		domReady: {
 			deps: ['jquery'],
             exports: 'domReady'
+		},
+		footable2: {
+			deps: ['jquery'],
+            exports: 'footable2'
 		},
 		router: {
 			deps: ['auth'],

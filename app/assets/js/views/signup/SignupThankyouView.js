@@ -24,7 +24,7 @@ define([
     render: function(){
 		var compiledTemplate = _.template(signupThankyouTemplate);
 		this.$el.html(compiledTemplate({name: this.name}));
-		$('#body-container').append(this.el);
+		$('#body-container').html(this.el);
 		return this;
     }
 
