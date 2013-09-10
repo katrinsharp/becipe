@@ -54,13 +54,21 @@ define([
 				CreateRecipeView.__super__.render.call(that, m.attributes);
 				//upload files thumbnails
 				var compiledTemplate = _.template(fileUploadTemplate);
-				that.$(".fileupload-holder").html(compiledTemplate());
+				var placeHolders = that.$(".fileupload-holder");
+				var photos = _.filter(m.attributes.photos, function(photo){return photo.metadata.typeOf=='slider'});
+				_.each(photos, function(photo, i){ $(placeHolders[i]).html(compiledTemplate({photo: _.extend(photo, {fullUrl: m.attributes.fullUrl(photo)})}))});
+				for(var i = photos.length; i < 12; ++i) {
+					$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
+				}
 			});
 		} else {
 			CreateRecipeView.__super__.render.call(this, this.model.attributes);
 			//upload files thumbnails
 			var compiledTemplate = _.template(fileUploadTemplate);
-			this.$(".fileupload-holder").html(compiledTemplate());
+			var placeHolders = this.$(".fileupload-holder");
+			for(var i = 0; i < 12; ++i) {
+				$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
+			}
 		}
 		return this;
 	},

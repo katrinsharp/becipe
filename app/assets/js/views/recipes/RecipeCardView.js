@@ -1,8 +1,7 @@
 define([
   'backbone',
-  'globals',
   'text!templates/recipes/recipeCardTemplate.html'
-], function(Backbone, globals, recipeCardTemplate){
+], function(Backbone, recipeCardTemplate){
 
   var RecipeCardView = Backbone.View.extend({
   
@@ -19,17 +18,7 @@ define([
 	
     render: function() {
 		var compiledTemplate = _.template(recipeCardTemplate);
-		var photoBaseUrl = globals.photoBaseUrl;
-		var bucket = '';
-		var key = '';
-		var preview = _.find(this.model.get('photos'), function(photo){ return photo.metadata.typeOf == 'preview'; });
-		if(preview!=undefined) {
-			bucket = preview.bucket;
-			key = preview.key;
-		}
-		var previewUrl = photoBaseUrl + '/' + bucket + '/' + key;
-		var options = _.extend(this.model.attributes, {previewUrl: previewUrl});
-		this.$el.html(compiledTemplate(options));
+		this.$el.html(compiledTemplate(this.model.attributes));
 		return this;
 	},
 	

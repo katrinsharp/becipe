@@ -1,8 +1,9 @@
 define([
   'backbone',
   'moment',
+  'globals',
   'models/UserInputBaseModel'
-], function(Backbone, moment, UserInputBaseModel) {
+], function(Backbone, moment, globals, UserInputBaseModel) {
 
 	var RecipeFormModel = UserInputBaseModel.extend({
 
@@ -26,7 +27,9 @@ define([
 		urlRoot: function() {
 			return '/api/0.1/recipe';
 		},
-		//model.save() 
+		initialize: function() {
+			_.extend(this.attributes, globals.recipeHelpers);
+		},		
 		parse: function(response) {
 			if(response.created!=undefined) response.created = moment(response.created).format();
 			if(response.ingredients!=undefined) response.ingredients = response.ingredients.join(",");

@@ -67,19 +67,6 @@ define([
 	}
   
 	var AppRouter = Backbone.Router.extend({
-		//routes: {
-		  //'': 'showHome',
-		  //'search-recipes/(:query)/(:filter)': 'searchRecipes',
-		  //'create-recipe': 'createRecipe',
-		  //'user/:action(/:token)': 'userAction',
-		  //'signup-thankyou/:name': 'signupThankyou',
-		  //'user-signup-thankyou/:name': 'userSignupThankyou',
-		  //'user-signup-complete/:name': 'userSignupComplete',
-		  //'recipe/:id': 'recipeDetails',
-		  //'about-us': 'aboutUs',
-		  // Default
-		  //'*actions': 'defaultAction'
-		//},
 		showHome: function() {
 			var homeView = new HomeView({pageType: 'homepage', query: ''});
 			homeView.render();

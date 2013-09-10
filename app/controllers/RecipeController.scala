@@ -407,10 +407,8 @@ object RecipeController extends Controller with MongoController {
 					
 					val newRecipe = (id != value.id)
 					
-					Logger.debug(value.toString)
-					
 					val selector = Json.obj("id" -> value.id)
-					val modifier = Json.obj("$set" -> Json.obj(
+					val modifier = Json.obj(
 								"id" -> id,
 								"name" -> value.name,
 								"shortDesc" -> value.shortDesc.trim(),
@@ -428,11 +426,14 @@ object RecipeController extends Controller with MongoController {
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
 								"rating" -> value.rating,
-								"draft" -> newRecipe,
-								"photos" -> List[S3Photo]()
-								))
+								"draft" -> newRecipe
+								)
+								
+					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) else modifier))
 					
-					Application.recipeCollection.update(selector = selector, update = modifier, upsert = true, multi = false).map {
+					Logger.debug(modifierWithPhotos.toString)
+					
+					Application.recipeCollection.update(selector = selector, update = modifierWithPhotos, upsert = true, multi = false).map {
 									e => {
 									  Ok(Json.obj("id" -> id))
 									}
@@ -479,13 +480,13 @@ object RecipeController extends Controller with MongoController {
 	    	   val result = if(S3Photos.size > 0) {
 	    		  //Application.db.command(FindAndModify(Application.recipeCollection.name, selector, Update(modifier, true))) 
 	    		   val selector = Json.obj("id" -> id)
-	    		   val modifier = Json.obj("$set" -> Json.obj("photos" -> S3Photos), "$unset" -> Json.obj("draft" -> ""))
+	    		   val modifier = Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)), "$unset" -> Json.obj("draft" -> ""))
 	    		   Application.recipeCollection.update(selector = selector, update = modifier).map {
 	    			   e => Ok
 	    		   }	
 	    	   } else Future(BadRequest("""
 	    	       <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
-	    	       <p>You can submit photos now or later by accessing 'my recipes' in menu link.</p>
+	    	       <p>You can submit photos now or later by accessing your profile in main menu.</p>
 	    	       """))
 	    	   result	   
 	    	 }
