@@ -32,7 +32,7 @@ define([
 		},		
 		parse: function(response) {
 			if(response.created!=undefined) response.created = moment(response.created).format();
-			if(response.ingredients!=undefined) response.ingredients = response.ingredients.join(",");
+			if(response.ingredients!=undefined) response.ingredients = response.ingredients.join("\n");
 			if(response.tags!=undefined) response.tags = response.tags.join(",");
 			return response;
 		}

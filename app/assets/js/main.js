@@ -5,9 +5,6 @@ require.config({
     backbone: '../js/external/backbone/backbone-min', //1.0.0
 	bootstrap: '../js/external/bootstrap/js/bootstrap-min', //2.3.1
 	bootstrapeditable: '../js/external/bootstrap-editable/bootstrap-editable/js/bootstrap-editable-min', //1.4.6
-	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
-	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
-	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
 	select2: '../js/external/select2/select2-min', //3.4.2
 	poshytip: '../js/external/poshytip/jquery-poshytip-min', //1.2
 	bootstrapSelect: '../js/external/bootstrap-select/bootstrap-select-min', //1.1.2
@@ -20,6 +17,10 @@ require.config({
 	placeholder: '../js/external/jquery-placeholder/jquery-placeholder', //2.0.7,
 	domReady: '../js/external/domReady/domReady',//2.0.1
 	footable2: '../js/external/footable2/js/footable', //2.0.1.1
+	autosize: '../js/external/autosize/jquery-autosize-min', //1.17.8
+	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
+	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
+	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
     templates: '../templates' //text.js - 2.0.7
   },
   
@@ -95,6 +96,10 @@ require.config({
 		footable2: {
 			deps: ['jquery'],
             exports: 'footable2'
+		},
+		autosize: {
+			deps: ['jquery'],
+            exports: 'autosize'
 		},
 		router: {
 			deps: ['auth'],

@@ -9,8 +9,9 @@ define([
   'bootstrapSelect',
   'placeholder',
   'wysihtml5',
+  'autosize',
   'views/BaseView'
-], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, BaseView){		
+], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, autosize, BaseView){		
 
   var UserInputView = BaseView.extend({
     //el: $("#body-container"),
@@ -60,6 +61,7 @@ define([
 		//	showTimeout: 100
 		//});
 		$('.wysihtml5').wysihtml5();
+		$('.autosize').autosize();
 		$('.selectpicker').selectpicker();
 		//needed for emails and such. upon validate we don't know which fields need specific validation
 		this.listenTo(this.model, 'change', this.change);
