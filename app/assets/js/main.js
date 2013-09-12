@@ -5,6 +5,9 @@ require.config({
     backbone: '../js/external/backbone/backbone-min', //1.0.0
 	bootstrap: '../js/external/bootstrap/js/bootstrap-min', //2.3.1
 	bootstrapeditable: '../js/external/bootstrap-editable/bootstrap-editable/js/bootstrap-editable-min', //1.4.6
+	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
+	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
+	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
 	select2: '../js/external/select2/select2-min', //3.4.2
 	poshytip: '../js/external/poshytip/jquery-poshytip-min', //1.2
 	bootstrapSelect: '../js/external/bootstrap-select/bootstrap-select-min', //1.1.2
@@ -19,6 +22,7 @@ require.config({
 	footable2: '../js/external/footable2/js/footable', //2.0.1.1
     templates: '../templates' //text.js - 2.0.7
   },
+  
   shim: {
         backbone: {
             deps: ['jquery','underscore'],
@@ -35,6 +39,18 @@ require.config({
 		bootstrapeditable: {
 			deps: ['jquery'],
             exports: 'BootstrapEditable'
+		},
+		wysihtml5_dep: {
+			deps: ['jquery'],
+			exports: 'wysihtml5_dep'
+		},
+		bootstrapWysihtml5: {
+			deps: ['jquery'],
+			exports: 'bootstrapWysihtml5'
+		},
+		wysihtml5: {
+			deps: ['jquery', 'wysihtml5_dep', 'bootstrapWysihtml5'],
+			exports: 'wysihtml5'
 		},
 		poshytip: {
 			deps: ['jquery'],

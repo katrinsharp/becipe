@@ -72,6 +72,9 @@ define([
 		},
 		//called on save: all the default values mean invalid user entries
 		validate: function(attrs, options) {
+			var directions = $('[name=directions]').val();
+			this.set({directions: directions});
+			attrs['directions'] = directions;
 			var that = this;
 			_.each(_.keys(attrs), function(name){if((attrs[name]!=undefined)&&(attrs[name]=="")){$('[name='+name+']').addClass('error');that.insertHiddenError(name, "This is required");}});
 			$('span.error').css('display', '');

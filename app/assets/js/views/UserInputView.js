@@ -8,8 +8,9 @@ define([
   'poshytip',
   'bootstrapSelect',
   'placeholder',
+  'wysihtml5',
   'views/BaseView'
-], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, BaseView){		
+], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, BaseView){		
 
   var UserInputView = BaseView.extend({
     //el: $("#body-container"),
@@ -49,15 +50,16 @@ define([
             tags: ['html', 'javascript', 'css', 'ajax'],//debug
             tokenSeparators: [",", " "]
         }});
-		this.$('[title]').poshytip({
-			className: 'tip-darkgray',
-			showOn: 'focus',
-			alignTo: 'target',
-			alignX: 'right',
-			alignY: 'center',
-			offsetX: 5,
-			showTimeout: 100
-		});
+		//this.$('[title]').poshytip({
+		//	className: 'tip-darkgray',
+		//	showOn: 'focus',
+		//	alignTo: 'target',
+		//	alignX: 'right',
+		//	alignY: 'center',
+		//	offsetX: 5,
+		//	showTimeout: 100
+		//});
+		$('.wysihtml5').wysihtml5();
 		$('.selectpicker').selectpicker();
 		//needed for emails and such. upon validate we don't know which fields need specific validation
 		this.listenTo(this.model, 'change', this.change);
