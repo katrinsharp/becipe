@@ -18,9 +18,9 @@ require.config({
 	domReady: '../js/external/domReady/domReady',//2.0.1
 	footable2: '../js/external/footable2/js/footable', //2.0.1.1
 	autosize: '../js/external/autosize/jquery-autosize-min', //1.17.8
-	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
+	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
 	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
-	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
+	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
     templates: '../templates' //text.js - 2.0.7
   },
   
@@ -45,13 +45,13 @@ require.config({
 			deps: ['jquery'],
 			exports: 'wysihtml5_dep'
 		},
-		bootstrapWysihtml5: {
-			deps: ['jquery'],
-			exports: 'bootstrapWysihtml5'
-		},
 		wysihtml5: {
-			deps: ['jquery', 'wysihtml5_dep', 'bootstrapWysihtml5'],
+			deps: ['jquery'],
 			exports: 'wysihtml5'
+		},
+		bootstrapWysihtml5: {
+			deps: ['jquery', 'wysihtml5_dep', 'wysihtml5'],
+			exports: 'bootstrapWysihtml5'
 		},
 		poshytip: {
 			deps: ['jquery'],

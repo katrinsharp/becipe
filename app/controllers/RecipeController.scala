@@ -484,10 +484,18 @@ object RecipeController extends Controller with MongoController {
 	    		   Application.recipeCollection.update(selector = selector, update = modifier).map {
 	    			   e => Ok
 	    		   }	
-	    	   } else Future(BadRequest("""
-	    	       <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
-	    	       <p>You can submit photos now or later by accessing your profile in main menu.</p>
-	    	       """))
+	    	   } else {
+	    		   getRecipes("id", id).map {
+	    			   l => l.head.as[Recipe].photos.length > 0 match {
+	    			     case true => Ok
+	    			     case false => BadRequest("""
+							    	       <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
+							    	       <p>You can submit photos now or later by accessing your profile in main menu.</p>
+							    	       """)
+	    			   }
+	    	   		}
+	    	   }
+	    	   
 	    	   result	   
 	    	 }
     	} yield {	

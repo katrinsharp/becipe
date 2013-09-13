@@ -8,7 +8,7 @@ define([
   'poshytip',
   'bootstrapSelect',
   'placeholder',
-  'wysihtml5',
+  'bootstrapWysihtml5',
   'autosize',
   'views/BaseView'
 ], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, autosize, BaseView){		
