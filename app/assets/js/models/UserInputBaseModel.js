@@ -74,11 +74,15 @@ define([
 		validate: function(attrs, options) {
 			
 			//preprocessing
-			var directions = $('[name=directions]').val();
-			this.set({directions: directions});
-			attrs['directions'] = directions;
-			var ingredients = $('[name=ingredients]').val().split('\n').join(';');
-			this.set({ingredients: ingredients});
+			if(_.contains(_.keys(this.attributes), 'directions')) {
+				var directions = $('[name=directions]').val();
+				this.set({directions: directions});
+				attrs['directions'] = directions;
+			}
+			if(_.contains(_.keys(this.attributes), 'ingredients')) {
+				var ingredients = $('[name=ingredients]').val().split('\n').join(';');
+				this.set({ingredients: ingredients});
+			}
 			//end preprocessing
 			
 			var that = this;

@@ -79,9 +79,15 @@ define([
 		var target = e.currentTarget;
 		console.log(e.type +": "+target.value);
 		//optional values
-		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined)) {
+		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined) && (target.id != '')) {
 			console.log("set : "+target.id);
 			this.model.set(target.id, target.value, {silent: true});	
+		}
+		//upload files
+		if($(target).attr('type')=='file') {
+			var paths = target.value.split('\\');
+			var fname = paths[paths.length - 1];
+			$(target).attr('data-fname', fname);
 		}
 		return true;
 	},

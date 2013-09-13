@@ -450,12 +450,6 @@ object RecipeController extends Controller with MongoController {
 					}*/
 				}
 	} 
-	
-	case class FileNames(names: Seq[String])
-	val recipeFileNamesForm: Form[FileNames] = Form(
-		mapping(			
-			"filenames" -> seq(nonEmptyText)			
-			)(FileNames.apply)(FileNames.unapply))
   
   def uploadRecipePhotos(id: String) = Authenticated.auth { implicit request =>
     
@@ -477,17 +471,17 @@ object RecipeController extends Controller with MongoController {
 						// TODO: better try to save slider first because it can throw exceptions while formatting the photo
 						// we don't want to stuck with original saved.
 						for {
-							original <- {Logger.debug("original");Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))}
-							slider <- {Logger.debug("slider");Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))}
-							preview <- {Logger.debug("preview");Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)}
+							original <- Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))
+							slider <- Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))
+							preview <- Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)
 						} yield {
-							Seq(original, slider, preview).filter(_ != null)
+							Seq(original, slider, preview)
 						}
 					}}
 					val results = resultsTries.zipWithIndex.map { case (result, i) =>
 						result  match {
 							case Success(photos) => (null, photos)
-							case Failure(ex) => (ex.getMessage(), Seq())
+							case Failure(ex) => (Json.obj("index" -> i, "message" -> ex.getMessage()), Seq())
 						}
 					}
 					Logger.debug(results.toString)
@@ -506,19 +500,7 @@ object RecipeController extends Controller with MongoController {
 	    	result <- { 
 	    		val S3PhotosWithStatus = S3PhotosWithStatusOpt.get
 	    		val recipe = recipeOpt.get
-    			val statuses = S3PhotosWithStatus.zipWithIndex.collect{
-	    			case ((st, _), i) if(st != null) => (i, st) 	 
-	    		}//S3PhotosWithStatus.map(_._1).toSeq
-	    		val returnResult = if(statuses.length > 0) {
-	    			recipeFileNamesForm.bindFromRequest.fold(
-	    				formWithErrors => Ok,
-	    				filenames => {
-	    					val kuku = statuses.map(st => Json.obj(filenames.names(st._1) -> st._2))
-	    					Logger.debug("kuku: "+kuku.toString)
-	    				})
-	    				Ok
-	    		} else Ok
-	    		
+    			val statuses = S3PhotosWithStatus.map(_._1).toSeq
 				Logger.debug(s"size: ${statuses.length}, statuses: ${statuses.toString}")
 				val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
 				if(S3Photos.size > 0) { 

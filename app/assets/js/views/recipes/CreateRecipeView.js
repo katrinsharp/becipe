@@ -33,6 +33,9 @@ define([
 		var view = this;
 		var form = this.$('#fileuploadform');
 		$(form).ajaxSubmit({
+			data: {
+				filenames: _.map($('[data-fname]'), function(el){return $(el).attr('data-fname')})
+			},
 			url: '/api/0.1/recipe/'+view.model.get('id')+'/photos',
 			success: function() {
 				window.location.hash = 'recipe/'+view.model.get('id');
