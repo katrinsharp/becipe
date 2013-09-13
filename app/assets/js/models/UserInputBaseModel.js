@@ -77,7 +77,7 @@ define([
 			var directions = $('[name=directions]').val();
 			this.set({directions: directions});
 			attrs['directions'] = directions;
-			var ingredients = $('[name=ingredients]').val().split('\n').join(',');
+			var ingredients = $('[name=ingredients]').val().split('\n').join(';');
 			this.set({ingredients: ingredients});
 			//end preprocessing
 			

@@ -365,7 +365,7 @@ object RecipeController extends Controller with MongoController {
 			"by" -> ignored(""),
 			"userid" -> ignored(""),
 			"directions" -> nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),
-			"ingredients" -> text.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
+			"ingredients" -> text.transform[Seq[String]](x=>x.split(";").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"phases" -> seq(mapping(
 					"description" -> text,
 					"ingredients" -> seq(text)
@@ -382,6 +382,7 @@ object RecipeController extends Controller with MongoController {
 			)(Recipe.apply)(Recipe.unapply))
   
   def addRecipe = Authenticated.auth {  implicit request =>
+    //Logger.debug(recipeAddForm.toString)	
 	recipeAddForm.bindFromRequest.fold(
 		formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 		value => {
@@ -463,11 +464,15 @@ object RecipeController extends Controller with MongoController {
 				    
 				    val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
 				    val results = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
+				    	
 				    	Logger.debug("next file, length: "+file.ref.file.length())
+				    	
 				    	val original = S3Photo.save(Image.asIs(file.ref.file), "original", "")
 						val slider = S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key)
 						val preview = if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null
+						
 						Seq(original, slider, preview)
+				    
 				    }}.flatten.filter(_!=null)
 				    
 				    Logger.debug(results.toString)
