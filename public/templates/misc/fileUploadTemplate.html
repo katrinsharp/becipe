@@ -15,10 +15,11 @@
 		</div>
 	</div>
 <%}else{%>
-	<div class="fileupload fileupload-exists span3" data-provides="fileupload" id="<%= photo.key%>">								
-		<input type="hidden" value="<%= photo.key%>" name="@{"removed["+i+"].photoId"}" id="@{"removed["+i+"].photoId"}"/>
+	<div class="fileupload fileupload-exists span3" data-provides="fileupload" originkey="<%= photo.metadata.originKey%>">								
+		
+		<!--input type="hidden" value="<%= photo.key%>" name="@{"removed["+i+"].photoId"}" id="@{"removed["+i+"].photoId"}"/>
 		<input type="hidden" value="<%= photo.metadata.originKey%>" name="@{"removed["+i+"].originKey"}" id="@{"removed["+i+"].originKey"}"/>
-		<input type="hidden" value="false" name="@{"removed["+i+"].removedPhoto"}" id="@{"removed["+i+"].removedPhoto"}" class="removedPhoto"/>
+		<input type="hidden" value="false" name="@{"removed["+i+"].removedPhoto"}" id="@{"removed["+i+"].removedPhoto"}" class="removedPhoto"/-->
 		
 		<div class="fileupload-new thumbnail" style="width: 200px; height: 80px;">
 			<img src="http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image" />

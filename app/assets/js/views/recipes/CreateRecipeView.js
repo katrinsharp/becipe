@@ -106,7 +106,8 @@ define([
 		var view = this;
 		var fn = UserLoginModel.get('fn');
 		this.model.set('by', fn, {silent: true});
-		var existingModel = (this.model.get('id')!=undefined);//create vs edit
+		var recipeId = this.model.get('id');
+		var existingModel = (recipeId!=undefined);//create vs edit
 		
 		this.model.save([],{
 			success: function (model, response) {
@@ -117,12 +118,26 @@ define([
 			}
 		});
 		
-		var deletedPhotos = _.filter(_.map($('.fileupload'), 
-				function(fu){return {
-							key: $(fu).attr('id'), 
-							isDeleted: (""+$(fu).find('.fileupload-preview > img').attr('src')).match("^https")==null}}), 
-			function(item){return (item.key!=undefined)&&(item.isDeleted)});
-		
+		if(existingModel) {
+			var deletedPhotos = _.filter(_.map($('.fileupload'), 
+					function(fu){return {
+								key: $(fu).attr('originkey'), 
+								isDeleted: (""+$(fu).find('.fileupload-preview > img').attr('src')).match("^https")==null}}), 
+				function(item){return (item.key!=undefined)&&(item.isDeleted)});
+			
+			var dataStr = _.map(deletedPhotos, function(photo, i) {return "value["+i+"]="+photo.key}).join("&");
+			
+			$.ajax("/api/0.1/recipe/" + recipeId + "/photos", {
+				type: "DELETE",
+				data: dataStr,
+				success: function() {
+					console.log('delete photos: success');
+				},
+				error: function() {
+					console.log('delete photos: success');
+			   }
+			});
+		}
 		
 		return false;  
 	}

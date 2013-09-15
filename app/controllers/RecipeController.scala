@@ -408,16 +408,16 @@ object RecipeController extends Controller with MongoController {
 	    	case Some(attrs) => recipeAttributesForm.bindFromRequest.fold(
 	    							formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 	    								value => {
-	    									partialUpdate(id, attrs.split(",").zip(value.values))
+	    									partialUpdate(id, attrs.split(",").zip(value.values), request.user.id)
 	    							})		
 	    }
   		
 	}
   
-  	private def partialUpdate(id: String, attrs: Seq[(String, String)]) = {
+  	private def partialUpdate(id: String, attrs: Seq[(String, String)], userid: String) = {
   		
   		Async {
-	  		val selector = Json.obj("id" -> id)//Json.obj("id" -> id, "photos.1" -> Json.obj("$exists" -> 1))
+	  		val selector = Json.obj("id" -> id, "userid" -> userid)
 	  		val modifier = Json.obj("$set" -> attrs.map(v => Json.obj(v._1 -> v._2)).foldLeft(Json.obj())((b, a) => b++a))
 	  		
 	  		Logger.debug(modifier.toString)
@@ -430,10 +430,10 @@ object RecipeController extends Controller with MongoController {
   		}
   	}
   	
-  	private def deletePhotos(id: String, keys: Seq[String]) = {//TODO: Auth action!!!!!!!!!!!!!!!
+  	private def deletePhotos(id: String, keys: Seq[String], userid: String) = {
   		
   		Async {
-	  		val selector = Json.obj("id" -> id)
+	  		val selector = Json.obj("id" -> id, "userid" -> userid)
 	  		//val modifier = Json.obj("$pull" -> Json.obj("photos" -> Json.obj("key" -> Json.obj("$in" -> keys))))
 	  		
 	  		val modifier = Json.obj("$pull" -> Json.obj("photos" -> Json.obj("$or" -> (Seq(Json.obj("key" -> Json.obj("$in" -> keys)))++Seq(Json.obj("metadata.originKey" -> Json.obj("$in" -> keys)))))))
@@ -448,12 +448,12 @@ object RecipeController extends Controller with MongoController {
   		}
   	}
   	
-  	def deleteRecipePhotos(id: String) = Action { implicit request =>
+  	def deleteRecipePhotos(id: String) = Authenticated.auth { implicit request =>
   	  
   		recipeAttributesForm.bindFromRequest.fold(
   				formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 			value => {
-				deletePhotos(id, value.values)
+				deletePhotos(id, value.values, request.user.id)
     	})
   
   	}
@@ -467,7 +467,7 @@ object RecipeController extends Controller with MongoController {
 					
 					val newRecipe = (id != value.id)
 					
-					val selector = Json.obj("id" -> value.id)
+					val selector = Json.obj("id" -> id, "userid" -> userid)
 					val modifier = Json.obj(
 								"id" -> id,
 								"name" -> value.name,
@@ -537,9 +537,10 @@ object RecipeController extends Controller with MongoController {
 						for {
 							original <- Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))
 							slider <- Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))
-							preview <- Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)
+							//preview <- Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)
+							preview <- Try(S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key))
 						} yield {
-							Seq(original, slider, preview).filter(_ != null)
+							Seq(original, slider, preview)//.filter(_ != null)
 						}
 					}}
 					val results = resultsTries.zipWithIndex.map { case (result, i) =>
@@ -563,7 +564,7 @@ object RecipeController extends Controller with MongoController {
 	    	isSuccess <- { 
 	    		val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
     			if(S3Photos.size > 0) { 
-					val selector = Json.obj("id" -> id)
+					val selector = Json.obj("id" -> id, "userid" -> request.user.id)
 					
 					Logger.debug("recipe.photos.length: "+recipe.photos.length)
 					Logger.debug("recipe.draft: "+recipe.draft)
