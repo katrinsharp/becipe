@@ -54,11 +54,11 @@
 					<div class="input-hint"></div>
 				</div>
 				<select data="Mastery Level" name="level" id="level" class="span12 selectpicker">
-					<option value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
+					<option <% if(level=="beginner"){%>selected="selected"<%}%> value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
 					<option data-divider="true"></option>
-					<option value="average" data-subtext="More complex tools and ingredients might be involved">Intermediate</option>
+					<option <% if(level=="average"){%>selected="selected"<%}%> value="average" data-subtext="More complex tools and ingredients might be involved">Average</option>
 					<option data-divider="true"></option>
-					<option value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Advanced</option>
+					<option <% if(level=="master"){%>selected="selected"<%}%> value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Master</option>
 				</select>
 				<div class="input-details">
 					<div class="input-name">Tags*</div>
