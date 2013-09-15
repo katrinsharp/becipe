@@ -117,6 +117,13 @@ define([
 			}
 		});
 		
+		var deletedPhotos = _.filter(_.map($('.fileupload'), 
+				function(fu){return {
+							key: $(fu).attr('id'), 
+							isDeleted: (""+$(fu).find('.fileupload-preview > img').attr('src')).match("^https")==null}}), 
+			function(item){return (item.key!=undefined)&&(item.isDeleted)});
+		
+		
 		return false;  
 	}
 	

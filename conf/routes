@@ -18,6 +18,7 @@ POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
 # might become partial update in the future
 PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String, attrNames: Option[String] ?= None)
 POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
+DELETE  /api/0.1/recipe/:id/photos							controllers.RecipeController.deleteRecipePhotos(id: String)
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getRecipeById(id: String)
 
 POST	/api/0.1/signup/add									controllers.UserController.newSignup

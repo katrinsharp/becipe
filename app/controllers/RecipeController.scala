@@ -429,6 +429,34 @@ object RecipeController extends Controller with MongoController {
 			}
   		}
   	}
+  	
+  	private def deletePhotos(id: String, keys: Seq[String]) = {//TODO: Auth action!!!!!!!!!!!!!!!
+  		
+  		Async {
+	  		val selector = Json.obj("id" -> id)
+	  		//val modifier = Json.obj("$pull" -> Json.obj("photos" -> Json.obj("key" -> Json.obj("$in" -> keys))))
+	  		
+	  		val modifier = Json.obj("$pull" -> Json.obj("photos" -> Json.obj("$or" -> (Seq(Json.obj("key" -> Json.obj("$in" -> keys)))++Seq(Json.obj("metadata.originKey" -> Json.obj("$in" -> keys)))))))
+	  		
+	  		Logger.debug(modifier.toString)
+	  		
+	  		Application.recipeCollection.update(selector = selector, update = modifier).map {
+				e => {
+				  Ok
+				}
+			}
+  		}
+  	}
+  	
+  	def deleteRecipePhotos(id: String) = Action { implicit request =>
+  	  
+  		recipeAttributesForm.bindFromRequest.fold(
+  				formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
+			value => {
+				deletePhotos(id, value.values)
+    	})
+  
+  	}
 
 	private def addOrUpdate(value: Recipe, by: String, userid: String) = {
 	  val id = value.id match {
