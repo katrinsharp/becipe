@@ -59,7 +59,7 @@ define([
 		_.each(result.errors, function(error){
 			var el = $('[data-fname=' + error.name + ']');
 			$(el).closest('.root').prev().addClass('error');
-			$(el).closest('.fileupload').append('<span class="error">' + error.message + '</span>');
+			$(el).closest('.fileupload').append('<span class="error photo-error">' + error.message + '</span>');
 		});
 		CreateRecipeView.__super__.displayError.call();//enable back the button
 		_.each(result.successes, function(success){
