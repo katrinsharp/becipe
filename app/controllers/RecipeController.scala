@@ -397,13 +397,13 @@ object RecipeController extends Controller with MongoController {
 			"value" -> seq(nonEmptyText)
 			)(AttributeValues.apply)(AttributeValues.unapply))
   
-  def updateRecipe(id: String, attrNames: Option[String]) = Action {  implicit request =>
+  def updateRecipe(id: String, attrNames: Option[String]) = Authenticated.auth {  implicit request =>
     
 	    attrNames match {
 	    	case None => recipeAddForm.bindFromRequest.fold(
 	    				formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
 	    					value => {
-	    						Ok//addOrUpdate(value, request.user.firstName, request.user.id)
+	    						addOrUpdate(value, request.user.firstName, request.user.id)
 	    			})
 	    	case Some(attrs) => recipeAttributesForm.bindFromRequest.fold(
 	    							formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
