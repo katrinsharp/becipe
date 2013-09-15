@@ -25,8 +25,8 @@ define([
 				var previewUrl = photoBaseUrl + '/' + bucket + '/' + key;
 				return previewUrl;
 			},
-			fullUrl: function(photo){
-				var previewUrl = module.config().photoBaseUrl + '/' + photo.bucket + '/' + photo.key;
+			fullUrl: function(options){
+				var previewUrl = module.config().photoBaseUrl + '/' + options.bucket + '/' + options.key;
 				return previewUrl;
 			}
 	}

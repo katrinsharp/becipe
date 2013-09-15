@@ -25,7 +25,7 @@ define([
 		  	ga('send', 'pageview', pathWithHash);
 		}
     },
-	displayError: function(errorMsg) {
+	displayErrorPage: function(errorMsg) {
 		var compiledTemplate = _.template(errorTemplate);
 		$('#body-container').html(compiledTemplate({errorMsg: errorMsg}));
 	},

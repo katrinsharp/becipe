@@ -20,7 +20,8 @@ define([
 		"focus [name]": "onFocus",
 		"blur [name]": "onBlur",
 		"keyup [name]": "onChange",
-		"change [name]": "onChange"
+		"change [name]": "onChange",
+		"click input[type=file]": "fileInputClick"
 	},
 	
     initialize: function() {
@@ -75,6 +76,15 @@ define([
 		this.remove();
 	},
 	
+	fileInputClick: function(e) {
+		var target = e.currentTarget;
+		//should in this order otherwise seond will not work
+		$(target).closest('.fileupload').find('span.error').remove();
+		$(target).closest('.fileupload').find('.error').removeClass('error');
+		this.model.set('filesChanged', true, {silent: true});
+		return true;
+	},
+	
 	onChange: function(e) {
 		var target = e.currentTarget;
 		console.log(e.type +": "+target.value);
@@ -86,7 +96,7 @@ define([
 		//upload files
 		if($(target).attr('type')=='file') {
 			var paths = target.value.split('\\');
-			var fname = paths[paths.length - 1];
+			var fname = paths[paths.length - 1].replace(/\./g,'_');
 			$(target).attr('data-fname', fname);
 		}
 		return true;
@@ -108,7 +118,41 @@ define([
 		ajaxMsg.unbind("ajaxDone");
 	},
 	
+	displayError: function(resp, stText) {
+		var ajaxMsg = $('button[type="submit"]');
+		if(resp != undefined) {	
+			var error = {};
+			try{
+				error = JSON.parse(resp);
+			}catch(e){
+				error = {error: resp};
+			}
+			
+			if(_.keys(error).length!=0) {
+				var key = _.keys(error)[0];
+				if(key=='error') {
+					var msg = stText;
+					if(msg=='Unauthorized') {
+						msg = 'Please login first';
+					}
+					$('button[type=submit]').before('<div><span class="error general-error">'+error[key]+'</span></div>');
+				} else { //specific field error
+					var inField = $('[name='+key+']');
+					var errors = $(inField).next('span.error');
+					if(errors.length!=0) {
+						$(errors).text(error[key]);
+					} else {
+						$(inField).after('<span class="error">'+error[key]+'</span>');
+					}
+					$(inField).addClass('error');
+				}
+			}
+		}
+		ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+	},
+	
 	bindAjaxSubmitButton: function() {
+		var view = this;
 		// jQuery Global Setup
 		var ajaxMsg = $('button[type="submit"]');
 		ajaxMsg.bind({
@@ -117,33 +161,9 @@ define([
 				$('span.error').remove();
 			},
 			ajaxError: function(jqXHR, textStatus, errorThrown) {
-				var error = {};
-				try{
-					error = JSON.parse(textStatus.responseText);
-				}catch(e){
-					error = {error: textStatus.responseText};
-				}
-				
-				if(_.keys(error).length!=0) {
-					var key = _.keys(error)[0];
-					if(key=='error') {
-						var msg = textStatus.statusText;
-						if(msg=='Unauthorized') {
-							msg = 'Please login first';
-						}
-						$('button[type=submit]').before('<div><span class="error general-error">'+error[key]+'</span></div>');
-					} else { //specific field error
-						var inField = $('[name='+key+']');
-						var errors = $(inField).next('span.error');
-						if(errors.length!=0) {
-							$(errors).text(error[key]);
-						} else {
-							$(inField).after('<span class="error">'+error[key]+'</span>');
-						}
-						$(inField).addClass('error');
-					}
-				}
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+				var responseText = textStatus.responseText;
+				var statusText = textStatus.statusText;
+				view.displayError(responseText, statusText);
 			},
 			ajaxDone: function() {
 				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');

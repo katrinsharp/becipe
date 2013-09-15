@@ -20,14 +20,17 @@ define([
 		var view = this;
 		var recipe = view.model.attributes;
         this.model.fetch({success: function(){
-			view.$el.html(compiledTemplate({recipe: recipe}));
-			$('#body-container').html(view.el);
-			$('.flexslider').flexslider({
-				animation: "slide",
-				slideshow: false,
-				directionNav: true
-			});
-        }});
+				view.$el.html(compiledTemplate({recipe: recipe}));
+				$('#body-container').html(view.el);
+				$('.flexslider').flexslider({
+					animation: "slide",
+					slideshow: false,
+					directionNav: true
+				});
+			},
+			error: function() {
+				view.displayErrorPage("no such recipe");
+			}});
 		return this;
 	}
 

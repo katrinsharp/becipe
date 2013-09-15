@@ -8,9 +8,10 @@ define([
   'models/user/UserLoginModel',
   'views/UserInputView',
   'models/recipes/RecipeFormModel',
+  'globals',
   'text!templates/recipes/createRecipePageTemplate.html',
   'text!templates/misc/fileUploadTemplate.html'
-], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginModel, UserInputView, RecipeFormModel, createRecipePageTemplate, fileUploadTemplate){
+], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginModel, UserInputView, RecipeFormModel, globals, createRecipePageTemplate, fileUploadTemplate){
 
    var CreateRecipeView = UserInputView.extend({
    
@@ -41,8 +42,34 @@ define([
 				window.location.hash = 'recipe/'+view.model.get('id');
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				console.log('error uploading photos');
 			}
 		});
+	},
+	
+	displayError: function(responseText, statusText) {
+		console.log('displayError');
+		var result = {};
+		try{
+			result = JSON.parse(responseText);
+		}catch(e){
+			CreateRecipeView.__super__.displayError(responseText, statusText);
+			return;
+		}
+		_.each(result.errors, function(error){
+			var el = $('[data-fname=' + error.name + ']');
+			$(el).closest('.root').prev().addClass('error');
+			$(el).closest('.fileupload').append('<span class="error">' + error.message + '</span>');
+		});
+		CreateRecipeView.__super__.displayError.call();//enable back the button
+		_.each(result.successes, function(success){
+			var el = $('[data-fname=' + success.name + ']');
+			$(el).closest('.root').find('a[data-dismiss="fileupload"]').click();
+			var compiledTemplate = _.template(fileUploadTemplate);
+			$(el).closest('.fileupload-holder').html(compiledTemplate({photo: _.extend(success.src, {fullUrl: globals.recipeHelpers.fullUrl({bucket: success.src.bucket, key: success.src.key})})}));
+		});
+		this.model.set('filesChanged', false, {silent: true});
+		console.log('');
 	},
 	
 	render: function() {
@@ -50,7 +77,7 @@ define([
 			var that = this, p;
 			p = this.model.fetch();
 			p.error(function () {
-				that.displayError("no such recipe");
+				that.displayErrorPage("no such recipe");
 			});
 			p.success(function () {
 				var m = that.model;
@@ -80,7 +107,6 @@ define([
 		var fn = UserLoginModel.get('fn');
 		this.model.set('by', fn, {silent: true});
 		var existingModel = (this.model.get('id')!=undefined);//create vs edit
-		
 		
 		this.model.save([],{
 			success: function (model, response) {

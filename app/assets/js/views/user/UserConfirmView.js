@@ -27,7 +27,7 @@ define([
 		var that = this, p;
 		p = this.model.fetch();
 		p.error(function () {
-			that.displayError("token is invalid");
+			that.displayErrorPage("token is invalid");
         });
         p.success(function () {
 			var m = that.model;

@@ -19,7 +19,7 @@ define([
 		var that = this, p;
 		p = this.model.fetch();
 		p.error(function () {
-			that.displayError("id is invalid");
+			that.displayErrorPage("id is invalid");
         });
         p.success(function () {
 			var m = that.model;

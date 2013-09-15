@@ -463,7 +463,7 @@ object RecipeController extends Controller with MongoController {
       
     	for {
       
-	    	 S3PhotosWithStatusOpt <- {
+	    	 S3PhotosWithStatus <- {
 	    		Akka.future {
 					val files = request.body.asMultipartFormData.get.files
 					Logger.debug("recipe id: "+id)
@@ -477,9 +477,9 @@ object RecipeController extends Controller with MongoController {
 						// TODO: better try to save slider first because it can throw exceptions while formatting the photo
 						// we don't want to stuck with original saved.
 						for {
-							original <- {Logger.debug("original");Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))}
-							slider <- {Logger.debug("slider");Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))}
-							preview <- {Logger.debug("preview");Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)}
+							original <- Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))
+							slider <- Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))
+							preview <- Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)
 						} yield {
 							Seq(original, slider, preview).filter(_ != null)
 						}
@@ -487,59 +487,52 @@ object RecipeController extends Controller with MongoController {
 					val results = resultsTries.zipWithIndex.map { case (result, i) =>
 						result  match {
 							case Success(photos) => (null, photos)
-							case Failure(ex) => (ex.getMessage(), Seq())
+							case Failure(ex) => {Logger.debug(ex.getMessage());("Picture should be at least 940x570 px", Seq())}
 						}
 					}
 					Logger.debug(results.toString)
-					Option(results)
+					results
 				}.recover {
 					case m: Throwable => Logger.error(m.getMessage());throw new Throwable("Internal error uploading pictures. Please try again later.")
 				}
 			}
-	    	recipeOpt <- {
+	    	recipe <- {
 	    		val recipesF = getRecipes("id", id)
-	    		val recipeF = recipesF.map ( l =>
-	    			Option(l.head.as[Recipe])
+	    		recipesF.map ( l =>
+	    			l.head.as[Recipe]
 	    		)
-	    		recipeF
 	    	} 
-	    	result <- { 
-	    		val S3PhotosWithStatus = S3PhotosWithStatusOpt.get
-	    		val recipe = recipeOpt.get
-    			val statuses = S3PhotosWithStatus.zipWithIndex.collect{
-	    			case ((st, _), i) if(st != null) => (i, st) 	 
-	    		}//S3PhotosWithStatus.map(_._1).toSeq
-	    		val returnResult = if(statuses.length > 0) {
-	    			recipeFileNamesForm.bindFromRequest.fold(
-	    				formWithErrors => Ok,
-	    				filenames => {
-	    					val kuku = statuses.map(st => Json.obj(filenames.names(st._1) -> st._2))
-	    					Logger.debug("kuku: "+kuku.toString)
-	    				})
-	    				Ok
-	    		} else Ok
-	    		
-				Logger.debug(s"size: ${statuses.length}, statuses: ${statuses.toString}")
-				val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
-				if(S3Photos.size > 0) { 
+	    	isSuccess <- { 
+	    		val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
+    			if(S3Photos.size > 0) { 
 					val selector = Json.obj("id" -> id)
 					val modifier = Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)), "$unset" -> Json.obj("draft" -> ""))
 					Application.recipeCollection.update(selector = selector, update = modifier).map {
-						e => Option(Ok)
+						e => true 
 					}	
-				} else {
-					recipe.photos.length > 0 match {
-						case true => Future(Option(Ok))
-						case false => Future(Option(BadRequest("""
-								   <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
-								   <p>You can submit photos now or later by accessing your profile in main menu.</p>
-								   """)))
-					}
-				}
-	    		
+				} else Future(true)
 	    	 }
     	} yield {	
-    		result.get
+    		val statuses = S3PhotosWithStatus.zipWithIndex.collect{ case ((st, _), i) if(st != null) => (i, st)}
+    		val src = S3PhotosWithStatus.zipWithIndex.collect{ case ((st, photos), i) if(st == null) => (i, photos(1))}//slider
+    		val error = if(statuses.length > 0) {
+    			recipeFileNamesForm.bindFromRequest.fold(
+    				formWithErrors => Json.obj("error" -> "unknown"),
+    				filenames => {
+    					Json.obj(
+    					    "errors" -> Json.toJson(statuses.map(st => Json.obj("name" -> filenames.names(st._1), "message" -> st._2))),
+    					    "successes" -> Json.toJson(src.map(src => Json.obj("name" -> filenames.names(src._1), "src" -> src._2)))
+    					)
+    				})	
+    		} else null
+    		if(error!=null) 
+    		  {Logger.debug(error.toString);BadRequest(error)}
+    		else if((recipe.photos.length == 0) && (src.length == 0))
+    		  BadRequest("""
+					   <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
+					   <p>You can submit photos now or later by accessing your profile in main menu.</p>
+					   """)
+			else Ok
     	}
 	  }
   }
