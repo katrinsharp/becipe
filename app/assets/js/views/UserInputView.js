@@ -21,7 +21,8 @@ define([
 		"blur [name]": "onBlur",
 		"keyup [name]": "onChange",
 		"change [name]": "onChange",
-		"click input[type=file]": "fileInputClick"
+		"click input[type=file]": "fileInputClick",
+		"click a.removePhoto": "fileInputClick"
 	},
 	
     initialize: function() {
@@ -81,7 +82,7 @@ define([
 		//should in this order otherwise seond will not work
 		$(target).closest('.fileupload').find('span.error').remove();
 		$(target).closest('.fileupload').find('.error').removeClass('error');
-		this.model.set('filesChanged', true, {silent: true});
+		this.model.set('filesChanged', this.model.get('filesChanged')+1, {silent: true});
 		return true;
 	},
 	

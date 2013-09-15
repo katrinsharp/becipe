@@ -562,9 +562,9 @@ object RecipeController extends Controller with MongoController {
 	    		)
 	    	} 
 	    	isSuccess <- { 
+	    		val selector = Json.obj("id" -> id, "userid" -> request.user.id)
 	    		val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
     			if(S3Photos.size > 0) { 
-					val selector = Json.obj("id" -> id, "userid" -> request.user.id)
 					
 					Logger.debug("recipe.photos.length: "+recipe.photos.length)
 					Logger.debug("recipe.draft: "+recipe.draft)
@@ -576,7 +576,13 @@ object RecipeController extends Controller with MongoController {
 					Application.recipeCollection.update(selector = selector, update = modifier).map {
 						e => true 
 					}	
-				} else Future(true)
+				} else if(recipe.photos.length==0) {
+					val modifier = Json.obj("$set" -> Json.obj("draft" -> "t"))
+					Application.recipeCollection.update(selector = selector, update = modifier).map {
+						e => true 
+					}
+				} else
+				  Future(true)
 	    	 }
     	} yield {	
     		val statuses = S3PhotosWithStatus.zipWithIndex.collect{ case ((st, _), i) if(st != null) => (i, st)}

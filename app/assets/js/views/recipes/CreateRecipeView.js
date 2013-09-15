@@ -68,7 +68,7 @@ define([
 			var compiledTemplate = _.template(fileUploadTemplate);
 			$(el).closest('.fileupload-holder').html(compiledTemplate({photo: _.extend(success.src, {fullUrl: globals.recipeHelpers.fullUrl({bucket: success.src.bucket, key: success.src.key})})}));
 		});
-		this.model.set('filesChanged', false, {silent: true});
+		this.model.set('filesChanged', 0, {silent: true});
 		console.log('');
 	},
 	
@@ -102,23 +102,8 @@ define([
 		}
 		return this;
 	},
-	save: function() {
-		var view = this;
-		var fn = UserLoginModel.get('fn');
-		this.model.set('by', fn, {silent: true});
-		var recipeId = this.model.get('id');
-		var existingModel = (recipeId!=undefined);//create vs edit
-		
-		this.model.save([],{
-			success: function (model, response) {
-				view.uploadPhotos();
-			},
-			error: function (model, response) {
-				console.log('error submitting recipe..');
-			}
-		});
-		
-		if(existingModel) {
+	deletePhotos: function(recipeId, view) {
+		if(recipeId!=undefined) {
 			var deletedPhotos = _.filter(_.map($('.fileupload'), 
 					function(fu){return {
 								key: $(fu).attr('originkey'), 
@@ -135,9 +120,30 @@ define([
 				},
 				error: function() {
 					console.log('delete photos: success');
-			   }
+				}
+			}).always(function() {
+				view.uploadPhotos();
 			});
+		} else {
+			view.uploadPhotos();
 		}
+	},
+	save: function() {
+		var view = this;
+		var fn = UserLoginModel.get('fn');
+		this.model.set('by', fn, {silent: true});
+		var recipeId = this.model.get('id');
+		var existingModel = (recipeId!=undefined);//create vs edit
+		
+		this.model.save([],{
+			success: function (model, response) {
+				view.deletePhotos(recipeId, view);
+				//view.uploadPhotos();
+			},
+			error: function (model, response) {
+				console.log('error submitting recipe..');
+			}
+		});
 		
 		return false;  
 	}

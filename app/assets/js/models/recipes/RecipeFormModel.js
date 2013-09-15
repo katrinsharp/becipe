@@ -9,6 +9,7 @@ define([
 
 		defaults: function() {
 			return {
+				filesChanged: 0,
 				id: undefined,
 				by: "",
 				draft: "t",
