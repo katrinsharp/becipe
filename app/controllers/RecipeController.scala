@@ -255,7 +255,7 @@ object RecipeController extends Controller with MongoController {
 			    queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
 			  	} else List(Json.obj("tags" -> ("__dummy"))))
 			  	
-			  val searchQuery = Json.obj("$and" -> (List(Json.obj("draft" -> Json.obj("$ne" -> true)))++List(Json.obj("$or" -> tags))))
+			  val searchQuery = Json.obj("$and" -> (List(Json.obj("draft" -> Json.obj("$ne" -> "t")))++List(Json.obj("$or" -> tags))))
 			  		  
 			  Logger.debug(tags.toString())
 			 
@@ -270,7 +270,7 @@ object RecipeController extends Controller with MongoController {
   
   private def homepagerecipes = {
   	Async {
-    	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> true))
+    	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> "t"))
     	Application.recipeCollection.find(qbAll).cursor[JsObject].toList(9).map  { homepageRecipes =>
 			Ok(Json.toJson(homepageRecipes))
 		}
@@ -309,7 +309,7 @@ object RecipeController extends Controller with MongoController {
 	  			} else Nil
 	  	
 	  val searchQuery = Json.obj("$and" -> (List
-	      (Json.obj("draft" -> Json.obj("$ne" -> true)))++
+	      (Json.obj("draft" -> Json.obj("$ne" -> "t")))++
 	      searchTerms++
 	      tags++
 	      userQ++
@@ -378,7 +378,7 @@ object RecipeController extends Controller with MongoController {
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"rating" -> ignored(0),
-			"draft" -> optional(boolean),
+			"draft" -> text.verifying("should be t or f", {_.matches("""^t|f$""")}),
 			"photos" -> ignored(Seq[S3Photo]())
 			)(Recipe.apply)(Recipe.unapply))
   
@@ -391,14 +391,44 @@ object RecipeController extends Controller with MongoController {
 			})
 	}
   
-  def updateRecipe(id: String) = Authenticated.auth {  implicit request =>
-		recipeAddForm.bindFromRequest.fold(
-			formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
-			value => {
-					addOrUpdate(value, request.user.firstName, request.user.id)
-				})
+  case class AttributeValues(values: Seq[String])
+	val recipeAttributesForm: Form[AttributeValues] = Form(
+		mapping(
+			"value" -> seq(nonEmptyText)
+			)(AttributeValues.apply)(AttributeValues.unapply))
+  
+  def updateRecipe(id: String, attrNames: Option[String]) = Action {  implicit request =>
+    
+	    attrNames match {
+	    	case None => recipeAddForm.bindFromRequest.fold(
+	    				formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
+	    					value => {
+	    						Ok//addOrUpdate(value, request.user.firstName, request.user.id)
+	    			})
+	    	case Some(attrs) => recipeAttributesForm.bindFromRequest.fold(
+	    							formWithErrors => {BadRequest(formWithErrors.errorsAsJson)},
+	    								value => {
+	    									partialUpdate(id, attrs.split(",").zip(value.values))
+	    							})		
+	    }
   		
 	}
+  
+  	private def partialUpdate(id: String, attrs: Seq[(String, String)]) = {
+  		
+  		Async {
+	  		val selector = Json.obj("id" -> id)//Json.obj("id" -> id, "photos.1" -> Json.obj("$exists" -> 1))
+	  		val modifier = Json.obj("$set" -> attrs.map(v => Json.obj(v._1 -> v._2)).foldLeft(Json.obj())((b, a) => b++a))
+	  		
+	  		Logger.debug(modifier.toString)
+	  		
+	  		Application.recipeCollection.update(selector = selector, update = modifier).map {
+				e => {
+				  Ok
+				}
+			}
+  		}
+  	}
 
 	private def addOrUpdate(value: Recipe, by: String, userid: String) = {
 	  val id = value.id match {
@@ -428,7 +458,7 @@ object RecipeController extends Controller with MongoController {
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
 								"rating" -> value.rating,
-								"draft" -> newRecipe
+								"draft" -> (if(newRecipe) "t" else "f")
 								)
 								
 					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) else modifier))
@@ -506,7 +536,14 @@ object RecipeController extends Controller with MongoController {
 	    		val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
     			if(S3Photos.size > 0) { 
 					val selector = Json.obj("id" -> id)
-					val modifier = Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)), "$unset" -> Json.obj("draft" -> ""))
+					
+					Logger.debug("recipe.photos.length: "+recipe.photos.length)
+					Logger.debug("recipe.draft: "+recipe.draft)
+					
+					val modifier = Seq(Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)))
+					    ++(if((recipe.photos.length==0)&&(recipe.draft=="t"))Json.obj("$unset" -> Json.obj("draft" -> ""))else Json.obj())).foldLeft(Json.obj())((b, a) => b++a)
+					Logger.debug(modifier.toString)
+					//val modifier = Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)), "$unset" -> Json.obj("draft" -> ""))
 					Application.recipeCollection.update(selector = selector, update = modifier).map {
 						e => true 
 					}	

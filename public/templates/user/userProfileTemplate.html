@@ -19,7 +19,12 @@
 						<% _.each(recipes, function(recipe) { %> 	
 							<tr>
 								<td><a href="#recipe/<%= recipe.id%>"><%= recipe.name%></a></td>
-								<td><%if((recipe.draft==undefined)||!recipe.draft){%>Public<%}else{%>Draft<%}%></td>
+								<td>
+									<select data-id="<%= recipe.id%>" data="Visibility" class="selectpicker visibility">
+										<option <%if(recipe.photos.length==0){%>disabled="disabled"<%}%>  <%if((recipe.draft==undefined)||(recipe.draft=="f")){%>selected="selected"<%}%> value="f">Public</option>
+										<option <%if((recipe.draft!=undefined)&&(recipe.draft=="t")){%>selected="selected"<%}%> value="t">Draft</option>
+									</select>
+								</td>
 								<td><a href="#create-recipe/<%= recipe.id%>">Edit</a></td>
 							</tr>
 						<% }); %>

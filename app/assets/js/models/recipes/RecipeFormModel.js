@@ -11,6 +11,7 @@ define([
 			return {
 				id: undefined,
 				by: "",
+				draft: "t",
 				created: moment().format(),
 				name: "",
 				shortDesc: "",
