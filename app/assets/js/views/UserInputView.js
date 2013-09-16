@@ -29,11 +29,6 @@ define([
 		BaseView.prototype.initialize.apply();
     },
 	
-	change: function() {
-		var view = this;
-		this.model.enforceValid();
-	},
-	
 	displayXEditable: function(value) {
 		$(this).text(value);
         $('input[name="'+$(this).attr('name')+'"]').val(value);
@@ -65,8 +60,6 @@ define([
 		$('.wysihtml5').wysihtml5();
 		$('.autosize').autosize();
 		$('.selectpicker').selectpicker();
-		//needed for emails and such. upon validate we don't know which fields need specific validation
-		this.listenTo(this.model, 'change', this.change);
 		this.bindAjaxSubmitButton();
 		return this;
     },
@@ -92,7 +85,7 @@ define([
 		//optional values
 		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined) && (target.id != '')) {
 			console.log("set : "+target.id);
-			this.model.set(target.id, target.value, {silent: true});	
+			this.model.set(target.id, target.value);	
 		}
 		//upload files
 		if($(target).attr('type')=='file') {

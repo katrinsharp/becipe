@@ -60,18 +60,26 @@ define([
 				$('[name='+name+']').after('<span class="error" style="display:none">'+errorDesc+'</span>');
 			}
 		},
-		//called on change: if there is an error, changes to default, which is empty string and insert hidden error
 		enforceValid: function() {
 			var model = this;
-			var name = _.keys(this.changed);
-			var error = this.getError(name, this.changed[name]);
-			if(error!="") {
-				this.insertHiddenError(name, error);
-				this.set(name, "");
-			}
+			var name = _.keys(this.attributes);
+			
+			_.each(this.attributes, function(value, name){
+				if(value!=undefined&&name!=undefined) {
+					var error = model.getError(name, value);
+					if(error!="") {
+						model.insertHiddenError(name, error);
+						model.set(name, "", {silent: true});
+					} else {
+						$('[name='+name+']').next('span.error').remove();
+					}
+				}
+			});
 		},
 		//called on save: all the default values mean invalid user entries
 		validate: function(attrs, options) {
+		
+			this.enforceValid();
 			
 			//preprocessing
 			if(_.contains(_.keys(this.attributes), 'directions')) {

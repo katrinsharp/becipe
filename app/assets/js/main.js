@@ -110,9 +110,11 @@ require.config({
 
 require([	
   'app',
-  'domReady'
-], function(App, domReady){
+  'domReady',
+  'backbone'
+], function(App, domReady, backbone){
 	domReady(function () {
+		//backbone.emulateJSON = true;
 		App.initialize();
 	});
 });
