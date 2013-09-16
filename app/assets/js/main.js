@@ -111,10 +111,15 @@ require.config({
 require([	
   'app',
   'domReady',
+  'jquery',
   'backbone'
-], function(App, domReady, backbone){
+], function(App, domReady, jquery, backbone){
 	domReady(function () {
 		//backbone.emulateJSON = true;
+		//$.ajaxSetup({
+			// Disable caching of AJAX responses */
+			//cache: false
+		//});
 		App.initialize();
 	});
 });

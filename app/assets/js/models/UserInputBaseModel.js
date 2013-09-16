@@ -62,7 +62,6 @@ define([
 		},
 		enforceValid: function() {
 			var model = this;
-			var name = _.keys(this.attributes);
 			
 			_.each(this.attributes, function(value, name){
 				if(value!=undefined&&name!=undefined) {
