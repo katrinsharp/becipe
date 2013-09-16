@@ -20,51 +20,54 @@
 				<textarea data-tp="select22" data-type="select2" class="autosize span12" data="Ingredients" type="text" placeholder="1.5 ml of Vitamin E..." name="ingredients" id="ingredients"><%= ingredients%></textarea>
 				
 				
-				
-				<div class="input-details">
+				<div class="input-details span6">
 					<div class="input-name">Preparation Time*</div>
 					<div class="input-hint">How long does it take to prepare a recipe? For example: 45 min</div>
+					<input data-tp="editable2" class="span12" data="Prep Time" type="text" placeholder="15 minutes..." name="prepTime" id="prepTime" value="<%= prepTime%>">
 				</div>
-				<input data-tp="editable2" class="span12" data="Prep Time" type="text" placeholder="15 minutes..." name="prepTime" id="prepTime" value="<%= prepTime%>">
 				
-				
-				
-				<div class="input-details">
+				<div class="input-details span6">
 					<div class="input-name">Ready In Time</div>
-					<div class="input-hint">How long does it take for a recipe to be ready? For example: 24 hours or leave empty if the it can be used right away</div>
+					<div class="input-hint">Optional. How long should a recipe wait aside before it is ready? i.e. 24h</div>
+					<input data-tp="editable2" class="span12" data="Ready-In Time" type="text" placeholder="Right away..." name="readyIn" id="readyIn" value="<%= readyIn%>">
 				</div>
-				<input data-tp="editable2" class="span12" data="Ready-In Time" type="text" placeholder="Right away..." name="readyIn" id="readyIn" value="<%= readyIn%>">
-				<div class="input-details">
+				
+				<div class="input-details span6">
 					<div class="input-name">Recipe Yield*</div>
 					<div class="input-hint">The resulted quantity, for example: 150 gr</div>
+					<input data-tp="editable2" class="span12" data="Recipe Yield" type="text" placeholder="400 grams..." name="recipeYield" id="recipeYield" value="<%= recipeYield%>">
 				</div>
-				<input data-tp="editable2" class="span12" data="Recipe Yield" type="text" placeholder="400 grams..." name="recipeYield" id="recipeYield" value="<%= recipeYield%>">
-				<div class="input-details">
+				
+				<div class="input-details span6">
 					<div class="input-name">Supply</div>
-					<div class="input-hint">How many applications does the recipe yield? For example 10 applications. Leave it empty if you don't know the answer</div>
+					<div class="input-hint">Optional. How many applications does the recipe yield? For example: 10</div>
+					<input data-tp="editable2" class="span12" data="Supply" type="text" placeholder="5 ..." name="supply" id="supply" value="<%= supply%>">
 				</div>
-				<input data-tp="editable2" class="span12" data="Supply" type="text" placeholder="5 applications..." name="supply" id="supply" value="<%= supply%>">
+				
 				<div class="input-details">
 					<div class="input-name">Directions*</div>
 					<div class="input-hint">Recipe directions</div>
 				</div>
 				<textarea class="wysihtml5 span12" data="Directions" type="text" placeholder="Lightly grind the lavender in a coffee grinder, Heat the coconut oil gently in a double boiler until it is liquefied..." name="directions" id="directions"><%= directions%></textarea>
-				<div class="input-details">
+				
+				<div class="input-details span6">
 					<div class="input-name">Mastery Level*</div>
-					<div class="input-hint"></div>
+					<div class="input-hint"><span style="visibility: hidden">.</span></div>
+						<select data="Mastery Level" name="level" id="level" class="span12 selectpicker">
+						<option <% if(level=="beginner"){%>selected="selected"<%}%> value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
+						<option data-divider="true"></option>
+						<option <% if(level=="average"){%>selected="selected"<%}%> value="average" data-subtext="More complex tools and ingredients might be involved">Average</option>
+						<option data-divider="true"></option>
+						<option <% if(level=="master"){%>selected="selected"<%}%> value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Master</option>
+					</select>
 				</div>
-				<select data="Mastery Level" name="level" id="level" class="span12 selectpicker">
-					<option <% if(level=="beginner"){%>selected="selected"<%}%> value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
-					<option data-divider="true"></option>
-					<option <% if(level=="average"){%>selected="selected"<%}%> value="average" data-subtext="More complex tools and ingredients might be involved">Average</option>
-					<option data-divider="true"></option>
-					<option <% if(level=="master"){%>selected="selected"<%}%> value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Master</option>
-				</select>
-				<div class="input-details">
+				
+				<div class="input-details span6">
 					<div class="input-name">Tags*</div>
-					<div class="input-hint">Enter the tags the recipe can be related. For example: Anti-aging, sunscreen etc</div>
+					<div class="input-hint">Tags the recipe can be found by. For example: body, sunscreen etc</div>
+					<input data-tp="select22" class="span12" data="Tags" type="text" placeholder="body,scrub..." name="tags" id="tags" value="<%= tags%>">
 				</div>
-				<input data-tp="select22" class="span12" data="Tags" type="text" placeholder="body,scrub..." name="tags" id="tags" value="<%= tags%>">
+				
 				<div class="input-details">
 					<div class="input-name">Photos*</div>
 					<div class="input-hint">Upload photos that will help to recreate the recipe successfully. If no photo is provided, the recipe will be saved as draft</div>
