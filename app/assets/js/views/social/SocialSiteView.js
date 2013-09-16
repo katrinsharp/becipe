@@ -3,8 +3,9 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
+  'globals',
   'text!templates/social/socialSiteTemplate.html'
-], function($, _, Backbone, Bootstrap, socialSiteTemplate){
+], function($, _, Backbone, Bootstrap, globals, socialSiteTemplate){
 
   var SocialSiteView = Backbone.View.extend({
     el: $(".social-site"),
@@ -29,24 +30,28 @@ define([
 		return this;
     },
 	
-	gplusClick: function() {
+	gplusClick: function(e) {
 		console.log('gplusClick');
 		return false;
 	},
-	fbClick: function() {
+	fbClick: function(e) {
 		console.log('fbClick');
+		globals.socialHelpers.bindtoFacebookFollowClick(e);
 		return false;
 	},
-	twClick: function() {
+	twClick: function(e) {
 		console.log('twClick');
+		globals.socialHelpers.bindtoTwitterFollowClick(e);
 		return false;
 	},
-	pinClick: function() {
+	pinClick: function(e) {
 		console.log('pinClick');
+		globals.socialHelpers.bindtoPinterestFollowClick(e);
 		return false;
 	},
-	inClick: function() {
+	inClick: function(e) {
 		console.log('inClick');
+		globals.socialHelpers.bindtoLinkedInFollowClick(e);
 		return false;
 	}
 	
