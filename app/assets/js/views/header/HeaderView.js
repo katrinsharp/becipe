@@ -17,7 +17,9 @@ define([
 	
 	events: {
 		'click #search-btn': 'clickSearch',
-		'change label input': 'clickFilter'
+		'change label input': 'clickFilter',
+		'change input[name=query]': 'searchKeyPress',
+		'keyup input[name=query]': 'searchKeyPress'
 	},
 	
 	collection: new RecipeCollection(),
@@ -55,6 +57,12 @@ define([
 			$('[data="signup"]').css('display', '');
 			$('[data="user-settings"]').css('display', 'none');
 		}		
+	},
+	
+	searchKeyPress: function(e) {
+		if (e.keyCode == 13) {
+			this.clickSearch();
+		}
 	},
 	
 	search: function() {
