@@ -1,9 +1,10 @@
 define([
   'backbone',
   'views/BaseView',
+  'collections/filters/RecipesFiltersCollection',
   'models/recipes/RecipeModel',
   'text!templates/recipes/recipePageTemplate.html'
-], function(Backbone, BaseView, RecipeModel, recipePageTemplate){
+], function(Backbone, BaseView, RecipesFiltersCollection, RecipeModel, recipePageTemplate){
 
   var RecipePageView = BaseView.extend({
   
@@ -18,19 +19,30 @@ define([
 		console.log('recipe page view render: '+ this.model.id);
 		var compiledTemplate = _.template(recipePageTemplate);
 		var view = this;
-		var recipe = view.model.attributes;
-        this.model.fetch({success: function(){
-				view.$el.html(compiledTemplate({recipe: recipe}));
+	
+		$.when(
+			this.model.fetch().error(
+								function () {
+									that.displayErrorPage("no such recipe");
+								}
+							), 
+			new RecipesFiltersCollection().fetch().error(
+								function () {
+									that.displayErrorPage("Internal error: no such recipe filters");
+								}
+							)
+			).then(function(modelR, recipeFiltersR){
+				var recipeFilters = recipeFiltersR[0];
+				var attributes = _.extend(view.model.attributes, {recipeFilters: recipeFilters});
+				view.$el.html(compiledTemplate({recipe: attributes}));
 				$('#body-container').html(view.el);
 				$('.flexslider').flexslider({
 					animation: "slide",
 					slideshow: false,
 					directionNav: true
 				});
-			},
-			error: function() {
-				view.displayErrorPage("no such recipe");
-			}});
+			});
+			
 		return this;
 	}
 

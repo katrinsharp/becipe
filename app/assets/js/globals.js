@@ -7,7 +7,6 @@ define([
 
 	var initialize = function(){
 		this.currentIteration = module.config().currentIteration;
-		//this.photoBaseUrl = module.config().photoBaseUrl;
 		this.recipeHelpers = {
 			date: function(time){
 				var date = moment(time).format('LL');
@@ -28,6 +27,12 @@ define([
 			fullUrl: function(options){
 				var previewUrl = module.config().photoBaseUrl + '/' + options.bucket + '/' + options.key;
 				return previewUrl;
+			},
+			getErrorDiv: function(name) {
+				return $('[name='+name+']').siblings('.input-name').find('span.error');
+			},
+			setErrorDiv: function(name, errorDesc) {
+				$('[name='+name+']').siblings('.input-name').append('<span class="error" style="margin-left: 2px;display:none">'+errorDesc+'</span>');
 			}
 		},
 		this.socialHelpers = {
@@ -135,7 +140,6 @@ define([
 				u=location.href;
 				title="Share this page on LinkedIn";
 				url = "http://www.linkedin.com/shareArticle?mini=true&url="+encodeURIComponent(u)+"&title="+encodeURIComponent(title)+"&summary="+$(this).attr('data')+"&source=Becipe";
-				console.log(url);
 				window.open(url, "linkedin", this.windowOpts());
 				return false;
 			}

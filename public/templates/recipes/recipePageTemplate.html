@@ -23,8 +23,13 @@
 		<div class="span12">
 			<div class="center-in-span main-content-width recipe-item-padding" style="margin-top: 30px;margin-bottom: 20px">
 				<a class="search" data="level" data-value="<%= recipe.level%>" href="#search-recipes////<%= recipe.level%>"><span><%= recipe.level%>&nbsp;</span></a>
+					
+					<% _.each(recipe.categories, function(cat) { %> 
+						<a class="search" data-value="<%= cat%>" href="#search-recipes//<%= cat%>//"><span><%= _.find(recipe.recipeFilters, function(f){return f.id==cat}).desc%>&nbsp;</span></a>	
+					<% }); %>
+					
 					<% _.each(recipe.tags, function(tag) { %> 
-						<a class="search" data="categories[0]" data-value="<%= tag%>" href="#search-recipes//<%= tag%>//"><span><%= tag%>&nbsp;</span></a>	
+						<a class="search" data-value="<%= tag%>" href="#search-recipes/<%= tag%>///"><span><%= tag%>&nbsp;</span></a>	
 					<% }); %>
 			</div>	
 		</div>

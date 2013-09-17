@@ -288,16 +288,19 @@ object RecipeController extends Controller with MongoController {
 	  val searchTerms = if(queryValues(0).length()!=0){
 		  					List(Json.obj("$or" ->
 							    (queryValues.map(x => Json.obj("directions" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
-							    queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
+							    //queryValues.map(x => Json.obj("phases.ingredients" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
 							    queryValues.map(x => Json.obj("name" -> Json.obj("$regex" -> ((new Regex("(?i)"+x+""))).toString())))++
+							    queryValues.map(x => Json.obj("tags" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))++
 							    queryValues.map(x => Json.obj("shortDesc" -> Json.obj("$regex" -> (new Regex("(?i)"+x)).toString())))
 							 )))} else Nil
 	 
-	  //val level = List(Json.obj("level" -> level.getOrElse("").toString()))				  	
+	  //val level = List(Json.obj("level" -> level.getOrElse("").toString()))	
+							 
+	  Logger.debug(searchTerms.toString)
 	
 					  	
 	  val tags = if(filterValues(0).length()!=0){
-		  				List(Json.obj("tags" -> Json.obj("$in" -> filterValues)))
+		  				List(Json.obj("categories" -> Json.obj("$in" -> filterValues)))
 	  			} else Nil
 	  
 	  val userQ = if(userid.length()!=0){
@@ -367,16 +370,17 @@ object RecipeController extends Controller with MongoController {
 			"userid" -> ignored(""),
 			"directions" -> nonEmptyText,//nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),
 			"ingredients" -> text.transform[Seq[String]](x=>x.split(";").map(_.trim()), l=> l.headOption.getOrElse("")),
-			"phases" -> seq(mapping(
-					"description" -> text,
-					"ingredients" -> seq(text)
-					)(RecipePhase.apply)(RecipePhase.unapply)),			
+			//"phases" -> seq(mapping(
+			//		"description" -> text,
+			//		"ingredients" -> seq(text)
+			//		)(RecipePhase.apply)(RecipePhase.unapply)),			
 			"prepTime" -> nonEmptyText,	
 			"readyIn" -> optional(text),
 			"recipeYield" -> nonEmptyText,	
 			"supply" -> optional(text),
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
+			"categories" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"rating" -> ignored(0),
 			"draft" -> text.verifying("should be t or f", {_.matches("""^t|f$""")}),
 			"photos" -> ignored(Seq[S3Photo]())
@@ -482,9 +486,9 @@ object RecipeController extends Controller with MongoController {
 								"supply" -> value.supply,
 								"level" -> value.level,
 								"ingredients" -> value.ingredients,
-								"phases" -> List[RecipePhase](),
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
+								"categories" -> value.categories,
 								"rating" -> value.rating,
 								"draft" -> (if(newRecipe) "t" else "f")
 								)
@@ -592,6 +596,7 @@ object RecipeController extends Controller with MongoController {
     				formWithErrors => Json.obj("error" -> "unknown"),
     				filenames => {
     					Json.obj(
+    					    "isPhotoError" -> "true",
     					    "errors" -> Json.toJson(statuses.map(st => Json.obj("name" -> filenames.names(st._1), "message" -> st._2))),
     					    "successes" -> Json.toJson(src.map(src => Json.obj("name" -> filenames.names(src._1), "src" -> src._2)))
     					)

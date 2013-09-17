@@ -1,6 +1,7 @@
 define([
-  'backbone'
-], function(Backbone) {
+	'backbone',
+	'globals'
+], function(Backbone, globals) {
 
 	var UserInputBaseModel = Backbone.Model.extend({
 
@@ -31,9 +32,14 @@ define([
 			var pass = $('input#ps').val();
 			return (pass==val);
 		},
-		getError: function(name, val) {
+		getError: function(name, valOrig) {
+			if(name=="photos") {
+				return "";
+			}
+			var val = ""+valOrig;
 			var valParts = /^(?!\s*$).+/.exec(val);
-			var isValid = (valParts!=null && val!="");
+			
+			var isValid = ((valParts!=null) && (val!=""));
 			if(!isValid) {
 				return "This is required";
 			}
@@ -53,24 +59,24 @@ define([
 			return "";	
 		},
 		insertHiddenError: function(name, errorDesc) {
-			var error = $('[name='+name+']').next('span.error');
+			var error = globals.recipeHelpers.getErrorDiv(name);
 			if(error.length!=0) {
 				$(error).text(errorDesc);
 			} else {
-				$('[name='+name+']').after('<span class="error" style="display:none">'+errorDesc+'</span>');
+				globals.recipeHelpers.setErrorDiv(name, errorDesc);
 			}
 		},
 		enforceValid: function() {
 			var model = this;
 			
 			_.each(this.attributes, function(value, name){
-				if(value!=undefined&&name!=undefined) {
+				if((value!=undefined)&&(name!=undefined)) {
 					var error = model.getError(name, value);
 					if(error!="") {
 						model.insertHiddenError(name, error);
 						model.set(name, "", {silent: true});
 					} else {
-						$('[name='+name+']').next('span.error').remove();
+						globals.recipeHelpers.getErrorDiv(name).remove();
 					}
 				}
 			});
@@ -93,7 +99,13 @@ define([
 			//end preprocessing
 			
 			var that = this;
-			_.each(_.keys(attrs), function(name){if((attrs[name]!=undefined)&&(attrs[name]=="")){$('[name='+name+']').addClass('error');that.insertHiddenError(name, "This is required");}});
+			_.each(_.keys(attrs), function(name){
+				var value = ""+attrs[name];
+				if((attrs[name]!=undefined)&&(value=="")){
+					$('[name='+name+']').addClass('error');
+					that.insertHiddenError(name, "This is required");
+				}
+			});
 			$('span.error').css('display', '');
 			$('span.error').prev().addClass('error');
 			if($('span.error').not('span.general-error').length!=0) {

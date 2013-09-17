@@ -19,18 +19,19 @@ case class Recipe(
 		userid: String,
 		directions: String, 
 		ingredients: Seq[String],
-		phases: Seq[RecipePhase],
+		//phases: Seq[RecipePhase],
 		prepTime: String,
 		readyIn: Option[String],
 		recipeYield: String,
 		supply: Option[String],
 		level: String, 
 		tags: Seq[String],
+		categories: Seq[String],
 		rating: Int,
 		draft: String,
 		photos: Seq[S3Photo])
 
-object Recipe extends Function18[String, String, String, DateTime, String, String, String, Seq[String], Seq[RecipePhase], String, Option[String], String, Option[String],String, Seq[String], Int, String, Seq[S3Photo], Recipe] {
+object Recipe extends Function18[String, String, String, DateTime, String, String, String, Seq[String], String, Option[String], String, Option[String],String, Seq[String], Seq[String], Int, String, Seq[S3Photo], Recipe] {
 	implicit val recipeWrites = Json.writes[Recipe]
 	implicit val recipeReads = Json.reads[Recipe]
 }

@@ -8,10 +8,11 @@ define([
   'models/user/UserLoginModel',
   'views/UserInputView',
   'models/recipes/RecipeFormModel',
+  'collections/filters/RecipesFiltersCollection',
   'globals',
   'text!templates/recipes/createRecipePageTemplate.html',
   'text!templates/misc/fileUploadTemplate.html'
-], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginModel, UserInputView, RecipeFormModel, globals, createRecipePageTemplate, fileUploadTemplate){
+], function($, _, Backbone, Bootstrap, bootstrapFileupload, jqueryForm, UserLoginModel, UserInputView, RecipeFormModel, RecipesFiltersCollection, globals, createRecipePageTemplate, fileUploadTemplate){
 
    var CreateRecipeView = UserInputView.extend({
    
@@ -56,32 +57,50 @@ define([
 			CreateRecipeView.__super__.displayError(responseText, statusText);
 			return;
 		}
-		_.each(result.errors, function(error){
-			var el = $('[data-fname=' + error.name + ']');
-			$(el).closest('.root').prev().addClass('error');
-			$(el).closest('.fileupload').append('<span class="error photo-error">' + error.message + '\n[' + error.name.replace(/\_/g,'.') + ']</span>');
-		});
+		if(_.has(result, 'isPhotoError')) {
+			_.each(result.errors, function(error){
+				var el = $('[data-fname=' + error.name + ']');
+				$(el).closest('.root').prev().addClass('error');
+				$(el).closest('.fileupload').append('<span class="error photo-error">' + error.message + '\n[' + error.name.replace(/\_/g,'.') + ']</span>');
+			});
+			_.each(result.successes, function(success){
+				var el = $('[data-fname=' + success.name + ']');
+				$(el).closest('.root').find('a[data-dismiss="fileupload"]').click();
+				var compiledTemplate = _.template(fileUploadTemplate);
+				$(el).closest('.fileupload-holder').html(compiledTemplate({photo: _.extend(success.src, {fullUrl: globals.recipeHelpers.fullUrl({bucket: success.src.bucket, key: success.src.key})})}));
+			});
+			this.model.set('filesChanged', 0, {silent: true});
+		} else {
+			_.each(result, function(message, name){
+				var el = $('[name=' + name + ']');
+				$(el).addClass('error');
+				globals.recipeHelpers.setErrorDiv(name, message);
+			});
+		}
+		
 		CreateRecipeView.__super__.displayError.call();//enable back the button
-		_.each(result.successes, function(success){
-			var el = $('[data-fname=' + success.name + ']');
-			$(el).closest('.root').find('a[data-dismiss="fileupload"]').click();
-			var compiledTemplate = _.template(fileUploadTemplate);
-			$(el).closest('.fileupload-holder').html(compiledTemplate({photo: _.extend(success.src, {fullUrl: globals.recipeHelpers.fullUrl({bucket: success.src.bucket, key: success.src.key})})}));
-		});
-		this.model.set('filesChanged', 0, {silent: true});
+		
 		console.log('');
 	},
 	
 	render: function() {
+		var that = this;
 		if(this.model.get('id')) {
-			var that = this, p;
-			p = this.model.fetch();
-			p.error(function () {
-				that.displayErrorPage("no such recipe");
-			});
-			p.success(function () {
+			$.when(
+				this.model.fetch().error(
+									function () {
+										that.displayErrorPage("no such recipe");
+									}
+								), 
+				new RecipesFiltersCollection().fetch().error(
+									function () {
+										that.displayErrorPage("Internal error: no such recipe filters");
+									}
+								)
+			).then(function(modelR, recipeFiltersR){
 				var m = that.model;
-				CreateRecipeView.__super__.render.call(that, m.attributes);
+				var recipeFilters = recipeFiltersR[0];
+				CreateRecipeView.__super__.render.call(that, _.extend(m.attributes, {recipeFilters: recipeFilters}));
 				//upload files thumbnails
 				var compiledTemplate = _.template(fileUploadTemplate);
 				var placeHolders = that.$(".fileupload-holder");
@@ -91,14 +110,22 @@ define([
 					$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
 				}
 			});
+		
 		} else {
-			CreateRecipeView.__super__.render.call(this, this.model.attributes);
-			//upload files thumbnails
-			var compiledTemplate = _.template(fileUploadTemplate);
-			var placeHolders = this.$(".fileupload-holder");
-			for(var i = 0; i < 12; ++i) {
-				$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
-			}
+			
+			var p = new RecipesFiltersCollection().fetch();
+			p.error(function () {
+				that.displayErrorPage("Internal error: no such recipe filters");
+			});
+			p.success(function (recipeFilters) {
+				CreateRecipeView.__super__.render.call(that, _.extend(that.model.attributes, {recipeFilters: recipeFilters}));
+				//upload files thumbnails
+				var compiledTemplate = _.template(fileUploadTemplate);
+				var placeHolders = that.$(".fileupload-holder");
+				for(var i = 0; i < 12; ++i) {
+					$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
+				}
+			});
 		}
 		return this;
 	},

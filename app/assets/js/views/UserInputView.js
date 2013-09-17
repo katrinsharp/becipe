@@ -2,6 +2,7 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'globals',
   'bootstrap',
   'bootstrapeditable',
   'select2',
@@ -11,7 +12,7 @@ define([
   'bootstrapWysihtml5',
   'autosize',
   'views/BaseView'
-], function($, _, Backbone, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, autosize, BaseView){		
+], function($, _, Backbone, globals, Bootstrap, BootstrapEditable, Select2, Poshytip, bootstrapSelect, Placeholder, wysihtml5, autosize, BaseView, UserInputBaseModel){		
 
   var UserInputView = BaseView.extend({
     //el: $("#body-container"),
@@ -81,11 +82,15 @@ define([
 	
 	onChange: function(e) {
 		var target = e.currentTarget;
-		console.log(e.type +": "+target.value);
+		console.log("ORIG set : "+target.id + ", value: "+ target.value);
 		//optional values
 		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined) && (target.id != '')) {
-			console.log("set : "+target.id);
-			this.model.set(target.id, target.value);	
+			console.log("set : "+target.id + ", value: "+ target.value);
+			if(target.id=="categories") {
+				this.model.set("categories", _.reduceRight($(target.selectedOptions), function(a, b) { return a.concat($(b).val()); }, []).join(','));
+			} else {
+				this.model.set(target.id, target.value);	
+			}
 		}
 		//upload files
 		if($(target).attr('type')=='file') {
@@ -98,8 +103,8 @@ define([
 	
 	onFocus: function(e) {
 		var target = e.currentTarget;
-		$(target).removeClass("error"); 
-		$(target).next('span.error').remove();
+		$(target).removeClass("error");
+		globals.recipeHelpers.getErrorDiv($(target).attr("name")).remove();	
 	},
 	
 	onBlur: function(e) {
@@ -132,11 +137,11 @@ define([
 					$('button[type=submit]').before('<div><span class="error general-error">'+error[key]+'</span></div>');
 				} else { //specific field error
 					var inField = $('[name='+key+']');
-					var errors = $(inField).next('span.error');
+					var errors = globals.recipeHelpers.getErrorDiv(key);
 					if(errors.length!=0) {
 						$(errors).text(error[key]);
 					} else {
-						$(inField).after('<span class="error">'+error[key]+'</span>');
+						globals.recipeHelpers.setErrorDiv(key, error[key]);
 					}
 					$(inField).addClass('error');
 				}
