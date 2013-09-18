@@ -574,10 +574,6 @@ select:focus {
 						font-size: 21px;
 						line-height: 24px;
 						padding: 6px 0 7px;
-						text-transform: lowercase;
-						&:first-letter {
-							text-transform: capitalize;
-						}
 					}
 					.share {
 						text-align: right;
@@ -1122,6 +1118,11 @@ button:active {
 /*
 ** MISC
 */
+
+.capitalize {
+	text-transform: lowercase;
+	text-transform: capitalize;
+}
 
 button[disabled], button:disabled {
     background: @lightGreyColor !important;
