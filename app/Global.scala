@@ -16,6 +16,33 @@ object Global extends GlobalSettings {
 	  BadRequest(Json.obj("error" -> ex.getMessage()))
   }  
   
+  override def onHandlerNotFound(request: RequestHeader): Result = {
+ 
+        // handle trailing slashes
+        if (request.path.endsWith("/")) {
+            // construct a new URI without the slash
+            // request.path doesn't contain query strings
+            // request.uri contains both the path and the query string
+            val uri = request.path.take(request.path.length - 1) + {
+                if (request.path == request.uri) "" // no query string
+                else request.uri.substring(request.path.length)
+            }
+ 
+            Results.MovedPermanently(uri)
+        }
+        else // not my business. push it back to super class
+            super.onHandlerNotFound(request)
+    }
+  
+  	// CORS
+  	/*override def doFilter(action: EssentialAction): EssentialAction = EssentialAction { request =>
+  		action.apply(request).map(_.withHeaders(
+  			"Access-Control-Allow-Origin" -> request.host,
+  			"Access-Control-Max-Age" -> "300",//5 min
+  			"Access-Control-Allow-Methods" -> "GET,POST,PUT"
+  		))
+  	}*/
+  
   /*override def doFilter(action: EssentialAction): EssentialAction = EssentialAction { request =>
     action.apply(request).map(_.withHeaders(
       "x-content-security-policy-report-only" -> (""+
