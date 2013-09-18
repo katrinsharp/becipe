@@ -64,7 +64,7 @@ object UserController extends Controller with MongoController{
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get)) {
 					    val fn = f.\("firstName").as[String]
 					    val userid = f.\("id").as[String]
-					    val modifier = Json.obj("usedid" -> userid, "time" -> DateTime.now())
+					    val modifier = Json.obj("userid" -> userid, "time" -> DateTime.now())
 					    Application.loginsCollection.insert(modifier).map {
 							e => {
 							  Ok

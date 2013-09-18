@@ -11,9 +11,10 @@ case class Signup(
 		lastName: String, 
 		email: String,
 		response: String,
+		token: String,
 		created: DateTime)
 
-object Signup extends Function5[String, String, String, String, DateTime, Signup] {
+object Signup extends Function6[String, String, String, String, String, DateTime, Signup] {
 	implicit val writes = Json.writes[Signup]
 	implicit val reads = Json.reads[Signup]
 }

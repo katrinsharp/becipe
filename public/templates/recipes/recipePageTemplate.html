@@ -28,9 +28,9 @@
 						<a class="search" data-value="<%= cat%>" href="#search-recipes//<%= cat%>//"><span><%= _.find(recipe.recipeFilters, function(f){return f.id==cat}).desc%>&nbsp;</span></a>	
 					<% }); %>
 					
-					<% _.each(recipe.tags, function(tag) { %> 
+					<!--<% _.each(recipe.tags, function(tag) { %> 
 						<a class="search" data-value="<%= tag%>" href="#search-recipes/<%= tag%>///"><span><%= tag%>&nbsp;</span></a>	
-					<% }); %>
+					<% }); %>-->
 			</div>	
 		</div>
 	</div>
@@ -101,7 +101,7 @@
 					</div>
 					<% if (recipe.supply!=undefined) { %>
 						<div class="span3">
-							<p><span class="title">Supply</span> <%= recipe.supply%>	</p>
+							<p><span class="title">Supply</span> <%= recipe.supply%> applications</p>
 						</div>
 					<%}%>
 				</div>
