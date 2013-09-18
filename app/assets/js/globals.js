@@ -29,10 +29,24 @@ define([
 				return previewUrl;
 			},
 			getErrorDiv: function(name) {
-				return $('[name='+name+']').siblings('.input-name').find('span.error');
+				var nameDiv = $('[name='+name+']').siblings('.input-name');
+				if(nameDiv.length!=0) {
+					return $(nameDiv).find('span.error');
+				} else {
+					return $('[name='+name+']').next('span.error');
+				}
+			},
+			removeErrorDiv: function(name) {
+				this.getErrorDiv(name).remove();
 			},
 			setErrorDiv: function(name, errorDesc) {
-				$('[name='+name+']').siblings('.input-name').append('<span class="error" style="margin-left: 2px;display:none">'+errorDesc+'</span>');
+				var errSpan = '<span class="error" style="margin-left: 2px;display:none">'+errorDesc+'</span>';
+				var nameDiv = $('[name='+name+']').siblings('.input-name');
+				if(nameDiv.length!=0) {
+					$(nameDiv).append(errSpan);
+				} else {
+					$('[name='+name+']').after(errSpan);
+				}
 			}
 		},
 		this.socialHelpers = {

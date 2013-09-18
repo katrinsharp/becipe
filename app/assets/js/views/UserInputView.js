@@ -104,7 +104,7 @@ define([
 	onFocus: function(e) {
 		var target = e.currentTarget;
 		$(target).removeClass("error");
-		globals.recipeHelpers.getErrorDiv($(target).attr("name")).remove();	
+		globals.recipeHelpers.removeErrorDiv($(target).attr("name"));	
 	},
 	
 	onBlur: function(e) {

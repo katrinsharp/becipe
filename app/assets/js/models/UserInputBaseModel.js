@@ -76,7 +76,7 @@ define([
 						model.insertHiddenError(name, error);
 						model.set(name, "", {silent: true});
 					} else {
-						globals.recipeHelpers.getErrorDiv(name).remove();
+						globals.recipeHelpers.removeErrorDiv(name);
 					}
 				}
 			});
