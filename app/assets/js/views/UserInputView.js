@@ -20,7 +20,7 @@ define([
 	events: {
 		"focus [name]": "onFocus",
 		"blur [name]": "onBlur",
-		"keyup [name]": "onChange",
+		//"keyup [name]": "onChange",
 		"change [name]": "onChange",
 		"click input[type=file]": "fileInputClick",
 		"click a.removePhoto": "fileInputClick"
@@ -87,7 +87,7 @@ define([
 		if(((this.model.get(target.id) != undefined) || (target.value != '')) && (target.value != undefined) && (target.id != '')) {
 			console.log("set : "+target.id + ", value: "+ target.value);
 			if(target.id=="categories") {
-				this.model.set("categories", _.reduceRight($(target.selectedOptions), function(a, b) { return a.concat($(b).val()); }, []).join(','));
+				this.model.set("categories", _.reduceRight($('[name='+target.id+']').selectpicker('val'), function(a, b) { return a.concat(b); }, []).join(','));
 			} else {
 				this.model.set(target.id, target.value);	
 			}

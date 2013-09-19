@@ -489,9 +489,8 @@ object RecipeController extends Controller with MongoController {
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
 								"categories" -> value.categories,
-								"rating" -> value.rating,
-								"draft" -> (if(newRecipe) "t" else "f")
-								)
+								"rating" -> value.rating
+								)++ (if(newRecipe) Json.obj("draft" -> "t") else Json.obj())
 								
 					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) else modifier))
 					
