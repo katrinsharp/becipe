@@ -74,7 +74,7 @@ define([
 			_.each(result, function(message, name){
 				var el = $('[name=' + name + ']');
 				$(el).addClass('error');
-				globals.recipeHelpers.setErrorDiv(name, message);
+				globals.recipeHelpers.setErrorDiv(name, message, true);
 			});
 		}
 		

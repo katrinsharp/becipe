@@ -39,13 +39,19 @@ define([
 			removeErrorDiv: function(name) {
 				this.getErrorDiv(name).remove();
 			},
-			setErrorDiv: function(name, errorDesc) {
-				var errSpan = '<span class="error" style="margin-left: 2px;display:none">'+errorDesc+'</span>';
+			setErrorDiv: function(name, errorDesc, toDisplay) {
+				var errSpanStr = '<span class="error" style="margin-left: 2px;display:none">'+errorDesc+'</span>';
 				var nameDiv = $('[name='+name+']').siblings('.input-name');
+				var errSpan = undefined;
 				if(nameDiv.length!=0) {
-					$(nameDiv).append(errSpan);
+					$(nameDiv).append(errSpanStr);
+					errSpan = $(nameDiv).find('span.error');
 				} else {
-					$('[name='+name+']').after(errSpan);
+					$('[name='+name+']').after(errSpanStr);
+					errSpan = $('[name='+name+']').next('span.error');
+				}
+				if((toDisplay!=undefined)&&toDisplay) {
+					$(errSpan).css('display', '');
 				}
 			}
 		},

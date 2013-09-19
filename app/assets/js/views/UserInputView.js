@@ -141,7 +141,7 @@ define([
 					if(errors.length!=0) {
 						$(errors).text(error[key]);
 					} else {
-						globals.recipeHelpers.setErrorDiv(key, error[key]);
+						globals.recipeHelpers.setErrorDiv(key, error[key], true);
 					}
 					$(inField).addClass('error');
 				}

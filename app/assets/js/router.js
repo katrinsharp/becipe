@@ -164,13 +164,15 @@ define([
 				//console.log("Route is about to get hit ...");
 				//});
 				//this.trigger.apply(this, ['beforeroute:' + name].concat(_.toArray(arguments)));
-				if(this.authRoutes[name]&&!UserLoginModel.isAuthenticated()) {
-					auth.redirectToLogin();
-				}
 				if(this.currentView) {
 					this.currentView.close();
+					this.currentView = undefined;
 				}
-				this.currentView = callback.apply(this, arguments);
+				if(this.authRoutes[name]&&!UserLoginModel.isAuthenticated()) {
+					auth.redirectToLogin();
+				} else {
+					this.currentView = callback.apply(this, arguments);
+				}
 			});
 		} 
 	});
