@@ -270,7 +270,7 @@ object RecipeController extends Controller with MongoController {
   
   private def homepagerecipes = {
   	Async {
-    	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> "t"))
+    	val qbAll = Json.obj("by" -> "Becipe", "draft" -> Json.obj("$ne" -> "t"))
     	Application.recipeCollection.find(qbAll).cursor[JsObject].toList(9).map  { homepageRecipes =>
 			Ok(Json.toJson(homepageRecipes))
 		}
@@ -573,7 +573,7 @@ object RecipeController extends Controller with MongoController {
 					Logger.debug("recipe.draft: "+recipe.draft)
 					
 					val modifier = Seq(Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)))
-					    ++(if((recipe.photos.length==0)&&(recipe.draft=="t"))Json.obj("$unset" -> Json.obj("draft" -> ""))else Json.obj())).foldLeft(Json.obj())((b, a) => b++a)
+					    ++(if((recipe.photos.length==0)&&(recipe.draft=="t"))Json.obj("$set" -> Json.obj("draft" -> "f"))else Json.obj())).foldLeft(Json.obj())((b, a) => b++a)
 					Logger.debug(modifier.toString)
 					//val modifier = Json.obj("$addToSet" -> Json.obj("photos" -> Json.obj("$each" -> S3Photos)), "$unset" -> Json.obj("draft" -> ""))
 					Application.recipeCollection.update(selector = selector, update = modifier).map {
