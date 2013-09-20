@@ -4,21 +4,36 @@
 
 # Home page
 GET     /                           						controllers.Application.index
-GET     /aboutUs                           					controllers.Application.aboutUs
 
 # Recipe
-POST	/recipe/search										controllers.RecipeController.search
-GET		/recipe/search										controllers.Application.redirectToIndex
 # POST	/recipe/by											controllers.RecipeController.by(categories: List[String])
-GET		/recipe/add											controllers.RecipeController.add
-POST	/recipe/submitRecipe								controllers.RecipeController.submitRecipe
-GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
-GET		/recipe/:id											controllers.RecipeController.get(id: String)
+# GET		/recipe/add											controllers.RecipeController.add
+# POST	/recipe/submitRecipe								controllers.RecipeController.submitRecipe
+# GET		/recipe/edit/:id									controllers.RecipeController.edit(id: String)
 
-# Signup
-GET		/signup												controllers.Application.signup
-POST	/signup												controllers.Application.submitSignup
-GET		/signup/thank-you/:name								controllers.Application.signupThankyou(name: String)
+# API
+# get play 2.2 for supporting dynamic part in the middle
+GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String, filter: String, userid: String, level: String)
+POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
+# might become partial update in the future
+PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String, attrNames: Option[String] ?= None)
+POST	/api/0.1/recipe/:id/photos							controllers.RecipeController.uploadRecipePhotos(id: String)
+DELETE  /api/0.1/recipe/:id/photos							controllers.RecipeController.deleteRecipePhotos(id: String)
+GET		/api/0.1/recipe/:id									controllers.RecipeController.getRecipeById(id: String)
+
+POST	/api/0.1/signup/add									controllers.UserController.newSignup
+GET 	/api/0.1/signup/token/:token						controllers.UserController.getSignupAsJson(token: String)
+POST	/api/0.1/signup/token/:token						controllers.UserController.createUser(token: String)
+GET		/signup/confirm/:token								controllers.UserController.redirectToSignupConfirm(token: String)
+
+POST	/api/0.1/login										controllers.UserController.login
+POST	/api/0.1/logout										controllers.UserController.logout
+POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword
+
+GET		/api/0.1/user/:id									controllers.UserController.user(id: String)
+
+# Admin
+POST	/api/0.1/admin/resetAllZeroTokens					controllers.AdminController.resetAllZeroTokens			
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes
@@ -26,5 +41,5 @@ GET     /assets/javascripts/routes          				controllers.Application.javascri
 # Map static resources from the /public folder 
 # to the /assets URL path
 GET     /assets/*file               						controllers.Assets.at(path="/public", file)
-GET     /webjars/*file              						controllers.WebJarAssets.at(file)
 GET     /*file												controllers.Assets.at(path="/public", file)
+GET     /webjars/*file              						controllers.WebJarAssets.at(file)

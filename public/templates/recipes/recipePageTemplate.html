@@ -1,0 +1,153 @@
+
+
+<div class="recipe-body">
+	<div class="row-fluid">
+		<div class="span12 slider-container next-to-header">
+			<!-- slider -->
+			<div class="center-in-span main-content-width">
+				<div class="flexslider">
+					<ul class="slides">
+					
+						<%_.each(_.filter(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"}), function(photo){ %>
+							<li>
+								<img style="height: 570px" class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+			</div>
+			<!-- ENDS slider -->
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="center-in-span main-content-width recipe-item-padding" style="margin-top: 30px;margin-bottom: 20px">
+				<a class="search" data="level" data-value="<%= recipe.level%>" href="#search-recipes////<%= recipe.level%>"><span><%= recipe.level%>&nbsp;</span></a>
+					
+					<% _.each(recipe.categories, function(cat) { %> 
+						<a class="search" data-value="<%= cat%>" href="#search-recipes//<%= cat%>//"><span><%= _.find(recipe.recipeFilters, function(f){return f.id==cat}).desc%>&nbsp;</span></a>	
+					<% }); %>
+					
+					<!--<% _.each(recipe.tags, function(tag) { %> 
+						<a class="search" data-value="<%= tag%>" href="#search-recipes/<%= tag%>///"><span><%= tag%>&nbsp;</span></a>	
+					<% }); %>-->
+			</div>	
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+				<div class="row-fluid">
+					<div class="span6">
+						<div class="heading capitalize"><%= recipe.name%></div>
+					</div>
+					<div class="span6 margin-top-10">
+						<div class="row-fluid">
+							<div class="span10">
+								<p style="text-align: right;">Posted By <a href= "#user/<%= recipe.userid%>/publicProfile" class="by"><%= recipe.by%></a></p>
+								<p style="text-align: right"><%= recipe.date(recipe.created)%></p>
+							</div>
+							<div class="span2">
+								<img style="margin-left: 10px" class="float-right" src="../../img/user-profile-picture.png" alt="user profile photo">
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="row-fluid">	
+					<div class="span6 rate-trigger" style="visibility: hidden">
+						
+						<!--img class="rated-image rated-image-style" src="@routes.Assets.at("img/rating/"+recipe.rating+".png")" alt="rating"-->
+						
+						@for(i <- 1 to 5) {
+							<!--@@if(i!=recipe.rating) {-->
+								<span class="rate-it-image" style="background-color: #ddd;padding: 10px 5px;margin: 0px -2px;display: none">
+									<a class="rate-it-link-style" href="@routes.Application.signup()">
+										<!--img class="rate-it-image-style" src="@routes.Assets.at("img/rating/"+i+".png")" alt="rating @i"-->
+									</a>
+								</span>
+							<!--}-->
+						}
+						<a href="@routes.Application.signup()" style="margin-left: 5px">Reviews</a>
+					</div>
+					<div class="span6">
+						<!-- social bar -->
+						<div id="social-bar-container" class="float-right">
+							<ul id="social-bar-right" class="cf sb">
+								<!--@views.html.social_bar(recipe.shortDesc)-->
+							</ul>
+						</div>
+						<!-- end of social bar -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row-fluid margin-top-10">
+		<div class="span12">
+			<div class="center-in-span main-content-width recipe-item-padding">
+				<div class="row-fluid recipe-time-measures">
+					<div class="span3">
+						<p><span class="title">Preparation Time</span>  <%= recipe.prepTime%> </p> 	
+					</div>
+					<% if (recipe.readyIn!=undefined) { %>
+						<div class="span3">
+							<p><span class="title">Ready In</span> <%= recipe.readyIn%> </p> 	
+						</div>
+					<%}%>
+					<div class="span3">
+						<p><span class="title">Recipe yield</span> <%= recipe.recipeYield%> </p>
+					</div>
+					<% if (recipe.supply!=undefined) { %>
+						<div class="span3">
+							<p><span class="title">Supply</span> <%= recipe.supply%> applications</p>
+						</div>
+					<%}%>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row-fluid margin-top-10">
+		<div class="span12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+					<!-- Ingredients -->
+					<h3>Ingredients</h3>
+					<div class="row-fluid">
+					
+						<% if (recipe.ingredients.length != 0) { %>
+							<% _.each(recipe.ingredients, function(ing) { %> 
+								<div><%= ing%></div>
+							<% }); %>
+						<% } else { %>
+								<%_.each(recipe.phases, function(phase, i) { %> 
+									<div class="span4">
+										<h4>Phase <%= i+1%>: <%= phase.description%></h4>
+										<%_.each(recipe.ingredients, function(ing) { %> 
+											<div><%= ing%></div>	
+										<%});%>
+									</div>
+							<% });}%>
+					</div>
+					<!-- End of Ingredients -->
+			</div>	
+		</div>
+	</div>
+	
+	<div class="row-fluid">
+		<div class="span12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+					<!-- Directions -->
+					<h3>Directions</h3>
+					<div class="row-fluid">
+						<div class="span12 directions">
+							<%= recipe.directions %>
+						</div>
+					</div>
+					<!-- End of Directions -->
+			</div>	
+		</div>
+	</div>
+	
+</div>

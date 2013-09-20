@@ -1,122 +1,60 @@
-@(currentMenu: String, recipes: Seq[Recipe] = Seq())(content: Html)(implicit request: RequestHeader)
+@(currentMenu: String = "")(content: Html)(implicit request: RequestHeader, session: Session)
 <!DOCTYPE html>
 
-<html class="no-js">
-	<head>
+<head>
+	<title>Becipe</title>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,chrome=1"><!-- doesn't work in 10, bug in post request-->
+	<meta name="description" content="">
+	<meta name="author" content="">
 
-		<meta charset="utf-8"/>
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" >
-
-		<title>@Messages("general.title")</title>
-		<link rel="shortcut icon" type="image/x-icon" href="@routes.Assets.at("img/favicon.ico")">
-		
-		<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/reset.css")"/>
-
-		<!--[if lt IE 9]>
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js")"></script>
-		<![endif]-->
-		<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/style.css")"/>
-		<meta name="viewport" content="width=device-width, initial-scale=1"/>
-		<!-- Adding "maximum-scale=1" fixes the Mobile Safari auto-zoom bug: http://filamentgroup.com/examples/iosScaleBug/ -->
-		<!-- JS -->
-		<!-- 1.9.0 doesn't work -->
-		<script src="@routes.Assets.at("javascripts/jquery-1.7.1.min.js")"></script>
-		<!-- should come after jquery -->
-		<script src="@routes.Assets.at("javascripts/jquery.cookie.js")"></script>
-		<script src="@routes.Assets.at("javascripts/custom.js")"></script>
-		
-		<!-- modernizr -->
-		<script src="@routes.Assets.at("javascripts/modernizr.js")"></script>
-
-		<!-- Isotope -->
-		<script src="@routes.Assets.at("javascripts/jquery.isotope.min.js")"></script>
-		
-		<!-- flexslider -->
-		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/flexslider.css")"/>
-		<script src="@routes.Assets.at("javascripts/jquery.flexslider-min.js")"></script>
-		
-		<!-- Twitter bootstrap -->
-		<script src="@routes.WebJarAssets.at(WebJarAssets.locate("js/bootstrap.min.js"))"></script>
-		<link rel="stylesheet" media="all" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap.min.css"))"/>
-		<link rel="stylesheet" media="all" href="@routes.WebJarAssets.at(WebJarAssets.locate("css/bootstrap-responsive.min.css"))"/>
-		
-		<!-- Bootstrap X-Editable -->
-		<link rel="stylesheet" href="@routes.Assets.at("bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css")"/>
-		<script src="@routes.Assets.at("bootstrap-editable/bootstrap-editable/js/bootstrap-editable.min.js")"></script>
-		
-		<!-- Bootstrap wysihtml5 -->
-		<link rel="stylesheet" href="@routes.Assets.at("bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css")"/>
-		<script src="@routes.Assets.at("bootstrap-editable/inputs-ext/wysihtml5/wysihtml5.js")"></script>
-		<script src="@routes.Assets.at("bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0.min.js")"></script>
-		<script src="@routes.Assets.at("bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.min.js")"></script>
-		<link rel="stylesheet" href="@routes.Assets.at("bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css")"/>
-		
-		<!-- Bootstrap file upload -->
-		<script src="@routes.Assets.at("javascripts/bootstrap-fileupload.min.js")"></script>
-		<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/bootstrap-fileupload.min.css")"/>
-		
-		<!-- Bootstrap Select 2 -->
-		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/select2.css")"/>
-		<link rel="stylesheet" href="@routes.Assets.at("stylesheets/select2-bootstrap.css")"/>
-		<script src="@routes.Assets.at("javascripts/select2.js")"></script>
-		
-		<!-- GOOGLE FONTS -->
-		<!--link href="http://fonts.googleapis.com/css?family=Voltaire" rel="stylesheet" type="text/css"-->
-
-		<!-- SKIN -->
-		<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/skin.css")"/>
-		
-		<!-- ICOMOON -->
-		<link rel="stylesheet" media="all" href="@routes.Assets.at("stylesheets/style-icomoon.css")"/>
-
-		<!-- Play reverse route -->
-		<script type="text/javascript" src="@routes.Application.javascriptRoutes"></script>
-	</head>
-	<body>
-		<div id="fb-root"></div>
-		@views.html.header("home")
-		@content
-	</body>
-	<footer>
-		<script>
-			( function(d, s, id) {
-					var js, fjs = d.getElementsByTagName(s)[0];
-					if (d.getElementById(id))
-						return;
-					js = d.createElement(s);
-					js.id = id;
-					js.src = "//connect.facebook.net/en_US/all.js#xfbml=1";
-					fjs.parentNode.insertBefore(js, fjs);
-				}(document, 'script', 'facebook-jssdk'));
-		</script>
-		<script>
-		  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-		  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-		  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-		  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-		  //localhost testing
-		  //ga('create', 'UA-40585181-1', {'cookieDomain': 'none'});
-		  var url = document.URL;	
-		  if(url.indexOf("becipe.com") != -1 || url.indexOf("becipe.heroku.com") != -1) { 
-		  	ga('create', 'UA-40585181-1', 'becipe.com');
-		  	var signupIter = $.cookie('becipe-signup-iteration');
-		  	if(signupIter != undefined) {
-		  		console.log(signupIter);
-		  		ga('set', 'metric1', signupIter);
-		  	}
-		  	var firstVisit = $.cookie('becipe-first-iteration-visit');
-		  	if(firstVisit != undefined) {
-		  		console.log(firstVisit);
-				ga('set', 'metric2', firstVisit);
+	<meta name="viewport" content="width=device-width,initial-scale=1">
+	<link rel="shortcut icon" type="image/x-icon" href="@routes.Assets.at("img/favicon.ico")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/flexslider/flexslider.css")"/>
+	<!--[if !IE]><!-->
+		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/icomoon/style.css")"/>
+	<!--<![endif]-->
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap-editable/bootstrap-editable/css/bootstrap-editable.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/select2/select2.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/poshytip/tip-darkgray/tip-darkgray.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap-select/bootstrap-select.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/footable2/css/footable.core.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap-fileupload/bootstrap-fileupload.min.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2.css")"/>  
+	<!--link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysiwyg-color.css")"/-->  
+	<!--link rel="stylesheet" media="all" href="@routes.Assets.at("css/normalize.css")"/-->
+	<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
+    <!--[if lt IE 9]>
+		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]--> 
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap.min.css")"/>
+	<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap-responsive.min.css")"/>
+	<link rel="stylesheet" media="all" href="@routes.Assets.at("css/style.css")"/>
+	
+	<script>
+		var require = {
+			config: {
+				'app': {
+					userid: '@session.get("userid").getOrElse("")',
+					token: '@session.get("token").getOrElse("")',
+					fn: '@session.get("fn").getOrElse("")'
+				},
+				'globals': {
+					currentIteration: '3',
+					photoBaseUrl: 'https://s3.amazonaws.com'
+				}
 			}
-		  	ga('send', 'pageview');
-		  	//crazy egg
-			setTimeout(function(){var a=document.createElement("script");
-			var b=document.getElementsByTagName("script")[0];
-			a.src=document.location.protocol+"//dnn506yrbagrg.cloudfront.net/pages/scripts/0012/5919.js?"+Math.floor(new Date().getTime()/3600000);
-			a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
-			//end crazy egg
-		  }
-		</script>
-	</footer>
+		};
+	</script>
+	<!--@@requireJs(core = routes.Assets.at("js/external/require/require.js").url, module = routes.Assets.at("js/main").url)-->
+	<script data-main="js/main" src="@routes.Assets.at("js/external/require/require.js")"></script>
+</head>
+<body>
+	<!--[if IE]>
+		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/icomoon/style.css")"/>	
+	<![endif]-->
+	<div id="header"></div>
+	<div id="body-container"></div>
+  
+</body>
 </html>

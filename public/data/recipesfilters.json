@@ -1,0 +1,52 @@
+[
+	{
+		"id": "new",
+		"desc": "NEW!",
+		"state": false
+	},
+	{
+		"id": "skincare",
+		"desc": "Skincare",
+		"state": false
+	},
+	{
+		"id": "haircare",
+		"desc": "Hair Care",
+		"state": false
+	},
+	{
+		"id": "bodycare",
+		"desc": "Body care & Spa",
+		"state": false
+	},
+	{
+		"id": "soap",
+		"desc": "Soap",
+		"state": false
+	},
+	{
+		"id": "makeup",
+		"desc": "Makeup",
+		"state": false
+	},
+	{
+		"id": "aromatherapy",
+		"desc": "Aromatherapy",
+		"state": false
+	},
+	{
+		"id": "antiacne",
+		"desc": "Anti-Acne",
+		"state": false
+	},
+	{
+		"id": "antiaging",
+		"desc": "Anti-Aging",
+		"state": false
+	},
+	{
+		"id": "baseskits",
+		"desc": "Bases & Kits",
+		"state": false
+	}
+]

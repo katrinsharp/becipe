@@ -1,0 +1,41 @@
+<!--figure style="height: auto;background: #fff !important;font-size: 18px;line-height: 25px;"-->
+	<div class="recipe">
+		<div class="image">
+			<a href="#recipe/<%= id %>">
+				<img src="<%= previewUrl(photos)%>"/>
+			</a>
+		</div>
+		<div class="details">
+			<div class="inner">
+				<div class="name">
+					<div class="name-label capitalize">
+						<a class="text" href="#recipe/<%= id %>">
+							<%= name %>
+						</a>
+					</div>
+					<!--div class="share">
+						<a class="text" href="#share"><div data-icon="&#xf045;" class="ico-btn sp" aria-hidden="true"></div></a>
+					</div-->
+				</div>
+				<!--div class="clear-both"></div>
+				<div class="short-desc" title="<%=shortDesc%>" style="font-size: 13px;font-style: italic">
+					<%if(shortDesc.indexOf(".")!=-1) {%><%= shortDesc.substring(0, shortDesc.indexOf("."))%>...<%}else if(shortDesc.length>100) {%><%= shortDesc.substring(0, 100)%>...<%}else{%>shortDesc<%}%>
+				</div-->
+				<div class="clear-both"></div>
+				<a href="#user/<%= userid%>/publicProfile"><div class="by"><%= by%></div></a>
+				<div class="clear-both"></div>
+				<!--div class="bar">
+					<div class="like">
+						<a href="#like"><div data-icon="&#xe0c8;" class="ico-btn sp" aria-hidden="true"></div></a>
+					</div>
+					<div class="stats">10</div>
+					<div class="views">
+						<div data-icon="&#xf2b5;" class="ico-btn sp" aria-hidden="true"></div>
+					</div>
+					<div  class="stats">230</div>
+				</div>
+				<div class="clear-both"></div-->
+			</div>
+		</div>
+	</div>
+<!--/figure-->

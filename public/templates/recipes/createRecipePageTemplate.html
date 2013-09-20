@@ -1,0 +1,97 @@
+<div class="row-fluid">
+	<div class="span12">
+		<div class="main-content-width user-signup-form next-to-header center-in-span">
+			<div class="row-fluid">
+				<div class="span12" id="title"><%if(id==undefined){%>Create<%}else{%>Edit<%}%> Recipe</div>
+				<div class="input-details span12">
+					<div class="input-name span12">Name*</div>
+					<div class="input-hint">Descriptive name that will make people to click on it</div>
+					<input data-tp="editable2" class="span12" data="Recipe Name" type="text" placeholder="Lavender body scrub..." name="name" id="name" value="<%= name%>">
+				</div>
+				<div class="input-details span12">
+					<div class="input-name span12">Short Description*</div>
+					<div class="input-hint">Captative short description, that will show up in search results</div>
+					<textarea data-tp="editable2" class="span12" data="Short description" type="text" placeholder="This recipe is worth trying if only for the beautiful smell of freshly ground lavender..." name="shortDesc" id="shortDesc"><%= shortDesc%></textarea>
+				</div>
+				<div class="input-details span12">
+					<div class="input-name span12">Ingredients*</div>
+					<div class="input-hint">One ingredient per line, for example: 40 ml coconut oil</div>
+					<textarea data-tp="select22" data-type="select2" class="autosize span12" data="Ingredients" type="text" placeholder="1.5 ml of Vitamin E..." name="ingredients" id="ingredients"><%= ingredients%></textarea>
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Preparation Time*</div>
+					<div class="input-hint">How long does it take to prepare a recipe? For example: 45 min</div>
+					<input data-tp="editable2" class="span12" data="Prep Time" type="text" placeholder="15 minutes..." name="prepTime" id="prepTime" value="<%= prepTime%>">
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Ready In Time</div>
+					<div class="input-hint">Optional. How long should a recipe wait aside before it is ready? i.e. 24h</div>
+					<input data-tp="editable2" class="span12" data="Ready-In Time" type="text" placeholder="Right away..." name="readyIn" id="readyIn" value="<%= readyIn%>">
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Recipe Yield*</div>
+					<div class="input-hint">The resulted quantity, for example: 150 gr</div>
+					<input data-tp="editable2" class="span12" data="Recipe Yield" type="text" placeholder="400 grams..." name="recipeYield" id="recipeYield" value="<%= recipeYield%>">
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Supply</div>
+					<div class="input-hint">Optional. How many applications does the recipe yield? For example: 10</div>
+					<input data-tp="editable2" class="span12" data="Supply" type="text" placeholder="5 ..." name="supply" id="supply" value="<%= supply%>">
+				</div>
+				
+				<div class="input-details span12">
+					<div class="input-name span12">Directions*</div>
+					<div class="input-hint">Recipe directions</div>
+					<textarea class="wysihtml5 span12" data="Directions" type="text" placeholder="Lightly grind the lavender in a coffee grinder, Heat the coconut oil gently in a double boiler until it is liquefied..." name="directions" id="directions"><%= directions%></textarea>
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Mastery Level*</div>
+					<div class="input-hint"><span style="visibility: hidden">.</span></div>
+						<select data="Mastery Level" name="level" id="level" class="span12 selectpicker">
+						<option <% if(level=="beginner"){%>selected="selected"<%}%> value="beginner" data-subtext="No special ingredients or equipment is needed">Beginner</option>
+						<option data-divider="true"></option>
+						<option <% if(level=="average"){%>selected="selected"<%}%> value="average" data-subtext="More complex tools and ingredients might be involved">Average</option>
+						<option data-divider="true"></option>
+						<option <% if(level=="master"){%>selected="selected"<%}%> value="master" data-subtext="Advanced tools, ingredients or knowledge is needed">Master</option>
+					</select>
+				</div>
+				
+				<div class="input-details span6">
+					<div class="input-name span12">Categories*</div>
+					<div class="input-hint">You can choose multiple categories by clicking on dropdown items</div>
+					<select data="Categories" name="categories" id="categories" class="span12 selectpicker" multiple title="Choose one or more of the following...">
+						<%_.each(recipeFilters, function(filter){%>
+							<option <%if(_.find(categories.split(","), function(c){return c==filter.id})!=undefined){%>selected="selected"<%}%> value="<%= filter.id%>"><%= filter.desc%></option>
+						<%})%>
+					</select>
+				</div>
+				
+				<div class="input-details span12">
+					<div class="input-name span12">Tags*</div>
+					<div class="input-hint">Tags the recipe can be found by. For example: body, sunscreen etc</div>
+					<input data-tp="select22" class="span12" data="Tags" type="text" placeholder="body,scrub..." name="tags" id="tags" value="<%= tags%>">
+				</div>
+				
+				<div class="input-details">
+					<div class="input-name span12">Photos*</div>
+					<div class="input-hint">Upload photos that will help to recreate the recipe successfully. If no photo is provided, the recipe will be saved as draft</div>
+				</div>
+				<form name="form" method="POST" action="/api/0.1/recipe/-1/photos" enctype="multipart/form-data" id="fileuploadform">
+					<div class="row-fluid">	
+						<% for(var i = 0; i < 12; ++i){%><div class="fileupload-holder"></div><%}%>
+					</div>
+				</form>
+				
+				<div class="center-in-span text-align-center">
+					<button type="submit" id="save" class="">Save</button>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+</div>
