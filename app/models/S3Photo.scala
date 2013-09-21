@@ -47,7 +47,9 @@ class S3Photo(
 	private def imageToStream(image: BufferedImage) = {
 		val byteArrayOutputStream = new ByteArrayOutputStream()
         ImageIO.write(image, "jpg", byteArrayOutputStream)
-        new ByteArrayInputStream(byteArrayOutputStream.toByteArray())
+        val result = new ByteArrayInputStream(byteArrayOutputStream.toByteArray())
+		byteArrayOutputStream.close()
+		result
 	}
 
     def save(image: BufferedImage, tp: String, originalKey: String): S3Photo = {
@@ -67,7 +69,9 @@ class S3Photo(
     			objectMetadata.setContentType("image/jpg")
 
     			// save the image in S3
-		        val putObjectRequest = new PutObjectRequest(bucket, key, imageToStream(image), objectMetadata)
+    			val stream = imageToStream(image)
+		        val putObjectRequest = new PutObjectRequest(bucket, key, stream, objectMetadata)
+    			stream.close
 		        putObjectRequest.withCannedAcl(CannedAccessControlList.PublicRead);
 		        
 		        if (S3Plugin.amazonS3 == null) {
