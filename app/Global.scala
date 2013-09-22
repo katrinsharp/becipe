@@ -5,11 +5,13 @@ import play.api.mvc._
 import play.api.http.HeaderNames._
 import play.api.libs.json._
 import play.api.mvc.Results._
+import javax.imageio.ImageIO
 
 object Global extends GlobalSettings {
   
   override def onStart(app: Application) = {
   	Logger.info("Starting application...")
+  	ImageIO.setUseCache(false)
   }
   
   override def onError(request: RequestHeader, ex: Throwable) = {
