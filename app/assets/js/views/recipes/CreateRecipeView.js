@@ -90,6 +90,9 @@ define([
 	uploadPhotos: function() {
 		var view = this;
 		var form = this.$('#fileuploadform');
+		
+		$('.uploading-wait').css('display', '');
+		
 		$(form).ajaxSubmit({
 			data: {
 				filenames: _.map($('[data-fname]'), function(el){return $(el).attr('data-fname')})
@@ -97,9 +100,11 @@ define([
 			url: '/api/0.1/recipe/'+view.model.get('id')+'/photos',
 			success: function(response) {
 				//window.location.hash = 'recipe/'+view.model.get('id');
+				$('.uploading-wait').css('display', 'none');
 				view.checkRequestStatus(response.handleRequest);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				$('.uploading-wait').css('display', 'none');
 				console.log('error uploading photos');
 			}
 		});
@@ -218,7 +223,6 @@ define([
 		this.model.set('by', fn, {silent: true});
 		var recipeId = this.model.get('id');
 		var existingModel = (recipeId!=undefined);//create vs edit
-		
 		this.model.save([],{
 			success: function (model, response) {
 				view.deletePhotos(recipeId, view);
