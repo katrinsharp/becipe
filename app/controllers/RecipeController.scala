@@ -15,11 +15,8 @@ import play.api.data.validation.Constraints._
 import play.api.data.format.Formats._
 import views.html.defaultpages.badRequest
 import play.api.data.FormError
-import views.html.defaultpages.error
 import models.S3Photo
 import java.io.File
-import javax.imageio.ImageIO
-import org.imgscalr.Scalr
 import scala.concurrent.Await
 import scala.concurrent.duration.Duration
 import scala.concurrent.Future
@@ -37,6 +34,10 @@ import auth.Authenticated
 import scala.util.Try
 import scala.util.Success
 import scala.util.Failure
+import java.util.UUID
+import play.api.cache.Cache 
+import models.RequestState
+import models.StatusVal
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
 case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
@@ -518,33 +519,43 @@ object RecipeController extends Controller with MongoController {
 			"filenames" -> seq(nonEmptyText)			
 			)(FileNames.apply)(FileNames.unapply))
   
-  def uploadRecipePhotos(id: String) = Authenticated.auth { implicit request =>
+	def uploadRecipePhotos(id: String) = Authenticated.auth { implicit request =>
     
-    Async {
+    
+    	val requestHandle = UUID.randomUUID().toString()
+    	val userid = request.user.id
+    	val files = request.body.asMultipartFormData.get.files
+		Logger.debug("recipe id: "+id)
+		Logger.debug("photos: "+files.length)
+
+		val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
+		val total = nonEmptyFiles.length
+		
+		Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.inprogress.toString(), processed = Some(0), total = Some(total)))//Json.obj("status" -> "inprogress", "processed" -> 0, "total" -> total))
       
-    	for {
+    	val kuku = for {
       
 	    	 S3PhotosWithStatus <- {
 	    		Akka.future {
-					val files = request.body.asMultipartFormData.get.files
-					Logger.debug("recipe id: "+id)
-					Logger.debug("photos: "+files.length)
-			
-					val nonEmptyFiles = files.filter(_.ref.file.length() != 0)
+				
 					val resultsTries = nonEmptyFiles.zipWithIndex.map{case (file, i) => {
 				
 						Logger.debug("next file, length: "+file.ref.file.length())
 					
 						// TODO: better try to save slider first because it can throw exceptions while formatting the photo
 						// we don't want to stuck with original saved.
-						for {
+						val saved = for {
 							original <- Try(S3Photo.save(Image.asIs(file.ref.file), "original", ""))
 							slider <- Try(S3Photo.save(Image.asSlider(file.ref.file), "slider", original.key))
 							//preview <- Try(if(i==0) S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key) else null)
 							preview <- Try(S3Photo.save(Image.asPreviewRecipe(file.ref.file), "preview", original.key))
 						} yield {
+							//Cache.set(requestHandle, Json.obj("status" -> "inprogress", "processed" -> (i+1), "total" -> total))
 							Seq(original, slider, preview)//.filter(_ != null)
 						}
+						
+						Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.inprogress.toString(), processed = Some(i+1), total = Some(total)))
+						saved
 					}}
 					val results = resultsTries.zipWithIndex.map { case (result, i) =>
 						result  match {
@@ -565,7 +576,7 @@ object RecipeController extends Controller with MongoController {
 	    		)
 	    	} 
 	    	isSuccess <- { 
-	    		val selector = Json.obj("id" -> id, "userid" -> request.user.id)
+	    		val selector = Json.obj("id" -> id, "userid" -> userid)
 	    		val S3Photos = S3PhotosWithStatus.flatMap(_._2).toSeq
     			if(S3Photos.size > 0) { 
 					
@@ -592,24 +603,44 @@ object RecipeController extends Controller with MongoController {
     		val src = S3PhotosWithStatus.zipWithIndex.collect{ case ((st, photos), i) if(st == null) => (i, photos(1))}//slider
     		val error = if(statuses.length > 0) {
     			recipeFileNamesForm.bindFromRequest.fold(
-    				formWithErrors => Json.obj("error" -> "unknown"),
+    				formWithErrors => new RequestState(requestHandle = requestHandle, status = StatusVal.error.toString(), error = Some(formWithErrors.errorsAsJson.toString)),
+    				    //Json.obj("status" -> "error", "error" -> "unknown"),
     				filenames => {
-    					Json.obj(
+    					new RequestState(requestHandle = requestHandle, status=StatusVal.error.toString(), 
+    					    errors = Some(statuses.map(st => new models.Error(filenames.names(st._1), st._2))), 
+    					    successes = Some(src.map(src => new models.Success(filenames.names(src._1), src._2))))
+    					/*Json.obj(
     					    "isPhotoError" -> "true",
+    					    "status" -> "error",
     					    "errors" -> Json.toJson(statuses.map(st => Json.obj("name" -> filenames.names(st._1), "message" -> st._2))),
     					    "successes" -> Json.toJson(src.map(src => Json.obj("name" -> filenames.names(src._1), "src" -> src._2)))
-    					)
+    					)*/
     				})	
     		} else null
     		if(error!=null) 
-    		  {Logger.debug(error.toString);BadRequest(error)}
+    		  {Logger.debug(error.toString);Cache.set(requestHandle, error)/*BadRequest(error)*/}
     		else if((recipe.photos.length == 0) && (src.length == 0))
-    		  BadRequest("""
+    		  Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.error.toString(), error = Some("""
 					   <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
 					   <p>You can submit photos now or later by accessing your profile in main menu.</p>
-					   """)
-			else Ok
+					   """)))
+    		  /*Cache.set(requestHandle, Json.obj("status" -> "error", "error" -> """
+					   <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
+					   <p>You can submit photos now or later by accessing your profile in main menu.</p>
+					   """))*/
+    		  /*BadRequest("""
+					   <p>The recipe was succesfully submitted, however it will remain in 'draft' state until at last one photo will be uploaded.</p>
+					   <p>You can submit photos now or later by accessing your profile in main menu.</p>
+					   """)*/
+			else Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.success.toString()))//Json.obj("status" -> "success"))//Ok
     	}
-	  }
-  }
+    	Ok(Json.obj("handleRequest" -> requestHandle))
+	}
+
+	def checkRequestStatus(requestHandle: String) = Authenticated.auth { implicit request =>
+		val state = Cache.getAs[RequestState](requestHandle).getOrElse(
+		    new RequestState(requestHandle = requestHandle, status=StatusVal.error.toString(), error=Some("status was not found")))	    
+		Ok(Json.toJson(state))
+	}
+	
 }

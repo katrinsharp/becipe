@@ -32,7 +32,7 @@ object Application extends Controller{
 	val useLocalStorage = Play.application.configuration.getString("save.to").getOrElse("local").equalsIgnoreCase("local")
 	
 	def index = Action { implicit request =>
-		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse(""))
+		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse("").split("@")(1))
 		Ok(views.html.index())
 	}
 	

@@ -6,8 +6,6 @@ import org.imgscalr.Scalr
 import java.awt.image.BufferedImage
 import play.api.Logger
 import org.joda.time.DateTime
-import java.io.ByteArrayOutputStream
-import java.io.ByteArrayInputStream
 import java.io.InputStream
 
 object Image {

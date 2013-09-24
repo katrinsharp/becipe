@@ -89,19 +89,19 @@
 			<div class="center-in-span main-content-width recipe-item-padding">
 				<div class="row-fluid recipe-time-measures">
 					<div class="span3">
-						<p><span class="title">Preparation Time</span>  <%= recipe.prepTime%> </p> 	
+						<p><span class="title">Preparation Time:</span> <span class="stat"><%= recipe.prepTime%></span> </p> 	
 					</div>
 					<% if (recipe.readyIn!=undefined) { %>
 						<div class="span3">
-							<p><span class="title">Ready In</span> <%= recipe.readyIn%> </p> 	
+							<p><span class="title">Ready In:</span> <span class="stat"><%= recipe.readyIn%></span> </p> 	
 						</div>
 					<%}%>
 					<div class="span3">
-						<p><span class="title">Recipe yield</span> <%= recipe.recipeYield%> </p>
+						<p><span class="title">Recipe yield:</span> <span class="stat"><%= recipe.recipeYield%></span> </p>
 					</div>
 					<% if (recipe.supply!=undefined) { %>
 						<div class="span3">
-							<p><span class="title">Supply</span> <%= recipe.supply%> applications</p>
+							<p><span class="title">Supply:</span> <span class="stat"><%= recipe.supply%> applications</span></p>
 						</div>
 					<%}%>
 				</div>

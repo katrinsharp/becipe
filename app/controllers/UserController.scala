@@ -234,7 +234,7 @@ object UserController extends Controller with MongoController{
 			value => {
 			  Async {
 				createUserByToken(token, value.password).map{
-				  user => Ok(Json.obj("token" -> "kuku", "fn" -> user.\("firstName")))
+				  user => Ok(Json.obj("token" -> "kuku", "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
 				  .withSession("token" -> "kuku", "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
 				 }
 			  }

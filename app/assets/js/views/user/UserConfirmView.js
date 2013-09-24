@@ -39,7 +39,7 @@ define([
 	confirm: function(e) {
 		this.model.save({ps: this.model.get('ps')}, {
 			success: function (model, response) {
-				UserLoginModel.set({token: response['token'], fn: response['fn']});
+				UserLoginModel.set({token: response['token'], fn: response['fn'], userid: response['userid']});
 				window.location.hash = 'user-signup-complete/'+ model.get('fn');
 			},
 			error: function (model, response) {

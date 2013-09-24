@@ -833,10 +833,15 @@ a.search span{
 	line-height: 40px;
 }
 
-.recipe-time-measures span.title{
-	color: @darkGreyColor;
-	font-style: italic;
-	font-family: Georgia;
+.recipe-time-measures {
+	span.title{
+		color: @darkGreyColor;
+		font-style: italic;
+		font-family: Georgia;
+	}
+	span.stat{
+		font-weight: bold;
+	}
 }
 
 .by {
@@ -1137,5 +1142,23 @@ button[disabled], button:disabled {
 	&:active {
 		 background: @lightGreyColor !important;
 		 background-color: @lightGreyColor !important;
+	}
+}
+
+.req-progress {
+	width: 300px;/*should be defined one more time on the el itself if center in span*/
+	height: 30px;
+	background-color: @lightGreyColor;
+	.inner {
+		width: 0%;
+		height: 30px;
+		background-color: @mediumGreyColor;
+	}
+	.stat {
+		position: absolute;
+		margin-top: -25px;
+		width: 300px;
+		text-align:center;
+		color: #fff;
 	}
 }

@@ -31,18 +31,80 @@ define([
 		this.events = _.extend({}, UserInputView.prototype.events, {"click #save": "save"});
     },
 	
+	initProgressBar: function() {
+		var width = parseInt($('#progress > .inner').css('width'));
+		if(width > 0) {
+			return;
+		}
+		$('#progress').css('visibility', 'visible');
+		$('#progress > .inner').css('width', "5%");
+	},
+	
+	showProgress: function(processed, total) {
+		$('#progress > .stat > span.processed').html(processed);
+		$('#progress > .stat > span.total').html(total);
+		$('#progress > .inner').css('width', ""+processed*1.0/total*100+"%");
+		$('#progress > .stat').css('display', '');
+	},
+	
+	resetProgressBar: function() {
+		$('#progress').css('visibility', 'hidden');
+		$('#progress > .stat').css('display', 'none');
+		$('#progress > .inner').css('width', "0%");
+	},
+	
+	checkRequestStatus: function(requestHandle){
+		var view = this;
+		view.initProgressBar();
+		setTimeout(function(){
+			$.ajax("/api/0.1/recipe/checkRequestStatus/"+requestHandle, {
+				type: "GET",
+				success: function(response) {
+					if(response.status=="error") {
+						view.resetProgressBar();
+						if(response.error!=undefined) {
+							view.displayError(response.error, "");
+						} else {
+							view.displayError(JSON.stringify(response), "");
+						}
+					} else if(response.status=="success") {
+						window.location.hash = 'recipe/'+view.model.get('id');
+					} else if(response.status=="inprogress") {
+						console.log("" + response.processed + " out of " + response.total);
+						view.showProgress(response.processed, response.total);
+						view.checkRequestStatus(requestHandle);
+					} else {
+						console.log('???');
+					}
+				},
+				error: function(response) {
+					console.log('checkRequestStatus: error');
+					view.resetProgressBar();
+					view.displayError(response, "");
+				}
+			});
+			
+		},1000);
+	},
+	
 	uploadPhotos: function() {
 		var view = this;
 		var form = this.$('#fileuploadform');
+		
+		$('.uploading-wait').css('display', '');
+		
 		$(form).ajaxSubmit({
 			data: {
 				filenames: _.map($('[data-fname]'), function(el){return $(el).attr('data-fname')})
 			},
 			url: '/api/0.1/recipe/'+view.model.get('id')+'/photos',
-			success: function() {
-				window.location.hash = 'recipe/'+view.model.get('id');
+			success: function(response) {
+				//window.location.hash = 'recipe/'+view.model.get('id');
+				$('.uploading-wait').css('display', 'none');
+				view.checkRequestStatus(response.handleRequest);
 			},
 			error: function(jqXHR, textStatus, errorThrown) {
+				$('.uploading-wait').css('display', 'none');
 				console.log('error uploading photos');
 			}
 		});
@@ -57,7 +119,7 @@ define([
 			CreateRecipeView.__super__.displayError(responseText, statusText);
 			return;
 		}
-		if(_.has(result, 'isPhotoError')) {
+		if(_.has(result, 'requestHandle')) {
 			_.each(result.errors, function(error){
 				var el = $('[data-fname=' + error.name + ']');
 				$(el).closest('.root').prev().addClass('error');
@@ -78,7 +140,7 @@ define([
 			});
 		}
 		
-		CreateRecipeView.__super__.displayError.call();//enable back the button
+		CreateRecipeView.__super__.enableSubmitButton.call();
 		
 		console.log('');
 	},
@@ -161,7 +223,6 @@ define([
 		this.model.set('by', fn, {silent: true});
 		var recipeId = this.model.get('id');
 		var existingModel = (recipeId!=undefined);//create vs edit
-		
 		this.model.save([],{
 			success: function (model, response) {
 				view.deletePhotos(recipeId, view);
