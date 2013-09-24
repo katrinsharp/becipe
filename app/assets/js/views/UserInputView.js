@@ -147,6 +147,11 @@ define([
 				}
 			}
 		}
+		this.enableSubmitButton();
+	},
+	
+	enableSubmitButton: function() {
+		var ajaxMsg = $('button[type="submit"]');
 		ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
 	},
 	
@@ -156,7 +161,11 @@ define([
 		var ajaxMsg = $('button[type="submit"]');
 		ajaxMsg.bind({
 			ajaxStart: function() {
-				ajaxMsg.attr('orig-label', ajaxMsg.text()).attr('disabled', 'disabled').text('Submitting...');
+				var submittingLabel = 'Submitting...';
+				var currentLabel = ajaxMsg.text();
+				if(currentLabel != submittingLabel) {
+					ajaxMsg.attr('orig-label', currentLabel).attr('disabled', 'disabled').text(submittingLabel);
+				}
 				$('span.error').remove();
 			},
 			ajaxError: function(jqXHR, textStatus, errorThrown) {
@@ -164,8 +173,8 @@ define([
 				var statusText = textStatus.statusText;
 				view.displayError(responseText, statusText);
 			},
-			ajaxDone: function() {
-				ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+			ajaxDone: function() {	
+				//ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
 			}
 		});
 	}

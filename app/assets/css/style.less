@@ -1144,3 +1144,21 @@ button[disabled], button:disabled {
 		 background-color: @lightGreyColor !important;
 	}
 }
+
+.req-progress {
+	width: 300px;/*should be defined one more time on the el itself if center in span*/
+	height: 30px;
+	background-color: @lightGreyColor;
+	.inner {
+		width: 0%;
+		height: 30px;
+		background-color: @mediumGreyColor;
+	}
+	.stat {
+		position: absolute;
+		margin-top: -25px;
+		width: 300px;
+		text-align:center;
+		color: #fff;
+	}
+}
