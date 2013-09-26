@@ -533,7 +533,7 @@ object RecipeController extends Controller with MongoController {
 		
 		Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.inprogress.toString(), processed = Some(0), total = Some(total)))//Json.obj("status" -> "inprogress", "processed" -> 0, "total" -> total))
       
-    	val kuku = for {
+    	val temp = for {
       
 	    	 S3PhotosWithStatus <- {
 	    		Akka.future {
@@ -634,6 +634,7 @@ object RecipeController extends Controller with MongoController {
 					   """)*/
 			else Cache.set(requestHandle, new RequestState(requestHandle = requestHandle, status=StatusVal.success.toString()))//Json.obj("status" -> "success"))//Ok
     	}
+    	Logger.debug(s"requestHandle: $requestHandle")
     	Ok(Json.obj("handleRequest" -> requestHandle))
 	}
 

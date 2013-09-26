@@ -17,6 +17,7 @@ define([
 		console.log("ajaxSend: " + event.currentTarget.URL);
 		var authToken = $.cookie('token');
 		if (authToken) {
+			console.log("ajaxSend: token: " + authToken);
 			xhr.setRequestHeader("token", authToken);
 		}
 	});

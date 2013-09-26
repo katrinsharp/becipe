@@ -70,7 +70,8 @@ object UserController extends Controller with MongoController{
 							  Ok
 							}
 						}
-					    Ok(Json.obj("token" -> "kuku", "fn" -> fn, "userid" -> userid)).withSession("token" -> "kuku", "fn" -> fn, "userid" -> userid)
+						val token = UUID.randomUUID().toString()
+					    Ok(Json.obj("token" -> token, "fn" -> fn, "userid" -> userid)).withSession("token" -> token, "fn" -> fn, "userid" -> userid)
 					  }else 
 					    BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{
@@ -233,9 +234,10 @@ object UserController extends Controller with MongoController{
 			},
 			value => {
 			  Async {
+				val token = UUID.randomUUID().toString()
 				createUserByToken(token, value.password).map{
-				  user => Ok(Json.obj("token" -> "kuku", "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
-				  .withSession("token" -> "kuku", "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
+				  user => Ok(Json.obj("token" -> token, "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
+				  .withSession("token" -> token, "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
 				 }
 			  }
 			  

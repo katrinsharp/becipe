@@ -17,6 +17,7 @@ object Authenticated {
 	  Action { request =>
 	       	val sessionToken = request.session.get("token").getOrElse("")
 		    val headerToken = request.headers.get("token").getOrElse("")
+		    Logger.debug(s"sessionToken: $sessionToken, headerToken: $headerToken")
 		    if(sessionToken=="") Unauthorized
 		    else if(sessionToken!=headerToken) Unauthorized
 		    else {
