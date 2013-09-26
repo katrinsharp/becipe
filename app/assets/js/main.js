@@ -21,10 +21,15 @@ require.config({
 	wysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/wysihtml5-0.3.0-min',
 	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
 	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
+	consoleShim: '../js/external/console-shim/console-shim',
     templates: '../templates' //text.js - 2.0.7
   },
   
   shim: {
+		consoleShim : {
+			deps: ['jquery'],
+            exports: 'consoleShim'
+		},
         backbone: {
             deps: ['jquery','underscore'],
             exports: 'Backbone'
@@ -112,8 +117,9 @@ require([
   'app',
   'domReady',
   'jquery',
-  'backbone'
-], function(App, domReady, jquery, backbone){
+  'backbone',
+  'consoleShim'
+], function(App, domReady, jquery, backbone, consoleShim){
 	domReady(function () {
 		//backbone.emulateJSON = true;
 		//$.ajaxSetup({
