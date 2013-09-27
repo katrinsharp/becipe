@@ -125,12 +125,12 @@ define([
 			return signupThankyouView;
 		},
 		userSignupThankyou: function(name){
-			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: false});
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: true});
 			userSignupThankyou.render();
 			return userSignupThankyou;
 		},
 		userSignupComplete: function(name){
-			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: true});
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: false});
 			userSignupThankyou.render();
 			return userSignupThankyou;
 		},
