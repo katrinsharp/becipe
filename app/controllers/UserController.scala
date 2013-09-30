@@ -201,7 +201,6 @@ object UserController extends Controller with MongoController{
 		  user <- {
 		    signupOpt match {
 		      case Some(signup) => {
-		    	  println(signup.toString)
 		    	  val userId = UniqueCode.getRandomCode
 		    	  val modifier = Json.obj(
 		    			"id" -> userId,  
@@ -234,10 +233,10 @@ object UserController extends Controller with MongoController{
 			},
 			value => {
 			  Async {
-				val token = UUID.randomUUID().toString()
+				val sessionToken = UUID.randomUUID().toString()
 				createUserByToken(token, value.password).map{
-				  user => Ok(Json.obj("token" -> token, "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
-				  .withSession("token" -> token, "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
+				  user => Ok(Json.obj("token" -> sessionToken, "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
+				  .withSession("token" -> sessionToken, "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
 				 }
 			  }
 			  
