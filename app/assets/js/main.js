@@ -115,17 +115,17 @@ require.config({
 
 require([	
   'app',
-  'domReady',
+  //'domReady',
   'jquery',
   'backbone',
   'consoleShim'
-], function(App, domReady, jquery, backbone, consoleShim){
-	domReady(function () {
+], function(App, jquery, backbone, consoleShim){
+	//domReady(function () {
 		//backbone.emulateJSON = true;
 		//$.ajaxSetup({
 			// Disable caching of AJAX responses */
 			//cache: false
 		//});
 		App.initialize();
-	});
+	//});
 });
