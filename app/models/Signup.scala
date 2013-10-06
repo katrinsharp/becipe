@@ -2,7 +2,6 @@ package models
 
 import play.api.libs.json._
 import play.api.libs.functional.syntax._
-import java.util.Date
 import org.joda.time.DateTime
 
 

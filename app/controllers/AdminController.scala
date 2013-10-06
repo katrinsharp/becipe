@@ -23,6 +23,7 @@ import reactivemongo.core.commands.Update
 import play.api.libs.ws.WS
 import auth.Authenticated
 import models.Signup
+import org.joda.time.Interval
 
 
 object AdminController extends Controller with MongoController{
@@ -56,5 +57,19 @@ object AdminController extends Controller with MongoController{
 		  	case _ => Unauthorized   
 	  	}
 		
+	}
+	
+	def getAllSignupsForLast(days: Int) = Authenticated.auth { implicit request =>
+	  
+	  	request.user.role match {
+		  	  case Some("admin") => Async {
+				val startDate = DateTime.now().minusDays(days).getMillis()
+		  	    val selector = Json.obj("created" -> Json.obj("$gt" -> startDate), "token" -> Json.obj("$ne" -> "0"))
+		  	    Application.signupsCollection.find(selector).cursor[JsObject].toList.map  { l =>
+		  	    	Ok(Json.toJson(l))
+				}
+			}
+		  	case _ => Unauthorized   
+	  	}
 	}
 }

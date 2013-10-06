@@ -34,7 +34,8 @@ POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword
 GET		/api/0.1/user/:id									controllers.UserController.user(id: String)
 
 # Admin
-POST	/api/0.1/admin/resetAllZeroTokens					controllers.AdminController.resetAllZeroTokens			
+POST	/api/0.1/admin/resetAllZeroTokens					controllers.AdminController.resetAllZeroTokens	
+GET		/api/0.1/admin/getAllSignupsForLast					controllers.AdminController.getAllSignupsForLast(days: Int)
 
 # Javascript routing
 GET     /assets/javascripts/routes          				controllers.Application.javascriptRoutes
