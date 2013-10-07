@@ -113,7 +113,7 @@ define([
 					if(i < 9) {
 						recipeCard = new RecipeCardView({model: item, el: placeholders[i]});	
 					} else {
-						$container.append('<figure class="placeholder"></figure>');
+						$container.find('figure').last().after('<figure class="placeholder"></figure>');
 						recipeCard = new RecipeCardView({model: item, el: $container.find('figure.placeholder').last()});
 					}
 					recipeCard.render();
