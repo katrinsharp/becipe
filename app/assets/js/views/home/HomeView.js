@@ -109,11 +109,15 @@ define([
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
 				_.each(that.recipeCollection.models, function (item, i) {
-					var recipeCard = new RecipeCardView({model: item, el: placeholders[i]});
+					var recipeCard;
+					if(i < 9) {
+						recipeCard = new RecipeCardView({model: item, el: placeholders[i]});	
+					} else {
+						$container.append('<figure class="placeholder"></figure>');
+						recipeCard = new RecipeCardView({model: item, el: $container.find('figure.placeholder').last()});
+					}
 					recipeCard.render();
 					that.recipeViews.push(recipeCard);
-					//$(placeholders[i]).parent().replace(placeholders[i], new RecipeCardView(item).render().$el);
-					//$container.append(new RecipeCardView(item).render().el);
 				});
 			} else {
 				_.each(that.recipeCollection.models, function (item, i) {
