@@ -106,19 +106,19 @@ define([
 		var that = this, p;
 		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter, userid: this.userid, level: this.level})});
         p.done(function () {
-			$container.find('figure.dynamic').remove();
+			//$container.find('figure.dynamic').remove();
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
 				_.each(that.recipeCollection.models, function (item, i) {
 					var recipeCard;
 					if(i < 9) {
-						recipeCard = new RecipeCardView({model: item, el: placeholders[i]});	
+						recipeCard = new RecipeCardView({model: item, el: placeholders[i]});
+						recipeCard.render();
+						that.recipeViews.push(recipeCard);		
 					} else {
-						$container.find('figure').last().after('<figure class="dynamic"></figure>');
-						recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last()});
+						//$container.find('figure').last().after('<figure class="dynamic"></figure>');
+						//recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last()});
 					}
-					recipeCard.render();
-					that.recipeViews.push(recipeCard);
 				});
 			} else {
 				_.each(that.recipeCollection.models, function (item, i) {
