@@ -22,6 +22,10 @@ require.config({
 	bootstrapWysihtml5: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/bootstrap-wysihtml5-0.0.2/bootstrap-wysihtml5-0.0.2-min',
 	wysihtml5_dep: '../js/external/bootstrap-editable/inputs-ext/wysihtml5/wysihtml5',
 	consoleShim: '../js/external/console-shim/console-shim',
+	classie: '../js/external/modalwindow/js/classie',
+	cssParser: '../js/external/modalwindow/js/cssParser',
+	cssFiltersPolyfill: '../js/external/modalwindow/js/css-filters-polyfill',
+	modalEffects: '../js/external/modalwindow/js/modalEffects',
     templates: '../templates' //text.js - 2.0.7
   },
   
@@ -106,6 +110,22 @@ require.config({
 			deps: ['jquery'],
             exports: 'autosize'
 		},
+		classie: {
+			deps: ['jquery'],
+            exports: 'classie'
+		},
+		cssParser: {
+			deps: ['jquery'],
+            exports: 'cssParser'
+		},
+		cssFiltersPolyfill: {
+			deps: ['jquery'],
+            exports: 'cssFiltersPolyfill'
+		},
+		modalEffects: {
+			deps: ['jquery', 'classie', 'cssParser', 'cssFiltersPolyfill'],
+            exports: 'modalEffects'
+		},
 		router: {
 			deps: ['auth'],
             exports: 'router'
@@ -126,6 +146,7 @@ require([
 			// Disable caching of AJAX responses */
 			//cache: false
 		//});
+		
 		App.initialize();
 	//});
 });

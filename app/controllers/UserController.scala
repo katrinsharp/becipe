@@ -266,4 +266,32 @@ object UserController extends Controller with MongoController{
 		   profile
 		}
 	}
+	
+	case class Message(subject: String, message: String, email: String)
+	
+	val saveMessageForm: Form[Message] = Form(
+		mapping(
+			"subject" -> nonEmptyText,
+			"message" -> nonEmptyText,
+			"em" -> nonEmptyText
+		)(Message.apply)(Message.unapply))
+	
+	def saveEmail = Action { implicit request =>
+	  
+	  saveMessageForm.bindFromRequest.fold(
+			formWithErrors => {
+			  BadRequest(formWithErrors.errorsAsJson) 
+			},
+			value => {
+			  val modifier = Json.obj("subject" -> value.subject, "message" -> value.message, "email" -> value.email)
+			  Async {
+				  Application.emailsCollection.insert(modifier).map {
+					e => {
+					  Ok
+				    }
+				  } 
+			  }  
+			}
+	  )
+	}
 }

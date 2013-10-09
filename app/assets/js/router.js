@@ -8,7 +8,6 @@ define([
   'auth',
   'models/user/UserLoginModel',
   'views/home/HomeView',
-  'views/signup/SignupThankyouView',
   'views/user/UserLoginView',
   'views/user/UserSignupView',
   'views/user/UserSignupThankyouView',
@@ -23,8 +22,7 @@ define([
   'text!templates/user/userSignupCompleteTemplate.html'
 ], function($, _, Backbone, Cookie, globals, auth,
 	UserLoginModel,
-	HomeView, 
-	SignupThankyouView, 
+	HomeView,
 	UserLoginView, 
 	UserSignupView, 
 	UserSignupThankyouView, 
@@ -119,11 +117,6 @@ define([
 				console.log('not implemented yet');
 			}
 		},
-		signupThankyou: function(name){
-			var signupThankyouView = new SignupThankyouView({name: name});
-			signupThankyouView.render();
-			return signupThankyouView;
-		},
 		userSignupThankyou: function(name){
 			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupThankyouTemplate, toSetCookie: true});
 			userSignupThankyou.render();
@@ -187,7 +180,6 @@ define([
 	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
 	app_router.route('user/:id/publicProfile', 'userPublicProfile', app_router.userPublicProfile);
-	app_router.route('signup-thankyou/:name', 'signupThankyou', app_router.signupThankyou);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);

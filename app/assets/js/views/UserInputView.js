@@ -38,7 +38,10 @@ define([
     render: function(options){
 		var compiledTemplate = _.template(this.template);
 		this.$el.html(compiledTemplate(options));
-		$('#body-container').html(this.el);
+		
+		var el = options && options.el ? options.el : '#body-container'; 
+		
+		$(el).html(this.el);
 		
 		$('input').placeholder();
 		//x-editable if any
