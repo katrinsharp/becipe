@@ -4,12 +4,13 @@ define([
   'backbone',
   'bootstrap',
   'globals',
+  'views/BaseView',
   'views/misc/ModalDialogView',
   'views/misc/SendEmailView',
   'text!templates/social/socialSiteTemplate.html'
-], function($, _, Backbone, Bootstrap, globals, ModalDialogView, SendEmailView, socialSiteTemplate){
+], function($, _, Backbone, Bootstrap, globals, BaseView, ModalDialogView, SendEmailView, socialSiteTemplate){
 
-  var SocialSiteView = Backbone.View.extend({
+  var SocialSiteView = BaseView.extend({
     el: $(".social-site"),
 	selector: ".social-site",
 	
@@ -22,16 +23,6 @@ define([
 		"click a[href=email]": "emailClick",
 		"click a[href=articles]": "sendGaPageView",
 		"click a[href=blog]": "sendGaPageView"
-	},
-	
-	sendGaPageView: function(e) {
-		var target = '/'+$(e.currentTarget).attr('href');
-		if(typeof ga == 'function') {
-			var path = location.pathname + $(e.currentTarget).attr('href');
-			console.log(path);
-		  	ga('send', 'pageview', path);
-		}
-		return false;
 	},
 
     initialize: function() {

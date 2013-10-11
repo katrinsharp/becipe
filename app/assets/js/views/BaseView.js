@@ -25,6 +25,17 @@ define([
 		  	ga('send', 'pageview', pathWithHash);
 		}
     },
+	
+	sendGaPageView: function(e) {
+		var target = '/'+$(e.currentTarget).attr('href');
+		if(typeof ga == 'function') {
+			var path = location.pathname + $(e.currentTarget).attr('href');
+			console.log(path);
+		  	ga('send', 'pageview', path);
+		}
+		return false;
+	},
+	
 	displayErrorPage: function(errorMsg) {
 		var compiledTemplate = _.template(errorTemplate);
 		$('#body-container').html(compiledTemplate({errorMsg: errorMsg}));

@@ -1,14 +1,16 @@
 define([
   'backbone',
+  'views/BaseView',
+  'models/user/UserLoginModel',
   'text!templates/recipes/recipeCardTemplate.html'
-], function(Backbone, recipeCardTemplate){
+], function(Backbone, BaseView, UserLoginModel, recipeCardTemplate){
 
-  var RecipeCardView = Backbone.View.extend({
+  var RecipeCardView = BaseView.extend({
   
 	selector: "figure.placeholder",
 	
 	events: {
-		'click a[href="#like"]': 'likeIt'
+		'click a[href="#recipe-like"]': 'likeIt'
 	},
     
     initialize: function(options) {
@@ -24,7 +26,12 @@ define([
 	
 	likeIt: function(e) {
 		e.preventDefault();
-		console.log('like it');
+		this.sendGaPageView(e);
+		if(UserLoginModel.isAuthenticated()) {
+			console.log('like it');	
+		} else {
+			console.log('login first -- like it');	
+		}
 		return false;
 	}
 
