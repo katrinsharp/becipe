@@ -1,6 +1,8 @@
 <meta property="og:title" content="<%= recipe.name%>"/>
 <meta property="og:site_name" content="Becipe"/>
 <meta property="og:description" content="<%= recipe.shortDesc%>"/>
+<% var photo = _.find(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"});%>
+<meta property="og:image" content="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>"/>
 
 <div class="recipe-body">
 	<div class="row-fluid">
@@ -13,7 +15,6 @@
 						<%_.each(_.filter(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"}), function(photo){ %>
 							<li>
 								<img style="height: 570px" class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
-								<meta property="og:image" content="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>"/>
 							</li>
 						<% }); %>
 					</ul>
