@@ -673,12 +673,20 @@ select:focus {
 							color: @lightGreyColor;
 							text-shadow: none;
 						}
+						&:hover {
+							.ico-btn {
+								color: @deepOrangeColorHover;
+							}
+						}
 					}
-					.like:hover {
-						/*border: 1px @mediumGreyColor solid;*/
+					.is-liked {
 						.ico-btn {
-							/*color: @mediumGreyColor;*/
 							color: @deepOrangeColorHover;
+						}
+						&:hover {
+							.ico-btn {
+								color: @lightGreyColor;
+							}
 						}
 					}
 					.visited {

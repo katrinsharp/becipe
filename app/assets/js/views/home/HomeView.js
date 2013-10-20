@@ -5,11 +5,12 @@ define([
   'bootstrap',
   'flexslider',
   'isotope',
+  'models/user/UserLoginModel',
   'views/BaseView',
   'collections/recipes/RecipeCollection',
   'text!templates/home/homeTemplate.html',
   'views/recipes/RecipeCardView'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, BaseView, RecipeCollection, homeTemplate, RecipeCardView){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, homeTemplate, RecipeCardView){
 
   var HomeView = BaseView.extend({
     
@@ -107,12 +108,17 @@ define([
 		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter, userid: this.userid, level: this.level})});
         p.done(function () {
 			//$container.find('figure.dynamic').remove();
+			var rfavs = [];
+			if(UserLoginModel.isAuthenticated()) {
+				rfavs = UserLoginModel.get('rfavs');
+			}
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
 				_.each(that.recipeCollection.models, function (item, i) {
 					var recipeCard;
 					if(i < 9) {
-						recipeCard = new RecipeCardView({model: item, el: placeholders[i]});
+						var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
+						recipeCard = new RecipeCardView({model: item, el: placeholders[i], isLiked: isLiked});
 						recipeCard.render();
 						that.recipeViews.push(recipeCard);		
 					} else {
@@ -122,8 +128,9 @@ define([
 				});
 			} else {
 				_.each(that.recipeCollection.models, function (item, i) {
+					var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
 					$container.append('<figure class="dynamic"></figure>');
-					var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last()});
+					var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last(), isLiked: isLiked});
 					recipeCard.render();
 					that.recipeViews.push(recipeCard);
 				});

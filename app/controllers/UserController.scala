@@ -24,6 +24,7 @@ import reactivemongo.core.commands.FindAndModify
 import reactivemongo.core.commands.Update
 import play.api.libs.ws.WS
 import auth.Authenticated
+import models.SessionObj
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Email(email: String)
@@ -64,6 +65,7 @@ object UserController extends Controller with MongoController{
 					  if(pass != None && BCrypt.checkpw(value.password, pass.get)) {
 					    val fn = f.\("firstName").as[String]
 					    val userid = f.\("id").as[String]
+					    val rfavs = f.\("rfavs").asOpt[Set[String]].getOrElse(Set[String]())
 					    val modifier = Json.obj("userid" -> userid, "time" -> DateTime.now())
 					    Application.loginsCollection.insert(modifier).map {
 							e => {
@@ -71,7 +73,8 @@ object UserController extends Controller with MongoController{
 							}
 						}
 						val token = UUID.randomUUID().toString()
-					    Ok(Json.obj("token" -> token, "fn" -> fn, "userid" -> userid)).withSession("token" -> token, "fn" -> fn, "userid" -> userid)
+						val sessionObjStr = Json.stringify(Json.toJson(new SessionObj(token = token, fn = fn, userid = userid, rfavs = rfavs)))
+					    Ok(sessionObjStr).withSession("session" -> sessionObjStr)
 					  }else 
 					    BadRequest(Json.obj("em" -> "Invalid email or password"))
 				  }).recover{
@@ -235,8 +238,13 @@ object UserController extends Controller with MongoController{
 			  Async {
 				val sessionToken = UUID.randomUUID().toString()
 				createUserByToken(token, value.password).map{
-				  user => Ok(Json.obj("token" -> sessionToken, "fn" -> user.\("firstName"), "userid" -> user.\("id").as[String]))
-				  .withSession("token" -> sessionToken, "fn" -> user.\("firstName").as[String], "userid" -> user.\("id").as[String])
+				  user => {
+				    val fn = user.\("firstName").as[String]
+				    val userid = user.\("id").as[String]
+				    val rfavs = user.\("rfavs").asOpt[Set[String]].getOrElse(Set[String]())
+				    val sessionObjStr = Json.stringify(Json.toJson(new SessionObj(token = sessionToken, fn = fn, userid = userid, rfavs = rfavs)))
+					    Ok(sessionObjStr).withSession("session" -> sessionObjStr)
+				  }
 				 }
 			  }
 			  
@@ -291,6 +299,43 @@ object UserController extends Controller with MongoController{
 				    }
 				  } 
 			  }  
+			}
+	  )
+	}
+	
+	case class LikeRecipe(recipeId: String, toLike: Boolean)
+	
+	val setLikeRecipeForm: Form[LikeRecipe] = Form(
+		mapping(
+			"recipeId" -> nonEmptyText,
+			"toLike" -> boolean
+		)(LikeRecipe.apply)(LikeRecipe.unapply))
+	
+	def setLikeRecipe = Authenticated.auth {  implicit request =>
+	  
+	  setLikeRecipeForm.bindFromRequest.fold(
+			formWithErrors => {
+			  BadRequest(formWithErrors.errorsAsJson) 
+			},
+			value => {
+			  
+			  val selector = Json.obj("id" -> request.user.id)
+			  val modifier = if(value.toLike)Json.obj("$addToSet" -> Json.obj("rfavs" -> value.recipeId)) else Json.obj("$pull" -> Json.obj("rfavs" -> value.recipeId)) 
+			  Async {
+			    Application.usersCollection.update(selector = selector, update = modifier).map {
+			    	e => {
+			    	  val sessionObj = Json.parse(request.session.get("session").getOrElse("")).as[SessionObj]
+			    	  val newSession = Json.stringify(Json.toJson(new SessionObj(
+			    	      token = sessionObj.token, 
+			    	      fn = sessionObj.fn, 
+			    	      userid = sessionObj.userid, 
+			    	      if(value.toLike) (sessionObj.rfavs + value.recipeId) else sessionObj.rfavs.filter(_!=value.recipeId))))
+			    	  Ok.withSession("session" -> newSession)
+			    	}
+		    	}
+			  }
+			  
+			  
 			}
 	  )
 	}

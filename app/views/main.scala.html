@@ -34,12 +34,18 @@
 	<link rel="stylesheet" media="all" href="@routes.Assets.at("css/modal.css")"/>
 	
 	<script>
+		var sessionStr = '@Html(session.get("session").getOrElse(""))';
+		var session = {};
+		if(sessionStr!="") {
+			session = JSON.parse(sessionStr);
+		}
 		var require = {
 			config: {
 				'app': {
-					userid: '@session.get("userid").getOrElse("")',
-					token: '@session.get("token").getOrElse("")',
-					fn: '@session.get("fn").getOrElse("")'
+					token: session.token,
+					userid: session.userid,
+					fn: session.fn,
+					rfavs: session.rfavs
 				},
 				'globals': {
 					currentIteration: '3',

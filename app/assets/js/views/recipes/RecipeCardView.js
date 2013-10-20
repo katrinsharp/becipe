@@ -15,6 +15,7 @@ define([
     
     initialize: function(options) {
 		this.model = options.model;
+		_.extend(this.model.attributes, {isLiked: options.isLiked});
 		this.setElement(options.el);//.render();
     },
 	
@@ -27,8 +28,24 @@ define([
 	likeIt: function(e) {
 		e.preventDefault();
 		this.sendGaPageView(e);
+		var view = this;
 		if(UserLoginModel.isAuthenticated()) {
 			console.log('like it');	
+			var newState = !this.model.get('isLiked');
+			$.ajax("/api/0.1/user/setLikeRecipe", {
+			type: "PUT",
+			data: $.param({recipeId: this.model.get('id'), toLike: newState}),
+			success: function() {
+				console.log('kuku katrin');
+				view.model.set('isLiked', newState);
+				view.$('.like').toggleClass('is-liked');
+			},
+			error: function() {
+				alert("Something really spooky happened");
+		   }
+		});
+			
+			
 		} else {
 			console.log('login first -- like it');	
 		}

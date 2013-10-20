@@ -13,7 +13,7 @@ define([
 		
 		globals.initialize();
 		if(module.config().token!="") {	
-			UserLoginModel.set({token: module.config().token, fn: module.config().fn, userid: module.config().userid});
+			UserLoginModel.set({token: module.config().token, fn: module.config().fn, userid: module.config().userid, rfavs: module.config().rfavs});
 		}
 		router.initialize();
 	};

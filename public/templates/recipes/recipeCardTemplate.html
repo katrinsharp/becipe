@@ -25,7 +25,7 @@
 				<a href="#user/<%= userid%>/publicProfile"><div class="by"><%= by%></div></a>
 				<div class="clear-both"></div>
 				<div class="bar">
-					<div class="like">
+					<div class="<%if(isLiked){%>is-liked<%}%> like">
 						<a href="#recipe-like"><div data-icon="&#xe05b;" class="ico-btn sp" aria-hidden="true"></div></a>
 					</div>
 					<!--div class="stats">10</div-->
