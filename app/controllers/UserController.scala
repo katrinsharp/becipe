@@ -320,8 +320,12 @@ object UserController extends Controller with MongoController{
 			value => {
 			  
 			  val selector = Json.obj("id" -> request.user.id)
-			  val modifier = if(value.toLike)Json.obj("$addToSet" -> Json.obj("rfavs" -> value.recipeId)) else Json.obj("$pull" -> Json.obj("rfavs" -> value.recipeId)) 
+			  val modifier = if(value.toLike)Json.obj("$addToSet" -> Json.obj("rfavs" -> value.recipeId)) else Json.obj("$pull" -> Json.obj("rfavs" -> value.recipeId))
+			  val recipeSelector = Json.obj("id" -> value.recipeId)
+			  val increase = if(value.toLike) 1 else -1
+			  val recipeModifier = Json.obj("$inc" -> Json.obj("stats.likes" -> increase)) 
 			  Async {
+			    Application.recipeCollection.update(recipeSelector, recipeModifier)
 			    Application.usersCollection.update(selector = selector, update = modifier).map {
 			    	e => {
 			    	  val sessionObj = Json.parse(request.session.get("session").getOrElse("")).as[SessionObj]

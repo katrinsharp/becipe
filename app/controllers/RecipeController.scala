@@ -38,6 +38,7 @@ import java.util.UUID
 import play.api.cache.Cache 
 import models.RequestState
 import models.StatusVal
+import models.Stats
 
 case class RecipeSubmit(recipe: Recipe, s: Seq[photos] = List())
 case class SearchRecipesSubmit(level: Option[String] = Some(""), query: Option[String] = Some(""), categories: List[String])
@@ -382,7 +383,7 @@ object RecipeController extends Controller with MongoController {
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"categories" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
-			"rating" -> ignored(0),
+			"stats" -> ignored(new Stats),
 			"draft" -> text.verifying("should be t or f", {_.matches("""^t|f$""")}),
 			"photos" -> ignored(Seq[S3Photo]())
 			)(Recipe.apply)(Recipe.unapply))
@@ -489,11 +490,10 @@ object RecipeController extends Controller with MongoController {
 								"ingredients" -> value.ingredients,
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
-								"categories" -> value.categories,
-								"rating" -> value.rating
+								"categories" -> value.categories
 								)++ (if(newRecipe) Json.obj("draft" -> "t") else Json.obj())
 								
-					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) else modifier))
+					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) ++ Json.obj("stats" -> new Stats)  else modifier))
 					
 					Logger.debug(modifierWithPhotos.toString)
 					

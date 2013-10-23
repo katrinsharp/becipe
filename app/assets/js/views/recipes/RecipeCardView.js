@@ -30,24 +30,25 @@ define([
 		this.sendGaPageView(e);
 		var view = this;
 		if(UserLoginModel.isAuthenticated()) {
-			console.log('like it');	
 			var newState = !this.model.get('isLiked');
 			$.ajax("/api/0.1/user/setLikeRecipe", {
 			type: "PUT",
 			data: $.param({recipeId: this.model.get('id'), toLike: newState}),
 			success: function() {
-				console.log('kuku katrin');
 				view.model.set('isLiked', newState);
 				view.$('.like').toggleClass('is-liked');
+				var likes = parseInt(view.$('.stats,.likes').text());
+				likes = (newState == true ? likes + 1: likes - 1);
+				view.$('.stats,.likes').text(likes);
 			},
 			error: function() {
 				alert("Something really spooky happened");
 		   }
 		});
-			
-			
+		
 		} else {
 			console.log('login first -- like it');	
+			alert("Please login/signup first");
 		}
 		return false;
 	}

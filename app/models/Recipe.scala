@@ -26,11 +26,12 @@ case class Recipe(
 		level: String, 
 		tags: Seq[String],
 		categories: Seq[String],
-		rating: Int,
+		stats: Stats,
 		draft: String,
 		photos: Seq[S3Photo])
 
-object Recipe extends Function18[String, String, String, DateTime, String, String, String, Seq[String], String, Option[String], String, Option[String],String, Seq[String], Seq[String], Int, String, Seq[S3Photo], Recipe] {
+object Recipe extends Function18[String, String, String, DateTime, String, String, String, Seq[String], String, Option[String], String, Option[String],String, Seq[String], Seq[String], Stats, String, Seq[S3Photo], Recipe] {
 	implicit val recipeWrites = Json.writes[Recipe]
 	implicit val recipeReads = Json.reads[Recipe]
 }
+
