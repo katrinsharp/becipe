@@ -16,7 +16,10 @@ define([
 				var photoBaseUrl = module.config().photoBaseUrl;
 				var bucket = '';
 				var key = '';
-				var preview = _.find(photos, function(photo){ return photo.metadata.typeOf == 'preview'; });
+				var preview = _.find(photos, function(photo){ return photo.metadata.typeOf == 'preview2'; });//placeholder for future ability to choose the preview picture
+				if(preview==undefined) {
+					preview = _.find(photos, function(photo){ return photo.metadata.typeOf == 'preview'; });
+				}
 				if(preview!=undefined) {
 					bucket = preview.bucket;
 					key = preview.key;
