@@ -7,9 +7,10 @@ import org.joda.time.DateTime
 
 case class Stats(
 		likes: Int = 0,
-		rating: Int = 0)
+		rating: Int = 0,
+		views: Int = 0)
 
-object Stats extends Function2[Int, Int, Stats] {
+object Stats extends Function3[Int, Int, Int, Stats] {
 	implicit val writes = Json.writes[Stats]
 	implicit val reads = Json.reads[Stats]
 }

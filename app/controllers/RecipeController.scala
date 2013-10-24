@@ -349,10 +349,26 @@ object RecipeController extends Controller with MongoController {
   def getRecipeById(id: String) = Action { implicit request =>
     
     Async {
-    	val recipeF = getRecipes("id", id)
-    	recipeF.map {recipe => Ok(Json.toJson(recipe.head))}
+      
+      for {
+        tmp <- {
+        	val recipeSelector = Json.obj("id" -> id)
+        	val recipeModifier = Json.obj("$inc" -> Json.obj("stats.views" -> 1))
+			Application.recipeCollection.update(recipeSelector, recipeModifier)
+        }
+        result <- {
+          val recipeF = getRecipes("id", id)
+          recipeF.map {recipes => { 
+    		val recipe = recipes.head
+    		Ok(Json.toJson(recipe))
+    	  }
+        } 
+      }	
+    } yield {
+      result
     }
   }
+ }
   
   def getRecipeByUserId(id: String) = Action { implicit request =>
     
