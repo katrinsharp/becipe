@@ -352,7 +352,10 @@ object RecipeController extends Controller with MongoController {
     	 val recipeF = Application.recipeCollection.find(Json.obj("id" -> id)).cursor[Recipe].toList
           recipeF.map {recipes => { 
     		val recipe = recipes.head
-    		Ok(views.html.facebook_recipe(recipe))
+    		request.headers.get("user-agent").getOrElse("").contains("facebookexternalhit") match {
+    		  case true => Ok(views.html.facebook_recipe(recipe)) 
+    		  case false => Redirect("http://" + request.host + "/#recipe/" + id)
+    		}
     	  }
       }
     }
