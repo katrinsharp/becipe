@@ -1,0 +1,15 @@
+@(recipe: Recipe)(implicit request: RequestHeader, session: Session)
+
+@previewUrl(recipe: Recipe) = @{
+	val photo = recipe.photos.find(photo => photo.metadata.typeOf=="preview2") match {
+		case Some(photo) => photo
+		case _ => recipe.photos.find(photo => photo.metadata.typeOf=="preview").get
+	}
+	"https://s3.amazonaws.com/" + photo.bucket + "/" + photo.key;
+}
+
+@main(isAjaxContent = false) {
+
+	<meta property="og:title" content="Becipe - @recipe.name"/>
+	<meta property="og:image" content="@previewUrl(recipe)"/>
+}

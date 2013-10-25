@@ -346,6 +346,18 @@ object RecipeController extends Controller with MongoController {
 		}
   }
   
+  def getFacebookRecipeById(id: String) = Action { implicit request =>
+    
+     Async {
+    	 val recipeF = Application.recipeCollection.find(Json.obj("id" -> id)).cursor[Recipe].toList
+          recipeF.map {recipes => { 
+    		val recipe = recipes.head
+    		Ok(views.html.facebook_recipe(recipe))
+    	  }
+      }
+    }
+  }
+  
   def getRecipeById(id: String) = Action { implicit request =>
     
     Async {
