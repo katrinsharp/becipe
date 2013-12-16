@@ -176,6 +176,7 @@ define([
 	
 	app_router.route('*action', 'defaultAction', app_router.defaultAction);  
 	app_router.route('', 'showHome', app_router.showHome);
+	//app_router.route(/^!(.*?)$/, 'hashBang', app_router.hashBang);
 	app_router.route('search-recipes/(:query)/(:filter)/(:userid)/(:level)', 'searchRecipes', app_router.searchRecipes);
 	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
@@ -184,7 +185,7 @@ define([
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
-	app_router.route('about-us', 'showHome', app_router.aboutUs);  
+	app_router.route('about-us', 'showHome', app_router.aboutUs);
 		
 	initAnalytics();
 	
