@@ -1,12 +1,13 @@
 define([
   'backbone',
   'views/BaseView',
+  'views/DisqusView',
   'collections/filters/RecipesFiltersCollection',
   'models/recipes/RecipeModel',
   'text!templates/recipes/recipePageTemplate.html'
-], function(Backbone, BaseView, RecipesFiltersCollection, RecipeModel, recipePageTemplate){
-
-  var RecipePageView = BaseView.extend({
+], function(Backbone, BaseView, DisqusView, RecipesFiltersCollection, RecipeModel, recipePageTemplate){
+  
+	var RecipePageView = BaseView.extend({
   
 	//el: $("#body-container"),
     
@@ -17,6 +18,7 @@ define([
 
     render: function() {
 		console.log('recipe page view render: '+ this.model.id);
+		
 		var compiledTemplate = _.template(recipePageTemplate);
 		var view = this;
 	
@@ -41,7 +43,14 @@ define([
 					slideshow: false,
 					directionNav: true
 				});
-			});
+				/*disqus*/
+				var identifier = view.model.get('id');
+				var url = location.origin + location.pathname + 'disqus/' + location.hash.substr(1, location.hash.length - 1);
+				var title = view.model.get('name');
+				view.disqusView = new DisqusView({identifier: identifier, url: url, title: title});
+				view.disqusView.render();
+				/*end of disqus*/
+			});	
 			
 		return this;
 	}

@@ -346,13 +346,54 @@ object RecipeController extends Controller with MongoController {
 		}
   }
   
+  /**
+   * TODO:
+   * 1. SSO
+   * 2. Navigate to comment on the page
+   * 3. Logout from disqus redirects to home page right now.
+   */
+  def getDisqusRecipeById(id: String) = Action { implicit request =>
+     Redirect("http://" + request.host + "/#recipe/" + id)
+  }
+  
+  def getFacebookRecipeById(id: String) = Action { implicit request =>
+    
+     Async {
+    	 val recipeF = Application.recipeCollection.find(Json.obj("id" -> id)).cursor[Recipe].toList
+          recipeF.map {recipes => { 
+    		val recipe = recipes.head
+    		request.headers.get("user-agent").getOrElse("").contains("facebookexternalhit") match {
+    		  case true => Ok(views.html.facebook_recipe(recipe)) 
+    		  case false => Redirect("http://" + request.host + "/#recipe/" + id)
+    		}
+    	  }
+      }
+    }
+  }
+  
   def getRecipeById(id: String) = Action { implicit request =>
     
     Async {
-    	val recipeF = getRecipes("id", id)
-    	recipeF.map {recipe => Ok(Json.toJson(recipe.head))}
+      
+      for {
+        tmp <- {
+        	val recipeSelector = Json.obj("id" -> id)
+        	val recipeModifier = Json.obj("$inc" -> Json.obj("stats.views" -> 1))
+			Application.recipeCollection.update(recipeSelector, recipeModifier)
+        }
+        result <- {
+          val recipeF = getRecipes("id", id)
+          recipeF.map {recipes => { 
+    		val recipe = recipes.head
+    		Ok(Json.toJson(recipe))
+    	  }
+        } 
+      }	
+    } yield {
+      result
     }
   }
+ }
   
   def getRecipeByUserId(id: String) = Action { implicit request =>
     

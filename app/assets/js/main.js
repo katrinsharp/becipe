@@ -3,7 +3,8 @@ require.config({
     jquery: '../js/external/jquery/jquery-min',//1.7.1
     underscore: '../js/external/underscore/underscore-min', //1.5.0
     backbone: '../js/external/backbone/backbone-min', //1.0.0
-	bootstrap: '../js/external/bootstrap/js/bootstrap-min', //2.3.1
+	//bootstrap: '../js/external/bootstrap/js/bootstrap-min', //2.3.1
+	bootstrap: '../js/external/bootstrap3/js/bootstrap-min', //3.0.3
 	bootstrapeditable: '../js/external/bootstrap-editable/bootstrap-editable/js/bootstrap-editable-min', //1.4.6
 	select2: '../js/external/select2/select2-min', //3.4.2
 	poshytip: '../js/external/poshytip/jquery-poshytip-min', //1.2

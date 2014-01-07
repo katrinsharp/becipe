@@ -37,9 +37,9 @@ define([
 			success: function() {
 				view.model.set('isLiked', newState);
 				view.$('.like').toggleClass('is-liked');
-				var likes = parseInt(view.$('.stats,.likes').text());
+				var likes = parseInt(view.$('.stats.likes').text());
 				likes = (newState == true ? likes + 1: likes - 1);
-				view.$('.stats,.likes').text(likes);
+				view.$('.stats.likes').text(likes);
 			},
 			error: function() {
 				alert("Something really spooky happened");

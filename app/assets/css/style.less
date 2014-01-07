@@ -9,6 +9,7 @@ body {
 	font: 16px/24px Helvetica, Arial, Verdana, Georgia, 'Lato', Geneva, sans-serif;
 	/*word-break: break-all;*/
 	text-shadow: @textShadow;
+	zoom: 1;
 }
 
 a img,
@@ -95,7 +96,8 @@ span.name {
 	margin-right: 2.13675213675213675% !important;
 }
 
-div.row-fluid [class*="span"].center-in-span { 
+/*div.row-fluid [class*="span"].center-in-span { */
+.center-in-span {
    float: none; 
    margin: 0 auto; 
    /*text-align: center;*/ 
@@ -675,7 +677,7 @@ select:focus {
 						}
 						&:hover {
 							.ico-btn {
-								color: @deepOrangeColorHover;
+								color: @deepOrangeColor;
 							}
 						}
 					}
@@ -695,18 +697,18 @@ select:focus {
 							color: @deepOrangeColor;
 						}
 					}
-					.views {
+					.view {
 						.ico-btn {
 							font-size: 24px;
 							line-height: 24px;
 							text-align: center;
-							color: @lightGreyColor;
+							color: @greenColor;
 							text-shadow: none;
 						}
 					}
 					.stats {
 						font-size: 12px;
-						line-height: 20px;
+						line-height: 22px;
 						font-family: Helvetica;
 						color: @mediumGreyColor;
 					}
@@ -841,11 +843,11 @@ select:focus {
 ** RECIPE PAGE
 */
 .recipe-body {
-	margin: 80px 20px 140px;
+	/*margin: 80px 20px 140px;*/
 }
 
 .main-content-width {
-	max-width: 940px;
+	/*max-width: 940px;*/
 }
 
 a.search span.tag{
@@ -926,6 +928,8 @@ a.search span.tag{
   button.dropdown-toggle
   {
 	/*width: 320px;*/
+	width: 100%;
+	margin-bottom: 10px;
 	border: 0 none;
 	/*border-radius: 8px 8px 8px 8px;*/
 	.input-full-shadow ();
@@ -1154,18 +1158,24 @@ button:active {
 ** INPUT DETAILS
 */
 .input-details {
-	margin-left: 5px !important;
 	margin-top: 20px;
 	margin-bottom: 5px;
 	color: @darkGreyColor;
+	div {
+		margin-left: 5px;
+	}
 	.input-name {
 		font-size: 18px;
+		width: 100%;
 		position: relative;/*for error to show next*/
 		float:left;
 	}
 	.input-hint {
 		color: @mediumGreyColorWithOpacity;
 		font-size: 13px;
+	}
+	.bootstrap-select {
+		width: 100% !important;
 	}
 }
 
