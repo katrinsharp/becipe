@@ -4,9 +4,9 @@
 <% var photo = _.find(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"});%>
 <meta property="og:image" content="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>"/>
 
-<div class="recipe-body">
-	<div class="row-fluid">
-		<div class="span12 slider-container next-to-header">
+<div class="recipe-body container">
+	<div class="row">
+		<div class="col-md-12 slider-container next-to-header">
 			<!-- slider -->
 			<div class="center-in-span main-content-width">
 				<div class="flexslider">
@@ -14,7 +14,7 @@
 					
 						<%_.each(_.filter(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"}), function(photo){ %>
 							<li>
-								<img style="height: 570px" class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
+								<img class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
 							</li>
 						<% }); %>
 					</ul>
@@ -23,8 +23,8 @@
 			<!-- ENDS slider -->
 		</div>
 	</div>
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="row">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-padding" style="margin-top: 30px;margin-bottom: 20px">
 				<a class="search" data="level" data-value="<%= recipe.level%>" href="#search-recipes////<%= recipe.level%>">
 					<span class="tag recipe-item-background"><%= recipe.level%>&nbsp;</span>
@@ -38,27 +38,27 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="row">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
-				<div class="row-fluid">
-					<div class="span6">
+				<div class="row">
+					<div class="col-md-6">
 						<div class="heading capitalize"><%= recipe.name%></div>
 					</div>
-					<div class="span6 margin-top-10">
-						<div class="row-fluid">
-							<div class="span10">
+					<div class="col-md-6 margin-top-10">
+						<div class="row">
+							<div class="col-md-10">
 								<p style="text-align: right;">Posted By <a href= "#user/<%= recipe.userid%>/publicProfile" class="by"><%= recipe.by%></a></p>
 								<p style="text-align: right"><%= recipe.date(recipe.created)%></p>
 							</div>
-							<div class="span2">
+							<div class="col-md-2">
 								<img style="margin-left: 10px" class="float-right" src="../../img/user-profile-picture.png" alt="user profile photo">
 							</div>
 						</div>
 					</div>
 				</div>
-				<div class="row-fluid" style="display: none">	
-					<div class="span6 rate-trigger" style="visibility: hidden">
+				<div class="row" style="display: none">	
+					<div class="col-md-6 rate-trigger" style="visibility: hidden">
 						
 						<!--img class="rated-image rated-image-style" src="@routes.Assets.at("img/rating/"+recipe.rating+".png")" alt="rating"-->
 						
@@ -73,7 +73,7 @@
 						}
 						<a href="@routes.Application.signup()" style="margin-left: 5px">Reviews</a>
 					</div>
-					<div class="span6">
+					<div class="col-md-6">
 						<!-- social bar -->
 						<div id="social-bar-container" class="float-right">
 							<ul id="social-bar-right" class="cf sb">
@@ -87,11 +87,11 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid margin-top-10_2">
-		<div class="span12">
+	<div class="row margin-top-10_2">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
-				<div class="row-fluid">
-					<div class="span12 short-desc">
+				<div class="row">
+					<div class="col-md-12 short-desc">
 						<%= recipe.shortDesc%>
 					</div>
 				</div>		
@@ -99,23 +99,23 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid margin-top-10">
-		<div class="span12">
+	<div class="row margin-top-10">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-padding">
-				<div class="row-fluid recipe-time-measures">
-					<div class="span3">
+				<div class="row recipe-time-measures">
+					<div class="col-md-3">
 						<p><span class="title">Preparation Time:</span> <span class="stat"><%= recipe.prepTime%></span> </p> 	
 					</div>
 					<% if (recipe.readyIn!=undefined) { %>
-						<div class="span3">
+						<div class="col-md-3">
 							<p><span class="title">Ready In:</span> <span class="stat"><%= recipe.readyIn%></span> </p> 	
 						</div>
 					<%}%>
-					<div class="span3">
+					<div class="col-md-3">
 						<p><span class="title">Recipe yield:</span> <span class="stat"><%= recipe.recipeYield%></span> </p>
 					</div>
 					<% if (recipe.supply!=undefined) { %>
-						<div class="span3">
+						<div class="col-md-3">
 							<p><span class="title">Supply:</span> <span class="stat"><%= recipe.supply%> applications</span></p>
 						</div>
 					<%}%>
@@ -124,12 +124,12 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid margin-top-10">
-		<div class="span12">
+	<div class="row margin-top-10">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
 					<!-- Ingredients -->
 					<h3>Ingredients</h3>
-					<div class="row-fluid">
+					<div class="row">
 					
 						<% if (recipe.ingredients.length != 0) { %>
 							<% _.each(recipe.ingredients, function(ing) { %> 
@@ -137,7 +137,7 @@
 							<% }); %>
 						<% } else { %>
 								<%_.each(recipe.phases, function(phase, i) { %> 
-									<div class="span4">
+									<div class="col-md-4">
 										<h4>Phase <%= i+1%>: <%= phase.description%></h4>
 										<%_.each(recipe.ingredients, function(ing) { %> 
 											<div><%= ing%></div>	
@@ -150,13 +150,13 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid">
-		<div class="span12">
+	<div class="row">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
 					<!-- Directions -->
 					<h3>Directions</h3>
-					<div class="row-fluid">
-						<div class="span12 directions">
+					<div class="row">
+						<div class="col-md-12 directions">
 							<%= recipe.directions %>
 						</div>
 					</div>
@@ -165,8 +165,8 @@
 		</div>
 	</div>
 	
-	<div class="row-fluid margin-top-10">
-		<div class="span12">
+	<div class="row margin-top-10">
+		<div class="col-md-12">
 			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
 			<!-- disqus -->
 			<div id="disqus_thread"></div>

@@ -31,8 +31,14 @@
 		<!--[if lt IE 9]>
 			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 		<![endif]--> 
-		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap.min.css")"/>
-		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap-responsive.min.css")"/>
+		
+		
+		<!--link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap.min.css")"/>
+		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap/css/bootstrap-responsive.min.css")"/-->
+		
+		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap3/css/bootstrap.min.css")"/>
+		<link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap3/css/bootstrap-theme.min.css")"/>
+		
 		<!--link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/modalwindow/css/component.css")"/-->
 		<link rel="stylesheet" media="all" href="@routes.Assets.at("css/style.css")"/>
 		<link rel="stylesheet" media="all" href="@routes.Assets.at("css/modal.css")"/>
@@ -69,10 +75,12 @@
 		
 		<div id="header"></div>
 		<div id="body-container">
-			<div class="row-fluid">
-				<div class="span12">
-					<div class="center-in-span main-content-width big-message">
-						Please bear with us while we're loading...
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12">
+						<div class="center-in-span main-content-width big-message">
+							Please bear with us while we're loading...
+						</div>
 					</div>
 				</div>
 			</div>

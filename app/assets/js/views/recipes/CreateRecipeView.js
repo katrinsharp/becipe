@@ -145,6 +145,18 @@ define([
 		console.log('');
 	},
 	
+	fixBootstrap3: function() {
+		//fix wysiwig bootstrap 3 lack of upgrade
+		$('.btn').addClass('btn-default');
+		$('.icon-list').addClass('glyphicon  glyphicon-list');
+		$('.icon-th-list').addClass('glyphicon  glyphicon-th-list');
+		$('.icon-indent-right').addClass('glyphicon  glyphicon-indent-right');
+		$('.icon-indent-left').addClass('glyphicon  glyphicon-indent-left');
+		//$('.icon-share').addClass('glyphicon  glyphicon-share');
+		$('[data-wysihtml5-command="createLink"]').remove();
+		$('.icon-picture').addClass('glyphicon  glyphicon-picture');
+	},
+	
 	render: function() {
 		var that = this;
 		if(this.model.get('id')) {
@@ -171,6 +183,7 @@ define([
 				for(var i = photos.length; i < 12; ++i) {
 					$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
 				}
+				that.fixBootstrap3();
 			});
 		
 		} else {
@@ -187,8 +200,10 @@ define([
 				for(var i = 0; i < 12; ++i) {
 					$(placeHolders[i]).html(compiledTemplate({photo: undefined}));
 				}
+				that.fixBootstrap3();
 			});
 		}
+	
 		return this;
 	},
 	deletePhotos: function(recipeId, view) {
