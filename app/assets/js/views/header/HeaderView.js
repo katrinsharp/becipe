@@ -19,11 +19,16 @@ define([
 		'click #search-btn': 'clickSearch',
 		'change label input': 'clickFilter',
 		'change input[name=query]': 'searchKeyPress',
-		'keyup input[name=query]': 'searchKeyPress'
+		'keyup input[name=query]': 'searchKeyPress',
+		'click [data-toggle=offcanvas]': 'toggleMobileMenu'
 	},
 	
 	collection: new RecipeCollection(),
 	searchTerm: '',
+	
+	toggleMobileMenu : function() {
+		$('.row-offcanvas').toggleClass('active');
+	},
 	
     initialize: function() {
 		this.listenTo(UserLoginModel, 'change:token', this.loginTokenChanged);

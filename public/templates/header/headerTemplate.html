@@ -1,39 +1,22 @@
-<div class="header navbar navbar-fixed-top">
-    <div class="navbar-inner">
-		<!--div class="container-fluid"-->
-		<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-			<span class="icon-bar"></span>
-		</button>
-		<a class="brand" href="#"><img src="../img/logo.png"></a>
-		<div class="row">
-			<div class="nav-collapse collapse">
-				<ul class="header-links nav pull-right">
-					<li class="create-recipe"><a href="#create-recipe">Create recipe</a></li>
-					<li class="login" data="login"><a href="#user/login">Login</a></li>
-					<li class="login" data="logout" style="display:none"><a href="#user/logout">Logout</a></li>
-					<li class="signup" data="signup"><a href="#user/signup">Sign up</a></li>
-					<li class="signup" data="user-settings" style="display:none"><a href="#user/settings"></a></li>
-					<li class="more"><a href="javascript: void(0)"><div data-icon="&#xe112;" class="sp" aria-hidden="true"></div></a></li>
-				</ul>
-			</div><!--/.nav-collapse -->
+<div class="navbar header-style navbar-fixed-top">
+	<div class="navbar-header">
+		<a class="navbar-brand visible-xs visible-sm brand-as-text" href="#">Becipe</a>
+		<a class="navbar-brand brand-style hidden-xs hidden-sm" href="#"><img src="../img/logo.png"></a>
+		
+		<div class="collapse-button navbar-toggle" data-toggle="offcanvas" data-target=".sidebar-nav"> <!--data-toggle="collapse" data-target=".navbar-collapse"-->
+		  <a href="javascript: void(0)"><div data-icon="&#xe112;" class="sp" aria-hidden="true"></div></a>
 		</div>
-		<!--/div-->
-	</div>
+		
+	</div> 
+	<div class="navbar-collapse collapse">
+		<ul class="header-links nav navbar-nav navbar-right">
+			<li class="create-recipe"><a href="#create-recipe">Create recipe</a></li>
+			<li class="login" data="login"><a href="#user/login">Login</a></li>
+			<li class="login" data="logout" style="display:none"><a href="#user/logout">Logout</a></li>
+			<li class="signup" data="signup"><a href="#user/signup">Sign up</a></li>
+			<li class="signup" data="user-settings" style="display:none"><a href="#user/settings"></a></li>
+			<li class="more hidden-xs"><a href="javascript: void(0)"><div data-icon="&#xe112;" class="sp" aria-hidden="true"></div></a></li>
+		</ul>
+	</div><!--/.navbar-collapse -->
 	<div class="header-border header-border-shadow"></div>
-</div>
-<div class="header-search navbar navbar-fixed-top">
-	<div class="header-search-inner row">
-		<div class="offset-fourth-left search-container">
-			<input name="query" placeholder="Search..." style="">
-			<div title="Search" class="button autosuggestButton"><div id="search-btn" data-icon="&#xe167;" class="sp" aria-hidden="true"></div></div>	
-		</div>
-		<div class="col-md-7">
-			<ul class="checkboxlist padding-top-8" id="recipes-filters"></ul>
-		</div>
-		<!--div class="advanced"><a href="#advanced-search">Advanced</a></div-->
-		<div class="header-social-site offset-fourth-right social-site float-right"></div>
-	</div>
-	<div class="header-search-border header-seach-border-shadow"></div>
 </div>
