@@ -1,6 +1,10 @@
 
 @import "palette.less";
 
+html, body {
+    height: 100%;
+}
+
 body {
 	/*background: @bodyColor url(../../img/bg_texture.png);*/
 	background-color: @bodyColor;
@@ -367,21 +371,54 @@ span.name {
 ** side bar collapse
 */
 #sidebar {
-  height: 100%;
-  padding-right: 0;
-  padding-top: 20px;
+	height: 100%;
+	padding-right: 0;
+	padding-top: 64px;
+	.search-style {
+		padding: 10px 15px;
+		input {
+			width: 90%;
+			border: 0 none;
+			position: relative;
+			float: left;
+			margin-right: 5px;
+			/*.input-full-shadow ();*/
+			color: @darkGreyColor;
+			display: inline;
+			/*font-size: 18px;
+			line-height: 21px;
+			height: 47px;*/
+			vertical-align: middle;
+			padding: 8px 10px 8px;
+			font-family: Georgia;
+			border-radius: 3px;
+			transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
+			&:focus {
+				border-color: @brightOrangeColor; 
+			}
+		}
+	}
 }
-#sidebar .nav {
-  width: 95%;
-}
+
 #sidebar li {
   border:0 #f2f2f2 solid;
   border-bottom-width:1px;
 }
 
+.full-height {
+	height: 100%;
+}
+
+.overflow-hidden {
+	overflow-y: hidden;
+}
+
 /* collapsed sidebar styles */
 @media screen and (max-width: 767px) {
   .row-offcanvas {
+	height: 100%;
+	margin-left: -15px;
+	margin-right: 15px;
     position: relative;
     -webkit-transition: all 0.25s ease-out;
     -moz-transition: all 0.25s ease-out;
@@ -389,27 +426,28 @@ span.name {
   }
   .row-offcanvas-right
   .sidebar-offcanvas {
-    right: -41.6%;
+    right: -96%; /*41.6*/
   }
 
   .row-offcanvas-left
   .sidebar-offcanvas {
-    left: -41.6%;
+    left: -96%;
   }
   .row-offcanvas-right.active {
-    right: 41.6%;
+    right: 96%;
   }
   .row-offcanvas-left.active {
-    left: 41.6%;
+    left: 96%;
   }
   .sidebar-offcanvas {
     position: absolute;
     top: 0;
-    width: 41.6%;
+	bottom: 0;
+    width: 96%;
+	height: 100%;
   }
   #sidebar {
     background-color:#3b3b3b;
-    padding-top:0;
   }
   #sidebar .nav>li {
     color: #ddd;
@@ -963,7 +1001,7 @@ a.search span.tag{
 		color: @darkGreyColor;
 		font-size: 32px;
 		line-height: 32px;
-		padding: 20px 10px 20px 4px;
+		/*padding: 20px 10px 20px 4px;*/
 		margin-top: 20px;
 		margin-bottom: 10px;
 		font-weight: bold;
@@ -1232,6 +1270,9 @@ button:active {
 /*
 ** MISC
 */
+.clear {
+	clear: both;
+}
 
 .big-message {
 	font-family: Georgia;

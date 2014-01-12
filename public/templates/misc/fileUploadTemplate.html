@@ -1,9 +1,9 @@
 <%if(photo==undefined){%>
-	<div class="fileupload fileupload-new col-md-3" data-provides="fileupload">	
-		<div class="fileupload-new thumbnail" style="width: 200px; height: 80px;">
+	<div class="fileupload fileupload-new col-xs-6 col-sm-4 col-md-3" data-provides="fileupload">	
+		<div class="fileupload-new thumbnail" style="max-width: 200px; height: 80px;">
 			<img src="http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image" style="width: 100%"/>
 		</div>	
-		<div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 80px; line-height: 20px;">
+		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; height: 80px; line-height: 20px;">
 		</div>	
 		<div  class="root">
 			<span class="btn btn-default btn-file">
@@ -15,11 +15,11 @@
 		</div>
 	</div>
 <%}else{%>
-	<div class="fileupload fileupload-exists col-md-3" data-provides="fileupload" originkey="<%= photo.metadata.originKey%>">								
-		<div class="fileupload-new thumbnail" style="width: 200px; height: 80px;">
+	<div class="fileupload fileupload-exists col-xs-6 col-sm-4 col-md-3" data-provides="fileupload" originkey="<%= photo.metadata.originKey%>">								
+		<div class="fileupload-new thumbnail" style="max-width: 200px; height: 80px;">
 			<img src="http://www.placehold.it/200x80/EFEFEF/AAAAAA&text=no+image" style="width: 100%"/>
 		</div>	
-		<div class="fileupload-preview fileupload-exists thumbnail" style="width: 200px; height: 80px;">
+		<div class="fileupload-preview fileupload-exists thumbnail" style="max-width: 200px; height: 80px;">
 			<img src="<%= photo.fullUrl%>" style="width: 100%"/>
 		</div>	
 		<div class="root">

@@ -16,6 +16,7 @@ define([
 			UserLoginModel.set({token: module.config().token, fn: module.config().fn, userid: module.config().userid, rfavs: module.config().rfavs});
 		}
 		router.initialize();
+		window.onorientationchange = function() { window.location.reload(); };
 	};
 
 	return { 

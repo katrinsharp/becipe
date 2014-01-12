@@ -6,10 +6,11 @@ define([
   'collections/recipes/RecipeCollection',
   'views/social/SocialSiteView',
   'text!templates/header/headerTemplate.html',
+  'views/header/MainLinksView',
   'views/filters/RecipesFiltersView',
   'models/user/UserLoginModel',
   'router'
-], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, RecipesFiltersView, UserLoginModel, AppRouter){
+], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, MainLinksView, RecipesFiltersView, UserLoginModel, AppRouter){
 
   var HeaderView = Backbone.View.extend({
     
@@ -27,6 +28,7 @@ define([
 	searchTerm: '',
 	
 	toggleMobileMenu : function() {
+		$('#main-container').toggleClass('overflow-hidden');
 		$('.row-offcanvas').toggleClass('active');
 	},
 	
@@ -39,6 +41,11 @@ define([
     render: function(){
 		var compiledTemplate = _.template(headerTemplate);
 		this.$el.html(compiledTemplate);
+		
+		//looking more than the element scope since mobile main links are in the sidebar
+		this.mainLinksView = new MainLinksView();
+		this.mainLinksView.setElement($(this.mainLinksView.selector)).render();
+		
 		this.socialSiteView = new SocialSiteView();
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.recipesFiltersView = new RecipesFiltersView();
