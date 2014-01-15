@@ -2,7 +2,7 @@
 @import "palette.less";
 
 html, body {
-    height: 100%;
+    /*height: 100%;*/
 }
 
 body {
@@ -373,36 +373,42 @@ span.name {
 #sidebar {
 	height: 100%;
 	padding-right: 0;
+	margin-left: -15px;
 	padding-top: 64px;
 	.search-style {
-		padding: 10px 15px;
+		padding-top: 10px;
+		padding-bottom: 10px;		
+		padding-left: 15px;
 		input {
-			width: 90%;
+			/*width: 90%;*/
 			border: 0 none;
-			position: relative;
+			/*position: relative;*/
 			float: left;
-			margin-right: 5px;
-			/*.input-full-shadow ();*/
-			color: @darkGreyColor;
+			/*margin-right: 12px;*/
+			color: @advancedTextColor;
+			background-color: @headerSearchBackgroundColor;
 			display: inline;
-			/*font-size: 18px;
-			line-height: 21px;
-			height: 47px;*/
 			vertical-align: middle;
 			padding: 8px 10px 8px;
 			font-family: Georgia;
 			border-radius: 3px;
 			transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
-			&:focus {
-				border-color: @brightOrangeColor; 
-			}
+		}
+		#search-btn {
+			font-size: 20px;
+			line-height: 40px;
 		}
 	}
+}
+
+#sidebar .nav {
+	/*width: 95%;*/
 }
 
 #sidebar li {
   border:0 #f2f2f2 solid;
   border-bottom-width:1px;
+  text-shadow: none;
 }
 
 .full-height {
@@ -413,8 +419,25 @@ span.name {
 	overflow-y: hidden;
 }
 
+@media screen and (max-width: 479px) {
+	#sidebar {
+		.search-style {
+			padding-right: 5px;
+		}
+	}
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+	#sidebar {
+		.search-style {
+			padding-right: 15px;
+		}
+	}
+}
+
 /* collapsed sidebar styles */
 @media screen and (max-width: 767px) {
+	
   .row-offcanvas {
 	height: 100%;
 	margin-left: -15px;
@@ -426,7 +449,7 @@ span.name {
   }
   .row-offcanvas-right
   .sidebar-offcanvas {
-    right: -96%; /*41.6*/
+    right: -96%;
   }
 
   .row-offcanvas-left

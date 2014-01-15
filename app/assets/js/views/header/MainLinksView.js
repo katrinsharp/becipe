@@ -16,7 +16,6 @@ define([
 	},
 	
 	toggleMobileMenu : function() {
-		$('#main-container').toggleClass('overflow-hidden');
 		$('.row-offcanvas').toggleClass('active');
 	},
 	

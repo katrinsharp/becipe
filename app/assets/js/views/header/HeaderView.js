@@ -21,14 +21,18 @@ define([
 		'change label input': 'clickFilter',
 		'change input[name=query]': 'searchKeyPress',
 		'keyup input[name=query]': 'searchKeyPress',
+		'click [data-toggle=close-mobile-menu]': 'closeMobileMenu',
 		'click [data-toggle=offcanvas]': 'toggleMobileMenu'
 	},
 	
 	collection: new RecipeCollection(),
 	searchTerm: '',
 	
+	closeMobileMenu : function() {
+		$('.row-offcanvas').removeClass('active');
+	},
+	
 	toggleMobileMenu : function() {
-		$('#main-container').toggleClass('overflow-hidden');
 		$('.row-offcanvas').toggleClass('active');
 	},
 	
