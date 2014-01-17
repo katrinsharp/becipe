@@ -7,20 +7,17 @@ define([
   'views/social/SocialSiteView',
   'text!templates/header/headerTemplate.html',
   'views/header/MainLinksView',
+  'views/header/SearchView',
   'views/filters/RecipesFiltersView',
   'models/user/UserLoginModel',
   'router'
-], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, MainLinksView, RecipesFiltersView, UserLoginModel, AppRouter){
+], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, MainLinksView, SearchView, RecipesFiltersView, UserLoginModel, AppRouter){
 
   var HeaderView = Backbone.View.extend({
     
 	el: $("#header"),
 	
 	events: {
-		'click #search-btn': 'clickSearch',
-		'change label input': 'clickFilter',
-		'change input[name=query]': 'searchKeyPress',
-		'keyup input[name=query]': 'searchKeyPress',
 		'click [data-toggle=close-mobile-menu]': 'closeMobileMenu',
 		'click [data-toggle=offcanvas]': 'toggleMobileMenu'
 	},
@@ -49,6 +46,10 @@ define([
 		//looking more than the element scope since mobile main links are in the sidebar
 		this.mainLinksView = new MainLinksView();
 		this.mainLinksView.setElement($(this.mainLinksView.selector)).render();
+		this.listenTo(this.mainLinksView, 'closeMobileMenuEvent', this.closeMobileMenu);
+		this.searchView = new SearchView();
+		this.searchView.setElement($(this.searchView.selector).not(':hidden')).render();
+		this.listenTo(this.searchView, 'closeMobileMenuEvent', this.closeMobileMenu);
 		
 		this.socialSiteView = new SocialSiteView();
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
@@ -73,30 +74,8 @@ define([
 			$('[data="signup"]').css('display', '');
 			$('[data="user-settings"]').css('display', 'none');
 		}		
-	},
-	
-	searchKeyPress: function(e) {
-		if (e.keyCode == 13) {
-			this.clickSearch();
-		}
-	},
-	
-	search: function() {
-		var url ="search-recipes/" + this.searchTerm;
-		var filter = _.map($('label input:checked'), function(item){return $(item).val()}).join('&');
-		url = url + '/' + filter + '//';
-		window.location.hash = url;
-	},
-	
-	clickSearch: function() {
-		this.searchTerm = $('input[name=query]').val();
-		this.search();
-	},
-	
-	clickFilter: function() {
-		this.search();
 	}
-
+	
   });
 
   return HeaderView;

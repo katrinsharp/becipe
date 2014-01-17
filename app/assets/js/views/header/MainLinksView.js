@@ -4,7 +4,7 @@ define([
   'backbone',
   'bootstrap',
   'text!templates/header/mainLinksTemplate.html'
-], function($, _, Backbone, Bootstrap, mainLinksTemplate){
+], function($, _, Backbone, Bootstrap, mainLinksTemplate, SearchView){
 
   var MainLinksView = Backbone.View.extend({
     
@@ -12,11 +12,11 @@ define([
 	selector: ".main-links",
 	
 	events: {
-		'click ul.main-links > li > a': 'toggleMobileMenu'
+		'click ul.main-links > li > a': 'closeMobileMenu'
 	},
 	
-	toggleMobileMenu : function() {
-		$('.row-offcanvas').toggleClass('active');
+	closeMobileMenu : function() {
+		this.trigger('closeMobileMenuEvent');
 	},
 	
     initialize: function() {
