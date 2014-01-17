@@ -367,6 +367,11 @@ span.name {
 	margin-top: 40px !important;		
 }
 
+.row-margins-fix {
+	margin-left: 15px;
+	margin-right: 15px;
+}
+
 /*
 ** side bar collapse
 */
@@ -1004,7 +1009,7 @@ a.search span.tag{
 */
 
 .user-signup-form-width {
-	width: 320px !important;
+	max-width: 450px;
 }
 
 .dialog-title {
@@ -1111,7 +1116,8 @@ a.search span.tag{
       font-size: 28px;
 	  line-height: 57px;
       height: 57px;
-      width: 314px;
+      width: 70%;
+	  max-width: 314px;
       margin-top: 40px;
       transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
 	  /*text-transform: uppercase;*/
@@ -1294,6 +1300,7 @@ button:active {
 /*
 ** MISC
 */
+
 .clear {
 	clear: both;
 }
