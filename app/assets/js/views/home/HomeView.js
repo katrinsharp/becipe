@@ -97,6 +97,7 @@ define([
     		directionNav: true,
 			slideshow: true,	
 			controlNav: false,
+			touch: true,
 			slideshowSpeed: 4000
   		});
 	
