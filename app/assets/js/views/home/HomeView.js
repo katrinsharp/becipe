@@ -31,7 +31,7 @@ define([
     },
 
     render: function(){
-
+		$('#main-container').addClass('container-full');
 		var compiledTemplate = _.template(homeTemplate);
 		this.$el.html(compiledTemplate);
 		$('#body-container').html(this.el);
@@ -142,6 +142,7 @@ define([
 	
 	close: function() {
 		_.each(this.recipeViews, function(rv){rv.remove()});
+		$('#main-container').removeClass('container-full');
 		this.remove();
 	}
 	

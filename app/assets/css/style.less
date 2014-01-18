@@ -421,6 +421,11 @@ span.name {
 	height: 100%;
 }
 
+.container-full {
+	margin: 0 auto;
+	width: 100%;
+}
+
 .overflow-hidden {
 	overflow-y: hidden;
 }
@@ -658,300 +663,329 @@ select:focus {
 ** FILTER CONTAINER
 */
 
-#filter-container{
-	margin: 0 auto;
-	figure {
-		.white-border-with-shadow();
-		width: 425px;/*435, 580px;*/
-		float: left;
-		margin-left: 17.5px;
-		margin-right: 17.5px;/*10px;*/
-		margin-bottom: 7.5px;/*10px;*/
-		height: auto;
-		background: #fff;
-		font-size: 18px;
-		line-height: 25px;
-		div.recipe {
-			padding: 3.75px;/*5px;*/
-			div.image {
-				position:relative;
-				float:left;
-				width: 417.5px;/*427.5, 570px;*/
-				height: 313.5px;/*350px;*/
-				color: #fff;
-				div.wait {
-				  width: 32px;
-				  height: 32px; 
-				}
-				img {
-					width: 100%;
-					height: 100%;
-				}
-				.transition();
-				&:hover {
-					opacity: 0.8;
-				}
-			}
-			div.details {
-				padding: 10px;
-				font-family: Georgia;
-				position:relative;
-				float:left;
-				width: 100%;
-				.inner {
-					a.text {
-						color: @mediumGreyColor;
-						&:hover {
-							color: @deepOrangeColor;
-						}
-					}
-					.name-label {	
-						width: 380px;
-						position: relative;
-						float: left;
-						font-style: italic;
-						font-size: 21px;
-						line-height: 24px;
-						padding: 6px 0 7px;
-					}
-					.share {
-						text-align: right;
-						position: relative;
-						float: right;
-						padding-right: 15px;
-						padding-top: 7px;
-						font-size: 20px;
-						line-height: 20px;
-						a {
-							color: @greenColor;
-							&:hover {
-								color: @greenColorHover;
-							}
+@media screen and (max-width: 379px) {
+	.dimensions(0.6);
+}
 
-						}
+@media screen and (min-width: 380px) and (max-width: 479px) {
+	.dimensions(0.7);
+}
+
+@media screen and (min-width: 480px) and (max-width: 767px) {
+	.dimensions(0.9);
+}
+
+@media screen and (min-width: 768px) and (max-width: 1280px) {
+	.dimensions(0.9);
+}
+
+@media screen and (min-width: 1280px) {
+	.dimensions;
+}
+.dimensions (@ratio: 1) {
+	#filter-container{
+		margin: 0 auto;
+		figure {
+			.white-border-with-shadow();
+			float: left;
+			width: (425px * @ratio);
+			margin-left: (17.5px * @ratio);
+			margin-right: (17.5px * @ratio);
+			margin-bottom: (7.5px * @ratio);
+			height: auto;
+			background: #fff;
+			font-size: 18px;
+			line-height: 25px;
+			div.recipe {
+				padding: (3.75px * @ratio);
+				div.image {
+					position:relative;
+					float:left;
+					width: 100%;/*(417.5px * @ratio); - size-boxing makes it uneven with padding*/
+					height: (313.5px * @ratio);
+					color: #fff;
+					div.wait {
+					  width: 32px;
+					  height: 32px; 
 					}
-					.share2 {
-						text-align: right;
-						position: relative;
-						float: right;
-						/*padding-right: 15px;
-						padding-top: 7px;*/
-						margin-right: 15px;
-						padding: 5px 7px;
-						border-radius: 50%;
-						border: 2px @greenColor solid;
-						font-size: 20px;
-						line-height: 20px;
-						a {
-							color: @greenColor;
-						}
-						&:hover {
-							border: 2px @greenColorHover solid;
-							a {
-								color: @greenColorHover;
-							}
-						}
+					img {
+						width: 100%;
+						height: 100%;
 					}
-					.by {
-						font-family: Helvetica;
-						font-size: 14px;
-						padding-bottom: 15px;
-						text-transform: lowercase;
-						&:first-letter {
-							text-transform: capitalize;
-						}
+					.transition();
+					&:hover {
+						opacity: 0.8;
 					}
-					.bar > div {
-						position: relative;
-						float: left;
-					}
-					.bar > div:nth-child(odd) {
-						margin-right: 5px;
-					}
-					.bar > div:nth-child(even) {
-						margin-right: 20px;
-					}
-					/*.like {
-						width: 20px;
-						padding: 6px;
-						border-radius: 50%;
-						border: 1px @lightGreyColor solid;
-						.ico-btn {
-							font-size: 16px;
-							line-height: 16px;
-							text-align: center;
-							color: @lightGreyColor;
-							text-shadow: none;
-						}
-					}*/
-					.like {
-						.ico-btn {
-							font-size: 22px;
-							line-height: 22px;
-							text-align: center;
-							color: @lightGreyColor;
-							text-shadow: none;
-						}
-						&:hover {
-							.ico-btn {
+				}
+				div.details {
+					padding: (10px * @ratio);
+					font-family: Georgia;
+					position:relative;
+					float:left;
+					width: 100%;
+					.inner {
+						a.text {
+							color: @mediumGreyColor;
+							&:hover {
 								color: @deepOrangeColor;
 							}
 						}
-					}
-					.is-liked {
-						.ico-btn {
-							color: @deepOrangeColorHover;
-						}
-						&:hover {
-							.ico-btn {
-								color: @deepOrangeColor;
-							}
-						}
-					}
-					.visited {
-						border: 1px @lightGreyColor solid;
-						.ico-btn {
-							color: @deepOrangeColor;
-						}
-					}
-					.view {
-						.ico-btn {
-							font-size: 24px;
+						.name-label {	
+							width: (380px * @ratio);
+							position: relative;
+							float: left;
+							font-style: italic;
+							font-size: 21px;
 							line-height: 24px;
-							text-align: center;
-							color: @greenColor;
-							text-shadow: none;
+							padding: (6px * @ratio) 0 (7px * @ratio);
+						}
+						.share {/*TODO: use ratio to adjust the sizes*/
+							text-align: right;
+							position: relative;
+							float: right;
+							padding-right: 15px;
+							padding-top: 7px;
+							font-size: 20px;
+							line-height: 20px;
+							a {
+								color: @greenColor;
+								&:hover {
+									color: @greenColorHover;
+								}
+
+							}
+						}
+						.share2 {
+							text-align: right;
+							position: relative;
+							float: right;
+							/*padding-right: 15px;
+							padding-top: 7px;*/
+							margin-right: 15px;
+							padding: 5px 7px;
+							border-radius: 50%;
+							border: 2px @greenColor solid;
+							font-size: 20px;
+							line-height: 20px;
+							a {
+								color: @greenColor;
+							}
+							&:hover {
+								border: 2px @greenColorHover solid;
+								a {
+									color: @greenColorHover;
+								}
+							}
+						}
+						.by {
+							font-family: Helvetica;
+							font-size: 14px;
+							padding-bottom: (15px * @ratio);
+							text-transform: lowercase;
+							&:first-letter {
+								text-transform: capitalize;
+							}
+						}
+						.bar > div {
+							position: relative;
+							float: left;
+						}
+						.bar > div:nth-child(odd) {
+							margin-right: (5px * @ratio);
+						}
+						.bar > div:nth-child(even) {
+							margin-right: (20px * @ratio);
+						}
+						/*.like {
+							width: 20px;
+							padding: 6px;
+							border-radius: 50%;
+							border: 1px @lightGreyColor solid;
+							.ico-btn {
+								font-size: 16px;
+								line-height: 16px;
+								text-align: center;
+								color: @lightGreyColor;
+								text-shadow: none;
+							}
+						}*/
+						.like {
+							.ico-btn {
+								font-size: 22px;
+								line-height: 22px;
+								text-align: center;
+								color: @lightGreyColor;
+								text-shadow: none;
+							}
+							&:hover {
+								.ico-btn {
+									color: @deepOrangeColor;
+								}
+							}
+						}
+						.is-liked {
+							.ico-btn {
+								color: @deepOrangeColorHover;
+							}
+							&:hover {
+								.ico-btn {
+									color: @deepOrangeColor;
+								}
+							}
+						}
+						.visited {
+							border: 1px @lightGreyColor solid;
+							.ico-btn {
+								color: @deepOrangeColor;
+							}
+						}
+						.view {
+							.ico-btn {
+								font-size: 24px;
+								line-height: 24px;
+								text-align: center;
+								color: @greenColor;
+								text-shadow: none;
+							}
+						}
+						.stats {
+							font-size: 12px;
+							line-height: 22px;
+							font-family: Helvetica;
+							color: @mediumGreyColor;
 						}
 					}
-					.stats {
-						font-size: 12px;
-						line-height: 22px;
-						font-family: Helvetica;
-						color: @mediumGreyColor;
-					}
 				}
 			}
 		}
-	}
-	figure.slider {
-	}
-	figure.signup-message {
-		.white-border-with-shadow();
-		width: 425px;
-		/*background: @bodyColor url(../../img/bg_dots.png) repeat;
-		background-color: @bodyColor;*/
-		background: url(../../img/linedpaper.png) repeat;
-		height: auto;
-		font-size: 18px;
-		line-height: 25px;
-		.action-container {
-			width: 375px;
-			font-weight: bold;
-			margin: 60px auto 0;
-			.action {
-				padding: 10px;
-				-moz-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
-				-webkit-box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
-				box-shadow: inset 0 0 1px 10px rgba(76, 104, 73, 0.1);
-				border: solid 1px rgba(76, 104, 73, 0.3);
-				
-				-webkit-border-radius: 5px;
-				-moz-border-radius: 5px;
-				border-radius: 5px;
-				a {
-					display: block;
-					text-align: center;
-					padding: 15px;
-					color: white;
-					text-decoration: none;
-				}
-				a.orange {
-					color: #fef4e9;
-					border: solid 1px #da7c0c;
-					background: #f78d1d;
-					background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
-					background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
-					filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
-					&:hover {
-						background: #f47c20;
-						background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
-						background: -moz-linear-gradient(top,  #f88e11,  #f06015);
-						filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
-					}
-					&:active {
-						color: #fcd3a5;
-						background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
-						background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
-						filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
-					}
-					b {
-						display: block;
-						font-size: 32px;
-						margin: 0 0 5px 0;
-						font-weight: bold;
-						text-shadow: 1px 1px 1px #f47a20;
-					}
-				}
-				a.green {
-					background: @greenColor;
-					/*background: -webkit-gradient(linear, left top, left bottom, from(@greenColor), to(@greenColorHover));
-					background: -moz-linear-gradient(top,  @greenColor,  @greenColorHover);
-					filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@greenColor', endColorstr='@greenColorHover');*/
-					&:hover {
-						background: @greenColorHover;
-					}
-					&:active {
-						background: @greenColorHover;
-					}
-					b {
-						display: block;
-						font-size: 32px;
-						margin: 0 0 5px 0;
-						font-weight: bold;
-						text-shadow: 1px 1px 1px @greenColorHover;
-					}
+		figure.slider {
+			background: transparent !important;
+			.flexslider {
+				height: (606px * @ratio);
+				img {
+					height: (600px * @ratio);
 				}
 			}
-		}	
-	}
-	figure.about-us {
-		.white-border-with-shadow();
-		width: 425px;
-		background-color: @brightOrangeColor;
-		&:hover {
-			background-color: @brightOrangeColorHover;
 		}
-		div {
-			width: 270px;
-			margin: 0 auto;
-			line-height:100px;
-			font-size: 40px;
-			text-align: center;
-			font-weight: bold;
-			color: @callToActionsButtons;
-			text-shadow: 1px 1px 1px @brightOrangeColorHover;
-			/*
-			border-bottom: 1px solid #ff9900;
-			box-shadow: 1px 3px 5px #ddd;
-			*/
+		figure.signup-message {
+			.white-border-with-shadow();
+			width: (425px * @ratio);
+			background: url(../../img/linedpaper.png) repeat;
+			height: auto;
+			font-size: 18px;
+			line-height: 25px;
+			.wrapper {
+				height: (300px * @ratio);
+				color: #fff;
+				.image-wrapper {
+					margin-top: (20px * @ratio);
+				}
+			}
+			.action-container {
+				width: (375px * @ratio);
+				font-weight: bold;
+				margin: (60px * @ratio) auto 0;
+				.action {
+					padding: (10px * @ratio);
+					-moz-box-shadow: inset 0 0 1px (10px * @ratio) rgba(76, 104, 73, 0.1);
+					-webkit-box-shadow: inset 0 0 1px (10px * @ratio) rgba(76, 104, 73, 0.1);
+					box-shadow: inset 0 0 1px (10px * @ratio) rgba(76, 104, 73, 0.1);
+					border: solid 1px rgba(76, 104, 73, 0.3);
+					
+					-webkit-border-radius: 5px;
+					-moz-border-radius: 5px;
+					border-radius: 5px;
+					a {
+						display: block;
+						text-align: center;
+						padding: (15px * @ratio);
+						color: white;
+						text-decoration: none;
+					}
+					a.orange {
+						color: #fef4e9;
+						border: solid 1px #da7c0c;
+						background: #f78d1d;
+						background: -webkit-gradient(linear, left top, left bottom, from(#faa51a), to(#f47a20));
+						background: -moz-linear-gradient(top,  #faa51a,  #f47a20);
+						filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#faa51a', endColorstr='#f47a20');
+						&:hover {
+							background: #f47c20;
+							background: -webkit-gradient(linear, left top, left bottom, from(#f88e11), to(#f06015));
+							background: -moz-linear-gradient(top,  #f88e11,  #f06015);
+							filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f88e11', endColorstr='#f06015');
+						}
+						&:active {
+							color: #fcd3a5;
+							background: -webkit-gradient(linear, left top, left bottom, from(#f47a20), to(#faa51a));
+							background: -moz-linear-gradient(top,  #f47a20,  #faa51a);
+							filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='#f47a20', endColorstr='#faa51a');
+						}
+						b {
+							display: block;
+							font-size: 32px;
+							margin: 0 0 (5px * @ratio) 0;
+							font-weight: bold;
+							text-shadow: 1px 1px 1px #f47a20;
+						}
+					}
+					a.green {
+						background: @greenColor;
+						/*background: -webkit-gradient(linear, left top, left bottom, from(@greenColor), to(@greenColorHover));
+						background: -moz-linear-gradient(top,  @greenColor,  @greenColorHover);
+						filter:  progid:DXImageTransform.Microsoft.gradient(startColorstr='@greenColor', endColorstr='@greenColorHover');*/
+						&:hover {
+							background: @greenColorHover;
+						}
+						&:active {
+							background: @greenColorHover;
+						}
+						b {
+							display: block;
+							font-size: 32px;
+							margin: 0 0 (5px * @ratio) 0;
+							font-weight: bold;
+							text-shadow: 1px 1px 1px @greenColorHover;
+						}
+					}
+				}
+			}	
 		}
-	}
-	figure.create-recipe {
-		.white-border-with-shadow();
-		width: 425px;
-		background-color: @deepOrangeColor;
-		&:hover {
-			background-color: @deepOrangeColorHover;
+		figure.about-us {
+			.white-border-with-shadow();
+			width: (425px * @ratio);
+			background-color: @brightOrangeColor;
+			&:hover {
+				background-color: @brightOrangeColorHover;
+			}
+			div {
+				width: (270px * @ratio);
+				margin: 0 auto;
+				line-height: (100px * @ratio);
+				font-size: (40px * @ratio);
+				text-align: center;
+				font-weight: bold;
+				color: @callToActionsButtons;
+				text-shadow: 1px 1px 1px @brightOrangeColorHover;
+			}
 		}
-		div {
-			width: 421px;
-			margin: 0 auto;
-			line-height: 150px;
-			font-size: 40px;
-			text-align: center;
-			font-weight: bold;
-			color: @callToActionsButtons;
-			text-shadow: 1px 1px 1px @deepOrangeColorHover;
+		figure.create-recipe {
+			.white-border-with-shadow();
+			width: (425px * @ratio);
+			background-color: @deepOrangeColor;
+			&:hover {
+				background-color: @deepOrangeColorHover;
+			}
+			div {
+				width: (421px * @ratio);
+				margin: 0 auto;
+				line-height: (150px * @ratio);
+				font-size: (40px * @ratio);
+				text-align: center;
+				font-weight: bold;
+				color: @callToActionsButtons;
+				text-shadow: 1px 1px 1px @deepOrangeColorHover;
+			}
 		}
 	}
 }
