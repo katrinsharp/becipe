@@ -48,7 +48,7 @@ define([
 		this.mainLinksView.setElement($(this.mainLinksView.selector)).render();
 		this.listenTo(this.mainLinksView, 'closeMobileMenuEvent', this.closeMobileMenu);
 		this.searchView = new SearchView();
-		this.searchView.setElement($(this.searchView.selector).not(':hidden')).render();
+		this.searchView.setElement($(this.searchView.selector)).render();
 		this.listenTo(this.searchView, 'closeMobileMenuEvent', this.closeMobileMenu);
 		
 		this.socialSiteView = new SocialSiteView();

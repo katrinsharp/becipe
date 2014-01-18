@@ -12,7 +12,7 @@ define([
 	// We have 1 for mobile version and 1 for bigger screens
 	// We want to query for searchTerm only the relevant one,
 	// otherwise, we get empty value.
-	el: $(".search-container").not(':hidden'),
+	el: $(".search-container"),
 	selector: ".search-container",
 	
 	events: {
@@ -45,7 +45,8 @@ define([
 	},
 	
 	clickSearch: function() {
-		this.searchTerm = $('input[name=query]').val();
+		//assume that there is only one input visible at a time. useful if the browser is resized but not refreshed.
+		this.searchTerm = $('input[name=query]').not(':hidden').val();
 		this.search();
 	},
 	
