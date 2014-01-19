@@ -1,0 +1,28 @@
+<div class="search-footer-container search-footer-style navbar navbar-fixed-bottom visible-xs">
+	<div class="header-search-border header-seach-border-shadow"></div>	
+	<div class="search-bar-wrapper">
+		<div class="container container-full">
+			<div class="row">
+				<div class="col-xs-4">
+					<div class="item">
+						<select data="Categories" name="categories" id="categories" class="selectpicker" multiple data-selected-text-format="count" title="Categories">
+								<%_.each(recipeFilters, function(filter){%>
+									<option value="<%= filter.get("id")%>"><%= filter.get("desc")%></option>
+								<%})%>
+						</select>
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="item">
+						Filter
+					</div>
+				</div>
+				<div class="col-xs-4">
+					<div class="item">
+						Sort
+					</div>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>

@@ -7,10 +7,15 @@ define([
   'text!templates/misc/checkboxTemplate.html'
 ], function($, _, Backbone, Bootstrap, RecipesFiltersCollection, checkboxTemplate){
 
+	// ISSUES:
+	// 1. When the view changes, the filters are not reset.
+	// 2. If browser is resized and filters are not in the view 
+	// anymore (aka mobile case), it still shows up in url query and and affects the page. 
+
   var RecipesFilterView = Backbone.View.extend({
     
 	events: {
-		//"click label.checkbox": "clickChkbox"
+		'change label input': 'clickFilter'
 	},
 
     initialize: function(options) {
@@ -24,9 +29,8 @@ define([
 		return this;
     },
 	
-	clickChkbox: function() {
-		console.log('clickChkbox ' + this.model.get('desc'));
-		return true;
+	clickFilter: function() {
+		this.trigger('clickFilterEvent', {filterId: this.model.get('id')});
 	}
 
   });

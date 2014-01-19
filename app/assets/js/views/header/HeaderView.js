@@ -3,16 +3,16 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
-  'select2',
   'collections/recipes/RecipeCollection',
   'views/social/SocialSiteView',
   'text!templates/header/headerTemplate.html',
   'views/header/MainLinksView',
   'views/header/SearchView',
   'views/filters/RecipesFiltersView',
+  'views/filters/RecipesMobileFiltersView',
   'models/user/UserLoginModel',
   'router'
-], function($, _, Backbone, Bootstrap, Select2, RecipeCollection, SocialSiteView, headerTemplate, MainLinksView, SearchView, RecipesFiltersView, UserLoginModel, AppRouter){
+], function($, _, Backbone, Bootstrap, RecipeCollection, SocialSiteView, headerTemplate, MainLinksView, SearchView, RecipesFiltersView, RecipesMobileFiltersView, UserLoginModel, AppRouter){
 
   var HeaderView = Backbone.View.extend({
     
@@ -25,7 +25,6 @@ define([
 	
 	collection: new RecipeCollection(),
 	searchTerm: '',
-	timer: {},
 	
 	closeMobileMenu : function() {
 		$('.row-offcanvas').removeClass('active');
@@ -37,22 +36,8 @@ define([
 		$('#body-container').toggleClass('blur-all');
 	},
 	
-	scrollingStopped: function() {
-		if(!$(window).scrollTop()) {
-			$('.search-footer-container').removeClass('display-none');
-		} else {
-			$('.search-footer-container').addClass('display-none');
-		}
-	},
-	
     initialize: function() {
-		var view = this;
 		this.listenTo(UserLoginModel, 'change:token', this.loginTokenChanged);
-		$(window).bind('scroll',function () {
-			$('.search-footer-container').addClass('display-none');
-			clearTimeout(view.timer);
-			view.timer = setTimeout(view.scrollingStopped, 150 );
-		});
     },
 	
 	//can wait with close since initiated only once
@@ -73,12 +58,11 @@ define([
 		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.recipesFiltersView = new RecipesFiltersView();
 		this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
-		
-		$('.selectpicker').selectpicker({
-			width: '100%'
-		});//('mobile');
-		$('button[data-id=categories]').removeClass('btn');
-		$('button[data-id=categories]').removeClass('btn-default');
+		this.searchView.listenTo(this.recipesFiltersView, 'clickFilterEvent', this.searchView.onclickFilter);
+			
+		this.recipesmobileFiltersView = new RecipesMobileFiltersView();
+		this.recipesmobileFiltersView.render();
+		this.searchView.listenTo(this.recipesmobileFiltersView, 'clickFilterEvent', this.searchView.onclickFilter);
 		
 		this.loginTokenChanged();
 		return this;

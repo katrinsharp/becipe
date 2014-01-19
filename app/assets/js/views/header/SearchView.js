@@ -17,12 +17,13 @@ define([
 	
 	events: {
 		'click #search-btn': 'clickSearch',
-		'change label input': 'clickFilter',
+		//'change label input': 'clickFilter',
 		'change input[name=query]': 'searchKeyPress',
 		'keyup input[name=query]': 'searchKeyPress'
 	},
 	
 	searchTerm: '',
+	filtersString: '',
 	
     render: function(){
 		var compiledTemplate = _.template(searchTemplate);
@@ -36,10 +37,9 @@ define([
 		}
 	},
 	
-	search: function() {
+	search: function(filtersString) {
 		var url ="search-recipes/" + this.searchTerm;
-		var filter = _.map($('label input:checked'), function(item){return $(item).val()}).join('&');
-		url = url + '/' + filter + '//';
+		url = url + '/' + this.filtersString + '//';
 		window.location.hash = url;
 		this.trigger('closeMobileMenuEvent');
 	},
@@ -50,7 +50,8 @@ define([
 		this.search();
 	},
 	
-	clickFilter: function() {
+	onclickFilter: function(data) {
+		this.filtersString = data.filtersString;
 		this.search();
 	}
 
