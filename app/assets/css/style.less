@@ -384,25 +384,36 @@ span.name {
 		padding-top: 10px;
 		padding-bottom: 10px;		
 		padding-left: 15px;
+		padding-right: 15px;
+		margin-left: 15px;
+		margin-right: 15px;
 		input {
-			/*width: 90%;*/
-			border: 0 none;
-			/*position: relative;*/
+			position: relative;
 			float: left;
-			/*margin-right: 12px;*/
+			width: 90%;
+			border-top-left-radius: 3px;
+			border-bottom-left-radius: 3px;
+			border: 0 none;
 			color: @advancedTextColor;
 			background-color: @headerSearchBackgroundColor;
 			display: inline;
 			vertical-align: middle;
-			padding: 8px 10px 8px;
+			padding: 10px 10px 10px;
 			font-family: Georgia;
-			border-radius: 3px;
-			transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
 		}
-		#search-btn {
-			font-size: 20px;
-			line-height: 40px;
-			cursor: pointer;
+		.button {
+			position: relative;
+			float: right;
+			width: 10%;
+			border-top-right-radius: 3px;
+			border-bottom-right-radius: 3px;
+			text-align: center;
+			background-color: @lightGreyColorWithOpacity;
+			#search-btn {
+				cursor: pointer;
+				padding: 10px 0;
+				color: @headerTextColor;
+			}
 		}
 	}
 }
@@ -430,24 +441,12 @@ span.name {
 	overflow-y: hidden;
 }
 
-@media screen and (max-width: 479px) {
-	#sidebar {
-		.search-style {
-			padding-right: 5px;
-		}
-	}
-}
-
-@media screen and (min-width: 480px) and (max-width: 767px) {
-	#sidebar {
-		.search-style {
-			padding-right: 15px;
-		}
-	}
-}
-
 /* collapsed sidebar styles */
 @media screen and (max-width: 767px) {
+
+	.blur-all {
+		opacity: 0.3;
+	}
 	
   .row-offcanvas {
 	height: 100%;
@@ -517,92 +516,106 @@ span.name {
 /*
 ** SEARCH
 */
-
-.header-search {
-	top: 40px;
-	/*background-color: @headerSearchBackgroundColor;*/
-	/*padding: 10px;*/
-	background: @bodyColor url(../../img/bg_dots.png) repeat;
-	background-color: @bodyColor;
-	/*background: #e5e3d8 url(../../img/ricepaper.png) repeat;*/
-	z-index: 1029;
-	.header-search-inner {
-	
-		.search-container {
-			border: 1px solid @brightOrangeColorOpac;/*#b2b6ba;*/
-			float: left;
-			-webkit-border-radius: 40px;
-			-moz-border-radius: 40px;
-			-ms-border-radius: 40px;
-			-o-border-radius: 40px;
-			border-radius: 40px;
-			.input-container-shadow ();
+@media screen and (max-width: 767px) {
+	.search-bar-wrapper {
+		background: @whiteColorWithOpacity url(../../img/bg_dots.png) repeat !important;
+		background-color: @whiteColorWithOpacity  !important;
+		text-shadow: none;
+		.container {
+			background: 0 none !important;
+			background-color: transparent !important;
 		}
-		
-		padding: 40px 0 16px;
-		input {
+		/*select2 override*/
+		button[data-id=categories] {
+			border: 0 none;
+			background: none;
 			font-family: Georgia;
 			font-style: italic;
-			position: relative;
-			float: left;
-			border: 0;
-			-webkit-border-radius: 40px 0 0 40px;
-			-moz-border-radius: 40px 0 0 40px;
-			-ms-border-radius: 40px 0 0 40px;
-			-o-border-radius: 40px 0 0 40px;
-			border-radius: 40px 0 0 40px;
-			
-			.input-inner-shadow();
-			
-			color: @headerSearchColor;
-			width: 275px;
-			font-size: 13px;
-			padding: 7px 0 7px 15px;
-			line-height: 16px;
-			margin-top: 0;
+			color: inherit;
+			.caret {
+				display: none;
+			}
 		}
-		div.button {
-			position: relative;
-			float: left;
-			/*background: @brightOrangeColor url(../../img/lens_light.png) center center no-repeat;*/
-			-webkit-border-radius: 0 40px 40px 0;
-			-moz-border-radius: 0 40px 40px 0;
-			border-radius: 0 40px 40px 0;
-			border-top-right-radius: 40px;
-			border-bottom-right-radius: 40px;
-			cursor: pointer;
-			border: 0;
-			width: 29px;
-			line-height: 16px;
-			padding: 7px 0 7px 10px;
-			color: @headerTextColor;
-			background-color: @headerSearchColor;
-			text-shadow: 1px 1px 1px @deepOrangeColorHover;
+		ul.inner{
+			text-align: left;
+		}
+	}
+}
+
+.search-bar-container {
+	z-index: 1029;
+	top: 59px;
+}
+.search-bar-wrapper {
+	background: @bodyColor url(../../img/bg_dots.png) repeat;
+	background-color: @bodyColor;
+	padding: 10px 0;
+	.container {
+		background: @bodyColor url(../../img/bg_dots.png) repeat;
+		background-color: @bodyColor;
+		.border-style {
+			border: 1px solid @lightGreyColorWithOpacity;
+			border-radius: 3px;
+		}
+		.item {
+			text-align: center;
+			padding: 10px 5px;
+			font-family: Georgia;
+			font-style: italic;
+			color: @deepOrangeColor;
 			&:hover {
-				color: @headerTextColorHover;
-				background-color: @headerSearchColorHover;
+				color: @deepOrangeColorHover;
+				cursor: pointer;
 			}
 		}
-		div.advanced {
-			position: relative;
-			float: left;
-			line-height: 35px;
-			margin-left: 10px;
-			a {
-				color: @advancedTextColor;
-			}
-		}
-		.header-social-site {
-			line-height: 36px;
-			a {
-				color: @headerSearchColor;
-				&:hover {
-					color: @headerSearchColorHover;
+		.search-container-style {
+			padding-left: 2px;
+			padding-right: 2px;
+			.search-style {
+				input {
+					position: relative;
+					float: left;
+					width: 85%;
+					border: 0 none;
+					color: @advancedTextColor;
+					display: inline;
+					vertical-align: middle;
+					padding: 10px 5px 10px 20px;
+					font-family: Georgia;
+					font-style: italic;
+					border-top-left-radius: 40px;
+					border-bottom-left-radius: 40px;
+					border-top: 1px solid @lightGreyColorWithOpacity;
+					border-left: 1px solid @lightGreyColorWithOpacity;
+					border-bottom: 1px solid @lightGreyColorWithOpacity;
+				}	
+				.button {
+					position: relative;
+					float: right;
+					width: 15%;
+					text-align: center;
+					#search-btn {
+						cursor: pointer;
+						padding: 10px 0;
+						color: @headerTextColor;
+						background-color: @headerSearchColor;
+						border-top-right-radius: 40px;
+						border-bottom-right-radius: 40px;
+						border-top: 1px solid @lightGreyColorWithOpacity;
+						border-right: 1px solid @lightGreyColorWithOpacity;
+						border-bottom: 1px solid @lightGreyColorWithOpacity;
+						text-shadow: 1px 1px 1px @deepOrangeColorHover;
+						&:hover {
+							color: @headerTextColorHover;
+							background-color: @headerSearchColorHover;
+						}	
+					}
 				}
 			}
 		}
 	}
 }
+
 input:active, 
 input:focus, 
 select:active, 
@@ -1334,7 +1347,9 @@ button:active {
 /*
 ** MISC
 */
-
+.display-none {
+	display: none !important;
+}
 .clear {
 	clear: both;
 }
