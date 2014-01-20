@@ -5,18 +5,16 @@ define([
   'bootstrap',
   'select2',
   'collections/filters/RecipesFiltersCollection',
-  'text!templates/filters/mobileFilterSortTemplate.html'
-], function($, _, Backbone, Bootstrap, Select2, RecipesFiltersCollection, mobileFilterSortTemplate){
+  'text!templates/filters/mobileFilterSortTemplate.html',
+  'views/filters/CategoryFiltersView',
+  'views/filters/FilterFiltersView'
+], function($, _, Backbone, Bootstrap, Select2, RecipesFiltersCollection, mobileFilterSortTemplate, CategoryFiltersView, FilterFiltersView){
 
   var RecipesMobileFiltersView = Backbone.View.extend({
     
 	el: $("#mobileSort"),
 	
 	timer: {},
-	
-	events: {
-		"change [name]": "onChange"
-	},
 	
 	scrollingStopped: function() {
 		if(!$(window).scrollTop()) {
@@ -42,22 +40,19 @@ define([
 		p.done(function () {
 			var compiledTemplate = _.template(mobileFilterSortTemplate);
 			that.$el.html(compiledTemplate({recipeFilters: that.filterCollection.models}));
-			$('.selectpicker').selectpicker({
-				width: '100%'
-			});
-			//$('.selectpicker').selectpicker('mobile');
-			$('button[data-id=categories]').removeClass('btn');
-			$('button[data-id=categories]').removeClass('btn-default');
+			that.categoryFiltersView = new CategoryFiltersView();
+			that.categoryFiltersView.setElement(that.$el.find(that.categoryFiltersView.selector)).render();
+			that.listenTo(that.categoryFiltersView, 'clickFilterEvent', that.onclickFilter);
+			
+			that.filterFiltersView = new FilterFiltersView();
+			that.filterFiltersView.setElement(that.$el.find(that.filterFiltersView.selector)).render();
+			that.listenTo(that.filterFiltersView, 'clickFilterEvent', that.onclickFilter);
 		});
 		return this;
     },
 	
-	onChange: function(e) {
-		var target = e.currentTarget;
-		if(target.id=="categories") {
-			var categories = _.reduceRight($('[name='+target.id+']').val(), function(a, b) { return a.concat(b); }, []).join('&');
-			this.trigger('clickFilterEvent', {filtersString: categories});
-		}
+	onclickFilter: function(data) {
+		this.trigger('clickFilterEvent', data);
 	}
 	
   });

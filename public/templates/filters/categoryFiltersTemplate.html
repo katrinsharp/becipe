@@ -1,0 +1,5 @@
+<select data="filtercategories" name="filtercategories" id="filtercategories" class="selectpicker" multiple data-selected-text-format="count" title="Categories">
+		<%_.each(recipeFilters, function(filter){%>
+			<option value="<%= filter.get("id")%>"><%= filter.get("desc")%></option>
+		<%})%>
+</select>

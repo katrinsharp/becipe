@@ -4,18 +4,10 @@
 		<div class="container container-full">
 			<div class="row">
 				<div class="col-xs-4">
-					<div class="item">
-						<select data="Categories" name="categories" id="categories" class="selectpicker" multiple data-selected-text-format="count" title="Categories">
-								<%_.each(recipeFilters, function(filter){%>
-									<option value="<%= filter.get("id")%>"><%= filter.get("desc")%></option>
-								<%})%>
-						</select>
-					</div>
+					<div class="item category-filters-container select2-input-fix"></div>
 				</div>
 				<div class="col-xs-4">
-					<div class="item">
-						Filter
-					</div>
+					<div class="item filter-filters-container select2-input-fix"></div>
 				</div>
 				<div class="col-xs-4">
 					<div class="item">

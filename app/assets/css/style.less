@@ -517,6 +517,57 @@ span.name {
 ** SEARCH
 */
 @media screen and (max-width: 767px) {
+	.select2-input-fix .caret {
+		display: none;
+	}
+}
+.select2-input-fix {
+	/*select2 override*/
+	button[data-id] {
+		border: 0 none;
+		background: none;
+		font-family: Georgia;
+		font-style: italic;
+		color: inherit;
+		.caret {
+			/*display: none;*/
+			border: none;
+			width: auto;
+			height: auto;
+		}
+		.caret:before {
+			font-family: 'icomoon';
+			content: "\e069";
+			speak: none;
+			font-style: normal;
+			font-weight: normal;
+			font-variant: normal;
+			text-transform: none;
+			line-height: 1;
+			-webkit-font-smoothing: antialiased;
+			-moz-osx-font-smoothing: grayscale;
+		}
+	}
+	.dropdown-menu {
+		background: @bodyColor url(../../img/bg_dots.png) repeat;
+		background-color: @bodyColor;
+	}
+	ul.inner{
+		text-align: left;
+	}
+	.dropdown-toggle {
+		box-shadow: none !important;
+	}
+	.bootstrap-select {
+		margin-bottom: 0 !important;
+	}
+	button {
+		padding-top: 0;
+		padding-bottom: 0;
+	}
+}
+
+@media screen and (max-width: 767px) {
 	.search-bar-wrapper {
 		background: @whiteColorWithOpacity url(../../img/bg_dots.png) repeat !important;
 		background-color: @whiteColorWithOpacity  !important;
@@ -524,20 +575,6 @@ span.name {
 		.container {
 			background: 0 none !important;
 			background-color: transparent !important;
-		}
-		/*select2 override*/
-		button[data-id=categories] {
-			border: 0 none;
-			background: none;
-			font-family: Georgia;
-			font-style: italic;
-			color: inherit;
-			.caret {
-				display: none;
-			}
-		}
-		ul.inner{
-			text-align: left;
 		}
 	}
 }
@@ -563,10 +600,6 @@ span.name {
 			font-family: Georgia;
 			font-style: italic;
 			color: @deepOrangeColor;
-			&:hover {
-				color: @deepOrangeColorHover;
-				cursor: pointer;
-			}
 		}
 		.search-container-style {
 			padding-left: 2px;

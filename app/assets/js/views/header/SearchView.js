@@ -23,7 +23,8 @@ define([
 	},
 	
 	searchTerm: '',
-	filtersString: '',
+	categoriesFilter: '',
+	levelFilter: '',
 	
     render: function(){
 		var compiledTemplate = _.template(searchTemplate);
@@ -37,9 +38,9 @@ define([
 		}
 	},
 	
-	search: function(filtersString) {
+	search: function(categoriesFilter) {
 		var url ="search-recipes/" + this.searchTerm;
-		url = url + '/' + this.filtersString + '//';
+		url = url + '/' + this.categoriesFilter + '//' + this.levelFilter;
 		window.location.hash = url;
 		this.trigger('closeMobileMenuEvent');
 	},
@@ -51,7 +52,11 @@ define([
 	},
 	
 	onclickFilter: function(data) {
-		this.filtersString = data.filtersString;
+		if(data.type == 'categories') {
+			this.categoriesFilter = data.filtersString;
+		} else if(data.type == 'level') {
+			this.levelFilter = data.filtersString;
+		}
 		this.search();
 	}
 
