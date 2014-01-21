@@ -1,10 +1,5 @@
 [
 	{
-		"id": "new",
-		"desc": "NEW!",
-		"state": false
-	},
-	{
 		"id": "skincare",
 		"desc": "Skincare",
 		"state": false
