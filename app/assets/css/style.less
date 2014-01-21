@@ -391,8 +391,7 @@ span.name {
 			position: relative;
 			float: left;
 			width: 90%;
-			border-top-left-radius: 3px;
-			border-bottom-left-radius: 3px;
+			border-radius: 3px;
 			border: 0 none;
 			color: @advancedTextColor;
 			background-color: @headerSearchBackgroundColor;
@@ -405,10 +404,7 @@ span.name {
 			position: relative;
 			float: right;
 			width: 10%;
-			border-top-right-radius: 3px;
-			border-bottom-right-radius: 3px;
 			text-align: center;
-			background-color: @lightGreyColorWithOpacity;
 			#search-btn {
 				cursor: pointer;
 				padding: 10px 0;
@@ -521,8 +517,9 @@ span.name {
 		display: none;
 	}
 }
+
+/*select2 override*/
 .select2-input-fix {
-	/*select2 override*/
 	button[data-id] {
 		border: 0 none;
 		background: none;
@@ -537,7 +534,7 @@ span.name {
 		}
 		.caret:before {
 			font-family: 'icomoon';
-			content: "\e069";
+			content: "\e1c4";
 			speak: none;
 			font-style: normal;
 			font-weight: normal;
@@ -551,10 +548,9 @@ span.name {
 	.dropdown-menu {
 		background: @bodyColor url(../../img/bg_dots.png) repeat;
 		background-color: @bodyColor;
-	}
-	ul.inner{
 		text-align: left;
 	}
+	
 	.dropdown-toggle {
 		box-shadow: none !important;
 	}
@@ -565,7 +561,23 @@ span.name {
 		padding-top: 0;
 		padding-bottom: 0;
 	}
+	
+	.dropdown-menu {
+		li:first-child a span.text {
+			font-weight: bold;
+			color: @deepOrangeColorHover;
+		}
+	}
 }
+
+/*.category-filters-container.select2-input-fix {
+	.dropdown-menu {
+		li:first-child a span.text {
+			font-weight: bold;
+			color: @deepOrangeColorHover;
+		}
+	}
+}*/
 
 @media screen and (max-width: 767px) {
 	.search-bar-wrapper {
@@ -581,29 +593,38 @@ span.name {
 
 .search-bar-container {
 	z-index: 1029;
-	top: 59px;
+	top: 60px;
 }
+
+.navbar-fixed-bottom {
+	border-width: 0 !important;
+}
+.navbar.navbar-fixed-bottom {
+	border: 0 none !important;
+	min-height: 0 !important;
+}
+
 .search-bar-wrapper {
 	background: @bodyColor url(../../img/bg_dots.png) repeat;
 	background-color: @bodyColor;
-	padding: 10px 0;
 	.container {
 		background: @bodyColor url(../../img/bg_dots.png) repeat;
 		background-color: @bodyColor;
+		padding-top: 10px;
+				padding-bottom: 10px;
 		.border-style {
 			border: 1px solid @lightGreyColorWithOpacity;
 			border-radius: 3px;
 		}
 		.item {
 			text-align: center;
-			padding: 10px 5px;
+			/*padding: 10px 5px;*/
+			padding-top: 5px;
+			padding-bottom: 5px;
 			font-family: Georgia;
 			font-style: italic;
-			color: @deepOrangeColor;
 		}
 		.search-container-style {
-			padding-left: 2px;
-			padding-right: 2px;
 			.search-style {
 				input {
 					position: relative;
@@ -613,7 +634,8 @@ span.name {
 					color: @advancedTextColor;
 					display: inline;
 					vertical-align: middle;
-					padding: 10px 5px 10px 20px;
+					padding: 7px 0 7px 15px;
+					line-height: 16px;
 					font-family: Georgia;
 					font-style: italic;
 					border-top-left-radius: 40px;
@@ -629,7 +651,7 @@ span.name {
 					text-align: center;
 					#search-btn {
 						cursor: pointer;
-						padding: 10px 0;
+						padding: 4px 0;
 						color: @headerTextColor;
 						background-color: @headerSearchColor;
 						border-top-right-radius: 40px;

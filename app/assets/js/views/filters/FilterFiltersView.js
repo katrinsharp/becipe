@@ -27,12 +27,14 @@ define([
 		
 		that.$el.html(compiledTemplate);
 				
-		$('.selectpicker').selectpicker({
+		that.$el.find('.selectpicker').selectpicker({
 			width: '100%'
 		});
 		//$('.selectpicker').selectpicker('mobile');
-		$('button[data-id=filterfilter]').removeClass('btn');
-		$('button[data-id=filterfilter]').removeClass('btn-default');
+		that.$el.find('button[data-id=filterlevel]').removeClass('btn');
+		that.$el.find('button[data-id=filterlevel]').removeClass('btn-default');
+		that.$el.find('.btn-group.bootstrap-select').addClass('show-tick');
+		$(that.$el.find('.dropdown-menu.inner li')[0]).find('i.glyphicon').remove();
 
 		return this;
     },

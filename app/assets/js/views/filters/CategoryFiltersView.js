@@ -30,21 +30,30 @@ define([
 			
 			that.$el.html(compiledTemplate({recipeFilters: that.filterCollection.models}));
 					
-			$('.selectpicker').selectpicker({
+			that.$el.find('.selectpicker').selectpicker({
 				width: '100%'
 			});
+			
+			that.$el.find('ul.dropdown-menu.inner li[rel=0] a').click({view: that}, that.onClick);
+			
 			//$('.selectpicker').selectpicker('mobile');
-			$('button[data-id=filtercategories]').removeClass('btn');
-			$('button[data-id=filtercategories]').removeClass('btn-default');
+			that.$el.find('button[data-id=filtercategories]').removeClass('btn');
+			that.$el.find('button[data-id=filtercategories]').removeClass('btn-default');
 		});
 		return this;
     },
 	
 	onChange: function(e) {
 		var target = e.currentTarget;
-		
 		var categories = _.reduceRight($(target).val(), function(a, b) { return a.concat(b); }, []).join('&');
 		this.trigger('clickFilterEvent', {filtersString: categories, type: 'categories'});
+	},
+	
+	onClick: function(e) {
+		var view = e.data.view;
+		view.$el.find('.selectpicker').selectpicker('deselectAll');
+		view.trigger('clickFilterEvent', {filtersString: '', type: 'categories'});
+		return false;
 	}
 	
   });
