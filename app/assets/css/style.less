@@ -202,6 +202,53 @@ span.name {
 /*
 ** SOCIAL
 */
+.list-inline {
+	li {
+		padding: 5px 2px !important;
+	}
+}
+.social-dropdown-menu {
+	position:relative;
+	float: left;
+	line-height: 14px;
+	.glyph {
+		width: 32px;
+		float: left;
+		text-align: center;
+		font-size: 16px;
+		
+		a:hover .sp, a:active .sp
+		{
+			box-shadow: 0 0 0 25px transparent;
+			transition: box-shadow .7s ease-in-out;
+		}
+		
+		.sp {
+			font-size: 2em;
+			box-shadow: 0 0 0 0 @whiteColorWithOpacity;
+			border-radius: 50%;
+			/*background-clip: padding-box;*/
+		}
+	}
+}
+
+@media screen and (max-width: 767px) {
+	.share > .dropdown-menu {
+		left: 15px !important;
+		background-color: transparent !important;
+	}
+	.social-dropdown-menu {
+		a {
+			color: inherit !important;
+		}
+	}
+}
+.share > .dropdown-menu {
+	min-width: 50px !important;
+	padding: 5px !important;
+	font-size: inherit !important;
+	background-color: @deepOrangeColor;
+}
 
 .social {
 	position:relative;
@@ -221,6 +268,7 @@ span.name {
 		}
 	}
 }
+
 .site-links {
 	position:relative;
 	float: left;
@@ -321,9 +369,9 @@ span.name {
 				}
 			}		
 		}
-		li {
+		> li {
 			width: 150px;
-			a {
+			> a {
 				font: normal 13px Arial,sans-serif;
 				/*font-weight: normal;
 				font-size: 14px;*/
@@ -439,7 +487,7 @@ span.name {
 	/*width: 95%;*/
 }
 
-#sidebar li {
+#sidebar > ul > li {
   border:0 #f2f2f2 solid;
   border-bottom-width:1px;
   text-shadow: none;
@@ -529,7 +577,6 @@ span.name {
   }
 }
 
-
 /*
 ** SEARCH
 */
@@ -594,15 +641,6 @@ span.name {
 	}
 }
 
-/*.category-filters-container.select2-input-fix {
-	.dropdown-menu {
-		li:first-child a span.text {
-			font-weight: bold;
-			color: @deepOrangeColorHover;
-		}
-	}
-}*/
-
 @media screen and (max-width: 767px) {
 	.search-bar-wrapper {
 		background: @whiteColorWithOpacity url(../../img/bg_dots.png) repeat !important;
@@ -617,16 +655,20 @@ span.name {
 
 .search-bar-container {
 	z-index: 1029;
-	top: 60px;
+	top: 58px;
 }
 
 .navbar-fixed-bottom {
 	border-width: 0 !important;
 }
+.navbar {
+	border: none !important;
+}
 .navbar.navbar-fixed-bottom {
 	border: 0 none !important;
 	min-height: 0 !important;
 }
+
 
 .search-bar-wrapper {
 	background: @bodyColor url(../../img/bg_dots.png) repeat;
