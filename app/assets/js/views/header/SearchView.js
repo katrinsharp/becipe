@@ -9,15 +9,11 @@ define([
 
   var SearchView = Backbone.View.extend({
     
-	// We have 1 for mobile version and 1 for bigger screens
-	// We want to query for searchTerm only the relevant one,
-	// otherwise, we get empty value.
 	el: $(".search-container"),
 	selector: ".search-container",
 	
 	events: {
 		'click #search-btn': 'clickSearch',
-		//'change label input': 'clickFilter',
 		'change input[name=query]': 'searchKeyPress',
 		'keyup input[name=query]': 'searchKeyPress'
 	},

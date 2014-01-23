@@ -9,8 +9,9 @@ define([
   'views/BaseView',
   'collections/recipes/RecipeCollection',
   'text!templates/home/homeTemplate.html',
-  'views/recipes/RecipeCardView'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, homeTemplate, RecipeCardView){
+  'views/recipes/RecipeCardView',
+  'Events'
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, homeTemplate, RecipeCardView, Events){
 
   var HomeView = BaseView.extend({
     
@@ -138,12 +139,20 @@ define([
 			}
 			$container.isotope();
         });
+		
+		if(this.pageType=='search') {
+			Events.trigger('searchResultsRenderEvent');
+		}
+		
 		return this;
     },
 	
 	close: function() {
 		_.each(this.recipeViews, function(rv){rv.remove()});
 		$('#main-container').removeClass('container-full');
+		if(this.pageType=='search') {
+			Events.trigger('searchResultsCloseEvent');
+		}
 		this.remove();
 	}
 	

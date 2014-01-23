@@ -202,6 +202,7 @@ span.name {
 /*
 ** SOCIAL
 */
+
 .social {
 	position:relative;
 	float: left;
@@ -303,6 +304,22 @@ span.name {
 				div.sp {
 				}
 			}
+		}
+		li.share {
+			width: 50px;
+			background: @deepOrangeColorHover;
+			a  { 
+				padding: none !important;
+				text-shadow: none !important;
+				&:hover {
+					background-color: @deepOrangeColor;
+				}
+				&:focus {
+					background-color: @deepOrangeColor;
+				}
+				div.sp {
+				}
+			}		
 		}
 		li {
 			width: 150px;
@@ -570,6 +587,9 @@ span.name {
 		li:first-child a span.text {
 			font-weight: bold;
 			color: @deepOrangeColorHover;
+		}
+		li:first-child a i.glyphicon {
+			display:  none !important;
 		}
 	}
 }

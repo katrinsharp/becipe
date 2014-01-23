@@ -34,7 +34,7 @@ define([
 		that.$el.find('button[data-id=filterlevel]').removeClass('btn');
 		that.$el.find('button[data-id=filterlevel]').removeClass('btn-default');
 		that.$el.find('.btn-group.bootstrap-select').addClass('show-tick');
-		$(that.$el.find('.dropdown-menu.inner li')[0]).find('i.glyphicon').remove();
+		//$(that.$el.find('.dropdown-menu.inner li')[0]).find('i.glyphicon').remove();
 
 		return this;
     },

@@ -7,14 +7,17 @@ define([
   'collections/filters/RecipesFiltersCollection',
   'text!templates/filters/mobileFilterSortTemplate.html',
   'views/filters/CategoryFiltersView',
-  'views/filters/FilterFiltersView'
-], function($, _, Backbone, Bootstrap, Select2, RecipesFiltersCollection, mobileFilterSortTemplate, CategoryFiltersView, FilterFiltersView){
+  'views/filters/FilterFiltersView',
+  'Events'
+], function($, _, Backbone, Bootstrap, Select2, RecipesFiltersCollection, mobileFilterSortTemplate, CategoryFiltersView, FilterFiltersView, Events){
 
   var RecipesMobileFiltersView = Backbone.View.extend({
     
 	el: $("#mobileSort"),
 	
 	timer: {},
+	
+	isHidden: true,
 	
 	scrollingStopped: function() {
 		if(!$(window).scrollTop()) {
@@ -28,9 +31,11 @@ define([
 		this.filterCollection = new RecipesFiltersCollection();
 		var view = this;
 		$(window).bind('scroll',function () {
-			$('.search-footer-container').addClass('display-none');
-			clearTimeout(view.timer);
-			view.timer = setTimeout(view.scrollingStopped, 150);
+			if(!view.isHidden) {
+				$('.search-footer-container').addClass('display-none');
+				clearTimeout(view.timer);
+				view.timer = setTimeout(view.scrollingStopped, 150);
+			}
 		});
     },
 
@@ -47,9 +52,25 @@ define([
 			that.filterFiltersView = new FilterFiltersView();
 			that.filterFiltersView.setElement(that.$el.find(that.filterFiltersView.selector)).render();
 			that.listenTo(that.filterFiltersView, 'clickFilterEvent', that.onclickFilter);
+			
+			//since it is created only once and hidden, shows up only on search results page
+			$('.search-footer-container').addClass('display-none');
+			
+			//makes sure that 'this' is an view objects and not Events
+			Events.on('searchResultsRenderEvent', that.onSearchResultsRender, that);
+			Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
 		});
 		return this;
     },
+	onSearchResultsRender: function() {
+		$('.search-footer-container').removeClass('display-none');
+		this.isHidden = false;
+	},
+	
+	onSearchResultsClose: function() {
+		$('.search-footer-container').addClass('display-none');
+		this.isHidden = true;
+	},
 	
 	onclickFilter: function(data) {
 		this.trigger('clickFilterEvent', data);
