@@ -75,53 +75,74 @@ define([
 						 ',left='   + left; 
 				return opts;
 			},
+			
+			isMobile: function() {
+				return $(window).width() <= 992;
+			},
 			bindtoFacebookFollowClick: function(e) {
 				e.preventDefault();
 				//u="http://www.facebook.com/becipe";
 				title="Like Us On Facebook";
 				//url = "http://www.facebook.com/plugins/like.php?href="+encodeURIComponent(u)+"&amp;t="+encodeURIComponent(title)+"&amp;send=false&amp;layout=standard&amp;show_faces=true&amp;action=like&amp;colorscheme=light";
-				url = "http://m.facebook.com/becipe"; 
 				title=document.title;
-				window.open(url,'Facebook', this.windowOpts());
+				
+				if(this.isMobile()) {
+					url = "http://m.facebook.com/becipe";
+				} else {
+					url = "http://www.facebook.com/becipe"; 
+				}
+				window.open(url,'Facebook');
+				
 				return false;
 			},
 			bindtoTwitterFollowClick: function(e) {
 				e.preventDefault();
 				title="Follow Us On Twitter";
 				//url = "https://platform.twitter.com/widgets/follow_button.html?screen_name=becipeapp&show_screen_name=true&show_count=true";
-				url = "http://m.twitter.com/becipeapp"; 
-				window.open(url,'Twitter',this.windowOpts());
+				if(this.isMobile()) {
+					url = "http://m.twitter.com/becipeapp"; 
+				} else {
+					url = "http://www.twitter.com/becipeapp"; 
+				}
+				window.open(url,'Twitter');
 				return false;
 			},
 			bindtoPinterestFollowClick: function(e) {
 				e.preventDefault();
 				title="Follow Us On Pinterest";
-				url = "http://m.pinterest.com/becipeapp/"; 
-				window.open(url,'Pinterest',this.windowOpts());
+				url = "http://m.pinterest.com/becipeapp/"; //the started redirecting to the regular site
+				window.open(url,'Pinterest');
 				return false;
 			},
 			bindtoLinkedInFollowClick: function(e) {
 				e.preventDefault();
-				options = this.windowOpts();
-				w = window.open("",'LinkedIn', options);
-				var windowHTML =
-					 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>\n" +
-					 '<html>\n' +
-					 '<head><meta name="viewport" content="width=device-width, initial-scale=1"/></head>\n' +
-					 '<body></body>\n' +
-					 '</html>';
-				w.document.write(windowHTML);
-				w.document.close();
-				var s1 = w.document.createElement("script"); 
-				s1.type = "text/javascript"; 
-				s1.src = "//platform.linkedin.com/in.js";
-				var s2 = w.document.createElement("script"); 
-				s2.type = "IN/CompanyProfile"; 
-				s2.setAttribute('data-id', '3117050');
-				s2.setAttribute('data-format', 'inline');
-				s2.setAttribute('data-width', this.getNewWindowWidth($(window).width()) - 10);
-				w.document.getElementsByTagName("body")[0].appendChild(s1);
-				w.document.getElementsByTagName("body")[0].appendChild(s2);
+				
+				if(this.isMobile()) {
+					options = this.windowOpts();
+					w = window.open("",'LinkedIn', options);
+					var windowHTML =
+						 "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN' 'http://www.w3.org/TR/html4/loose.dtd'>\n" +
+						 '<html>\n' +
+						 '<head><meta name="viewport" content="width=device-width, initial-scale=1"/></head>\n' +
+						 '<body></body>\n' +
+						 '</html>';
+					w.document.write(windowHTML);
+					w.document.close();
+					var s1 = w.document.createElement("script"); 
+					s1.type = "text/javascript"; 
+					s1.src = "//platform.linkedin.com/in.js";
+					var s2 = w.document.createElement("script"); 
+					s2.type = "IN/CompanyProfile"; 
+					s2.setAttribute('data-id', '3117050');
+					s2.setAttribute('data-format', 'inline');
+					s2.setAttribute('data-width', this.getNewWindowWidth($(window).width()) - 10);
+					w.document.getElementsByTagName("body")[0].appendChild(s1);
+					w.document.getElementsByTagName("body")[0].appendChild(s2);
+				} else {
+					url = "http://www.linkedin.com/company/becipe";
+					window.open(url,'LinkedIn');
+				}
+	
 				return false;
 			},
 			bindtoFacebookShareClick: function(e) {

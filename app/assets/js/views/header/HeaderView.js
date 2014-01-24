@@ -54,8 +54,6 @@ define([
 		this.searchView.setElement($(this.searchView.selector)).render();
 		this.listenTo(this.searchView, 'closeMobileMenuEvent', this.closeMobileMenu);
 		
-		this.socialSiteView = new SocialSiteView();
-		this.socialSiteView.setElement(this.$el.find(this.socialSiteView.selector)).render();
 		this.recipesFiltersView = new RecipesFiltersView();
 		this.recipesFiltersView.setElement(this.$el.find(this.recipesFiltersView.selector)).render();
 		this.searchView.listenTo(this.recipesFiltersView, 'clickFilterEvent', this.searchView.onclickFilter);
@@ -63,6 +61,9 @@ define([
 		this.recipesmobileFiltersView = new RecipesMobileFiltersView();
 		this.recipesmobileFiltersView.render();
 		this.searchView.listenTo(this.recipesmobileFiltersView, 'clickFilterEvent', this.searchView.onclickFilter);
+		
+		this.socialSiteView = new SocialSiteView();
+		this.socialSiteView.setElement($(this.socialSiteView.selector)).render();
 		
 		this.loginTokenChanged();
 		return this;

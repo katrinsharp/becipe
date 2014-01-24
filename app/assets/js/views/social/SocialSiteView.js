@@ -6,9 +6,9 @@ define([
   'globals',
   'views/BaseView',
   'views/misc/ModalDialogView',
-  'views/misc/SendEmailView',
-  'text!templates/social/socialSiteTemplate.html'
-], function($, _, Backbone, Bootstrap, globals, BaseView, ModalDialogView, SendEmailView, socialSiteTemplate){
+  'views/misc/SendEmailView'//,
+  //'text!templates/social/socialSiteTemplate.html'
+], function($, _, Backbone, Bootstrap, globals, BaseView, ModalDialogView, SendEmailView/*, socialSiteTemplate*/){
 
   var SocialSiteView = BaseView.extend({
     el: $(".social-site"),
@@ -30,8 +30,8 @@ define([
     },
 
     render: function(){
-		var compiledTemplate = _.template(socialSiteTemplate);
-		this.$el.html(compiledTemplate);		
+		//var compiledTemplate = _.template(socialSiteTemplate);
+		//this.$el.html(compiledTemplate);		
 		return this;
     },
 	
