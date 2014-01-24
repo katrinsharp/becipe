@@ -150,9 +150,9 @@ define([
 	close: function() {
 		_.each(this.recipeViews, function(rv){rv.remove()});
 		$('#main-container').removeClass('container-full');
-		if(this.pageType=='search') {
-			Events.trigger('searchResultsCloseEvent');
-		}
+		//if(this.pageType=='search') {
+		//	Events.trigger('searchResultsCloseEvent');
+		//}
 		this.remove();
 	}
 	

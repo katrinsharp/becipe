@@ -6,6 +6,7 @@ define([
   'cookie',
   'globals',
   'auth',
+  'Events',
   'models/user/UserLoginModel',
   'views/home/HomeView',
   'views/user/UserLoginView',
@@ -20,7 +21,7 @@ define([
   'views/footer/FooterView',
   'text!templates/user/userSignupThankyouTemplate.html',
   'text!templates/user/userSignupCompleteTemplate.html'
-], function($, _, Backbone, Cookie, globals, auth,
+], function($, _, Backbone, Cookie, globals, auth, Events,
 	UserLoginModel,
 	HomeView,
 	UserLoginView, 
@@ -92,8 +93,14 @@ define([
 			createRecipeView.render();
 			return createRecipeView;
 		},
-		userPublicProfile: function(id){
+		userPublicProfile: function(id){ //TODO: implement
 			console.log("userPublicProfile: " + id);
+			//var homeView = new HomeView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
+			//homeView.render();
+			//return homeView;
+		},
+		userRecipes: function(id){
+			console.log("userRecipes: " + id);
 			var homeView = new HomeView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
 			homeView.render();
 			return homeView;
@@ -158,6 +165,9 @@ define([
 				//});
 				//this.trigger.apply(this, ['beforeroute:' + name].concat(_.toArray(arguments)));
 				if(this.currentView) {
+					if((this.currentView.pageType=='search')&&(name!='searchRecipes')) {//it's not filter change by user
+						Events.trigger('searchResultsCloseEvent');
+					}
 					this.currentView.close();
 					this.currentView = undefined;
 				}
@@ -181,6 +191,7 @@ define([
 	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
 	app_router.route('user/:id/publicProfile', 'userPublicProfile', app_router.userPublicProfile);
+	app_router.route('user/:id/recipes', 'userRecipes', app_router.userRecipes);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);

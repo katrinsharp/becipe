@@ -12,7 +12,7 @@ define([
 	selector: ".main-links",
 	
 	events: {
-		'click ul.main-links > li > a': 'closeMobileMenu'
+		'click ul.main-links > li:not(".share") > a': 'closeMobileMenu'
 	},
 	
 	closeMobileMenu : function() {

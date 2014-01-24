@@ -34,7 +34,7 @@ define([
 	//right now we don't use the id of the filter clicked but rather send all the currently checked filters
 	onclickFilter: function(data) {
 		var filtersString = _.map(this.$el.find('label input:checked'), function(item){return $(item).val()}).join('&');
-		this.trigger('clickFilterEvent', {filtersString: filtersString, type: 'categories'});
+		this.trigger('clickFilterEvent', {categories: filtersString});
 	}
 	
   });

@@ -4,8 +4,9 @@ define([
   'backbone',
   'bootstrap',
   'router',
+  'Events',
   'text!templates/header/searchTemplate.html'
-], function($, _, Backbone, Bootstrap, AppRouter, searchTemplate){
+], function($, _, Backbone, Bootstrap, AppRouter, Events, searchTemplate){
 
   var SearchView = Backbone.View.extend({
     
@@ -21,10 +22,12 @@ define([
 	searchTerm: '',
 	categoriesFilter: '',
 	levelFilter: '',
+	userFilter: '',
 	
     render: function(){
 		var compiledTemplate = _.template(searchTemplate);
 		this.$el.html(compiledTemplate);
+		Events.on('searchResultsCloseEvent', this.onSearchResultsClose, this);
 		return this;
     },
 	
@@ -48,12 +51,27 @@ define([
 	},
 	
 	onclickFilter: function(data) {
-		if(data.type == 'categories') {
-			this.categoriesFilter = data.filtersString;
-		} else if(data.type == 'level') {
-			this.levelFilter = data.filtersString;
+		if(data.query != undefined) {
+			this.searchTerm = data.query;
+		}
+		if(data.categories != undefined) {
+			this.categoriesFilter = data.categories;
+		} 
+		if(data.level != undefined) {
+			this.levelFilter = data.level;
+		}
+		if(data.user != undefined) {
+			this.userFilter = data.user;
 		}
 		this.search();
+	},
+	
+	onSearchResultsClose: function() {
+		this.$el.find('input[name=query]').val('');
+		this.searchTerm = '';
+		this.categoriesFilter = '';
+		this.levelFilter = '';
+		this.userFilter = '';
 	}
 
   });

@@ -4,8 +4,9 @@ define([
   'backbone',
   'bootstrap',
   'select2',
+  'Events',
   'text!templates/filters/filterFiltersTemplate.html'
-], function($, _, Backbone, Bootstrap, Select2, filterFiltersTemplate){
+], function($, _, Backbone, Bootstrap, Select2, Events, filterFiltersTemplate){
 
   var FilterFiltersView = Backbone.View.extend({
     
@@ -35,13 +36,21 @@ define([
 		that.$el.find('button[data-id=filterlevel]').removeClass('btn-default');
 		that.$el.find('.btn-group.bootstrap-select').addClass('show-tick');
 		//$(that.$el.find('.dropdown-menu.inner li')[0]).find('i.glyphicon').remove();
+		
+		Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
 
 		return this;
     },
 	
 	onChange: function(e) {
 		var target = e.currentTarget;
-		this.trigger('clickFilterEvent', {filtersString: $(target).val(), type: 'level'});
+		this.trigger('clickFilterEvent', {level: $(target).val()});
+	},
+	
+	onSearchResultsClose: function() {
+		//this.$el.find('.selectpicker').selectpicker('val', 'Clear');	
+		this.$el.find('select[name=filterlevel]').val('Clear');
+		this.$el.find('.selectpicker').selectpicker('refresh');
 	}
 	
   });
