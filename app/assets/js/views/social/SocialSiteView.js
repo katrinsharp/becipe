@@ -14,6 +14,8 @@ define([
     el: $(".social-site"),
 	selector: ".social-site",
 	
+	// All of the handlers return true since we want 
+	// to catch the same event in upper view and close the main menu
 	events: {
 		"click a[href=gplus]": "gplusClick",
 		"click a[href=fb]": "fbClick",
@@ -51,27 +53,27 @@ define([
 	
 	gplusClick: function(e) {
 		console.log('gplusClick');
-		return false;
+		return true;
 	},
 	fbClick: function(e) {
 		console.log('fbClick');
 		globals.socialHelpers.bindtoFacebookFollowClick(e);
-		return false;
+		return true;
 	},
 	twClick: function(e) {
 		console.log('twClick');
 		globals.socialHelpers.bindtoTwitterFollowClick(e);
-		return false;
+		return true;
 	},
 	pinClick: function(e) {
 		console.log('pinClick');
 		globals.socialHelpers.bindtoPinterestFollowClick(e);
-		return false;
+		return true;
 	},
 	inClick: function(e) {
 		console.log('inClick');
 		globals.socialHelpers.bindtoLinkedInFollowClick(e);
-		return false;
+		return true;
 	}
 	
 

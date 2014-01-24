@@ -202,10 +202,14 @@ span.name {
 /*
 ** SOCIAL
 */
-.list-inline {
+.list-inline {/*override bootstrap*/
 	li {
 		padding: 5px 2px !important;
 	}
+}
+.nav .open > a, .nav .open > a:hover, .nav .open > a:focus {/*override bootstrap*/
+	background-color: inherit !important;
+	border-color: none !important;
 }
 .social-dropdown-menu {
 	position:relative;
@@ -217,7 +221,7 @@ span.name {
 		text-align: center;
 		font-size: 16px;
 		
-		a:hover .sp, a:active .sp
+		a:hover .sp
 		{
 			box-shadow: 0 0 0 25px transparent;
 			transition: box-shadow .7s ease-in-out;
