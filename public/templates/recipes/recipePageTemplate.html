@@ -31,7 +31,10 @@
 				</a>
 				<% _.each(recipe.categories, function(cat) { %> 
 						<a class="search" data-value="<%= cat%>" href="#search-recipes//<%= cat%>//">
-							<span class="tag recipe-item-background"><%= _.find(recipe.recipeFilters, function(f){return f.id==cat}).desc%>&nbsp;</span>
+							<% var cat = _.find(recipe.recipeFilters, function(f){return f.id==cat}); %>
+							<% if(cat!=undefined){%>
+								<span class="tag recipe-item-background"><%= cat.desc%>&nbsp;</span>
+							<%} %>
 						</a>	
 				<% }); %>
 			</div>	
