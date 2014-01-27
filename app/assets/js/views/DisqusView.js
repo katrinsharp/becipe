@@ -28,7 +28,7 @@ define([
 		
 		resetConf: function(message, apiKey) {
 			var view = this;
-			require(['http://becipecom.disqus.com/embed.js'], function(){
+			require(['//becipecom.disqus.com/embed.js'], function(){
 				DISQUS.reset({
 					reload: true,
 					config: function(){
