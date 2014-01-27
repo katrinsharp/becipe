@@ -43,9 +43,9 @@ define([
 							  name:   "Becipe",
 							  button: location.protocol + '//' + location.host + "/img/favicon.png",
 							  icon:   location.protocol + '//' + location.host + "/img/favicon.png",
-							  url:    location.protocol + '//' + location.host + "/#user/login",
+							  url:    location.protocol + '//' + location.host + "/#user/login-plain",
 							  logout: location.protocol + '//' + location.host + "/#user/logout",
-							  width:   "800",
+							  width:   "300",
 							  height:  "400"
 						};
 					}

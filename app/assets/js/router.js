@@ -108,6 +108,8 @@ define([
 		userAction: function(action, token){
 			if(action=='login') {
 				return (new UserLoginView()).render({backUrl: token});
+			} else if(action=='login-plain') {
+				return (new UserLoginView({close: 'true'})).render({backUrl: token});
 			} else if(action=='logout') {
 				var userLoginView = new UserLoginView();
 				userLoginView.logout();

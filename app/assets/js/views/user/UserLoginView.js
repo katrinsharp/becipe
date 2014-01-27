@@ -12,12 +12,17 @@ define([
    
    model: UserLoginModel,
    template: userLoginTemplate,
+   toClose: false,
 	
 	events: {
 		"click #login": "login"
 	},
 	
-    initialize: function() {
+    initialize: function(options) {
+		if(options!=undefined && options.close!=undefined && options.close) {
+			//TODO: set different template
+			this.toClose = true;
+		}
 		UserInputView.prototype.initialize.apply();
 		this.events = _.extend({}, UserInputView.prototype.events, this.events);
     },
@@ -36,6 +41,9 @@ define([
 			success: function (model, response) {
 				model.set({token: response['token'], fn: response['fn'], userid: response['userid'], rfavs: response['rfavs']});
 				window.location.hash = view.backUrl==null?'':view.backUrl;
+				if(view.toClose) {
+					window.close();
+				}
 			},
 			error: function (model, response) {
 				//alert("Something went wrong -:(. Please try again.");
