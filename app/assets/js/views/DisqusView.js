@@ -27,6 +27,7 @@ define([
         },
 		
 		resetConf: function(message, apiKey) {
+			var view = this;
 			require(['http://becipecom.disqus.com/embed.js'], function(){
 				DISQUS.reset({
 					reload: true,
@@ -39,11 +40,11 @@ define([
 						this.page.api_key = apiKey;
 						// This adds the custom login/logout functionality
 						this.sso = {
-							  name:   "customsso",
-							  button: location.host + "/img/favicon.png",
-							  icon:   location.host + "/img/favicon.png",
-							  url:    location.host + "/disqus/login",
-							  logout:  location.host + "/disqus/logout",
+							  name:   "Becipe",
+							  button: location.protocol + '//' + location.host + "/img/favicon.png",
+							  icon:   location.protocol + '//' + location.host + "/img/favicon.png",
+							  url:    location.protocol + '//' + location.host + "/#user/login",
+							  logout: location.protocol + '//' + location.host + "/#user/logout",
 							  width:   "800",
 							  height:  "400"
 						};

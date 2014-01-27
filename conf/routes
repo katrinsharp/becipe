@@ -22,7 +22,10 @@ GET		/api/0.1/recipe/checkRequestStatus/:requestHandle	controllers.RecipeControl
 DELETE  /api/0.1/recipe/:id/photos							controllers.RecipeController.deleteRecipePhotos(id: String)
 GET		/api/0.1/recipe/:id									controllers.RecipeController.getRecipeById(id: String)
 GET		/recipe/:id											controllers.RecipeController.getFacebookRecipeById(id: String)
-GET		/disqus/recipe/:id									controllers.RecipeController.getDisqusRecipeById(id: String)
+
+#DISQUS
+GET		/disqus/recipe/:id									controllers.DisqusController.getRecipeById(id: String)
+GET		/disqus/login										controllers.DisqusController.login
 
 # User
 POST	/api/0.1/signup/add									controllers.UserController.newSignup

@@ -346,16 +346,6 @@ object RecipeController extends Controller with MongoController {
 		}
   }
   
-  /**
-   * TODO:
-   * 1. SSO
-   * 2. Navigate to comment on the page
-   * 3. Logout from disqus redirects to home page right now.
-   */
-  def getDisqusRecipeById(id: String) = Action { implicit request =>
-     Redirect("http://" + request.host + "/#recipe/" + id)
-  }
-  
   def getFacebookRecipeById(id: String) = Action { implicit request =>
     
      Async {
