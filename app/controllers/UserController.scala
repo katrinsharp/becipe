@@ -121,9 +121,9 @@ object UserController extends Controller with MongoController{
 				    	  f match {
 				    	    case Some(signup) => {
 				    	    	val firstName = signup.get("firstName").get.asInstanceOf[BSONString].value
-				    	    	val confirmationLink = "http://"+request.host+"/signup/confirm/"+token
+				    	    	val confirmationLink = "http://"+request.host+"/resetpassw/"+token
 				    	    	Application.emailService.send(new EmailMessage(
-			  										subject = "User Registration Confirmation",
+			  										subject = "Password Reset",
 			  										recipient = value.email,
 			  										from = "info@becipe.com",
 			  										smtpConfig = Application.defaultSmtpConfig,
@@ -131,7 +131,7 @@ object UserController extends Controller with MongoController{
 				    	    	))
 				    	    	Ok("")
 				    	    }
-				    	    case None => BadRequest(Json.obj("em" -> "Doesn't exist"))
+				    	    case None => BadRequest(Json.obj("em" -> "This email wasn't found as registered."))
 				    	  }
 				      })
 				}
@@ -185,6 +185,13 @@ object UserController extends Controller with MongoController{
 			  	}
 			  }
 			})
+	}
+	
+	private def getUserByToken(token: String) = {
+			val qb = Json.obj("token" -> token)
+			Application.usersCollection.find(qb).cursor[JsObject].toList.map  { l =>
+				l.head
+			}
 	}
 	
 	private def getSignupByToken(token: String) = {
@@ -251,6 +258,29 @@ object UserController extends Controller with MongoController{
 			})
 	}
 	
+	def resetPassword(token: String) = Action {  implicit request =>
+	  
+	  savePasswordForm.bindFromRequest.fold(
+			formWithErrors => {
+			  BadRequest(formWithErrors.errorsAsJson) 
+			},
+			value => {
+			  Async {
+			    
+				  	val qb = BSONDocument("token" -> token)
+					val modifier = BSONDocument("$set" -> BSONDocument("pass" ->  BCrypt.hashpw(value.password, BCrypt.gensalt())), "$unset" -> BSONDocument("token" -> ""))
+					Application.db.command(FindAndModify(Application.usersCollection.name, qb, Update(modifier, true))).map {
+				  		f => Ok("") 
+				  	}
+			  }
+			  
+			})
+	}
+	
+	def redirectToResetPassw(token: String) = Action { request =>
+		Redirect("/#user/resetpassw/"+token)
+	}
+	
 	def redirectToSignupConfirm(token: String) = Action { request =>
 		Redirect("/#user/confirm/"+token)
 	}
@@ -259,6 +289,13 @@ object UserController extends Controller with MongoController{
 	  
 	  Async {
 		  getSignupByToken(token).map(f => Ok(f))
+		}
+	}
+	
+	def getUserAsJson(token: String) = Action { request =>
+	  
+	  Async {
+		  getUserByToken(token).map(f => Ok(f))
 		}
 	}
 	

@@ -30,8 +30,11 @@ GET		/disqus/login										controllers.DisqusController.login
 # User
 POST	/api/0.1/signup/add									controllers.UserController.newSignup
 GET 	/api/0.1/signup/token/:token						controllers.UserController.getSignupAsJson(token: String)
+GET 	/api/0.1/user/token/:token							controllers.UserController.getUserAsJson(token: String)
 POST	/api/0.1/signup/token/:token						controllers.UserController.createUser(token: String)
+POST	/api/0.1/user/token/:token							controllers.UserController.resetPassword(token: String)
 GET		/signup/confirm/:token								controllers.UserController.redirectToSignupConfirm(token: String)
+GET		/resetpassw/:token									controllers.UserController.redirectToResetPassw(token: String)
 POST	/api/0.1/login										controllers.UserController.login
 POST	/api/0.1/logout										controllers.UserController.logout
 POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword

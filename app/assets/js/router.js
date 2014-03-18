@@ -13,6 +13,7 @@ define([
   'views/user/UserSignupView',
   'views/user/UserSignupThankyouView',
   'views/user/UserConfirmView',
+  'views/user/UserForgotPasswView',
   'views/user/UserProfileView',
   'views/recipes/RecipePageView',
   'views/recipes/CreateRecipeView',
@@ -20,7 +21,9 @@ define([
   'views/header/HeaderView',
   'views/footer/FooterView',
   'text!templates/user/userSignupThankyouTemplate.html',
-  'text!templates/user/userSignupCompleteTemplate.html'
+  'text!templates/user/userSignupCompleteTemplate.html',
+  'text!templates/user/userResetPasswordCompleteTemplate.html',
+  'text!templates/user/userResetPasswordCheckYourEmailTemplate.html'
 ], function($, _, Backbone, Cookie, globals, auth, Events,
 	UserLoginModel,
 	HomeView,
@@ -28,6 +31,7 @@ define([
 	UserSignupView, 
 	UserSignupThankyouView, 
 	UserConfirmView, 
+	UserForgotPasswView,
 	UserProfileView,
 	RecipePageView,
 	CreateRecipeView,
@@ -35,7 +39,9 @@ define([
 	HeaderView, 
 	FooterView,
 	userSignupThankyouTemplate,
-	userSignupCompleteTemplate) {
+	userSignupCompleteTemplate,
+	userResetPasswordCompleteTemplate,
+	userResetPasswordCheckYourEmailTemplate) {
 
 	var initAnalytics = function() {
 	
@@ -119,7 +125,14 @@ define([
 				userSignupView.render();
 				return userSignupView;
 			} else if(action=='confirm') {
-				var userConfirmView = new UserConfirmView({token: token});
+				var userConfirmView = new UserConfirmView({token: token, type: "signup"});
+				userConfirmView.render();
+				return userConfirmView;
+			} else if(action=='forgotpassw') {
+				var userForgotPasswView = new UserForgotPasswView();
+				userForgotPasswView.render();
+			} else if(action=='resetpassw') {
+				var userConfirmView = new UserConfirmView({token: token, type: "resetpassw"});
 				userConfirmView.render();
 				return userConfirmView;
 			} else{
@@ -133,6 +146,16 @@ define([
 		},
 		userSignupComplete: function(name){
 			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userSignupCompleteTemplate, toSetCookie: false});
+			userSignupThankyou.render();
+			return userSignupThankyou;
+		},
+		userResetPasswordComplete: function(name){
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userResetPasswordCompleteTemplate, toSetCookie: false});
+			userSignupThankyou.render();
+			return userSignupThankyou;
+		},
+		userResetPasswordCheckYourEmail: function(name){
+			var userSignupThankyou = new UserSignupThankyouView({name: name, template: userResetPasswordCheckYourEmailTemplate, toSetCookie: false});
 			userSignupThankyou.render();
 			return userSignupThankyou;
 		},
@@ -196,6 +219,8 @@ define([
 	app_router.route('user/:id/recipes', 'userRecipes', app_router.userRecipes);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
+	app_router.route('user-reset-password-complete/:name', 'showHome', app_router.userResetPasswordComplete);	
+	app_router.route('user-reset-password-checkyouremail/:name', 'showHome', app_router.userResetPasswordCheckYourEmail);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);
