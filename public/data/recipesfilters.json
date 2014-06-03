@@ -28,20 +28,5 @@
 		"id": "aromatherapy",
 		"desc": "Aromatherapy",
 		"state": false
-	},
-	{
-		"id": "antiacne",
-		"desc": "Anti-Acne",
-		"state": false
-	},
-	{
-		"id": "antiaging",
-		"desc": "Anti-Aging",
-		"state": false
-	},
-	{
-		"id": "baseskits",
-		"desc": "Bases & Kits",
-		"state": false
 	}
 ]

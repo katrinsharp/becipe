@@ -91,7 +91,19 @@ define([
 			};
 		};
 		
-		
+		$('.flexslider-recent').flexslider({
+			animation:		"fade",
+			animationSpeed:	1000,
+			controlNav:		true,
+			directionNav:	false
+		});
+		$('.flexslider-testimonial').flexslider({
+			animation: 		"fade",
+			slideshowSpeed:	5000,
+			animationSpeed:	1000,
+			controlNav:		true,
+			directionNav:	false
+		});
 		
 		$('.flexslider').flexslider({
     		animation: "slide",

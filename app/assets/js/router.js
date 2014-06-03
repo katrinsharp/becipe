@@ -17,6 +17,7 @@ define([
   'views/user/UserProfileView',
   'views/recipes/RecipePageView',
   'views/recipes/CreateRecipeView',
+  'views/blog/BlogPageView',
   'views/about/AboutUsView',
   'views/header/HeaderView',
   'views/footer/FooterView',
@@ -35,6 +36,7 @@ define([
 	UserProfileView,
 	RecipePageView,
 	CreateRecipeView,
+	BlogPageView,
 	AboutUsView, 
 	HeaderView, 
 	FooterView,
@@ -164,6 +166,11 @@ define([
 			recipePageView.render();
 			return recipePageView;
 		},
+		blogEntry: function(id){
+			var blogPageView = new BlogPageView({id: id});
+			blogPageView.render();
+			return blogPageView;
+		},
 		userProfile: function(id){
 			var userProfileView = new UserProfileView({id: id});
 			userProfileView.render();
@@ -222,6 +229,7 @@ define([
 	app_router.route('user-reset-password-complete/:name', 'showHome', app_router.userResetPasswordComplete);	
 	app_router.route('user-reset-password-checkyouremail/:name', 'showHome', app_router.userResetPasswordCheckYourEmail);
 	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
+	app_router.route('blog/:id', 'showHome', app_router.blogEntry);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);
 		
