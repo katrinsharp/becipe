@@ -48,7 +48,7 @@ POST	/api/0.1/email/add									controllers.UserController.saveEmail
 # Blog
 GET		/api/0.1/blog/recent/:n								controllers.BlogController.recentBlogEntries(n: Int)
 GET		/api/0.1/blog/:id									controllers.BlogController.getBlogEntryById(id: String)
-GET		/api/0.1/blog										controllers.BlogController.blogEntries(tag: String)
+GET		/api/0.1/blog										controllers.BlogController.blogEntries(tag: Option[String])
 GET		/blog/:id											controllers.BlogController.getFacebookBlogEntryById(id: String)
 
 # Admin

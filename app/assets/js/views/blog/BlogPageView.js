@@ -31,6 +31,32 @@ define([
 			var m = view.model;
 			view.$el.html(compiledTemplate({blogEntry: m.attributes}));
 			$('#body-container').html(view.el);
+			
+			// TODO: Move me to my own view
+				$.ajax("/api/0.1/recipe/random/8", {
+					type: "GET",
+					success: function(response) {
+						var randomCompiledTemplate = _.template(randomRecipesTemplate);
+						var attrs = {"recipes": response};
+						_.extend(attrs, globals.recipeHelpers);
+						view.$el.find("#random-recipes").html(randomCompiledTemplate(attrs));
+					},
+					error: function(response) {
+						console.log('random recipes: error');
+					}
+				});
+				
+				$.ajax("/api/0.1/blog/recent/4", {
+					type: "GET",
+					success: function(response) {
+						var recentCompiledTemplate = _.template(recentBlogEntriesTemplate);
+						view.$el.find("#recent-blog-entries").html(recentCompiledTemplate({"blogEntries": response}));
+					},
+					error: function(response) {
+						console.log('recent blog entries: error');
+					}
+				});
+			//
 	
 			/*disqus*/
 			var identifier = view.model.get('id');
@@ -40,35 +66,6 @@ define([
 			view.disqusView.render();
 			/*end of disqus*/
         });
-		
-		// TODO: Move me to my own view
-		
-			$.ajax("/api/0.1/recipe/random/8", {
-				type: "GET",
-				success: function(response) {
-					var randomCompiledTemplate = _.template(randomRecipesTemplate);
-					var attrs = {"recipes": response};
-					_.extend(attrs, globals.recipeHelpers);
-					view.$el.find("#random-recipes").html(randomCompiledTemplate(attrs));
-				},
-				error: function(response) {
-					console.log('random recipes: error');
-				}
-			});
-			
-			$.ajax("/api/0.1/blog/recent/4", {
-				type: "GET",
-				success: function(response) {
-					var recentCompiledTemplate = _.template(recentBlogEntriesTemplate);
-					view.$el.find("#recent-blog-entries").html(recentCompiledTemplate({"blogEntries": response}));
-				},
-				error: function(response) {
-					console.log('recent blog entries: error');
-				}
-			});
-		
-		
-		//
 			
 		return this;
 	}

@@ -49,10 +49,10 @@ object BlogController extends Controller with MongoController {
 		}
   }
   
-  def blogEntries(tag: String) = Action { implicit request =>
+  def blogEntries(tagOpt: Option[String]) = Action { implicit request =>
      Async {
     	 
-    	val query = Json.obj("draft" -> Json.obj("$ne" -> "t"), "tags" -> Json.obj("$in" -> List(tag)))
+    	val query = Json.obj("draft" -> Json.obj("$ne" -> "t"))++tagOpt.map(tag => Json.obj("tags" -> Json.obj("$in" -> List(tag)))).getOrElse(Json.obj())
     	Application.blogEntriesCollection.find(query).cursor[JsObject].toList.map  { l =>
 			Ok(Json.toJson(l))
 		}
