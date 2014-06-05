@@ -1,0 +1,6 @@
+<!-- Recent post list -->
+<ul class="list-unstyled">
+	<%_.each(blogEntries, function(blogEntry){%>
+		<li><i class="fa fa-angle-double-right"></i> <a href="#blog/<%= blogEntry.id%>"><%= blogEntry.name%></a></li>
+	<%})%>
+</ul>

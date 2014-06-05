@@ -237,7 +237,8 @@ define([
 	
 	var headerView = new HeaderView();
 	headerView.render();
-    //var footerView = new FooterView();
+    var footerView = new FooterView();
+	footerView.render();
 
     Backbone.history.start();
   };

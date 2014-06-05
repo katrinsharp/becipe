@@ -14,6 +14,7 @@ GET     /                           						controllers.Application.index
 # API
 # get play 2.2 for supporting dynamic part in the middle
 GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String ?= "", filter: String ?= "", userid: String ?= "", level: String ?= "")
+GET		/api/0.1/recipe/random/:n							controllers.RecipeController.getRandomRecipes(n: Int)
 POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
 # might become partial update in the future
 PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String, attrNames: Option[String] ?= None)
@@ -25,6 +26,7 @@ GET		/recipe/:id											controllers.RecipeController.getFacebookRecipeById(id
 
 #DISQUS
 GET		/disqus/recipe/:id									controllers.DisqusController.getRecipeById(id: String)
+GET		/disqus/blog/:id									controllers.DisqusController.getBlogEntryById(id: String)
 GET		/disqus/login										controllers.DisqusController.login
 
 # User
@@ -42,6 +44,12 @@ GET		/api/0.1/user/:id									controllers.UserController.user(id: String)
 PUT     /api/0.1/user/setLikeRecipe							controllers.UserController.setLikeRecipe
 
 POST	/api/0.1/email/add									controllers.UserController.saveEmail
+
+# Blog
+GET		/api/0.1/blog/recent/:n								controllers.BlogController.recentBlogEntries(n: Int)
+GET		/api/0.1/blog/:id									controllers.BlogController.getBlogEntryById(id: String)
+GET		/api/0.1/blog										controllers.BlogController.blogEntries(tag: String)
+GET		/blog/:id											controllers.BlogController.getFacebookBlogEntryById(id: String)
 
 # Admin
 POST	/api/0.1/admin/resetAllZeroTokens					controllers.AdminController.resetAllZeroTokens	

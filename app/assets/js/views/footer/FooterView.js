@@ -12,6 +12,10 @@ define([
     },
 
     render: function(){
+	
+		var compiledTemplate = _.template(footerTemplate);
+		var view = this;
+		view.$el.html(compiledTemplate());
 		return this;
     }
 

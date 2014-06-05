@@ -13,7 +13,7 @@
 						<!-- Heading of the  post -->
 						<div class="row">
 							<div class="col-md-8">
-								<h2>Contrary to popular belief horem purse</h2>
+								<h2><%= blogEntry.name%></h2>
 							</div>
 						</div>
 						<!-- heading end -->
@@ -21,8 +21,8 @@
 							<div class="col-md-8">
 								<!-- Meta for this block -->
 								<div class="meta pull-left margin-top-10">
-									<i class="fa fa-calendar"></i>&nbsp; Jan 13, 2014
-									<span class=""><i class="fa fa-comment"></i> <a href="#">&nbsp;2 Comments</a></span>
+									<i class="fa fa-calendar"></i>&nbsp; <%= blogEntry.date(blogEntry.created)%>
+									<!--span class=""><i class="fa fa-comment"></i> <a href="#">&nbsp;2 Comments</a></span-->
 								</div>
 								<div class="entry-social">
 									<!-- Social media icon -->
@@ -53,11 +53,15 @@
 										</div>
 										
 										<!-- Paragraph -->
-										<p>
-										In the sixties and seventies, when the Ivory Girl was the paragon of wholesome beauty, a natural approach to makeup meant not wearing much of it at all. 
-										Between Germaine Greer’s feminist messaging about inner beauty and Rachel Carson’s best-selling anti-chemical tome Silent Spring, a swath of the beauty industry’s 
-										target market avoided face-painting altogether, drawing a thick line between makeup junkies and the soap-and-water purists.
-										</p>
+										
+										<%_.each(blogEntry.paragraphs, function(paragraph){%>
+											<p><%= paragraph.text%></p>
+										<%})%>
+										
+										<h4 class="pull-right">
+											<a href="<%= blogEntry.source%>">Read more </a>
+										</h4>
+										
 										<div class="clearfix"></div>
 									</div>
 									
@@ -65,7 +69,7 @@
 								</div><!--/ Blog post class end -->
 								
 								<!-- Navigation -->
-								<div class="navigation button">  
+								<!--div class="navigation button">  
 									<div class="pull-left">
 										<a href="blog.html" class="btn btn-danger btn-sm">&laquo; Previous Post</a>
 									</div>
@@ -74,7 +78,7 @@
 									</div>
 									<div class="clearfix"></div>
 								</div>
-								<div class="clearfix"></div>
+								<div class="clearfix"></div-->
 								
 						
 								<div class="margin-top-10">
@@ -97,6 +101,15 @@
 											<!-- Blog sidebar page widget -->
 											<div class="sidebar-widget">
 												<!-- Widget Heading -->
+												<h4>Recent Posts</h4>
+												<!-- Recent post list -->
+												<div id="recent-blog-entries"></div>
+											</div><!--/ Widget end -->
+										</div>
+										<div class="col-md-12 col-sm-6">
+											<!-- Blog sidebar page widget -->
+											<div class="sidebar-widget">
+												<!-- Widget Heading -->
 												<h4>Search</h4>
 												<!-- search button and input box -->
 												<form role="form" class="form-inline">
@@ -113,32 +126,10 @@
 											<!-- Blog sidebar page widget -->
 											<div class="sidebar-widget">
 												<!-- Widget Heading -->
-												<h4>Recent Posts</h4>
-												<!-- Recent post list -->
-												<ul class="list-unstyled">
-													<li><i class="fa fa-angle-double-right"></i> <a href="#">Delicious Pizza recipe, soluta nobqual blame betum rutrum allongs to this est eligend.</a></li>
-													<li><i class="fa fa-angle-double-right"></i> <a href="#">Chicken recipe, luta nobisest hyelqual bltum rutrum alame belongs to thigend.</a></li>
-													<li><i class="fa fa-angle-double-right"></i> <a href="#">Hot Cake recipe, jueilqual blame belongs to thuta ntum rutrum alobist hyeleniurd.</a></li>
-													<li><i class="fa fa-angle-double-right"></i> <a href="#">French Food recipe, rsiqual blame belongs to thlutum rutrum alta nobniurd.</a></li>
-												</ul>
-											</div><!--/ Widget end -->
-										</div>
-										<div class="col-md-12 col-sm-6">
-											<!-- Blog sidebar page widget -->
-											<div class="sidebar-widget">
-												<!-- Widget Heading -->
 												<h4>Tags</h4>
-												<a href="#" class="btn btn-default btn-sm">Dessert</a>
-												<a href="#" class="btn btn-default btn-sm">Spicy Non-Veg</a>
-												<a href="#" class="btn btn-default btn-sm">Drinks</a>
-												<a href="#" class="btn btn-default btn-sm">Seafood</a>
-												<a href="#" class="btn btn-default btn-sm">Globalist</a>
-												<a href="#" class="btn btn-default btn-sm">Cake</a>
-												<a href="#" class="btn btn-default btn-sm">French</a>
-												<a href="#" class="btn btn-default btn-sm">Indigent</a>
-												<a href="#" class="btn btn-default btn-sm">Strum</a>
-												<a href="#" class="btn btn-default btn-sm">Squalor</a>
-												<a href="#" class="btn btn-default btn-sm">Nobelium</a>
+												<%_.each(blogEntry.tags, function(tag){%>
+													<a href="/api/0.1/blog?tag=<%= tag%>" class="btn btn-default btn-sm"><%= tag%></a>
+												<%})%>
 											</div><!--/ Widget end -->
 										</div>
 										<div class="col-md-12 col-sm-6">
@@ -169,147 +160,11 @@
 				
 				<!-- Blog End -->
 				
-				<!-- Gallery Start -->
+				<!-- Random recipes Start-->
 				
-				<div class="gallery">
-					<div class="container">
-						<!-- Gallery elements with pretty photo -->
-						<div class="gallery-content">
-							<div class="row">
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish1.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish1.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish2.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish2.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish3.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish3.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish4.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish4.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish12.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish12.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish13.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish13.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish14.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish14.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-								<div class="col-md-3 col-sm-4">
-									<!-- Separate gallery element -->
-									<div class="element">
-										<!-- Image -->
-										<img class="img-responsive img-thumbnail" src="img/dish/dish15.jpg" alt=""/>
-										<!-- Gallery Image Hover Effect -->
-										<span class="gallery-img-hover"></span>
-										<!-- Gallery Image Hover Icon -->
-										<a href="img/dish/dish15.jpg" class="gallery-img-link">
-											<i class="fa fa-search-plus hover-icon icon-left"></i>
-										</a>
-										<a href="#">
-											<i class="fa fa-link hover-icon icon-right"></i>
-										</a>
-									</div>
-								</div>
-							</div>
-						</div><!-- Separate gallery element --><!--/ End Gallery content class -->
-					</div>
-				</div>
+				<div id="random-recipes"></div>
 				
-				<!-- Gallery End -->
+				<!-- Random recipes End -->
 			
 				<!-- Showcase Start -->
 				
@@ -349,8 +204,7 @@
 			</div><!-- / Inner Page Content End -->	
 			
 		</div><!-- / Wrapper End -->
-		
-		
+			
 		<!-- Scroll to top -->
 		<span class="totop"><a href="#"><i class="fa fa-angle-up"></i></a></span> 
 		

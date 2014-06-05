@@ -279,6 +279,14 @@ object RecipeController extends Controller with MongoController {
      }
   }
   
+  def getRandomRecipes(n: Int) = Action { implicit request =>
+    
+     Async {
+    	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> "t"))
+    	Application.recipeCollection.find(qbAll).cursor[JsObject].toList.map {recipes => Ok(Json.toJson(recipes.take(n)))}
+    }
+  }
+  
   private def searchRecipes(query: String, filter: String, userid: String, level: String) = {
 	  
 	  val queryValues = query.split(" ")

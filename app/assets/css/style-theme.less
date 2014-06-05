@@ -1019,18 +1019,30 @@ table { background: #fff; }
 
 .gallery-content .element .gallery-img-hover {
 	position: absolute;
-	top: 100%;
-	left: 0%;
 	z-index: 20;
 	display: block;
 	width: 100%;
+	top: 100%;
+	left: 0%;
 	height: 100%;
-	background: rgba(0,0,0,0.15);
+	background: rgba(0,0,0,0.2);
 	-webkit-transition: all 0.4s ease-in-out;
 	   -moz-transition: all 0.4s ease-in-out;
       	-ms-transition: all 0.4s ease-in-out;
 	     -o-transition: all 0.4s ease-in-out;
         	transition: all 0.4s ease-in-out;
+}
+
+.gallery-content .element .gallery-img-hover .text {
+	position: absolute;
+	z-index: 25;
+	top: 30%;
+	bottom: -30%;
+	padding: 10px 15px;
+	font-family: 'Open Sans Condensed', sans-serif;
+	font-weight: 700;
+	font-size: 18px;
+	text-shadow: 1px 1px 5px rgba(0,0,0,0.2);
 }
 
 .gallery-content .element:hover .gallery-img-hover { top: 0%; }

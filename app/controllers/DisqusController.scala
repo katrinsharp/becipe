@@ -17,6 +17,10 @@ object DisqusController extends Controller {
      Redirect("http://" + request.host + "/#recipe/" + id)
   }
   
+  def getBlogEntryById(id: String) = Action { implicit request =>
+     Redirect("http://" + request.host + "/#blog/" + id)
+  }
+  
   def login = Authenticated.auth { implicit request =>
  
     val (msg, pk) = Disqus.getMessage(request.user)

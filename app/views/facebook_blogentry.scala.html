@@ -1,0 +1,15 @@
+@(blogEntry: BlogEntry)(implicit request: RequestHeader, session: Session)
+
+@previewUrl(blogEntry: BlogEntry) = @{
+	val photo = blogEntry.coverPhoto
+	"https://s3.amazonaws.com/" + photo.bucket + "/" + photo.key;
+}
+
+@main(isAjaxContent = false) {
+<head>
+	<meta property="og:title" content="Becipe - @blogEntry.name"/>
+	<meta property="og:image" content="@previewUrl(blogEntry)"/>
+	<meta property="og:site_name" content="Becipe"/>
+	<meta property="og:type" content="website"/>
+</head>
+}

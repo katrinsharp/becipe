@@ -34,8 +34,12 @@ public class S3Plugin extends Plugin {
         if ((accessKey != null) && (secretKey != null)) {
             AWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
             amazonS3 = new AmazonS3Client(awsCredentials);
-            amazonS3.createBucket(s3Bucket);
-            Logger.info("Using S3 Bucket: " + s3Bucket);
+            try {
+            	amazonS3.createBucket(s3Bucket);
+            	Logger.info("Using S3 Bucket: " + s3Bucket);
+            } catch (Exception e ) {
+            	Logger.error("Using S3 Bucket: " + e.getMessage());
+            }
         } else {
         	Logger.info("AWS is not configured");
         }

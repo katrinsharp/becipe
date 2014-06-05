@@ -1,0 +1,26 @@
+<!-- Gallery Start -->
+
+<div class="gallery">
+	<div class="container">
+		<!-- Gallery elements with pretty photo -->
+		<div class="gallery-content">
+			<div class="row">
+				
+				<%_.each(recipes, function(recipe){%>
+					<div class="col-md-3 col-sm-4">
+						<!-- Separate gallery element -->
+						<div class="element">
+							<!-- Image -->
+							<img class="img-responsive img-thumbnail" src="<%= previewUrl(recipe.photos)%>" alt="<%= recipe.shortDesc%>" /><!-- img/dish/dish1.jpg -->
+							<!-- Gallery Image Hover Effect -->
+							<span class="gallery-img-hover"><div class="white text"><%= recipe.name%></div></span>
+						</div>
+					</div>
+				<%})%>
+				
+			</div>
+		</div><!-- Separate gallery element --><!--/ End Gallery content class -->
+	</div>
+</div>
+
+<!-- Gallery End -->

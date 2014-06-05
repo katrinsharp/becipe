@@ -18,6 +18,7 @@ object Application extends Controller{
 	lazy val usersCollection: JSONCollection =  db.collection[JSONCollection]("users")
 	lazy val loginsCollection: JSONCollection =  db.collection[JSONCollection]("logins")
 	lazy val emailsCollection: JSONCollection =  db.collection[JSONCollection]("emails")
+	lazy val blogEntriesCollection: JSONCollection = db.collection[JSONCollection]("blogentries")
 	
 	//email service
 	lazy val defaultSmtpConfig = new SmtpConfig(host = Play.application.configuration.getString("smtp.host").getOrElse(""),
