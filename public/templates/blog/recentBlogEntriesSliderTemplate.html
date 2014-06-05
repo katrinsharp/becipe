@@ -1,0 +1,18 @@
+<!-- Flex slider Content -->
+<div class="flexslider-recent">
+	<ul class="slides">
+		<%_.each(blogEntries, function(blogEntry){%>
+			<li>
+				<!-- Image for background -->
+				<img class="img-responsive" src="img/blog/<%= blogEntry.id%>/blog-lg.jpg" alt="<%= blogEntry.shortDesc%>" />
+				<!-- Slide content -->
+				<div class="slider-content">
+					<!-- Heading -->
+					<h4><%= blogEntry.name%></h4>
+					<!-- Paragraph -->
+					<p><%= blogEntry.shortDesc%></p>
+				</div>
+			</li>
+		<%})%>
+	</ul>
+</div>

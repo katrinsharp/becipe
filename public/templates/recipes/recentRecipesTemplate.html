@@ -1,0 +1,27 @@
+<div class="row">
+	<%_.each(recipes, function(recipe){%>
+		<div class="col-md-3 col-sm-6">	
+			<div class="dishes-item-container">
+				<!-- Image Frame -->
+				<div class="img-frame">
+					<!-- Image -->
+					<img src="<%= previewUrl(recipe.photos)%>" class="img-responsive" alt="<%= recipe.shortDesc%>" />
+					<!-- Block for on hover effect to image -->
+					<div class="img-frame-hover">
+						<!-- Hover Icon -->
+						<a href="#recipe/<%= recipe.id%>"><i class="fa fa-link"></i></a>
+					</div>
+				</div>
+				<!-- Dish Details -->
+				<div class="dish-details">
+					<!-- Heading -->
+					<h3><%= recipe.name%></h3>
+					<!-- Paragraph -->
+					<p><%= recipe.shortDesc%></p>
+					<!-- Button -->
+					<a href="#recipe/<%= recipe.id%>" class="btn btn-danger btn-sm">Go to becipe</a>
+				</div>
+			</div>
+		</div>
+	<%})%>
+</div>

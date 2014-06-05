@@ -15,6 +15,7 @@ GET     /                           						controllers.Application.index
 # get play 2.2 for supporting dynamic part in the middle
 GET		/api/0.1/recipes									controllers.RecipeController.recipes(query: String ?= "", filter: String ?= "", userid: String ?= "", level: String ?= "")
 GET		/api/0.1/recipe/random/:n							controllers.RecipeController.getRandomRecipes(n: Int)
+GET		/api/0.1/recipe/recent/:n							controllers.RecipeController.getRecentRecipes(n: Int)
 POST	/api/0.1/recipe										controllers.RecipeController.addRecipe
 # might become partial update in the future
 PUT		/api/0.1/recipe/:id									controllers.RecipeController.updateRecipe(id: String, attrNames: Option[String] ?= None)
