@@ -9,6 +9,7 @@ define([
   'Events',
   'models/user/UserLoginModel',
   'views/home/HomeView',
+  'views/recipes/SearchRecipesResultsView',
   'views/user/UserLoginView',
   'views/user/UserSignupView',
   'views/user/UserSignupThankyouView',
@@ -29,6 +30,7 @@ define([
 ], function($, _, Backbone, Cookie, globals, auth, Events,
 	UserLoginModel,
 	HomeView,
+	SearchRecipesResultsView,
 	UserLoginView, 
 	UserSignupView, 
 	UserSignupThankyouView, 
@@ -94,9 +96,9 @@ define([
 			if(level==undefined) {
 				level = '';
 			}
-			var homeView = new HomeView({pageType: 'search', query: query, filter: filter, userid: userid, level: level});
-			homeView.render();
-			return homeView;
+			var searchRecipesResultsView = new SearchRecipesResultsView({pageType: 'search', query: query, filter: filter, userid: userid, level: level});
+			searchRecipesResultsView.render();
+			return searchRecipesResultsView;
 		},
 		createRecipe: function(id){
 			var createRecipeView = new CreateRecipeView({id: id});
@@ -105,15 +107,12 @@ define([
 		},
 		userPublicProfile: function(id){ //TODO: implement
 			console.log("userPublicProfile: " + id);
-			//var homeView = new HomeView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
-			//homeView.render();
-			//return homeView;
 		},
 		userRecipes: function(id){
 			console.log("userRecipes: " + id);
-			var homeView = new HomeView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
-			homeView.render();
-			return homeView;
+			var searchRecipesResultsView = new SearchRecipesResultsView({pageType: 'search', query: '', filter: '', userid: id, level: ''});
+			searchRecipesResultsView.render();
+			return searchRecipesResultsView;
 		},
 		userAction: function(action, token){
 			if(action=='login') {

@@ -8,12 +8,12 @@ define([
   'models/user/UserLoginModel',
   'views/BaseView',
   'collections/recipes/RecipeCollection',
-  'text!templates/home/homeTemplate.html',
+  'text!templates/recipes/searchRecipesResultsTemplate.html',
   'views/recipes/RecipeCardView',
   'Events'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, homeTemplate, RecipeCardView, Events){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, searchRecipesResultsTemplate, RecipeCardView, Events){
 
-  var HomeView = BaseView.extend({
+  var SearchRecipesResultsView = BaseView.extend({
     
 	//el: "#body-container",
 
@@ -32,9 +32,9 @@ define([
     },
 
     render: function(){
-		$('#main-container').addClass('container-full');
-		var compiledTemplate = _.template(homeTemplate);
-		this.$el.html(compiledTemplate);
+		//$('#main-container').addClass('container-full');
+		var compiledTemplate = _.template(searchRecipesResultsTemplate);
+		this.$el.html(compiledTemplate({category: this.filter}));
 		$('#body-container').html(this.el);
 		var $container = $('#filter-container');	
 		
@@ -161,7 +161,7 @@ define([
 	
 	close: function() {
 		_.each(this.recipeViews, function(rv){rv.remove()});
-		$('#main-container').removeClass('container-full');
+		//$('#main-container').removeClass('container-full');
 		//if(this.pageType=='search') {
 		//	Events.trigger('searchResultsCloseEvent');
 		//}
@@ -170,6 +170,6 @@ define([
 	
   });
 
-  return HomeView;
+  return SearchRecipesResultsView;
   
 });
