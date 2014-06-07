@@ -5,19 +5,21 @@ define([
   'bootstrap',
   'flexslider',
   'isotope',
+  'globals',
   'models/user/UserLoginModel',
   'views/BaseView',
   'collections/recipes/RecipeCollection',
   'text!templates/recipes/searchRecipesResultsTemplate.html',
   'views/recipes/RecipeCardView',
   'Events'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, UserLoginModel, BaseView, RecipeCollection, searchRecipesResultsTemplate, RecipeCardView, Events){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, globals, UserLoginModel, BaseView, RecipeCollection, searchRecipesResultsTemplate, RecipeCardView, Events){
 
   var SearchRecipesResultsView = BaseView.extend({
     
 	//el: "#body-container",
 
     initialize: function(options) {
+		this.categories = globals.categories; 
 		this.pageType = options.pageType;//homepage or search
 		this.filter = options.filter;
 		this.query = options.query;
@@ -33,8 +35,10 @@ define([
 
     render: function(){
 		//$('#main-container').addClass('container-full');
+		var that = this;
 		var compiledTemplate = _.template(searchRecipesResultsTemplate);
-		this.$el.html(compiledTemplate({category: this.filter}));
+		var category = _.findWhere(that.categories, {id: that.filter});
+		this.$el.html(compiledTemplate({categoryDesc: category.desc, categoryId: this.filter}));
 		$('#body-container').html(this.el);
 		var $container = $('#filter-container');	
 		

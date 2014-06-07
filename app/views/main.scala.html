@@ -1,4 +1,4 @@
-@(isAjaxContent: Boolean = true)(content: Html)(implicit request: RequestHeader, session: Session)
+@(categories: String = "", isAjaxContent: Boolean = true)(content: Html)(implicit request: RequestHeader, session: Session)
 <!DOCTYPE html>
 
 @if(isAjaxContent) {
@@ -9,7 +9,7 @@
 		<meta name="description" content="">
 		<meta name="author" content="">
 
-		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1">
+		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
 		
 		<!--link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Bigelow Rules"-->
 		
@@ -56,6 +56,8 @@
 			if(sessionStr!="") {
 				session = JSON.parse(sessionStr);
 			}
+			var catStr = '@Html(categories)';
+			var categories2 = JSON.parse(catStr);
 			var require = {
 				config: {
 					'app': {
@@ -66,7 +68,8 @@
 					},
 					'globals': {
 						currentIteration: '3',
-						photoBaseUrl: 'https://s3.amazonaws.com'
+						photoBaseUrl: 'https://s3.amazonaws.com',
+						categories: categories2
 					}
 				}
 			};

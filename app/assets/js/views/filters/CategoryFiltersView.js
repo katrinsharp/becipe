@@ -4,10 +4,10 @@ define([
   'backbone',
   'bootstrap',
   'select2',
+  'globals',
   'Events',
-  'collections/filters/RecipesFiltersCollection',
   'text!templates/filters/categoryFiltersTemplate.html'
-], function($, _, Backbone, Bootstrap, Select2, Events, RecipesFiltersCollection, categoryFiltersTemplate){
+], function($, _, Backbone, Bootstrap, Select2, globals, Events, categoryFiltersTemplate){
 
   var CategoryFiltersView = Backbone.View.extend({
     
@@ -19,29 +19,28 @@ define([
 	},
 	
     initialize: function() {
-		this.filterCollection = new RecipesFiltersCollection();
+		this.categories = globals.categories;
     },
 
     render: function(){
-		var that = this, p;
-		p = this.filterCollection.fetch();
-		p.done(function () {
-			var compiledTemplate = _.template(categoryFiltersTemplate);
-			that.setElement($(that.selector));
-			
-			that.$el.html(compiledTemplate({recipeFilters: that.filterCollection.models}));
-					
-			that.$el.find('.selectpicker').selectpicker({
-				width: '100%'
-			});
-			
-			//$('.selectpicker').selectpicker('mobile');
-			that.$el.find('button[data-id=filtercategories]').removeClass('btn');
-			that.$el.find('button[data-id=filtercategories]').removeClass('btn-default');
-			
-			that.$el.find('ul.dropdown-menu.inner li[rel=0] a').click({view: that}, that.onClickClear);
-			Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
+		var that = this;
+		
+		var compiledTemplate = _.template(categoryFiltersTemplate);
+		that.setElement($(that.selector));
+		
+		that.$el.html(compiledTemplate({recipeFilters: that.categories}));
+				
+		that.$el.find('.selectpicker').selectpicker({
+			width: '100%'
 		});
+		
+		//$('.selectpicker').selectpicker('mobile');
+		that.$el.find('button[data-id=filtercategories]').removeClass('btn');
+		that.$el.find('button[data-id=filtercategories]').removeClass('btn-default');
+		
+		that.$el.find('ul.dropdown-menu.inner li[rel=0] a').click({view: that}, that.onClickClear);
+		Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
+		
 		return this;
     },
 	

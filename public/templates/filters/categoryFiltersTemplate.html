@@ -2,6 +2,6 @@
 		<option value="reset">Clear</option>
 		<option data-divider="true"></option>
 		<%_.each(recipeFilters, function(filter){%>
-			<option value="<%= filter.get("id")%>"><%= filter.get("desc")%></option>
+			<option value="<%= filter.id%>"><%= filter.desc%></option>
 		<%})%>
 </select>

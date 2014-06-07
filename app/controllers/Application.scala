@@ -8,6 +8,8 @@ import play.modules.reactivemongo._
 import services.SmtpConfig
 import services.EmailService
 import play.modules.reactivemongo.json.collection.JSONCollection
+import models.Category
+import play.api.libs.json.Json
 
 object Application extends Controller{
 
@@ -33,9 +35,19 @@ object Application extends Controller{
 	//default is local
 	val useLocalStorage = Play.application.configuration.getString("save.to").getOrElse("local").equalsIgnoreCase("local")
 	
+	val categories = List(new Category("skincare", "Skincare"),
+	    new Category("haircare", "Hair Care"),
+	    new Category("spa", "Spa"),
+	    new Category("soap", "Soap"),
+	    new Category("makeup", "Makeup"),
+	    new Category("aromatherapy", "Aromatherapy"),
+	    new Category("pets", "Pets care"),
+	    new Category("menscare", "Mens care"))
+	
 	def index = Action { implicit request =>
 		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse("").split("@")(1))
-		Ok(views.html.index())
+		val catStr = Json.stringify(Json.toJson(categories))
+		Ok(views.html.index(catStr))
 	}
 	
 	def javascriptRoutes = Action {  implicit request =>

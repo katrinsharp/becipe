@@ -10,8 +10,8 @@
 		"state": false
 	},
 	{
-		"id": "bodycare",
-		"desc": "Body care & Spa",
+		"id": "spa",
+		"desc": "Spa",
 		"state": false
 	},
 	{
@@ -27,6 +27,16 @@
 	{
 		"id": "aromatherapy",
 		"desc": "Aromatherapy",
+		"state": false
+	},
+	{
+		"id": "pets",
+		"desc": "Pets care",
+		"state": false
+	},
+	{
+		"id": "menscare",
+		"desc": "Men's care",
 		"state": false
 	}
 ]

@@ -3,31 +3,30 @@ define([
   'underscore',
   'backbone',
   'bootstrap',
-  'collections/filters/RecipesFiltersCollection',
+  'globals',
   'views/filters/RecipesFilterView'
-], function($, _, Backbone, Bootstrap, RecipesFiltersCollection, RecipesFilterView){
+], function($, _, Backbone, Bootstrap, globals, RecipesFilterView){
 
   var RecipesFiltersView = Backbone.View.extend({
     el: $("#recipes-filters"),
 	selector: "#recipes-filters",
 	
     initialize: function() {
-		this.filterCollection = new RecipesFiltersCollection();
+		this.categories = globals.categories;
     },
 
     render: function(){
 	
-		var that = this, p;
-		p = this.filterCollection.fetch();
-		p.done(function () {
-			_.each(that.filterCollection.models, function(model){
-				//var view = new RecipesFilterView(model);
-				//view.setElement(that.$el.find(view.selector)).render();
-				that.$el.append('<li></li>');
-				var filterView = new RecipesFilterView({model: model, el: that.$el.find('li').last()}).render();
-				that.listenTo(filterView, 'clickFilterEvent', that.onclickFilter);
-			});
+		var that = this;
+		
+		_.each(that.categories, function(model){
+			//var view = new RecipesFilterView(model);
+			//view.setElement(that.$el.find(view.selector)).render();
+			that.$el.append('<li></li>');
+			var filterView = new RecipesFilterView({model: model, el: that.$el.find('li').last()}).render();
+			that.listenTo(filterView, 'clickFilterEvent', that.onclickFilter);
 		});
+		
 		return this;
     },
 	

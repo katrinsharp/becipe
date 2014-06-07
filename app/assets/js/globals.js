@@ -7,6 +7,7 @@ define([
 
 	var initialize = function(){
 		this.currentIteration = module.config().currentIteration;
+		this.categories = module.config().categories;
 		this.recipeHelpers = {
 			date: function(time){
 				var date = moment(time).format('LL');

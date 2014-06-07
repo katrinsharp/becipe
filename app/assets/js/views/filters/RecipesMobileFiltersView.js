@@ -4,12 +4,12 @@ define([
   'backbone',
   'bootstrap',
   'select2',
-  'collections/filters/RecipesFiltersCollection',
+  'globals',
   'text!templates/filters/mobileFilterSortTemplate.html',
   'views/filters/CategoryFiltersView',
   'views/filters/FilterFiltersView',
   'Events'
-], function($, _, Backbone, Bootstrap, Select2, RecipesFiltersCollection, mobileFilterSortTemplate, CategoryFiltersView, FilterFiltersView, Events){
+], function($, _, Backbone, Bootstrap, Select2, globals, mobileFilterSortTemplate, CategoryFiltersView, FilterFiltersView, Events){
 
   var RecipesMobileFiltersView = Backbone.View.extend({
     
@@ -28,7 +28,7 @@ define([
 	},
 	
     initialize: function() {
-		this.filterCollection = new RecipesFiltersCollection();
+		this.categories = globals.categories;
 		var view = this;
 		$(window).bind('scroll',function () {
 			if(!view.isHidden) {
@@ -40,26 +40,24 @@ define([
     },
 
     render: function(){
-		var that = this, p;
-		p = this.filterCollection.fetch();
-		p.done(function () {
-			var compiledTemplate = _.template(mobileFilterSortTemplate);
-			that.$el.html(compiledTemplate({recipeFilters: that.filterCollection.models}));
-			that.categoryFiltersView = new CategoryFiltersView();
-			that.categoryFiltersView.setElement(that.$el.find(that.categoryFiltersView.selector)).render();
-			that.listenTo(that.categoryFiltersView, 'clickFilterEvent', that.onclickFilter);
-			
-			that.filterFiltersView = new FilterFiltersView();
-			that.filterFiltersView.setElement(that.$el.find(that.filterFiltersView.selector)).render();
-			that.listenTo(that.filterFiltersView, 'clickFilterEvent', that.onclickFilter);
-			
-			//since it is created only once and hidden, shows up only on search results page
-			$('.search-footer-container').addClass('display-none');
-			
-			//makes sure that 'this' is an view objects and not Events
-			Events.on('searchResultsRenderEvent', that.onSearchResultsRender, that);
-			Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
-		});
+		var that = this;
+		var compiledTemplate = _.template(mobileFilterSortTemplate);
+		that.$el.html(compiledTemplate({recipeFilters: that.categories}));
+		that.categoryFiltersView = new CategoryFiltersView();
+		that.categoryFiltersView.setElement(that.$el.find(that.categoryFiltersView.selector)).render();
+		that.listenTo(that.categoryFiltersView, 'clickFilterEvent', that.onclickFilter);
+		
+		that.filterFiltersView = new FilterFiltersView();
+		that.filterFiltersView.setElement(that.$el.find(that.filterFiltersView.selector)).render();
+		that.listenTo(that.filterFiltersView, 'clickFilterEvent', that.onclickFilter);
+		
+		//since it is created only once and hidden, shows up only on search results page
+		$('.search-footer-container').addClass('display-none');
+		
+		//makes sure that 'this' is an view objects and not Events
+		Events.on('searchResultsRenderEvent', that.onSearchResultsRender, that);
+		Events.on('searchResultsCloseEvent', that.onSearchResultsClose, that);
+		
 		return this;
     },
 	onSearchResultsRender: function() {
