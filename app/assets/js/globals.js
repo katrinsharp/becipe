@@ -9,6 +9,9 @@ define([
 		this.currentIteration = module.config().currentIteration;
 		this.categories = module.config().categories;
 		this.recipeHelpers = {
+			photoBaseUrl: function() {
+				return module.config().photoBaseUrl+"/"+module.config().bucket;
+			},
 			date: function(time){
 				var date = moment(time).format('LL');
 				return date;
