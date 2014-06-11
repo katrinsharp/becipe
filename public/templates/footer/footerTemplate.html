@@ -6,41 +6,31 @@
 							<div class="footer-widget">
 								<!-- Logo area -->
 								<div class="logo">
-									<img class="img-responsive" src="img/logo.png" alt="" />
+									<!--img class="img-responsive" src="img/logo.png" alt="" /-->
 									<!-- Heading -->
-									<h1>Becipe</h1>
+									<h1><a href="#">Becipe</a></h1>
 								</div>
 								<!-- Paragraph -->
-								<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et magna aliqua.</p>
+								<p>We are dedicated to helping the world discover and share the craft of do-it-yourself, natural beauty.</p>
 								<hr />
 								<!-- Heading -->
-								<h6>On-line Payment Clients</h6>
+								<h4>Site links</h4>
 								<!-- Images -->
-								<a href="#"><img class="payment img-responsive" src="img/payment/2co.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/authorizenet.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/discover.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/egold.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/mastercard.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/paypal.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/visa.gif" alt="" /></a>
-								<a href="#"><img class="payment img-responsive" src="img/payment/worldpay.gif" alt="" /></a>
+								<p><a href="#create-recipe">Create Becipe</a></p>
+								<p><a href="#search-recipes////">Explore</a></p>
+								<p><a href="#blog">Blog</a></p>
+								<p><a href="#about-us">About Us</a></p>
 							</div> <!--/ Footer widget end -->
 						</div>
 						<div class="col-md-3 col-sm-6">
 							<!-- Footer widget -->
 							<div class="footer-widget">
 								<!-- Heading -->
-								<h4>Famous Dishes</h4>
+								<h4>Categories</h4>
 								<!-- Images -->
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
-								<a href="#"><img class="dish img-responsive" src="img/dish/dish1.jpg" alt="" /></a>
+								<%_.each(categories, function(category){%>
+									<p><a href="#search-recipes//<%= category.id%>//"><%= category.desc%></a></p>
+								<%})%>
 							</div> <!--/ Footer widget end -->
 						</div>
 						<div class="clearfix visible-sm"></div>
@@ -50,7 +40,7 @@
 								<!-- Heading -->
 								<h4>Join Us Today</h4>
 								<!-- Paragraph -->
-								<p>There is no one who loves pain itself, who seeks after it and wants to have it.</p>
+								<p>Subscribe to stay on top of all exiting mixins we're up to.</p>
 								<!-- Subscribe form -->
 								<form role="form">
 									<div class="form-group">
@@ -70,13 +60,13 @@
 								<h4>Contact Us</h4>
 								<div class="contact-details">
 									<!-- Address / Icon -->
-									<i class="fa fa-map-marker br-red"></i> <span>#768, 5th floor, N S Building,<br />Csm Block, Park Road,<br /> Bangalore - 234567</span>
+									<i class="fa fa-map-marker br-dark-grey"></i> <span>73 Woodward Ave,<br />Thornhill, Ontario,<br /> Canada</span>
 									<div class="clearfix"></div>
 									<!-- Contact Number / Icon -->
-									<i class="fa fa-phone br-green"></i> <span>+91 88-88-888888</span>
+									<i class="fa fa-phone br-dark-grey"></i> <span>+1647-772-3713</span>
 									<div class="clearfix"></div>
 									<!-- Email / Icon -->
-									<i class="fa fa-envelope-o br-lblue"></i> <span><a href="#">abc@example.com</a></span>
+									<i class="fa fa-envelope-o br-dark-grey"></i> <span><a href="#">feedback@becipe.com</a></span>
 									<div class="clearfix"></div>
 								</div>
 								<!-- Social media icon -->

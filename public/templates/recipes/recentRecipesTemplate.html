@@ -17,7 +17,8 @@
 					<!-- Heading -->
 					<h3><%= recipe.name%></h3>
 					<!-- Paragraph -->
-					<p><%= recipe.shortDesc%></p>
+					<p><%if(recipe.shortDesc.length>100) {%><%= recipe.shortDesc.substring(0, 70)%>...<%}else{%>recipe.shortDesc<%}%>
+					</p>
 					<!-- Button -->
 					<a href="#recipe/<%= recipe.id%>" class="btn btn-danger btn-sm">Go to becipe</a>
 				</div>

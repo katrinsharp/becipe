@@ -10,9 +10,10 @@ define([
   'views/BaseView',
   'collections/recipes/RecipeCollection',
   'text!templates/recipes/searchRecipesResultsTemplate.html',
+  'text!templates/recipes/emptyResultsTemplate.html',
   'views/recipes/RecipeCardView',
   'Events'
-], function($, _, Backbone, Bootstrap, Flexslider, Isotope, globals, UserLoginModel, BaseView, RecipeCollection, searchRecipesResultsTemplate, RecipeCardView, Events){
+], function($, _, Backbone, Bootstrap, Flexslider, Isotope, globals, UserLoginModel, BaseView, RecipeCollection, searchRecipesResultsTemplate, emptyResultsTemplate, RecipeCardView, Events){
 
   var SearchRecipesResultsView = BaseView.extend({
     
@@ -38,7 +39,10 @@ define([
 		var that = this;
 		var compiledTemplate = _.template(searchRecipesResultsTemplate);
 		var category = _.findWhere(that.categories, {id: that.filter});
-		this.$el.html(compiledTemplate({categoryDesc: category.desc, categoryId: this.filter}));
+		if(category == undefined) {//explore
+			category = {desc: 'Explore', id: 'skincare'};
+		}
+		this.$el.html(compiledTemplate({categoryDesc: category.desc, categoryId: category.id}));
 		$('#body-container').html(this.el);
 		var $container = $('#filter-container');	
 		
@@ -145,13 +149,18 @@ define([
 					}
 				});
 			} else {
-				_.each(that.recipeCollection.models, function (item, i) {
-					var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
-					$container.append('<figure class="dynamic"></figure>');
-					var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last(), isLiked: isLiked});
-					recipeCard.render();
-					that.recipeViews.push(recipeCard);
-				});
+			
+				if(that.recipeCollection.models.length == 0) {
+					that.$el.find("#empty-results").html(_.template(emptyResultsTemplate));
+				} else {
+					_.each(that.recipeCollection.models, function (item, i) {
+						var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
+						$container.append('<figure class="dynamic"></figure>');
+						var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last(), isLiked: isLiked});
+						recipeCard.render();
+						that.recipeViews.push(recipeCard);
+					});
+				}
 			}
 			$container.isotope();
         });

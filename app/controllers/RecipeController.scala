@@ -287,12 +287,20 @@ object RecipeController extends Controller with MongoController {
     }
   }
   
-  def getRecentRecipes(n: Int) = Action { implicit request =>
+  def getRecentRecipes2(n: Int) = Action { implicit request =>
     
      Async {
     	val qbAll = Json.obj("draft" -> Json.obj("$ne" -> "t"))
     	Application.recipeCollection.find(qbAll).sort(Json.obj("created" -> -1)).cursor[JsObject].toList.map  { recipes => Ok(Json.toJson(recipes.take(n)))}
      }
+  }
+  
+  def getRecentRecipes(n: Int) = Action { implicit request =>
+	  
+  	Async {
+  		val qbAll = Json.obj("id" -> Json.obj("$in" -> List("1c2GLb", "18ifR0", "2H0nxZ", "1QopNz")))
+  		Application.recipeCollection.find(qbAll).cursor[JsObject].toList.map  { recipes => Ok(Json.toJson(recipes))}		
+	}
   }
   
   private def searchRecipes(query: String, filter: String, userid: String, level: String) = {
