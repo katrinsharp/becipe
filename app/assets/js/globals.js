@@ -28,6 +28,18 @@ define([
 				var previewUrl = photoBaseUrl + '/' + bucket + '/' + key;
 				return previewUrl;
 			},
+			sliderUrl: function(photos){
+				var photoBaseUrl = module.config().photoBaseUrl;
+				var bucket = '';
+				var key = '';
+				var preview = _.find(photos, function(photo){ return photo.metadata.typeOf == 'slider'; });
+				if(preview!=undefined) {
+					bucket = preview.bucket;
+					key = preview.key;
+				}
+				var previewUrl = photoBaseUrl + '/' + bucket + '/' + key;
+				return previewUrl;
+			},
 			fullUrl: function(options){
 				var previewUrl = module.config().photoBaseUrl + '/' + options.bucket + '/' + options.key;
 				return previewUrl;
