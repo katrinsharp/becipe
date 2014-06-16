@@ -32,29 +32,7 @@
 			<div class="row">
 				<div class="col-md-8">
 					<!-- The new post done by user's all in the post block -->
-					<div class="blog-post">
-					
-						<%_.each(blogEntries, function(blogEntry){%>
-					
-							<!-- Entry is the one post for each user -->
-							<div class="entry entry-in-list">
-								<!-- Post Images -->
-								<div class="blog-img pull-left">
-									<img src="img/blog/<%= blogEntry.id%>/blog-sm.jpg" class="img-responsive img-thumbnail" alt="<%= blogEntry.shortDesc%>" />
-								</div>
-								<!-- Meta for this block -->
-								<div class="meta">
-									<i class="fa fa-calendar"></i>&nbsp; <%= blogEntries.date(blogEntry.created)%>
-									<!--span class="pull-right"><i class="fa fa-comment"></i> <a href="#">&nbsp;2 Comments</a></span-->
-								</div>
-								<!-- Heading of the  post -->
-								<h3><a href="#blog/<%= blogEntry.id%>"><%= blogEntry.name%></a></h3>
-								<hr /><!-- Horizontal line -->
-								<!-- Paragraph -->
-								<p><%= blogEntry.shortDesc%></p>
-								<div class="clearfix"></div>
-							</div>
-						<%})%>
+					<div class="blog-post" id="blogentries-container">
 						
 						<!-- Pagination -->
 						<!--ul class="pagination">

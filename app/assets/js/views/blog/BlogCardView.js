@@ -2,32 +2,30 @@ define([
   'backbone',
   'views/BaseView',
   'models/user/UserLoginModel',
-  'text!templates/recipes/recipeCardTemplate.html'
-], function(Backbone, BaseView, UserLoginModel, recipeCardTemplate){
+  'text!templates/blog/blogCardTemplate.html'
+], function(Backbone, BaseView, UserLoginModel, blogCardTemplate){
 
-  var RecipeCardView = BaseView.extend({
+  var BlogCardView = BaseView.extend({
   
-	selector: "figure.placeholder",
+	selector: $(".blogcard"),
 	
 	events: {
-		'click a[href="#recipe-like"]': 'likeIt'
+		'click a[href="#blogcard-like"]': 'likeIt'
 	},
     
     initialize: function(options) {
-		this.model = options.model;
-		_.extend(this.model.attributes, {isLiked: options.isLiked});
-		this.setElement(options.el);//.render();
+		this.attributes = options;
     },
 	
     render: function() {
-		var compiledTemplate = _.template(recipeCardTemplate);
-		this.$el.html(compiledTemplate(this.model.attributes));
+		var compiledTemplate = _.template(blogCardTemplate);
+		this.$el.html(compiledTemplate({blogEntry: this.attributes}));
 		return this;
 	},
 	
 	setNewState: function(newState) {
 		var view = this;
-		view.model.set('isLiked', newState);
+		view.attributes.isLiked = newState;
 		view.$('.like').toggleClass('is-liked');
 		var likes = parseInt(view.$('.stats.likes').text());
 		likes = (newState == true ? likes + 1: likes - 1);
@@ -43,11 +41,11 @@ define([
 		this.sendGaPageView(e);
 		var view = this;
 		if(UserLoginModel.isAuthenticated()) {
-			var newState = !this.model.get('isLiked');
+			var newState = !this.attributes.isLiked;
 			view.setNewState(newState);
-			$.ajax("/api/0.1/user/recipe/like", {
+			$.ajax("/api/0.1/user/blog/like", {
 			type: "PUT",
-			data: $.param({id: this.model.get('id'), toLike: newState}),
+			data: $.param({id: this.attributes.id, toLike: newState}),
 			success: function() {
 			},
 			error: function() {
@@ -64,8 +62,6 @@ define([
 
   });
   
-  RecipeCardView.selector = "figure.placeholder";
-
-  return RecipeCardView;
+  return BlogCardView;
   
 });

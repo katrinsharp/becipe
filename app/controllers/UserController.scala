@@ -25,6 +25,8 @@ import reactivemongo.core.commands.Update
 import play.api.libs.ws.WS
 import auth.Authenticated
 import models.SessionObj
+import play.modules.reactivemongo.json.collection.JSONCollection
+import auth.AuthenticatedRequest
 
 case class SignupDetails(firstName: String, lastName: String, email: String)
 case class Email(email: String)
@@ -340,23 +342,67 @@ object UserController extends Controller with MongoController{
 	  )
 	}
 	
-	case class LikeRecipe(recipeId: String, toLike: Boolean)
+	private def setLike(userId: String, toLike: Boolean, id: String, collection: JSONCollection, session: Session): Future[String] = {
+		val selector = Json.obj("id" -> userId)
+			  val modifier = if(toLike)Json.obj("$addToSet" -> Json.obj("rfavs" -> id)) else Json.obj("$pull" -> Json.obj("rfavs" -> id))
+			  val objectSelector = Json.obj("id" -> id)
+			  val increase = if(toLike) 1 else -1
+			  val objectModifier = Json.obj("$inc" -> Json.obj("stats.likes" -> increase)) 
+			  
+			    Application.usersCollection.update(selector = selector, update = modifier).map {
+			    	e => {
+			    	  collection.update(objectSelector, objectModifier)
+			    	  val sessionObj = Json.parse(session.get("session").getOrElse("")).as[SessionObj]
+			    	  val newSession = Json.stringify(Json.toJson(new SessionObj(
+			    	      token = sessionObj.token, 
+			    	      fn = sessionObj.fn, 
+			    	      userid = sessionObj.userid, 
+			    	      if(toLike) (sessionObj.rfavs + id) else sessionObj.rfavs.filter(_!=id))))
+			    	  newSession
+			    	}
+		    	}
+			  
+	}
 	
-	val setLikeRecipeForm: Form[LikeRecipe] = Form(
+	case class Like(id: String, toLike: Boolean)
+	
+	val likeForm: Form[Like] = Form(
 		mapping(
-			"recipeId" -> nonEmptyText,
+			"id" -> nonEmptyText,
 			"toLike" -> boolean
-		)(LikeRecipe.apply)(LikeRecipe.unapply))
+		)(Like.apply)(Like.unapply))
+		
+	def likeRecipe = Authenticated.auth {  implicit request =>
+		Async {
+			like(Application.recipeCollection)(request)
+		}
+	}
 	
-	def setLikeRecipe = Authenticated.auth {  implicit request =>
+	def likeBlogEntry = Authenticated.auth {  implicit request =>
+		Async {
+			like(Application.blogEntriesCollection)(request)
+		}
+	}
+	
+	def like(collection: JSONCollection)(implicit request: AuthenticatedRequest) = {
 	  
-	  setLikeRecipeForm.bindFromRequest.fold(
+	  likeForm.bindFromRequest.fold(
 			formWithErrors => {
-			  BadRequest(formWithErrors.errorsAsJson) 
+			  Future(BadRequest(formWithErrors.errorsAsJson))
 			},
 			value => {
+				
+				val userId = request.user.id
+				val toLike = value.toLike
+				val id = value.id
+				val collection = Application.recipeCollection
+				val session = request.session
+				
+				println(s"set like $userId, $id -> $toLike" )
+				setLike(userId, toLike, id, collection, session).map(newSession => Ok.withSession("session" -> newSession))
+				
 			  
-			  val selector = Json.obj("id" -> request.user.id)
+			  /*val selector = Json.obj("id" -> request.user.id)
 			  val modifier = if(value.toLike)Json.obj("$addToSet" -> Json.obj("rfavs" -> value.recipeId)) else Json.obj("$pull" -> Json.obj("rfavs" -> value.recipeId))
 			  val recipeSelector = Json.obj("id" -> value.recipeId)
 			  val increase = if(value.toLike) 1 else -1
@@ -374,7 +420,7 @@ object UserController extends Controller with MongoController{
 			    	  Ok.withSession("session" -> newSession)
 			    	}
 		    	}
-			  }
+			  }*/
 			  
 			  
 			}

@@ -42,7 +42,8 @@ POST	/api/0.1/login										controllers.UserController.login
 POST	/api/0.1/logout										controllers.UserController.logout
 POST	/api/0.1/forgotPassword								controllers.UserController.forgotPassword
 GET		/api/0.1/user/:id									controllers.UserController.user(id: String)
-PUT     /api/0.1/user/setLikeRecipe							controllers.UserController.setLikeRecipe
+PUT     /api/0.1/user/recipe/like							controllers.UserController.likeRecipe
+PUT     /api/0.1/user/blog/like								controllers.UserController.likeBlogEntry
 
 POST	/api/0.1/email/add									controllers.UserController.saveEmail
 

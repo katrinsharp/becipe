@@ -130,16 +130,14 @@ define([
 		p = this.recipeCollection.fetch({data: $.param({query: this.query, filter: this.filter, userid: this.userid, level: this.level})});
         p.done(function () {
 			//$container.find('figure.dynamic').remove();
-			var rfavs = [];
-			if(UserLoginModel.isAuthenticated()) {
-				rfavs = UserLoginModel.get('rfavs');
-			}
+			
+			
 			if(that.pageType=='homepage') {
 				var placeholders = $container.find(RecipeCardView.selector);
 				_.each(that.recipeCollection.models, function (item, i) {
 					var recipeCard;
 					if(i < 9) {
-						var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
+						var isLiked = globals.common.isLiked(UserLoginModel, item.get('id'));
 						recipeCard = new RecipeCardView({model: item, el: placeholders[i], isLiked: isLiked});
 						recipeCard.render();
 						that.recipeViews.push(recipeCard);		
@@ -154,7 +152,7 @@ define([
 					that.$el.find("#empty-results").html(_.template(emptyResultsTemplate));
 				} else {
 					_.each(that.recipeCollection.models, function (item, i) {
-						var isLiked = _.find(rfavs, function(fr) {return fr == item.get('id')})!=undefined;
+						var isLiked = globals.common.isLiked(UserLoginModel, item.get('id'));
 						$container.append('<figure class="dynamic"></figure>');
 						var recipeCard = new RecipeCardView({model: item, el: $container.find('figure.dynamic').last(), isLiked: isLiked});
 						recipeCard.render();

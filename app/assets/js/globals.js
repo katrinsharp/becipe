@@ -91,7 +91,6 @@ define([
 						 ',left='   + left; 
 				return opts;
 			},
-			
 			isMobile: function() {
 				return $(window).width() <= 992;
 			},
@@ -203,7 +202,18 @@ define([
 				window.open(url, "linkedin", this.windowOpts());
 				return false;
 			}
+		},
+		this.common = {
+			isLiked: function(user, id) {
+				var rfavs = [];
+				if(user.isAuthenticated()) {
+					rfavs = user.get('rfavs');
+				}
+				var isLiked = _.find(rfavs, function(fr) {return fr == id})!=undefined;
+				return isLiked;
+			}
 		}
+		
 	};
 
 	return { 

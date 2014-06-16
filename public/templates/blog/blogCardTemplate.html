@@ -1,0 +1,29 @@
+<!-- Entry is the one post for each user -->
+<div class="entry entry-in-list blogcard">
+	<!-- Post Images -->
+	<div class="blog-img pull-left">
+		<img src="img/blog/<%= blogEntry.id%>/blog-sm.jpg" class="img-responsive img-thumbnail" alt="<%= blogEntry.shortDesc%>" />
+	</div>
+	<!-- Meta for this block -->
+	<div class="meta">
+		<i class="fa fa-calendar"></i>&nbsp; <%= blogEntry.date(blogEntry.created)%>
+		<!--span class="pull-right"><i class="fa fa-comment"></i> <a href="#">&nbsp;2 Comments</a></span-->
+		<div class="bar pull-right margin-top-4">
+			<div class="<%if(blogEntry.isLiked){%>is-liked<%}%> like">
+				<a href="#blogcard-like"><div data-icon="&#xe05b;" class="ico-btn sp" aria-hidden="true"></div></a>
+			</div>
+			<div class="stats likes"><%= blogEntry.stats.likes%></div>
+			<div class="view">
+				<div data-icon="&#xe0ff;" class="ico-btn sp" aria-hidden="true"></div>
+			</div>
+			<div  class="stats views"><%= blogEntry.stats.views%></div>
+		</div>	
+	</div>
+	
+	<!-- Heading of the  post -->
+	<h3><a href="#blog/<%= blogEntry.id%>"><%= blogEntry.name%></a></h3>
+	<hr /><!-- Horizontal line -->
+	<!-- Paragraph -->
+	<p><%= blogEntry.shortDesc%></p>
+	<div class="clearfix"></div>
+</div>

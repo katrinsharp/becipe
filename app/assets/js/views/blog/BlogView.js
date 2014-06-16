@@ -2,9 +2,11 @@ define([
   'backbone',
   'globals',
   'views/BaseView',
+  'models/user/UserLoginModel',
+  'views/blog/BlogCardView',
   'text!templates/blog/blogTemplate.html',
   'text!templates/blog/recentBlogEntriesTemplate.html'
-], function(Backbone, globals, BaseView, blogTemplate, recentBlogEntriesTemplate){
+], function(Backbone, globals, BaseView, UserLoginModel, BlogCardView, blogTemplate, recentBlogEntriesTemplate){
   
 	var BlogView = BaseView.extend({
   
@@ -30,9 +32,25 @@ define([
 		$.ajax(blogUrl, {
 			type: "GET",
 			success: function(response) {
+				//var response = _.map(responseRaw, function(item){
+				//					item.isLiked=globals.common.isLiked(UserLoginModel, item.id);
+				//					return item;
+				//				});
 				
-				var entries = _.extend(response, globals.recipeHelpers);
-				view.$el.html(compiledTemplate({blogEntries: entries, "tags": _.union(_.flatten(_.pluck(response, "tags")))}));
+				var entries = response;
+				
+				view.$el.html(compiledTemplate({"tags": _.union(_.flatten(_.pluck(response, "tags")))}));
+				
+				var $container = view.$el.find("#blogentries-container");
+				
+				_.each(entries, function (itemRaw, i) {
+						var item2 = _.extend(itemRaw, globals.recipeHelpers);
+						var isLiked = globals.common.isLiked(UserLoginModel, item2.id);
+						var item = _.extend(item2, {isLiked: isLiked});
+						var blogEntryCard = new BlogCardView(item);
+						$container.append(blogEntryCard.render().$el);
+					});
+				
 				$('#body-container').html(view.el);
 				
 				// TODO: Move me to my own view

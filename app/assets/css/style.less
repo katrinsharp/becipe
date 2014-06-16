@@ -10,7 +10,7 @@ body {
 	background-color: @bodyColor;
 	/*background: url(../../img/farmer.png);*/
 	/*background: #e5e3d8 url(../../img/ricepaper2.png);*/
-	font: 16px/24px Helvetica, Arial, Verdana, Georgia, 'Lato', Geneva, sans-serif;
+	/*font: 16px/24px Helvetica, Arial, Verdana, Georgia, 'Lato', Geneva, sans-serif;*/
 	/*word-break: break-all;*/
 	/*text-shadow: @textShadow;*/
 	zoom: 1;
@@ -61,6 +61,10 @@ a:hover {
 
 .margin-top-6 {
 	margin-top: 6px;
+}
+
+.margin-top-4 {
+	margin-top: 4px;
 }
 
 .padding-top-8 {
@@ -166,7 +170,7 @@ span.name {
     padding-left: 20px;
     position: relative;
     margin-bottom: 0;
-    font-family: Georgia;
+    /*font-family: Georgia; katrin*/
     font-style: italic;
     color: @darkGreyColor;
 	text-shadow: @textShadow;
@@ -499,7 +503,7 @@ span.name {
 			display: inline;
 			vertical-align: middle;
 			padding: 10px 10px 10px;
-			font-family: Georgia;
+			/*font-family: Georgia; katrin*/
 		}
 		.button {
 			position: relative;
@@ -623,7 +627,7 @@ span.name {
 	button[data-id] {
 		border: 0 none;
 		background: none;
-		font-family: Georgia;
+		/*font-family: Georgia; katrin*/
 		font-style: italic;
 		color: inherit;
 		.caret {
@@ -719,7 +723,7 @@ span.name {
 			/*padding: 10px 5px;*/
 			padding-top: 5px;
 			padding-bottom: 5px;
-			font-family: Georgia;
+			/*font-family: Georgia; katrin*/
 			font-style: italic;
 		}
 	}
@@ -870,6 +874,65 @@ button.btn {
 	.dimensions;
 }
 .dimensions (@ratio: 1) {
+
+		/*social stats start*/
+		.bar > div {
+			position: relative;
+			float: left;
+		}
+		.bar > div:nth-child(odd) {
+			margin-right: (5px * @ratio);
+		}
+		.bar > div:nth-child(even) {
+			margin-right: (20px * @ratio);
+		}
+		.like {
+			.ico-btn {
+				font-size: 22px;
+				line-height: 22px;
+				text-align: center;
+				color: @lightGreyColor;
+				text-shadow: none;
+			}
+			&:hover {
+				.ico-btn {
+					color: @deepOrangeColor;
+				}
+			}
+		}
+		.is-liked {
+			.ico-btn {
+				color: @deepOrangeColorHover;
+			}
+			&:hover {
+				.ico-btn {
+					color: @deepOrangeColor;
+				}
+			}
+		}
+		.visited {
+			border: 1px @lightGreyColor solid;
+			.ico-btn {
+				color: @deepOrangeColor;
+			}
+		}
+		.view {
+			.ico-btn {
+				font-size: 24px;
+				line-height: 24px;
+				text-align: center;
+				color: @greenColor;
+				text-shadow: none;
+			}
+		}
+		.stats {
+			font-size: 12px;
+			line-height: 22px;
+			color: @mediumGreyColor;
+		}
+		/*social stats end*/
+
+
 	#filter-container{
 		margin: 0 auto;
 		figure {
@@ -906,7 +969,7 @@ button.btn {
 				}
 				div.details {
 					padding: (10px * @ratio);
-					font-family: Georgia;
+					/*font-family: Georgia; katrin*/
 					position:relative;
 					float:left;
 					width: 100%;
@@ -921,7 +984,10 @@ button.btn {
 							width: (380px * @ratio);
 							position: relative;
 							float: left;
-							font-style: italic;
+							/*font-style: italic;*/
+							font-family: serif;
+							font-weight: 300;
+							text-transform: uppercase;
 							font-size: 21px;
 							line-height: 24px;
 							padding: (6px * @ratio) 0 (7px * @ratio);
@@ -965,7 +1031,7 @@ button.btn {
 							}
 						}
 						.by {
-							font-family: Helvetica;
+							/*font-family: Helvetica; katrin*/
 							font-size: 14px;
 							padding-bottom: (15px * @ratio);
 							text-transform: lowercase;
@@ -973,78 +1039,11 @@ button.btn {
 								text-transform: capitalize;
 							}
 						}
-						.bar > div {
-							position: relative;
-							float: left;
-						}
-						.bar > div:nth-child(odd) {
-							margin-right: (5px * @ratio);
-						}
-						.bar > div:nth-child(even) {
-							margin-right: (20px * @ratio);
-						}
-						/*.like {
-							width: 20px;
-							padding: 6px;
-							border-radius: 50%;
-							border: 1px @lightGreyColor solid;
-							.ico-btn {
-								font-size: 16px;
-								line-height: 16px;
-								text-align: center;
-								color: @lightGreyColor;
-								text-shadow: none;
-							}
-						}*/
-						.like {
-							.ico-btn {
-								font-size: 22px;
-								line-height: 22px;
-								text-align: center;
-								color: @lightGreyColor;
-								text-shadow: none;
-							}
-							&:hover {
-								.ico-btn {
-									color: @deepOrangeColor;
-								}
-							}
-						}
-						.is-liked {
-							.ico-btn {
-								color: @deepOrangeColorHover;
-							}
-							&:hover {
-								.ico-btn {
-									color: @deepOrangeColor;
-								}
-							}
-						}
-						.visited {
-							border: 1px @lightGreyColor solid;
-							.ico-btn {
-								color: @deepOrangeColor;
-							}
-						}
-						.view {
-							.ico-btn {
-								font-size: 24px;
-								line-height: 24px;
-								text-align: center;
-								color: @greenColor;
-								text-shadow: none;
-							}
-						}
-						.stats {
-							font-size: 12px;
-							line-height: 22px;
-							font-family: Helvetica;
-							color: @mediumGreyColor;
-						}
 					}
 				}
 			}
 		}
+		
 		figure.slider {
 			background: transparent !important;
 			.flexslider {
@@ -1189,7 +1188,7 @@ button.btn {
 }
 
 a.search span.tag{
-	font-family: Georgia;
+	/*font-family: Georgia; katrin*/
 	font-style: italic;
 	padding: 7px;
 	margin-right: 3px;
@@ -1206,7 +1205,7 @@ a.search span.tag{
 
 .short-desc {
 	color: @greenColor;
-	font-family: Georgia;
+	/*font-family: Georgia; katrin*/
 	/*font-style: italic;*/
 }
 
@@ -1214,7 +1213,7 @@ a.search span.tag{
 	span.title{
 		color: @darkGreyColor;
 		font-style: italic;
-		font-family: Georgia;
+		/*font-family: Georgia; katrin*/
 	}
 	span.stat{
 		font-weight: bold;
@@ -1234,7 +1233,7 @@ a.search span.tag{
 }
 
 .dialog-title {
-	font-family: Georgia;
+	/*font-family: Georgia; katrin*/
 	color: @darkGreyColor;
 	font-size: 32px;
 	line-height: 32px;
@@ -1247,7 +1246,7 @@ a.search span.tag{
 .user-signup-form {
 	padding-bottom: 10px;
 	#title {
-		font-family: Georgia;
+		/*font-family: Georgia; katrin*/
 		color: @darkGreyColor;
 		font-size: 32px;
 		line-height: 32px;
@@ -1278,7 +1277,7 @@ a.search span.tag{
 	height: 47px;
 	vertical-align: middle;
 	padding: 8px 10px 8px;
-	font-family: Georgia;
+	/*font-family: Georgia; katrin*/
 	border-radius: 7px 7px 7px 7px !important;
 	transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
 	&:focus {
@@ -1485,7 +1484,7 @@ button:active {
 .user-info {
 	color: @darkGreyColor;
 	.detail {
-		font-family: Georgia;
+		/*font-family: Georgia; katrin*/
 		font-size: 18px;
 		font-style: italic;
 		font-weight: bold;
@@ -1539,6 +1538,10 @@ button:active {
 	text-transform: capitalize;
 }
 
+.uppercase {
+	text-transform: uppercase;
+}
+
 button[disabled], button:disabled {
     background: @lightGreyColor !important;
 	background-color: @lightGreyColor !important;
@@ -1579,6 +1582,60 @@ button[disabled], button:disabled {
 	border: 2px solid #fff;
 	box-shadow: 0px 0px 5px rgba(0,0,0,0.25);
 	border-radius: 80px;
+}
+
+.chefs .social-section {
+	margin: 15px auto;
+}
+
+.social-section  {
+	text-align: center;
+}
+
+.social-icons {
+  list-style: none;
+  /*padding: 10px 0;*/
+  margin-bottom: 0;
+}
+.social-icons li {
+  /*float: left;*/
+}
+.social-icons li.row-end {
+  margin-right: 0;
+}
+.social-icons a {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  padding-top: 6px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  -ms-border-radius: 50%;
+  -o-border-radius: 50%;
+  border-radius: 50%;
+  -moz-background-clip: padding;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  margin-right: 4px;
+  float: left;
+}
+
+.social-icons a .fa:before {
+  font-size: 18px;
+  text-align: center;
+  padding: 0;
+}
+
+.delayp4 {
+  animation-delay: .4s;
+  -moz-animation-delay: .4s;
+  -webkit-animation-delay: .4s;
+  -o-animation-delay: .4s;
+  transition-delay: .4s;
+  -webkit-transition-delay: .4s;
+  -moz-transition-delay: .4s;
+  -o-transition-delay: .4s;
 }
 
 .banner-blog {
