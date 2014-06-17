@@ -3,8 +3,9 @@ define([
   'underscore',
   'backbone',
   'globals',
+  'views/social/SocialSiteView',
   'text!templates/footer/footerTemplate.html'
-], function($, _, Backbone, globals, footerTemplate){
+], function($, _, Backbone, globals, SocialSiteView, footerTemplate){
 
   var FooterView = Backbone.View.extend({
     el: $("#footer"),
@@ -18,6 +19,10 @@ define([
 		var compiledTemplate = _.template(footerTemplate);
 		var view = this;
 		view.$el.html(compiledTemplate({categories: this.categories}));
+		
+		this.socialSiteView = new SocialSiteView();
+		this.socialSiteView.setElement($(this.socialSiteView.selector)).render();
+		
 		return this;
     }
 
