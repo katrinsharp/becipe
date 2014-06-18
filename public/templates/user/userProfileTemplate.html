@@ -1,12 +1,19 @@
+<!-- Banner Start -->
+
+<div class="banner banner-about-us next-to-header padd hidden-xs hidden-sm"></div>
+<div class="next-to-header visible-xs visible-sm" style="height: 1px"></div>
+
+<!-- Banner End -->
+
 <div class="row">
 	<div class="col-md-12">
 		<div class="center-in-span main-content-width about-us-container">
 			<div class="user-info">
-				<div><span class="detail">First Name:</span> <%= info.firstName%></div>
-				<div><span class="detail">Last Name:</span> <%= info.lastName%></div>
-				<div><span class="detail">Email:</span> <%= info.email%></div>
+				<div class="detail"><span class="title"> First Name:</span><span class="value"> <%= info.firstName%></span></div>
+				<div class="detail"><span class="title"> Last Name:</span><span class="value"> <%= info.lastName%></span></div>
+				<div class="detail"><span class="title">Email:</span><span class="value"><%= info.email%></span></div>
 				<div>
-					<span class="detail">Recipes:</span>
+					<div class="detail"><span class="title">Recipes:</span></div>
 					<table class="footable table">
 						<thead>
 							<tr class="detail">

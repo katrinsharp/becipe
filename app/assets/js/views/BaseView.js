@@ -24,6 +24,8 @@ define([
 			console.log(pathWithHash);
 		  	ga('send', 'pageview', pathWithHash);
 		}
+		
+		$(document).scrollTop(0);
     },
 	
 	sendGaPageView: function(e) {

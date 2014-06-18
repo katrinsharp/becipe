@@ -499,19 +499,20 @@ span.name {
 		padding-bottom: 10px;		
 		padding-left: 15px;
 		padding-right: 15px;
-		margin-left: 15px;
+		/*margin-left: 15px;*/
 		margin-right: 15px;
 		input {
 			position: relative;
 			float: left;
-			width: 90%;
+			/*width: 90%;
 			border-radius: 3px;
+			background-color: @headerSearchBackgroundColor;
+			padding: 10px 10px 10px;*/
 			border: 0 none;
 			color: @advancedTextColor;
-			background-color: @headerSearchBackgroundColor;
 			display: inline;
 			vertical-align: middle;
-			padding: 10px 10px 10px;
+			
 			/*font-family: Georgia; katrin*/
 		}
 		.button {
@@ -1334,7 +1335,7 @@ a.search span.tag{
   }
  }
  
- button[type="submit"] 
+ button[type="submit2"] 
   {
       background: none repeat scroll 0 0 @greenColor;
 	  text-shadow: 1px 1px 1px @greenColorHover;
@@ -1353,9 +1354,9 @@ a.search span.tag{
 	  font-weight: bold;
   }
   
-button[type="submit"]:hover,
-button[type="submit"]:focus,
-button[type="submit"]:active {
+button[type="submit2"]:hover,
+button[type="submit2"]:focus,
+button[type="submit2"]:active {
 	background-color: @greenColorHover !important;  
 	/*color: #ccc;*/
  }
@@ -1491,14 +1492,19 @@ button:active {
 ** USER PROFILE
 */
 .user-info {
-	color: @darkGreyColor;
-	.detail {
-		/*font-family: Georgia; katrin*/
-		font-size: 18px;
-		font-style: italic;
-		font-weight: bold;
-		line-height: 35px;
-	}
+	max-width: 800px;
+	margin: 0 auto;
+}
+
+.user-info .detail .title {
+	line-height: 35px;
+	font-size: 14px;
+}
+
+.user-info .detail .value {
+	line-height: 35px;
+	font-size: 18px;
+	font-weight: bold;
 }
 
 /*
@@ -1524,6 +1530,11 @@ button:active {
 	.bootstrap-select {
 		width: 100% !important;
 	}
+}
+
+.create-recipe-width {
+	max-width: 900px;
+	margin: 0 auto;
 }
 
 /*
@@ -1645,6 +1656,11 @@ button[disabled], button:disabled {
 
 .banner-search-recipes-results {
 	background: url('../img/banner-search-becipes-results.jpg') center center repeat-x; 
+}
+
+.banner-about-us {
+	background: url('../img/banner-about-us.jpg') center center repeat-x; 
+	height: 300px;
 }
 
 .banner-homepage {
