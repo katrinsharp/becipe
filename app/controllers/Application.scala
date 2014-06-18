@@ -42,7 +42,8 @@ object Application extends Controller{
 	    new Category("makeup", "Makeup"),
 	    new Category("aromatherapy", "Aromatherapy"),
 	    new Category("pets", "Pets care"),
-	    new Category("menscare", "Mens care"))
+	    new Category("menscare", "Mens care"),
+	    new Category("cleaning", "Cleaning"))
 	
 	def index = Action { implicit request =>
 		Logger.info("mongodb.uri: "+Play.current.configuration.getString("mongodb.uri").getOrElse("").split("@")(1))

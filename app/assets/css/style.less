@@ -429,13 +429,22 @@ span.name {
 }
 
 .brand-style {
-	margin-left: 5px !important;
 	padding: 0 !important;
 	z-index: 1031;
 	position: fixed;
+	margin-top: -10px;
 }
 .brand-as-text {
 	/*font-family*/
+}
+
+.header-social {
+	font-size: 20px;
+	margin-left: 10px;
+}
+
+.header-social li {
+	margin-right: 10px;
 }
 
 .collapse-button {
@@ -650,7 +659,7 @@ span.name {
 		}
 	}
 	.dropdown-menu {
-		background: @bodyColor url(../../img/bg_dots.png) repeat;
+		/*background: @bodyColor url(../../img/bg_dots.png) repeat;*/
 		background-color: @bodyColor;
 		text-align: left;
 	}
@@ -679,7 +688,7 @@ span.name {
 
 @media screen and (max-width: 767px) {
 	.search-bar-wrapper {
-		background: @whiteColorWithOpacity url(../../img/bg_dots.png) repeat !important;
+		/*background: @whiteColorWithOpacity url(../../img/bg_dots.png) repeat !important;*/
 		background-color: @whiteColorWithOpacity  !important;
 		text-shadow: none;
 		.container {
@@ -707,10 +716,10 @@ span.name {
 
 
 .search-bar-wrapper {
-	background: @bodyColor url(../../img/bg_dots.png) repeat;
+	/*background: @bodyColor url(../../img/bg_dots.png) repeat;*/
 	background-color: @bodyColor;
 	.container {
-		background: @bodyColor url(../../img/bg_dots.png) repeat;
+		/*background: @bodyColor url(../../img/bg_dots.png) repeat;*/
 		background-color: @bodyColor;
 		padding-top: 20px;
 		padding-bottom: 10px;
@@ -803,7 +812,7 @@ button.btn {
 
 @media screen and (min-width: 1140px) {
 	.next-to-header {
-		margin-top: 179px;/*145px;*/
+		margin-top: 158px;/*145px;*/
 	}
 }
 
@@ -1574,18 +1583,6 @@ button[disabled], button:disabled {
 		text-align:center;
 		color: #fff;
 	}
-}
-
-.category {
-	/*max-width: 60px;*/
-	margin: 0px auto;
-	color: @brightOrangeColor;
-	border: 2px solid @brightOrangeColor;
-	/*box-shadow: 0px 0px 5px rgba(0,0,0,0.25);*/
-	border-radius: 80px;
-}
-
-.category:hover {
 }
 
 .chefs .social-section {

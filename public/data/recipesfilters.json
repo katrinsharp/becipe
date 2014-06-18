@@ -38,5 +38,10 @@
 		"id": "menscare",
 		"desc": "Men's care",
 		"state": false
+	},
+	{
+		"id": "cleaning",
+		"desc": "Cleaning",
+		"state": false
 	}
 ]

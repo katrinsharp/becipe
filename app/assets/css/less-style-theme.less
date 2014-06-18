@@ -6,6 +6,7 @@
 
 @white:			#ffffff;
 @light-grey:	#f9f9f9;
+@light-medium-grey:	#bbbbbb;
 @grey:			#eeeeee;
 @dark-grey:		#aaaaaa;
 @black:			#555555;
@@ -18,8 +19,10 @@
 @dark-lblue:	#2bbdd2;
 @blue:			#609cec;
 @dark-blue:		#528fe2;
-@orange:		#e5a04b;/*#f78153;*/
-@dark-orange:	#e56500;/*#eb6c3a;*/
+/*@orange:		#e5a04b;#f78153;*/
+/*@dark-orange:	#e56500;#eb6c3a;*/
+@orange: #e5a04b;
+@dark-orange: #e56500;
 @yellow:		#fcd419;
 @dark-yellow:	#e9c51b;
 @purple:		#cb79e6;
@@ -209,12 +212,19 @@ a:hover{
 }
 
 .btn.btn-danger{
-	background: @red;
+	background: @dark-red;
 	border:1px solid @dark-red;
+	border-color:  @dark-red;
+	border-radius: 0;
+	padding: 10px 35px;
+	text-shadow: none;
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .btn.btn-danger:hover{
-	background: @dark-red;
+	background: @red;
+	border:1px solid @red;
 }
 
 .btn.btn-success{
@@ -580,6 +590,16 @@ a:hover{
 }
 .social-icons a:hover .fa{
   color: #fff;
+}
+
+.category {
+	color: @orange;
+	border: 2px solid @orange;
+}
+
+.category:hover {
+	color: @white;
+	background: @orange;
 }
 
 /****************/
