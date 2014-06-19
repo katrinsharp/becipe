@@ -6,6 +6,7 @@
 
 @white:			#ffffff;
 @light-grey:	#f9f9f9;
+@light-grey-2:	#d3d3d3;
 @light-medium-grey:	#bbbbbb;
 @grey:			#eeeeee;
 @dark-grey:		#aaaaaa;
@@ -16,6 +17,7 @@
 @green:			#82AA7E;/*#51d466;*/
 @dark-green:	#4c6849;/*#42c557;*/
 @lblue: 		#32c8de;
+@lblue-opac: 	rgba(50, 200, 222, 0.5);
 @dark-lblue:	#2bbdd2;
 @blue:			#609cec;
 @dark-blue:		#528fe2;
@@ -53,9 +55,9 @@
 
 @facebook:	#1e78ae;
 @twitter:	#1ba1e2;
-@google-plus: @red;/*#f22d0c;*/
+@google-plus: #f22d0c;
 @linkedin:	#2d93cf;
-@pinterest:	@red;/*#dd1617;*/
+@pinterest:	#dd1617;
 
 
 /***********/
@@ -142,6 +144,14 @@ a:hover{
 	background-color:@grey !important;
 }
 
+.br-light-grey-2 {
+	background-color:@light-grey-2 !important;
+}
+
+.br-light-grey{
+	background-color:@light-grey !important;
+}
+
 .br-dark-grey{
 	background-color:@dark-grey !important;
 }
@@ -160,6 +170,10 @@ a:hover{
 
 .br-lblue{
 	background-color:@lblue !important;
+}
+
+.br-lblue-opac{
+	background-color:@lblue-opac !important;
 }
 
 .br-blue{
@@ -583,14 +597,57 @@ a:hover{
 .social-icons a {
 	border: 2px solid @red;
 }
-.social-icons a .fa {
+.social-icons a .fa,
+.social-icons a .icon-500px {
   color: @red;
 }
 .social-icons a:hover {
   background: @red;
 }
-.social-icons a:hover .fa{
+.social-icons a:hover .fa,
+.social-icons a:hover .icon-500px
+{
   color: #fff;
+}
+
+/****************/
+/* Social inverse */
+/****************/
+.social-icons-inverse a {
+	border: 2px solid @red;
+	background: @red;
+}
+.social-icons-inverse a .fa,
+.social-icons-inverse a .icon-500px {
+	color: #fff;
+}
+.social-icons-inverse a:hover {
+	background: #fff;
+}
+.social-icons-inverse a:hover .fa,
+.social-icons-inverse a:hover .icon-500px
+{
+	color: @red;
+}
+
+/* oath-provider */
+
+.oath-provider .social-icons a {
+	background: @light-grey-2;
+	border: 2px solid @light-grey-2;
+}
+
+.oath-provider .social-icons a .fa {
+	color: #fff;
+}
+
+.oath-provider .social-icons a:hover {
+	/*background: #fff;*/
+	cursor: text;
+}
+
+.oath-provider2 .social-icons a:hover .fa{
+	/*color: @light-grey-2;*/
 }
 
 .category {
@@ -713,3 +770,11 @@ a:hover{
 /****************/
 
 .totop a i{ background: @red; }
+
+.user-signup-form a {
+	color: @dark-red;
+}
+
+.user-signup-form a:hover {
+	color: @red;
+}

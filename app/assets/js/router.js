@@ -21,6 +21,7 @@ define([
   'views/blog/BlogView',
   'views/blog/BlogPageView',
   'views/about/AboutUsView',
+  'views/TermsView',
   'views/header/HeaderView',
   'views/footer/FooterView',
   'text!templates/user/userSignupThankyouTemplate.html',
@@ -42,6 +43,7 @@ define([
 	BlogView,
 	BlogPageView,
 	AboutUsView, 
+	TermsView,
 	HeaderView, 
 	FooterView,
 	userSignupThankyouTemplate,
@@ -192,6 +194,11 @@ define([
 			aboutUsView.render();
 			return aboutUsView;
 		},
+		terms: function(){
+			var termsView = new TermsView();
+			termsView.render();
+			return aboutUsView;
+		},
 		defaultAction: function (action) {
 			// We have no matching route, lets display the home page 
 			window.location.hash = '';
@@ -245,6 +252,7 @@ define([
 	app_router.route('blog', 'showHome', app_router.blog);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);
+	app_router.route('terms', 'showHome', app_router.terms);
 		
 	initAnalytics();
 	

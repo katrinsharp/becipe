@@ -155,7 +155,7 @@ define([
 	
 	enableSubmitButton: function() {
 		var ajaxMsg = $('button[type="submit"]');
-		ajaxMsg.attr('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
+		ajaxMsg.addClass('class', 'ajax-success').text(ajaxMsg.attr('orig-label')).removeAttr('disabled');
 	},
 	
 	bindAjaxSubmitButton: function() {

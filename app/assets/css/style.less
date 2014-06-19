@@ -59,6 +59,10 @@ a:hover {
 	margin-top: 10px;
 }
 
+.margin-top-40{
+	margin-top: 40px;
+}
+
 .margin-top-6 {
 	margin-top: 6px;
 }
@@ -1267,6 +1271,10 @@ a.search span.tag{
 		text-shadow: @textShadow;
 	}
   
+	.or {
+		margin: 0 5px;
+		color: #d3d3d3;
+	}
   
   input[type="text"],
   input[type="password"],
@@ -1276,7 +1284,7 @@ a.search span.tag{
   {
 	/*width: 320px;*/
 	width: 100%;
-	margin-bottom: 10px;
+	margin-bottom: 20px;
 	border: 0 none;
 	/*border-radius: 8px 8px 8px 8px;*/
 	.input-full-shadow ();
@@ -1287,13 +1295,21 @@ a.search span.tag{
 	height: 47px;
 	vertical-align: middle;
 	padding: 8px 10px 8px;
-	/*font-family: Georgia; katrin*/
-	border-radius: 7px 7px 7px 7px !important;
+	/*font-family: Georgia;
+	border-radius: 7px 7px 7px 7px !important;*/
 	transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
 	&:focus {
 		border-color: @brightOrangeColor; 
 	}
   }
+  
+	input:last-of-type {
+		margin-bottom: 5px;
+	}
+  
+	input:last-of-type ~ div{
+		margin-bottom: 30px;
+	}
   
   textarea {
 	height: 150px;
@@ -1430,7 +1446,7 @@ button[type="submit2"]:active {
       letter-spacing: -1px;
       padding: 8px 10px 8px;
       text-shadow: 1px 1px 0 #EEEEEE;
-      border-radius: 7px 7px 7px 7px !important;
+      /*border-radius: 7px 7px 7px 7px !important;*/
       transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
   }
   
@@ -1633,7 +1649,8 @@ button[disabled], button:disabled {
   float: left;
 }
 
-.social-icons a .fa:before {
+.social-icons a .fa:before,
+.social-icons a .icon-500px:before {
   font-size: 18px;
   text-align: center;
   padding: 0;
@@ -1650,12 +1667,73 @@ button[disabled], button:disabled {
   -o-transition-delay: .4s;
 }
 
+.oath-provider  h1 {
+	font-weight: 700;
+}
+
+.oath-provider .border{
+	height: 5px;
+	border: 1px dashed #dedede;
+	max-width: 450px;
+	margin: 20px auto 30px;
+}
+
+.oath-provider .social-icons {
+	margin: 30px auto;
+}
+
+.oath-provider .social-icons a {
+	width: 96px;
+	height: 96px;
+	padding-top: 22px;
+}
+
+.oath-provider .social-icons a .fa:before {
+	font-size: 54px;
+}
+
 .banner-blog {
 	background: url('../img/banner-blog.jpg') center center repeat-x; 
 }
 
 .banner-search-recipes-results {
 	background: url('../img/banner-search-becipes-results.jpg') center center repeat-x; 
+}
+
+.banner-aromatherapy {
+	background: url('../img/banner-aromatherapy.jpg') center center repeat-x; 
+}
+
+.banner-menscare {
+	background: url('../img/banner-menscare.jpg') center center repeat-x; 
+}
+
+.banner-spa {
+	background: url('../img/banner-spa.jpg') center center repeat-x; 
+}
+
+.banner-haircare {
+	background: url('../img/banner-haircare.jpg') center center repeat-x; 
+}
+
+.banner-makeup {
+	background: url('../img/banner-makeup.jpg') center center repeat-x; 
+}
+
+.banner-pets {
+	background: url('../img/banner-pets.jpg') center center repeat-x; 
+}
+
+.banner-soap {
+	background: url('../img/banner-soap.jpg') center center repeat-x; 
+}
+
+.banner-skincare {
+	background: url('../img/banner-skincare.jpg') center center repeat-x; 
+}
+
+.banner-cleaning {
+	background: url('../img/banner-cleaning.jpg') center center repeat-x; 
 }
 
 .banner-about-us {
