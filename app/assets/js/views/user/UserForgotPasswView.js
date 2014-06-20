@@ -17,7 +17,7 @@ define([
 	
     initialize: function(options) {
 		UserInputView.prototype.initialize.apply();
-		this.events = _.extend({}, UserForgotPasswView.prototype.events, this.events);
+		this.events = _.extend({}, UserInputView.prototype.events, this.events);
     },
 	
 	render: function(options) {

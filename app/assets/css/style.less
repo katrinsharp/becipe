@@ -1257,6 +1257,11 @@ a.search span.tag{
 	text-shadow: @textShadow;
 }
 
+input[readonly=readonly] {
+	background-color: inherit;
+	border: 0 !important;
+}
+
 .user-signup-form {
 	padding-bottom: 10px;
 	#title {
@@ -1493,8 +1498,7 @@ button:active {
   }
  }
 
-.signup-thankyou-container,
-.about-us-container
+.message-container,
 {
 	padding-top: 30px;
 	p {
