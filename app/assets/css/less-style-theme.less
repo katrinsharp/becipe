@@ -623,10 +623,10 @@ a:hover{
 }
 .social-icons-inverse a .fa,
 .social-icons-inverse a .icon-500px {
-	color: #fff;
+	color: @white;
 }
 .social-icons-inverse a:hover {
-	background: #fff;
+	background: @white;
 }
 .social-icons-inverse a:hover .fa,
 .social-icons-inverse a:hover .icon-500px
@@ -634,8 +634,28 @@ a:hover{
 	color: @red;
 }
 
-/* oath-provider */
+/****************/
+/* footer social */
+/****************/
 
+.footer .social-icons a {
+	border: 2px solid @orange;
+	background-color: @orange;
+}
+.footer .social-icons a .fa {
+  color: @white;
+}
+.footer .social-icons a:hover {
+  background: @white;
+}
+.footer .social-icons a:hover .fa
+{
+  color: @orange;
+}
+
+/****************/
+/* oath-provider */
+/****************/
 .oath-provider .social-icons a {
 	background: @light-grey-2;
 	border: 2px solid @light-grey-2;
@@ -691,6 +711,13 @@ a:hover{
 			}
 		}
 	}
+}
+
+/****************/
+/* Footer */
+/****************/
+.footer {
+	/*background-color: @orange;*/
 }
 
 /****************/
