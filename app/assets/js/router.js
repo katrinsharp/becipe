@@ -24,6 +24,7 @@ define([
   'views/TermsView',
   'views/header/HeaderView',
   'views/footer/FooterView',
+   'views/about/ComingSoonView',
   'text!templates/user/userSignupThankyouTemplate.html',
   'text!templates/user/userSignupCompleteTemplate.html',
   'text!templates/user/userResetPasswordCompleteTemplate.html',
@@ -46,6 +47,7 @@ define([
 	TermsView,
 	HeaderView, 
 	FooterView,
+	ComingSoonView,
 	userSignupThankyouTemplate,
 	userSignupCompleteTemplate,
 	userResetPasswordCompleteTemplate,
@@ -194,6 +196,11 @@ define([
 			aboutUsView.render();
 			return aboutUsView;
 		},
+		comingSoon: function(what){
+			var comingSoon = new ComingSoonView();
+			comingSoon.render();
+			return comingSoon;
+		},
 		terms: function(){
 			var termsView = new TermsView();
 			termsView.render();
@@ -252,6 +259,7 @@ define([
 	app_router.route('blog', 'showHome', app_router.blog);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);
+	app_router.route('comingsoon/:what', 'showHome', app_router.comingSoon);
 	app_router.route('terms', 'showHome', app_router.terms);
 		
 	initAnalytics();

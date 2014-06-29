@@ -1,26 +1,12 @@
 <div class="row">
 	<%_.each(recipes, function(recipe){%>
-		<div class="col-md-3 col-sm-6">	
-			<div class="dishes-item-container">
-				<!-- Image Frame -->
-				<div class="img-frame">
-					<!-- Image -->
-					<img src="<%= photoBaseUrl()%>/recipe/<%= recipe.id%>/square.jpg" data-src="<%= previewUrl(recipe.photos)%>" class="img-responsive" alt="<%= recipe.shortDesc%>" />
-					<!-- Block for on hover effect to image -->
-					<div class="img-frame-hover">
-						<!-- Hover Icon -->
-						<a href="#recipe/<%= recipe.id%>"><i class="fa fa-link"></i></a>
+		<div class="col-sm-4 col-xs-12">	
+			<div class="recipes-item-container">
+				<div class="ch-item" style="background-image:url(<%= photoBaseUrl()%>/recipe/<%= recipe.id%>/square.jpg);">
+					<div class="ch-info">
+						<h3><%= recipe.name%></h3>
+						<p>by <%= recipe.by%> <a href="#recipe/<%= recipe.id%>">VIEW BECIPE</a></p>
 					</div>
-				</div>
-				<!-- Dish Details -->
-				<div class="dish-details">
-					<!-- Heading -->
-					<h3><%= recipe.name%></h3>
-					<!-- Paragraph -->
-					<p><%if(recipe.shortDesc.length>100) {%><%= recipe.shortDesc.substring(0, 70)%>...<%}else{%>recipe.shortDesc<%}%>
-					</p>
-					<!-- Button -->
-					<a href="#recipe/<%= recipe.id%>" class="btn btn-danger btn-sm">Go to becipe</a>
 				</div>
 			</div>
 		</div>

@@ -24,11 +24,11 @@
 }
 
 .icon-mission-cell:before {
-	content: "\e700";
+	content: "\e800";
 }
 .icon-mission-mortar:before {
-	content: "\e701";
+	content: "\e801";
 }
 .icon-mission-ourmission:before {
-	content: "\e702";
+	content: "\e802";
 }
