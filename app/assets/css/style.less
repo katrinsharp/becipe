@@ -817,13 +817,15 @@ button.btn {
 }
 
 @media screen and (max-width: 767px) {
-	.next-to-header {
+	.next-to-header,
+	.next-to-header-no-banner {
 		margin-top: 55px;
 	}
 }
 
 @media screen and (min-width: 768px) and (max-width: 1139px){
-	.next-to-header {
+	.next-to-header,
+	.next-to-header-no-banner {
 		margin-top: 110px;
 	}
 }
@@ -831,6 +833,9 @@ button.btn {
 @media screen and (min-width: 1140px) {
 	.next-to-header {
 		margin-top: 158px;/*145px;*/
+	}
+	.next-to-header-no-banner {
+		margin-top: 70px;
 	}
 }
 
@@ -1211,7 +1216,7 @@ button.btn {
 }
 
 .main-content-width {
-	/*max-width: 940px;*/
+	max-width: 800px;
 }
 
 a.search span.tag{
@@ -1781,8 +1786,8 @@ button[disabled], button:disabled {
 
 
 .box {
-    width: 45px;
-    height: 45px;
+    width: 30px;
+    height: 30px;
     float:left;
 }
 
@@ -1803,7 +1808,7 @@ button[disabled], button:disabled {
 .mission .button  a,
 .menu-head .button  a{
 	text-transform: uppercase;
-	font-family: 'Open Sans Condensed', sans-serif;
+	font-family: 'Open Sans', sans-serif;
 	font-size: 28px;
 	font-weight: 700;
 }
@@ -1894,6 +1899,7 @@ button[disabled], button:disabled {
 	font-size: 50px;
 	padding: 20px 230px;
 	text-transform: uppercase;
+	font-family: 'Open Sans', sans-serif;
 	font-weight: 700;
 	background-color: rgba(229,160,75, 0.3);
 	border: 2px solid rgba(229,160,75, 0.5);

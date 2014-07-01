@@ -164,7 +164,8 @@ define([
 				e.preventDefault();
 				u=location.href;
 				title="Like this page on Facebook";
-				url = "http://www.facebook.com/plugins/like.php?href="+encodeURIComponent(u)+"&amp;t="+encodeURIComponent(title)+"&amp;send=false&amp;layout=standard&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;height=35"; 
+				url = "https://www.facebook.com/sharer.php?u="+encodeURIComponent(u)+"&p[images][0]="+encodeURIComponent("https://s3.amazonaws.com/becipe-prod/bd968ade-56cc-46ea-8772-52f056cc5336.jpg");
+				//url = "http://www.facebook.com/plugins/like.php?href="+encodeURIComponent(u)+"&amp;t="+encodeURIComponent(title)+"&amp;send=false&amp;layout=standard&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;height=35"; 
 				title=document.title;
 				window.open(url,"sharer",this.windowOpts());
 				return false;

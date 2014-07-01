@@ -19,6 +19,18 @@ define([
     initialize: function(options) {
 		BaseView.prototype.initialize.apply();
     },
+	
+	events: {
+		"click a[href=scroll]": "scrollClick"
+	},
+	
+	scrollClick: function(e) {
+		e.preventDefault();
+		var target = $.find("#scroll");
+		var header = $.find(".next-to-header");
+		$(document).scrollTop($(target).offset().top - $(header).offset().top);
+		return true;
+	},
 
     render: function(){
 		
