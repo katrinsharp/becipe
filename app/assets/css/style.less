@@ -1860,9 +1860,7 @@ button[disabled], button:disabled {
 	font-size: 60px;
 	line-height: 60px;
 	text-align: center;
-	font-style: italic;
-	
-	font-family: 'Open Sans', sans-serif;
+	font-family: inherit;
 	font-weight: 300;
 	/*letter-spacing: -1px;*/
 }
@@ -1901,15 +1899,14 @@ button[disabled], button:disabled {
 	text-transform: uppercase;
 	font-family: 'Open Sans', sans-serif;
 	font-weight: 700;
-	background-color: rgba(229,160,75, 0.3);
-	border: 2px solid rgba(229,160,75, 0.5);
+	border: 2px solid #fff;
 	color: #fff;
 	transition: all 0.4s ease-in-out;
 }
 
 .banner-homepage .start a:hover {
 	background-color: #e5a04b;
-	border: 1px solid #e5a04b;
+	border: 2px solid #e5a04b;
 	transition: all 0.4s ease-in-out;
 }
 
@@ -1928,30 +1925,44 @@ button[disabled], button:disabled {
 .banner-homepage .breadcrumb>li+li:before  { color: #fff; }
 
 /**/
-.box-wrapper2 { margin: 5em 1em 1em; border: solid 1px silver; padding: 3.2em 0; }
+.box-wrapper {
+	
+}
 .hexa-row {
 	text-align: center;
 	width: 100%;
-}
-
-.hexa-row .first {
-	margin-left: 55px;
 	margin-top: -90px;
+	overflow-x: hidden;
 }
 
-.hexagon-sm {
-	width: 14em; 
-	height: 14em;
-}
 
-.hexagon-med {
+.hexagon {
 	width: 24em; 
 	height: 24em;
 }
 
-.hexagon-lg {
-	width: 28em; 
-	height: 28em;
+.hexagon.move-left {
+	margin-left: -48px;
+}
+
+@media (min-width: 991px) and (max-width: 1171px){
+	.hexagon {
+		width: 20em; 
+		height: 20em;
+	}
+	.hexa-row {
+		margin-top: -73px;
+	}
+}
+
+@media (max-width: 990px){
+	.hexagon {
+		width: 16em; 
+		height: 16em;
+	}
+	.hexa-row {
+		margin-top: -57px;
+	}
 }
 
 .hexagon {
