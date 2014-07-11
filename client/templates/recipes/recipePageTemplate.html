@@ -1,0 +1,207 @@
+<meta property="og:title" content="<%= recipe.name%>"/>
+<meta property="og:site_name" content="Becipe"/>
+<meta property="og:description" content="<%= recipe.shortDesc%>"/>
+<% var photo = _.find(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"});%>
+<meta property="og:image" content="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>"/>
+
+<div class="next-to-header-no-banner" style="height: 1px"></div>
+
+<div class="recipe-body container">
+	<div class="row">
+		<div class="col-md-12 slider-container next-to-header">
+			<!-- slider -->
+			<div class="center-in-span main-content-width">
+				<div class="flexslider">
+					<ul class="slides">
+					
+						<%_.each(_.filter(recipe.photos, function(photo){return photo.metadata.typeOf=="slider"}), function(photo){ %>
+							<li>
+								<img class="slider-picture" src="https://s3.amazonaws.com/<%= photo.bucket%>/<%=photo.key%>" alt="alt text" />
+							</li>
+						<% }); %>
+					</ul>
+				</div>
+			</div>
+			<!-- ENDS slider -->
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-padding" style="margin-top: 30px;margin-bottom: 20px">
+				<a class="search" data="level" data-value="<%= recipe.level%>" href="#search-recipes////<%= recipe.level%>">
+					<span class="tag recipe-item-background"><%= recipe.level%>&nbsp;</span>
+				</a>
+				<% _.each(recipe.categories, function(cat) { %> 
+						<a class="search" data-value="<%= cat%>" href="#search-recipes//<%= cat%>//">
+							<% var cat = _.find(recipe.recipeFilters, function(f){return f.id==cat}); %>
+							<% if(cat!=undefined){%>
+								<span class="tag recipe-item-background"><%= cat.desc%>&nbsp;</span>
+							<%} %>
+						</a>	
+				<% }); %>
+			</div>	
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+				
+				<div class="row">
+					<div class="col-md-6">
+						<div class="heading capitalize"><%= recipe.name%></div>
+					</div>
+					<div class="col-md-6 margin-top-10">
+						<div class="row">
+							<div class="col-md-12">
+								<p style="text-align: right;">Posted By <a href= "#user/<%= recipe.userid%>/recipes" class="by"><%= recipe.by%></a></p>
+								<p style="text-align: right"><%= recipe.date(recipe.created)%></p>
+							</div>
+							<!--div class="col-md-2">
+								<img style="margin-left: 10px" class="float-right" src="../../img/user-profile-picture.png" alt="user profile photo">
+							</div-->
+						</div>
+					</div>
+				</div>
+				
+				<div class="row" style="display: none">	
+					<div class="col-md-6 rate-trigger" style="visibility: hidden">
+						
+						<!--img class="rated-image rated-image-style" src="@routes.Assets.at("img/rating/"+recipe.rating+".png")" alt="rating"-->
+						
+						@for(i <- 1 to 5) {
+							<!--@@if(i!=recipe.rating) {-->
+								<span class="rate-it-image" style="background-color: #ddd;padding: 10px 5px;margin: 0px -2px;display: none">
+									<a class="rate-it-link-style" href="@routes.Application.signup()">
+										<!--img class="rate-it-image-style" src="@routes.Assets.at("img/rating/"+i+".png")" alt="rating @i"-->
+									</a>
+								</span>
+							<!--}-->
+						}
+						<a href="@routes.Application.signup()" style="margin-left: 5px">Reviews</a>
+					</div>
+					<div class="col-md-6">
+						<!-- social bar -->
+						<div id="social-bar-container" class="float-right">
+							<ul id="social-bar-right" class="cf sb">
+								<!--@views.html.social_bar(recipe.shortDesc)-->
+							</ul>
+						</div>
+						<!-- end of social bar -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width">
+				<div class="entry-social">
+					<!-- Social media icon -->
+					<div class="social-section pull-right">
+						<ul class="social-icons list-inline delayp4">
+							<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+							<li><a href="fb"><i class="fa fa-facebook"></i></a></li>
+							 <li><a href="#"><i class="fa fa-pinterest"></i></a></li>  
+							<li><a href="#"><i class="fa fa-google-plus"></i></a></li> 
+							<li><a href="#"><i class="fa fa-linkedin"></i></a></li>								
+						</ul>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row margin-top-10_2">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+				<div class="row">
+					<div class="col-md-12 short-desc">
+						<%= recipe.shortDesc%>
+					</div>
+				</div>		
+			</div>
+		</div>
+	</div>
+	
+	
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-padding">
+				<div class="row recipe-time-measures">
+					<div class="col-md-3">
+						<p><span class="title">Preparation Time:</span> <span class="stat"><%= recipe.prepTime%></span> </p> 	
+					</div>
+					<% if (recipe.readyIn!=undefined) { %>
+						<div class="col-md-3">
+							<p><span class="title">Ready In:</span> <span class="stat"><%= recipe.readyIn%></span> </p> 	
+						</div>
+					<%}%>
+					<div class="col-md-3">
+						<p><span class="title">Recipe yield:</span> <span class="stat"><%= recipe.recipeYield%></span> </p>
+					</div>
+					<% if (recipe.supply!=undefined) { %>
+						<div class="col-md-3">
+							<p><span class="title">Supply:</span> <span class="stat"><%= recipe.supply%> applications</span></p>
+						</div>
+					<%}%>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+					<!-- Ingredients -->
+					<h3>Ingredients</h3>
+					<div class="row">
+					
+						<% if (recipe.ingredients.length != 0) { %>
+							<% _.each(recipe.ingredients, function(ing) { %> 
+								<div><%= ing%></div>
+							<% }); %>
+						<% } else { %>
+								<%_.each(recipe.phases, function(phase, i) { %> 
+									<div class="col-md-4">
+										<h4>Phase <%= i+1%>: <%= phase.description%></h4>
+										<%_.each(recipe.ingredients, function(ing) { %> 
+											<div><%= ing%></div>	
+										<%});%>
+									</div>
+							<% });}%>
+					</div>
+					<!-- End of Ingredients -->
+			</div>	
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+					<!-- Directions -->
+					<h3>Directions</h3>
+					<div class="row">
+						<div class="col-md-12 directions">
+							<%= recipe.directions %>
+						</div>
+					</div>
+					<!-- End of Directions -->
+			</div>	
+		</div>
+	</div>
+	
+	<div class="row margin-top-10">
+		<div class="col-md-12">
+			<div class="center-in-span main-content-width recipe-item-background recipe-item-padding">
+			<!-- disqus -->
+			<div id="disqus_thread"></div>
+			<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+			<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+			<!-- end of disqus-->
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,66 +1,32 @@
-@(categories: String = "", isAjaxContent: Boolean = true)(content: Html)(implicit request: RequestHeader, session: Session)
-<!DOCTYPE html>
-
-@if(isAjaxContent) {
-	<head>
-		<title>Becipe</title>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=EmulateIE9,chrome=1"><!-- doesn't work in 10, bug in post request-->
-		<meta name="description" content="">
-		<meta name="author" content="">
-
-		<meta name="viewport" content="width=device-width,height=device-height,initial-scale=1.0">
-		
-		<link rel="shortcut icon" type="image/x-icon" href="img/favicon.ico"/>
-		
-		 <!-- build:css(.tmp) styles/vendor.css -->
+<!doctype html>
+<html class="no-js">
+    <head>
+        <meta charset="utf-8">
+        <title>katrin test 4</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+		<link rel="shortcut icon" type="image/x-icon" href="img/favicon.png"/>
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+        <!-- build:css(.tmp) styles/vendor.css -->
         <!-- bower:css -->
-        <link rel="stylesheet" href="styles/vendor.css">
+        <link rel="stylesheet" href="styles/bootstrap.css">
         <!-- endbower -->
         <!-- endbuild -->
         <!-- build:css(.tmp) styles/main.css -->
         <link rel="stylesheet" href="styles/main.css">
+		<link rel="stylesheet" href="styles/less-style-theme.css">
+		<link rel="stylesheet" href="styles/modal.css">
+		<link rel="stylesheet" href="styles/palette.css">
+		<link rel="stylesheet" href="styles/style.css">
+		<link rel="stylesheet" href="styles/style-theme.css">
         <!-- endbuild -->
-		
-		<!-- Le HTML5 shim, for IE6-8 support of HTML elements -->
-		<!--[if lt IE 9]>
-			<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-		<![endif]--> 
-		
-		
-		
-		
-		<!--link rel="stylesheet" type="text/css" media="all" href="@routes.Assets.at("js/external/bootstrap3/css/bootstrap-theme.min.css")"/-->
-		
-		<script>
-			var sessionStr = '@Html(session.get("session").getOrElse(""))';
-			var session = {};
-			if(sessionStr!="") {
-				session = JSON.parse(sessionStr);
-			}
-			var catStr = '@Html(categories)';
-			var categories2 = JSON.parse(catStr);
-			var require = {
-				config: {
-					'app': {
-						token: session.token,
-						userid: session.userid,
-						fn: session.fn,
-						rfavs: session.rfavs
-					},
-					'globals': {
-						currentIteration: '3',
-						photoBaseUrl: 'https://s3.amazonaws.com',
-						bucket: 'becipe-staging',
-						categories: categories2
-					}
-				}
-			};
-			var polyfilter_scriptpath = '/js/';
-		</script>
-		
-	</head>
-	<body>
+    </head>
+    <body>
+        <!--[if lt IE 10]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+
+
 		<div id="header"></div>
 		
 		<div id="mobileSort"></div>
@@ -90,26 +56,25 @@
 		</div><!--/.container-->
 		
 		<div id="footer"></div>
-		
-		<div class="modal-dialog"></div>
-		
-		<div id="fb-root"></div>
-		
-		<script>(function(d, s, id) {
-		  var js, fjs = d.getElementsByTagName(s)[0];
-		  if (d.getElementById(id)) return;
-		  js = d.createElement(s); js.id = id;
-		  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
-		  fjs.parentNode.insertBefore(js, fjs);
-		}(document, 'script', 'facebook-jssdk'));</script>
-		
-		<!-- build:js scripts/vendor.js -->
+
+
+        <!-- build:js scripts/vendor.js -->
         <!-- bower:js -->
         <script src="../bower_components/jquery/dist/jquery.js"></script>
         <!-- endbower -->
         <!-- endbuild -->
-		
-		 <!-- build:js scripts/plugins.js -->
+
+        <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
+        <script>
+            (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
+            function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
+            e=o.createElement(i);r=o.getElementsByTagName(i)[0];
+            e.src='//www.google-analytics.com/analytics.js';
+            r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
+            ga('create','UA-XXXXX-X');ga('send','pageview');
+        </script>
+
+        <!-- build:js scripts/plugins.js -->
         <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/affix.js"></script>
         <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/alert.js"></script>
         <script src="../bower_components/bootstrap-sass-official/vendor/assets/javascripts/bootstrap/dropdown.js"></script>
@@ -125,13 +90,9 @@
 		<script src="../bower_components/requirejs/require.js"></script>
 		<script src="../bower_components/modernizr/modernizr.js"></script>
         <!-- endbuild -->
-		
-		 <!-- build:js({app,.tmp}) scripts/main.js -->
+
+        <!-- build:js({app,.tmp}) scripts/main.js -->
         <script src="scripts/main.js"></script>
         <!-- endbuild -->
-		
-	</body>
-} else {
-	@content
-}
+</body>
 </html>

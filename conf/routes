@@ -3,7 +3,8 @@
 # ~~~~
 
 # Home page
-GET     /                           						controllers.Application.index
+GET     /   												controllers.Application.index                        						
+#controllers.Assets.at(path="/public", file="index.html")
 
 # Recipe
 # POST	/recipe/by											controllers.RecipeController.by(categories: List[String])

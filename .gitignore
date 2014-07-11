@@ -18,7 +18,6 @@ target
 bin
 tmp
 .history
-dist
 .idea
 *.bck
 bck
@@ -35,3 +34,9 @@ server.pid
 .bck*
 *secret*
 Thumbs.db
+node_modules
+dist
+.tmp
+.sass-cache
+bower_components
+test/bower_components
