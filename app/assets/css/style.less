@@ -696,10 +696,13 @@ span.name {
 		}
 		.search-container-style {
 			.search-style {
+				margin-top: 7px;
 				input {
+					margin-left: 37px;
 					position: relative;
 					float: left;
-					width: 85%;
+					width: 100%;
+					max-width: 260px;
 					border: 0 none;
 					color: @advancedTextColor;
 					display: inline;
@@ -716,8 +719,8 @@ span.name {
 				}	
 				.button {
 					position: relative;
-					float: right;
-					width: 15%;
+					float: left;
+					width: 45px;
 					text-align: center;
 					#search-btn {
 						cursor: pointer;
@@ -747,6 +750,17 @@ select:active,
 select:focus {
 	text-decoration: none;
 	outline: none !important;
+}
+
+@media screen and (max-width: 1400px) {
+	.search-container-style {
+		.search-style {
+			input {
+				margin-left: 10px !important;
+				max-width: 190px !important;
+			}
+		}
+	}
 }
 
 @media screen and (max-width: 767px) {
@@ -1160,16 +1174,15 @@ a.search span.tag{
 }
 
 .heading  {
-	color: @greenColor;
 	letter-spacing: 1px;
 	font-size: 28px;
 	margin: 10px 0;
 	text-transform: uppercase;
 	line-height: 40px;
+	font-weight: bold;
 }
 
 .short-desc {
-	color: @greenColor;
 	font-family: Georgia;
 	/*font-style: italic;*/
 }
@@ -1182,6 +1195,7 @@ a.search span.tag{
 	}
 	span.stat{
 		font-weight: bold;
+		font-style: italic;
 	}
 }
 
@@ -1217,7 +1231,7 @@ a.search span.tag{
 		line-height: 32px;
 		/*padding: 20px 10px 20px 4px;*/
 		margin-top: 20px;
-		margin-bottom: 10px;
+		margin-bottom: 30px;
 		font-weight: bold;
 		text-shadow: @textShadow;
 	}
@@ -1307,6 +1321,7 @@ a.search span.tag{
       transition: background 0.3s ease-out 0s, -moz-box-shadow 0.3s ease-out 0s;
 	  /*text-transform: uppercase;*/
 	  font-weight: bold;
+	  margin-bottom: 10px;
   }
   
 button[type="submit"]:hover,
@@ -1494,9 +1509,9 @@ button:active {
 
 .big-message {
 	font-family: Georgia;
-	font-size: 35px;
-	font-style: italic;
-	font-weight: bold;
+	font-size: 18px;
+	text-align: center;
+	color: #595959;
 }
 
 .capitalize {
