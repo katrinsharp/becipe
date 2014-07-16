@@ -40,6 +40,21 @@
 		"state": false
 	},
 	{
+		"id": "men",
+		"desc": "Men",
+		"state": false
+	},
+	{
+		"id": "pets",
+		"desc": "Pets",
+		"state": false
+	},
+	{
+		"id": "cleaning",
+		"desc": "Cleaning",
+		"state": false
+	},
+	{
 		"id": "baseskits",
 		"desc": "Bases & Kits",
 		"state": false
