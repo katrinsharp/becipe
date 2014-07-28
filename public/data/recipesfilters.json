@@ -53,10 +53,5 @@
 		"id": "cleaning",
 		"desc": "Cleaning",
 		"state": false
-	},
-	{
-		"id": "baseskits",
-		"desc": "Bases & Kits",
-		"state": false
 	}
 ]
