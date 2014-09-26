@@ -24,7 +24,8 @@ define([
 				directions: "",
 				level: "beginner",
 				tags: "",
-				categories: ""
+				categories: "",
+				subsType: ""
 			};
 		},
 		urlRoot: function() {

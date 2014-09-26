@@ -25,12 +25,12 @@ define([
 		$.when(
 			this.model.fetch().error(
 								function () {
-									that.displayErrorPage("no such recipe");
+									view.displayErrorPage("no such recipe");
 								}
 							), 
 			new RecipesFiltersCollection().fetch().error(
 								function () {
-									that.displayErrorPage("Internal error: no such recipe filters");
+									view.displayErrorPage("Internal error: no such recipe filters");
 								}
 							)
 			).then(function(modelR, recipeFiltersR){

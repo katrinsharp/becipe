@@ -74,10 +74,21 @@
 		</div>
 	</div>
 	<div class="row">	
-		<div class="input-details col-md-12">
+		<div class="input-details col-md-6">
 			<div class="input-name">Tags*</div>
 			<div class="input-hint">Tags the recipe can be found by. For example: body, sunscreen etc</div>
-			<input data-tp="select22" class="col-md-12" data="Tags" type="text" placeholder="body,scrub..." name="tags" id="tags" value="<%= tags%>">
+			<input data-tp="select22" class="col-md-6" data="Tags" type="text" placeholder="body,scrub..." name="tags" id="tags" value="<%= tags%>">
+		</div>
+		
+		
+		<div class="input-details col-md-6">
+			<div class="input-name">Price</div>
+			<div class="input-hint"><span style="visibility: hidden">.</span></div>
+				<select data="subsType" name="subsType" id="subsType" class="selectpicker">
+				<option <% if(subsType=="free"){%>selected="selected"<%}%> value="free" data-subtext="Share it with everyone for free">Free</option>
+				<option data-divider="true"></option>
+				<option <% if(subsType=="paid"){%>selected="selected"<%}%> value="paid" data-subtext="I'd like to get some money for each download">Paid</option>
+			</select>
 		</div>
 		
 		<div class="input-details col-md-12">

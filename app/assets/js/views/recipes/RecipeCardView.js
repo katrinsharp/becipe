@@ -10,12 +10,18 @@ define([
 	selector: "figure.placeholder",
 	
 	events: {
-		'click a[href="#recipe-like"]': 'likeIt'
+		'click a[href="#recipe-like"]': 'likeIt',
+		'click a.click2Recipe': 'clickRecipe'
 	},
     
     initialize: function(options) {
 		this.model = options.model;
 		_.extend(this.model.attributes, {isLiked: options.isLiked});
+		if(this.model.attributes.subsType==undefined) {
+			_.extend(this.model.attributes, {subsType: 'free'});
+		} else if(this.model.attributes.subsType=='paid') {
+			this.model.attributes.subsType = 'premium';
+		}
 		this.setElement(options.el);//.render();
     },
 	
@@ -23,6 +29,10 @@ define([
 		var compiledTemplate = _.template(recipeCardTemplate);
 		this.$el.html(compiledTemplate(this.model.attributes));
 		return this;
+	},
+	
+	clickRecipe: function() {
+		UserLoginModel.currentRecipeSubsType = this.model.attributes.subsType;
 	},
 	
 	setNewState: function(newState) {

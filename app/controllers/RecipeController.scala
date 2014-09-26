@@ -9,6 +9,7 @@ import play.modules.reactivemongo._
 import play.api.libs.json._
 import play.api.Play.current
 import models.Recipe
+import models.NewRecipe
 import play.api.data.Form
 import play.api.data.Forms._
 import play.api.data.validation.Constraints._
@@ -341,7 +342,7 @@ object RecipeController extends Controller with MongoController {
   def getRecipes(attrName: String, attrValue: String) = {
     
 		val qb = Json.obj(attrName -> attrValue)
-		Application.recipeCollection.find(qb).cursor[JsObject].toList.map  { l =>
+		Application.recipeCollection.find(qb).cursor[Recipe].toList.map  { l =>
 			l
 		}
   }
@@ -366,19 +367,28 @@ object RecipeController extends Controller with MongoController {
     Async {
       
       for {
+        
+        (result, userIdO) <- {
+          val recipeF = getRecipes("id", id)
+          
+          recipeF.map(k => {
+            
+        	  val (isAuth, userIdO) = Authenticated.isAuthenticated(request)
+            
+        	  k.headOption match {
+        	  case Some(r) if r.subsType.getOrElse("free") == "paid" && !isAuth  => (Unauthorized, userIdO)
+        	  case rO => (Ok(Json.toJson(rO)), userIdO)
+            }
+          })
+          
+        }
+        
         tmp <- {
         	val recipeSelector = Json.obj("id" -> id)
-        	val recipeModifier = Json.obj("$inc" -> Json.obj("stats.views" -> 1))
+        	val recipeModifier = Json.obj("$inc" -> Json.obj("stats.views" -> 1), "$addToSet" -> Json.obj("stats.viewedBy" -> userIdO))
 			Application.recipeCollection.update(recipeSelector, recipeModifier)
-        }
-        result <- {
-          val recipeF = getRecipes("id", id)
-          recipeF.map {recipes => { 
-    		val recipe = recipes.head
-    		Ok(Json.toJson(recipe))
-    	  }
         } 
-      }	
+  
     } yield {
       result
     }
@@ -393,14 +403,14 @@ object RecipeController extends Controller with MongoController {
     }
   }
   
-  val recipeAddForm: Form[Recipe] = Form(
+  val recipeAddForm: Form[NewRecipe] = Form(
 		mapping(
 			"id" -> default(text, "-1"),			
 			"name" -> nonEmptyText,			
 			"shortDesc" -> nonEmptyText,//nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),			
 			"created" -> jodaDate("yyyy-MM-dd'T'HH:mm:ssZZ"),			
-			"by" -> ignored(""),
-			"userid" -> ignored(""),
+			//"by" -> ignored(""),
+			//"userid" -> ignored(""),
 			"directions" -> nonEmptyText,//nonEmptyText.verifying("This field should be longer than that", (_.trim().length() > 3)),
 			"ingredients" -> text.transform[Seq[String]](x=>x.split(";").map(_.trim()), l=> l.headOption.getOrElse("")),
 			//"phases" -> seq(mapping(
@@ -414,10 +424,11 @@ object RecipeController extends Controller with MongoController {
 			"level" -> text.verifying("should be on of beginner, average or master", {_.matches("""^beginner|average|master""")}),			
 			"tags" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
 			"categories" -> nonEmptyText.transform[Seq[String]](x=>x.split(",").map(_.trim()), l=> l.headOption.getOrElse("")),
-			"stats" -> ignored(new Stats),
+			//"stats" -> ignored(new Stats),
 			"draft" -> text.verifying("should be t or f", {_.matches("""^t|f$""")}),
-			"photos" -> ignored(Seq[S3Photo]())
-			)(Recipe.apply)(Recipe.unapply))
+			//"photos" -> ignored(Seq[S3Photo]())
+			"subsType" -> nonEmptyText
+			)(NewRecipe.apply)(NewRecipe.unapply))
   
   def addRecipe = Authenticated.auth {  implicit request =>
     //Logger.debug(recipeAddForm.toString)	
@@ -521,7 +532,8 @@ object RecipeController extends Controller with MongoController {
 								"ingredients" -> value.ingredients,
 								//"phases" -> value.recipe.phases.map(ph => RecipePhase(ph.description, ph.ingredients(0).split(",").map(_.trim()))),
 								"tags" -> value.tags,
-								"categories" -> value.categories
+								"categories" -> value.categories,
+								"subsType" -> value.subsType
 								)++ (if(newRecipe) Json.obj("draft" -> "t") else Json.obj())
 								
 					val modifierWithPhotos = Json.obj("$set" -> (if(newRecipe) modifier ++ Json.obj("photos" -> List[S3Photo]()) ++ Json.obj("stats" -> new Stats)  else modifier))
@@ -603,7 +615,7 @@ object RecipeController extends Controller with MongoController {
 	    	recipe <- {
 	    		val recipesF = getRecipes("id", id)
 	    		recipesF.map ( l =>
-	    			l.head.as[Recipe]
+	    			l.head
 	    		)
 	    	} 
 	    	isSuccess <- { 

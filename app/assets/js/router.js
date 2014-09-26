@@ -180,7 +180,8 @@ define([
 		},
 		authRoutes: {
 			'createRecipe': true,
-			'userProfile': true
+			'userProfile': true,
+			'premiumRecipe': true
 		},
 		route: function(route, name, callback) {
 			return Backbone.Router.prototype.route.call(this, route, name, function() {
@@ -196,7 +197,11 @@ define([
 					this.currentView.close();
 					this.currentView = undefined;
 				}
-				if(this.authRoutes[name]&&!UserLoginModel.isAuthenticated()) {
+				if(UserLoginModel.currentRecipeSubsType == 'premium' && !UserLoginModel.isAuthenticated()) {
+					UserLoginModel.currentRecipeSubsType = undefined;
+					auth.redirectToLogin();
+				}
+				else if(this.authRoutes[name]&&!UserLoginModel.isAuthenticated()) {
 					auth.redirectToLogin();
 				} else {
 					this.currentView = callback.apply(this, arguments);
@@ -215,13 +220,14 @@ define([
 	app_router.route('search-recipes/(:query)/(:filter)/(:userid)/(:level)', 'searchRecipes', app_router.searchRecipes);
 	app_router.route('create-recipe(/:id)', 'createRecipe', app_router.createRecipe);
 	app_router.route('user/:action(/:token)', 'userAction', app_router.userAction);
+	app_router.route('user/:action/*token', 'userAction', app_router.userAction);
 	app_router.route('user/:id/publicProfile', 'userPublicProfile', app_router.userPublicProfile);
 	app_router.route('user/:id/recipes', 'userRecipes', app_router.userRecipes);
 	app_router.route('user-signup-thankyou/:name', 'userSignupThankyou', app_router.userSignupThankyou);	
 	app_router.route('user-signup-complete/:name', 'showHome', app_router.userSignupComplete);
 	app_router.route('user-reset-password-complete/:name', 'showHome', app_router.userResetPasswordComplete);	
 	app_router.route('user-reset-password-checkyouremail/:name', 'showHome', app_router.userResetPasswordCheckYourEmail);
-	app_router.route('recipe/:id', 'showHome', app_router.recipeDetails);
+	app_router.route('recipe/:id', 'recipe', app_router.recipeDetails);
 	app_router.route('user/:id/profile', 'userProfile', app_router.userProfile);
 	app_router.route('about-us', 'showHome', app_router.aboutUs);
 		

@@ -17,14 +17,10 @@ case class AuthenticatedRequest(
 object Authenticated {
 	def auth(f: AuthenticatedRequest => Result) = {
 	  Action { request =>
-	    	val session = Json.parse(request.session.get("session").getOrElse("")).asOpt[SessionObj].getOrElse(new SessionObj("", "", "", Set()))
-	       	val sessionToken = session.token
-		    val headerToken = request.headers.get("token").getOrElse("")
-		    Logger.debug(s"sessionToken: $sessionToken, headerToken: $headerToken")
-		    if(sessionToken=="") Unauthorized
-		    else if(sessionToken!=headerToken) Unauthorized
+	    	val (isAuth, userid) = isAuthenticated(request)
+	    	if(!isAuth) Unauthorized
 		    else {
-		      val userF = UserController.getUserById(session.userid)
+		      val userF = UserController.getUserById(userid.get)
 		      Async {
 		    	   userF.map { user => 
 		    	   	f(AuthenticatedRequest(user, request)) 
@@ -32,5 +28,20 @@ object Authenticated {
 		      }
 		    }       
 	  	}
+	}
+	
+	def isAuthenticated(request: Request[AnyContent]): Tuple2[Boolean, Option[String]] = {
+	  
+	  //val session = Try(request.session.get("session").map(x => Json.parse(x).asOpt[SessionObj])).toOption.flatten.getOrElse(new SessionObj("", "", "", Set()))
+	  
+	  //val session = Try(Json.parse(request.session.get("session").getOrElse("")).asOpt[SessionObj].getOrElse(new SessionObj("", "", "", Set()))).orElse(new SessionObj("", "", "", Set())))
+	  
+		val session = Json.parse(request.session.get("session").getOrElse("{}")).asOpt[SessionObj].getOrElse(new SessionObj("", "", "", Set()))
+	   	val sessionToken = session.token
+	    val headerToken = request.headers.get("token").getOrElse("")
+	    Logger.debug(s"sessionToken: $sessionToken, headerToken: $headerToken")
+	    if(sessionToken=="" || sessionToken!=headerToken) (false, None)
+	    else (true, Some(session.userid))
+	    
 	}
 }

@@ -1,7 +1,8 @@
 <!--figure style="height: auto;background: #fff !important;font-size: 18px;line-height: 25px;"-->
 	<div class="recipe">
+	
 		<div class="image">
-			<a href="#recipe/<%= id %>">
+			<a href="#recipe/<%= id %>" class="click2Recipe">
 				<img src="<%= previewUrl(photos)%>"/>
 			</a>
 		</div>
@@ -9,7 +10,7 @@
 			<div class="inner">
 				<div class="name">
 					<div class="name-label capitalize">
-						<a class="text" href="#recipe/<%= id %>">
+						<a href="#recipe/<%= id %>">
 							<%= name %>
 						</a>
 					</div>
@@ -33,6 +34,9 @@
 						<div data-icon="&#xe0ff;" class="ico-btn sp" aria-hidden="true"></div>
 					</div>
 					<div  class="stats views"><%= stats.views%></div>
+					
+					<div class="" style="float: right"><%= subsType%></div>
+					
 				</div>
 				<div class="clear-both"></div>
 			</div>
